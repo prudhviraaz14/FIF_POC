@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}" xmlns="http://www.arcor.net/orderSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+  <sendingSystem>KBA</sendingSystem>
+  <entryUser>FIF</entryUser>
+  <entryRole>FIF</entryRole>
+  <entrySystem>KBA</entrySystem>
+  <entryDateTime>{today}</entryDateTime>
+  <customerContactPoint>KBA</customerContactPoint>
+  <salesOrganisation>
+    <salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+    <salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+    <eShopCode>BERAT</eShopCode>
+  </salesOrganisation>
+  <superCustomerTrackingId>superCustomerTrackingId</superCustomerTrackingId>
+  <scanDate>{todayTruncated}</scanDate>
+  <customerData>
+    <customer ID="customer" >
+        <ccbId type="C">
+            <existing>{customerNumber}</existing>
+        </ccbId>
+    </customer>
+  </customerData>
+  <lineChange orderPositionNumber="1">
+    <customerIntention>ChangeLine</customerIntention>
+    <desiredDate>{desiredDate}</desiredDate>
+      <orderReceivedDate>{today}</orderReceivedDate>
+    <providerCode>
+      <existing>VFAI</existing>
+    </providerCode>
+    <salesPackageName>
+      <existing>none</existing>
+    </salesPackageName>
+    <salesPacketCode>
+      <existing>none</existing>
+    </salesPacketCode>
+    <beneficiary ID="bene-001-1">
+      <customerNodeRefID>customer</customerNodeRefID>
+    </beneficiary>
+    <accesses>
+      <ngn ID="access-001-1">
+        <ccbId type="S">
+          <existing>{internetServiceSubscriptionId}</existing>
+        </ccbId>
+      </ngn>
+    </accesses>
+    <functions>
+      <internet ID="internet-001-1" refAccessID="access-001-1">
+        <processingType>CHANGE</processingType>
+        <ccbId type="S">
+          <existing>{internetServiceSubscriptionId}</existing>
+        </ccbId>
+        <contractNumber>{internetContractNumber}</contractNumber>
+      </internet>
+      <voice ID="voice-001-1" refAccessID="access-001-1" >
+        <processingType>CHANGE</processingType>
+        <ccbId type="S">
+          <existing>{voiceServiceSubscriptionId}</existing>
+        </ccbId>
+        <contractNumber>{voiceContractNumber}</contractNumber>
+        <voicePremiumConfiguration>
+          <productCode>
+            <existing>VI202</existing>
+          </productCode>
+          <pricingStructureCode>
+            <existing>VK001</existing>
+          </pricingStructureCode>
+          <pricingStructureBillingName>
+            <existing>Standard</existing>
+          </pricingStructureBillingName>
+          <primaryCustSignDate>
+            <existing>2009-10-13</existing>
+          </primaryCustSignDate>
+          <mailboxAlias>
+            <configured>mailboxAlias</configured>
+          </mailboxAlias>
+          <portingAccessNumbers> 
+            <!--           
+            <voipAccount1>
+              <configured>voipAccount1</configured>
+            </voipAccount1>
+            <voipAccount5>
+              <configured>voipAccount5</configured>
+            </voipAccount5>
+            -->
+          </portingAccessNumbers>          
+        </voicePremiumConfiguration>
+      </voice>
+    </functions>
+  </lineChange>
+</order>

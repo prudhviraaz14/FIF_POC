@@ -1,0 +1,148 @@
+# START HEADER
+#  File:                $Workfile:   ImportModifyDocumentPatternCSV.properties.template  $
+#  Author:              $Author:   naveen.k  $
+#  Revision:            $Revision:   1.1  $
+#  Purpose:             Configuration file for importing ImportModifyDocumentPatternCSV  requests from a CSV file to the FIF_REQUEST table.
+#  Operating System:    UNIX
+#  Last Change:         $ $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportModifyDocumentPatternCSV.properties.template-arc  $  
+#
+#   Rev 1.1   Aug 14 2017 09:19:34   naveen.k
+#SPN-FIF-000134098 Fixed
+####################
+# GENERAL SETTINGS #
+####################
+
+# The names of columns that are mandatory in the CSV
+ImportCSVToDB.ColumnNames.Mandatory=customerNumber,mailingName,createDeviatingDocumentRecipient
+
+# The names of columns that are optional in the CSV
+ImportCSVToDB.ColumnNames.Optional=desiredDate,documentType,tableOfContentsIndicator,marketingInformationIndicator,printerDestination,entityType,salutationDescription,titleDescription,nobilityPrefixDescription,forename,surnamePrefixDescription,name,birthDate,spokenLanguageRd,maritalStatusRd,professionName,organizationType,organizationSuffixName,incorporationNumber,incorporationType,incorporationCityName,addressType,streetName,streetNumber,numberSuffix,postOfficeBox,postalCode,cityName,citySuffix,countryCode,accessInformationType,phoneNumber,faxNumber,mobileNumber,emailAddress,electronicContactIndicator,emailValidationIndicator,createContact,contactType,shortDescription,longDescription,documentPatternAction,supportedObjectType,supportedObjectId,documentTemplateName,hierarchyIndicator,outputDevice,language,currency,zeroSuppressIndicator
+                  
+
+ImportCSVToDB.ColumnNames.convertToUpperCase=false
+                                  
+##################
+# SQL STATEMENTS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importmodifydocumentpatterncsv.targetClient
+#ValidFrom:         FIF-API-58.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Name of database target client
+#DefaultValue:      -
+#ExampleValue:      SLS
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     30.06.2017
+#Last_Modified_By   naveen
+#Description:       The name of the target client to insert requests for (e.g. SLS, WRF)
+#END PARAMETER
+# The SQL statement for inserting requests in the database
+ImportCSVToDB.InsertRequestStmt=INSERT INTO FIF_REQUEST (TRANSACTION_ID, TARGET_CLIENT, STATUS, ACTION_NAME, ERROR_TEXT, DUE_DATE, PRIORITY, CREATION_DATE, START_DATE, END_DATE) VALUES (?, '${slsfif.importmodifydocumentpatterncsv.targetClient}', 'NOT_STARTED', 'modifyDocumentPattern', '', SYSDATE, 5, SYSDATE, NULL, NULL)
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The SQL statement for inserting request parameters in the database
+ImportCSVToDB.InsertParamStmt=INSERT INTO FIF_REQUEST_PARAM (TRANSACTION_ID, PARAM, VALUE) VALUES (?, ?, ?)
+
+# The name of the database field representing the transaction ID for a request
+ImportCSVToDB.InsertParamStmt.TransactionIDFieldIndex=1
+
+# The name of the database field representing the parameter name for a request
+ImportCSVToDB.InsertParamStmt.ParamNameFieldIndex=2
+
+# The name of the database field representing the parameter value for a request
+ImportCSVToDB.InsertParamStmt.ParamValueFieldIndex=3
+
+
+# The name of the external system id
+ImportCSVToDB.insertExternalSystemIdName=customerNumber
+
+# The SQL statement for updating the request external system id
+ImportCSVToDB.UpdatexternalSystemIdStatement=UPDATE FIF_REQUEST SET EXTERNAL_SYSTEM_ID = ? WHERE TRANSACTION_ID=?
+
+
+# The SQL statement for inserting request parameters in the database
+ImportCSVToDB.InsertParamListStmt=INSERT INTO FIF_REQUEST_PARAM_LIST (TRANSACTION_ID, PARAM_LIST, PARAM, VALUE, LIST_ITEM_NUMBER) VALUES (?, ?, ?, ?, ?)
+
+# The name of the database field representing the transaction ID for a request
+ImportCSVToDB.InsertParamListStmt.TransactionIDFieldIndex=1
+
+# The name of the database field representing the parameter name for a request
+ImportCSVToDB.InsertParamListStmt.ParamListNameFieldIndex=2
+
+# The name of the database field representing the parameter value for a request
+ImportCSVToDB.InsertParamListStmt.ParamFieldIndex=3
+
+# The name of the database field representing the parameter value for a request
+ImportCSVToDB.InsertParamListStmt.ParamValueFieldIndex=4
+
+# The name of the database field representing the parameter value for a request
+ImportCSVToDB.InsertParamListStmt.ListItemNumberFieldIndex=5
+
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importmodifydocumentpatterncsv.log4j.appender.File.File
+#ValidFrom:         FIF-API-58.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/ImportModifyDocumentPatternCSV.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     30.06.2017
+#Last_Modified_By   naveen
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importmodifydocumentpatterncsv.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n

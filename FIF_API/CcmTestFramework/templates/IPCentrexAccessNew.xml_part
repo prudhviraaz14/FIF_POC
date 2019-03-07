@@ -1,0 +1,30 @@
+<ipCentrex ID="access-new">
+	<ccbId type="S">
+		<configured>{voiceSSID}</configured>
+	</ccbId>
+	<ipCentrexConfiguration>
+		<locationAddress>
+			<configured>
+				{file:templates/Address1.xml_part}
+			</configured>
+		</locationAddress>
+        <carrier>
+            <configured>Arcor</configured>
+        </carrier>
+        <siteType>
+            <configured>Standard</configured>
+        </siteType>
+        <siteID>
+            <configured>{customerNumber}</configured>
+        </siteID>
+        <technicalServiceId>
+            <configured>{customerNumber}</configured>
+        </technicalServiceId>        
+ 	</ipCentrexConfiguration>
+	<processingStatus>{voiceProcessingStatus}</processingStatus>
+  	<contactRoleRefList>
+    	<contactRoleRef>
+      		<configured>contactRole</configured>
+    	</contactRoleRef>
+  	</contactRoleRefList>
+</ipCentrex>

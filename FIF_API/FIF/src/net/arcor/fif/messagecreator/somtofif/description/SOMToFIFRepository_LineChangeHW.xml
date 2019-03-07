@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransformationRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.arcor.de/transformer/SOMToFIFTransformationSchema"
+  xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema"
+  xsi:schemaLocation="http://www.arcor.de/transformer/SOMToFIFTransformationSchema SOMToFIFTransformationSchema.xsd"
+  docTypeQualifiedName="request-list" docTypeSystemId="request-list.dtd">
+  <RootTemplate>
+    
+    <RequestListTemplate orderIdPath="//order[@orderID]">
+      
+      <base:Include fileID="functionParameters" fileName="FunctionParameters.xml"/>
+
+      <!-- global request list parameters -->
+      <RLPMapping targetName="OMTSOrderID" sourceAttrName="/order/@orderID" />
+      <RLPMapping targetName="orderId" sourceAttrName="/order/@orderID" />
+      
+      <base:DataBufferWriter keyValue="currentMainAccessID"
+        sourceAttrName="/*/*/*/isdn/ccbId[@type='S']/existing/../../@ID |
+        /*/*/*/ngn/ccbId[@type='S']/existing/../../@ID |
+        /*/*/*/ipBitstream/ccbId[@type='S']/existing/../../@ID |
+        /*/*/*/dslr/ccbId[@type='S']/existing/../../@ID" />
+
+      <base:DataBufferWriter keyValue="isACSUpgrade"        
+        sourceAttrName="/*/*/*/isdn/*/acsIndicator/configured = 'true' 
+        and (/*/*/*/isdn/*/acsIndicator/existing != 'true'
+        or count(/*/*/*/isdn/*/acsIndicator/existing) = 0)" />
+      
+      <RequestTemplate fif-request-name="allocateProviderTrackingNumber" 
+        sourceWorkingPath="/*/lineChange/functions">
+        <TemplateConditions>
+          <base:IsMember value="allocate" sourceAttrName="/*/*/transactionType" />
+          <base:IsExisting sourceAttrName="*[count(providerTrackingNumber) = '0']" />
+          <OrComposite>
+            <base:IsMember value="CHANGE" sourceAttrName="hardware/processingType" />
+          </OrComposite>
+        </TemplateConditions>        
+        
+        <RPMapping targetName="orderPositionType" sourceAttrName="name(..)" />
+        <RPListTemplate listName="functionList">
+          <RPListItemTemplate sourceWorkingPath="hardware">
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsNotMember value="IGNORE" sourceAttrName="processingType" />
+              </TemplateConditions>
+              <RPMapping targetName="functionID" sourceAttrName="@ID" />
+              <RPMapping targetName="functionName" sourceAttrName="name(.)" />
+              <RPMapping targetName="accessName" sourceAttrName="name(../../accesses/*[@ID = '${@refAccessID}'])" />
+              
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsNotExisting sourceAttrName="refFunctionID/configured" />
+                </TemplateConditions>
+                <RPMapping targetName="parentFunctionID" sourceAttrName="refFunctionID/existing" />
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="refFunctionID/configured" />
+                </TemplateConditions>
+                <RPMapping targetName="parentFunctionID" sourceAttrName="refFunctionID/configured" />
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="../../previousOrderRef[orderPositionNumber='${/order/lineCreation/@orderPositionNumber}']" />                        
+                </TemplateConditions>               
+                <RPMapping staticValue="Y" targetName="changePreviousOrderPositionIndicator" />
+              </TransformationTemplate>
+            </TransformationTemplate>
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+          
+      <!-- read PTNs for hardware functions in case of hardware orders and hardware exchange -->
+      <RequestTemplate fif-request-name="readExternalNotification" 
+        sourceWorkingPath="/*/lineChange/*/hardware">
+        <TemplateConditions>
+          <base:IsMember value="allocate" sourceAttrName="/order/*/transactionType" />
+          <base:IsNotMember value="IGNORE" sourceAttrName="processingType" />
+          <base:IsNotExisting sourceAttrName="providerTrackingNumber" />            
+        </TemplateConditions>
+        <RPMapping targetName="functionID" sourceAttrName="@ID" />
+        <RPMapping targetName="parameterName" staticValue="_PROVIDER_TRACKING_NUMBER" />
+      </RequestTemplate>
+      
+      <!-- hardware reconfiguration -->
+      <RequestTemplate fif-request-name="reconfigureFunction" 
+        sourceWorkingPath="/*/lineChange/*/hardware" 
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="I1049" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="I1223" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="I128K" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="I1291" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="I1293" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="I1294" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="I1295" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="I1350" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="I1359" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="I135A" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="V0048" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="V0107" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="V0108" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="V0109" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="V0110" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="V0114" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="V011A" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="V011C" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="V0328" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="V0330" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="V0335" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+            <base:IsMember value="VI057" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+          </OrComposite>
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <base:IsMember value="execute" sourceAttrName="/*/*/transactionType" />
+        </TemplateConditions>
+        <RPMapping targetName="serviceCode" sourceAttrName="hardwareConfiguration/hardwareServiceCode/existing" />
+        <RPMapping targetName="desiredDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+        <!--RPMapping targetName="productCode" staticValue="OTHER" /-->
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate sourceWorkingPath="hardwareConfiguration/*
+            | hardwareDelivery/*">
+            <base:Include fileIDRef="functionParameters" partIDRef="parameterList"/>
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+      
+      <!-- activations of customer orders -->
+      <RequestTemplate fif-request-name="activateCustomerOrder" sourceWorkingPath="/*/lineChange/*/hardware">
+        <TemplateConditions>
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+          <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        </TemplateConditions>
+        <RPMapping targetName="processingStatus" sourceAttrName="processingStatus" />
+        <RPMapping targetName="functionID" sourceAttrName="@ID" />
+      </RequestTemplate>
+
+      <!-- upgradeToACS -->
+      <!--RequestTemplate fif-request-name="reconfigureFunction" 
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}']" 
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isACSUpgrade" />
+        </TemplateConditions>
+        <RPMapping targetName="reason" staticValue="AEND" />        
+        <RPMapping targetName="scenarioInformation" staticValue="ACS-Upgrade" />
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue" staticValue="ACS-Migration" />           
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="acsIndicator" />
+            <RPMapping targetName="configuredValue" staticValue="true" />           
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="processingType" />
+            <RPMapping targetName="configuredValue" staticValue="TAL" />            
+          </RPListItemTemplate>
+          <base:Include fileIDRef="functionParameters" partIDRef="instantAccessForReconfiguration"/>
+        </RPListTemplate>        
+      </RequestTemplate--> 
+      
+    </RequestListTemplate>
+    
+  </RootTemplate>
+
+  <BaseTemplates>
+
+    <AbstractTransformationTemplate ID="reconfigureFunction_template">
+      <TemplateConditions>
+        <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+        <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+        <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+      </TemplateConditions>
+      <RPMapping sourceAttrName="ccbId[@type='S']/existing" targetName="serviceSubscriptionId" />      
+      <RPMapping targetName="activationDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+      <RPMapping targetName="processingStatus" sourceAttrName="processingStatus" />
+      <RPMapping targetName="functionID" sourceAttrName="@ID" />
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="providerTrackingNumber/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="providerTrackingNumber" sourceAttrName="providerTrackingNumber/configured" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="refFunctionID" />
+        </TemplateConditions>
+        <RPMapping targetName="productCode" sourceAttrName="../*[@ID='${refFunctionID/existing}']/*/productCode/existing" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="refFunctionID" />
+        </TemplateConditions>
+        <RPMapping targetName="productCode" sourceAttrName="*/productCode/existing" />
+        
+      </TransformationTemplate>      
+    </AbstractTransformationTemplate>
+
+    
+  </BaseTemplates>
+    
+</TransformationRepository>

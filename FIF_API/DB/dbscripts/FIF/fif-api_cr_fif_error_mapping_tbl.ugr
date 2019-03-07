@@ -1,0 +1,7 @@
+--
+-- User Grants script for the FIF_ERROR_MAPPING table.
+--
+-- @author Olivier Goethals
+-- @date 2003-07-10
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON FIF_ERROR_MAPPING TO CCM_USER;

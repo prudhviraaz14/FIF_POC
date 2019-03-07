@@ -1,0 +1,324 @@
+<action-mapping>
+    <action-name>createNGNLineContract</action-name>
+    <message-creation>
+        <creator-type>xslt</creator-type>
+        <creator-params>
+            <creator-param>
+                <param-name>filename</param-name>
+                <param-value>CreateNGNLineContract.xsl</param-value>
+            </creator-param>
+        </creator-params>
+    </message-creation>
+    <message-parameters>
+        <message-param>
+            <param-name>transactionID</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>clientName</param-name>
+            <param-mandatory>false</param-mandatory>
+            <param-default-value>SLS</param-default-value>
+        </message-param>
+        
+        <!-- Som Version -->
+        <message-param>
+            <param-name>somVersion</param-name>
+            <param-mandatory>false</param-mandatory>
+            <param-default-refdata-value>
+                <group-code>SOM_PARAM</group-code>
+                <item-identifier>SOM_VERSION</item-identifier>
+            </param-default-refdata-value>
+        </message-param>
+        
+        <!-- desiredDate -->
+        <message-param>
+            <param-name>desiredDate</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+
+
+        <!-- orderID -->
+        <message-param>
+            <param-name>orderID</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+
+        <!-- Sales organization -->
+        <message-param>
+            <param-name>salesOrganisationNumber</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+
+        <!-- Customer -->
+        <message-param>
+            <param-name>customer</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>billingAccount</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>contactRole</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>skeletonContract</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>serviceDeliveryContract</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        
+
+        <!-- access -->
+        <message-param>
+            <param-name>ACCESS_NAME_01</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>ACCESS_CONFIG_01</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>ACCESS_LIST_01</param-list-name>
+            <param-list-mandatory>true</param-list-mandatory>
+            <message-param>
+                <param-name>PARAM_NAME</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+            <message-param>
+                <param-name>PARAM_VALUE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+
+        <!-- functions 1 -->
+        <message-param>
+            <param-name>FUNCTION_NAME_01</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>FUNCTION_CONFIG_01</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>FUNCTION_LIST_01</param-list-name>
+            <param-list-mandatory>true</param-list-mandatory>
+            <message-param>
+                <param-name>PARAM_NAME</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+            <message-param>
+                <param-name>PARAM_VALUE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+
+        <!-- functions 2 -->
+        <message-param>
+            <param-name>FUNCTION_NAME_02</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>FUNCTION_CONFIG_02</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>FUNCTION_LIST_02</param-list-name>
+            <param-list-mandatory>true</param-list-mandatory>
+            <message-param>
+                <param-name>PARAM_NAME</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+            <message-param>
+                <param-name>PARAM_VALUE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+
+        <!-- functions 3 -->
+        <message-param>
+            <param-name>FUNCTION_NAME_03</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>FUNCTION_CONFIG_03</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>FUNCTION_LIST_03</param-list-name>
+            <param-list-mandatory>false</param-list-mandatory>
+            <message-param>
+                <param-name>PARAM_NAME</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+            <message-param>
+                <param-name>PARAM_VALUE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+
+        <!-- functions 4 -->
+        <message-param>
+            <param-name>FUNCTION_NAME_04</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>FUNCTION_CONFIG_04</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>FUNCTION_LIST_04</param-list-name>
+            <param-list-mandatory>false</param-list-mandatory>
+            <message-param>
+                <param-name>PARAM_NAME</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+            <message-param>
+                <param-name>PARAM_VALUE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+
+        <!-- functions 5 -->
+        <message-param>
+            <param-name>FUNCTION_NAME_05</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>FUNCTION_CONFIG_05</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>FUNCTION_LIST_05</param-list-name>
+            <param-list-mandatory>false</param-list-mandatory>
+            <message-param>
+                <param-name>PARAM_NAME</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+            <message-param>
+                <param-name>PARAM_VALUE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+
+
+        <!-- functions 6 -->
+        <message-param>
+            <param-name>FUNCTION_NAME_06</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>FUNCTION_CONFIG_06</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>FUNCTION_LIST_06</param-list-name>
+            <param-list-mandatory>false</param-list-mandatory>
+            <message-param>
+                <param-name>PARAM_NAME</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+            <message-param>
+                <param-name>PARAM_VALUE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+
+
+        <!-- functions 7 -->
+        <message-param>
+            <param-name>FUNCTION_NAME_07</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>FUNCTION_CONFIG_07</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>FUNCTION_LIST_07</param-list-name>
+            <param-list-mandatory>false</param-list-mandatory>
+            <message-param>
+                <param-name>PARAM_NAME</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+            <message-param>
+                <param-name>PARAM_VALUE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+
+        <!-- functions 8 -->
+        <message-param>
+            <param-name>FUNCTION_NAME_08</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>FUNCTION_CONFIG_08</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>FUNCTION_LIST_08</param-list-name>
+            <param-list-mandatory>false</param-list-mandatory>
+            <message-param>
+                <param-name>PARAM_NAME</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+            <message-param>
+                <param-name>PARAM_VALUE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+
+        <!-- functions 9 -->
+        <message-param>
+            <param-name>FUNCTION_NAME_09</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>FUNCTION_CONFIG_09</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>FUNCTION_LIST_09</param-list-name>
+            <param-list-mandatory>false</param-list-mandatory>
+            <message-param>
+                <param-name>PARAM_NAME</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+            <message-param>
+                <param-name>PARAM_VALUE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+
+        <!-- functions 10 -->
+        <message-param>
+            <param-name>FUNCTION_NAME_10</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>FUNCTION_CONFIG_10</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>FUNCTION_LIST_10</param-list-name>
+            <param-list-mandatory>false</param-list-mandatory>
+            <message-param>
+                <param-name>PARAM_NAME</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+            <message-param>
+                <param-name>PARAM_VALUE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+        
+    </message-parameters>
+    <response-handling>
+        <return-warnings>true</return-warnings>
+        <output-parameters/>
+    </response-handling>
+</action-mapping>

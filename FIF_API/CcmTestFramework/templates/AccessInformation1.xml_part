@@ -1,0 +1,7 @@
+            <accessInformationType>STD</accessInformationType>
+            <contactName>COM {scenarioName}</contactName>
+            <phoneNumber>0201/{accessNumber1}</phoneNumber>
+            <faxNumber>0201/{accessNumber1}</faxNumber>
+            <mobileNumber>0179/{accessNumber1}</mobileNumber>
+            <emailAddress>{scenarioName}@vodafone.com</emailAddress>
+            <electronicContactIndicator>true</electronicContactIndicator>

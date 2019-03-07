@@ -1,0 +1,23 @@
+<hardware ID="{ID}">
+    <processingType>{processingType}</processingType>
+    <refFunctionID>
+        <configured>{refFunctionID}</configured>
+    </refFunctionID>
+    <hardwareConfiguration>
+        <hardwareServiceCode>{hardwareServiceCode}</hardwareServiceCode>
+        <articleNumber>{articleNumber}</articleNumber>
+        <articleName>{articleName}</articleName>
+        <subventionIndicator>{subventionIndicator}</subventionIndicator>
+        <salutationDescription>{salutationDescription}</salutationDescription>
+        <forename>{forename}</forename>
+        <name>{name}</name>
+        <hardwareMailingAddress>
+            <configured>
+                <city>{city}</city>
+                <postalCode>{postalCode}</postalCode>
+                <street>{street}</street>
+                <streetNumber>{streetNumber}</streetNumber>
+            </configured>
+        </hardwareMailingAddress>
+    </hardwareConfiguration>
+</hardware>

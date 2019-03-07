@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>PPM105069-SC04-LTERemove</request-list-name>
+   <request-list-id>PPM105069-SC04-LTERemove-1</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+  
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-242:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationLTEPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">PPM105069-SC04-LTERemove</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-240:hour</request-param>
+                  <request-param name="desiredDate">datetime:-240:hour</request-param>
+                  <request-param name="todayTruncated">date:-240:hour</request-param>
+                  <request-param name="productCodeVoice">I1204</request-param>
+                  <request-param name="productCodeInternet">VI202</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      
+      <trx-builder-request>
+         <transaction-id>PPM105069-SC04-create-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-241:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationLTEPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-240:hour</request-param>
+                  <request-param name="desiredDate">datetime:-240:hour</request-param>
+                  <request-param name="todayTruncated">date:-240:hour</request-param>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="mainAccessServiceCodeVoice">VI019</request-param>
+                  <request-param name="productCodeVoice">VI208</request-param>
+                  <request-param name="productCodeInternet">I1208</request-param>
+                  <request-param name="pricingStructureCodeInternet">YI002</request-param>
+                  <request-param name="pricingStructureCodeVoice">YK007</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V017J</request-param>
+                  <request-param name="scenarioName">PPM105069-SC04-LTERemove</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      {file:templates/FindBundle.xml}
+                  
+      <trx-builder-request>
+         <transaction-id>PPM105069-SC04-create-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-240:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationLTEPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-240:hour</request-param>
+                  <request-param name="desiredDate">datetime:-240:hour</request-param>
+                  <request-param name="todayTruncated">date:-240:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">completedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="hardware1ProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardware1CompletionStatusNew">completedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">completedOPM</request-param>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="mainAccessServiceCodeVoice">VI019</request-param>
+                  <request-param name="productCodeVoice">VI208</request-param>
+                  <request-param name="productCodeInternet">I1208</request-param>
+                  <request-param name="pricingStructureCodeInternet">YI002</request-param>
+                  <request-param name="pricingStructureCodeVoice">YK007</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V017J</request-param>
+                  <request-param name="scenarioName">PPM105069-SC04-LTERemove</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+                  
+      <trx-builder-request>
+         <transaction-id>PPM105069-SC04-remove-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/PPM105069-SC04-LTERemove.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:0:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:0:hour</request-param>
+                  <request-param name="internetProcessingStatus">acknowledgedOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="voiceProcessingStatus">noactionOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">noactionOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="hardware1ProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardware1CompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">noactionOPM</request-param>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="mainAccessServiceCodeVoice">VI019</request-param>
+                  <request-param name="productCodeVoice">VI208</request-param>
+                  <request-param name="productCodeInternet">I1208</request-param>
+                  <request-param name="pricingStructureCodeInternet">YI002</request-param>
+                  <request-param name="pricingStructureCodeVoice">YK007</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V017J</request-param>
+                  <request-param name="scenarioName">PPM105069-SC04-LTERemove</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+            
+      <trx-builder-request>
+         <transaction-id>PPM105069-SC04-remove-create</transaction-id>
+         <transaction-type>create</transaction-type>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/PPM105069-SC04-LTERemove.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:0:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:0:hour</request-param>
+                  <request-param name="internetProcessingStatus">acknowledgedOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="voiceProcessingStatus">noactionOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">noactionOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="hardware1ProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardware1CompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">noactionOPM</request-param>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="mainAccessServiceCodeVoice">VI019</request-param>
+                  <request-param name="productCodeVoice">VI208</request-param>
+                  <request-param name="productCodeInternet">I1208</request-param>
+                  <request-param name="pricingStructureCodeInternet">YI002</request-param>
+                  <request-param name="pricingStructureCodeVoice">YK007</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V017J</request-param>
+                  <request-param name="scenarioName">PPM105069-SC04-LTERemove</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+            
+      <trx-builder-request>
+         <transaction-id>PPM105069-SC04-remove-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/PPM105069-SC04-LTERemove.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:0:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:0:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">noactionOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">noactionOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="hardware1ProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardware1CompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">noactionOPM</request-param>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="PPM105069-SC04-create-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="mainAccessServiceCodeVoice">VI019</request-param>
+                  <request-param name="productCodeVoice">VI208</request-param>
+                  <request-param name="productCodeInternet">I1208</request-param>
+                  <request-param name="pricingStructureCodeInternet">YI002</request-param>
+                  <request-param name="pricingStructureCodeVoice">YK007</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V017J</request-param>
+                  <request-param name="scenarioName">PPM105069-SC04-LTERemove</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+            
+   </requests>
+</request-list>

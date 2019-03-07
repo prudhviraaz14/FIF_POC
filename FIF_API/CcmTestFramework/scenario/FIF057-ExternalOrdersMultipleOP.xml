@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF057-ExternalOrdersMultipleOP</request-list-name>
+   <request-list-id>FIF057-ExternalOrdersMultipleOP-1</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+     
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF057-ExternalOrdersMultipleOP.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF057-ExternalOrdersMultipleOP</request-param>
+                  <request-param name="voiceSSID">voiceSSID</request-param>
+                  <request-param name="internetSSID">internetSSID</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>FIF057-new</transaction-id>
+         <transaction-type>new</transaction-type>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF057-ExternalOrdersMultipleOP.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF057-ExternalOrdersMultipleOP</request-param>
+                  <request-param name="voiceSSID">voiceSSID</request-param>
+                  <request-param name="internetSSID">internetSSID</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>FIF057-create</transaction-id>
+         <transaction-type>create</transaction-type>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF057-ExternalOrdersMultipleOP.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF057-ExternalOrdersMultipleOP</request-param>
+                  <request-param name="voiceSSID">voiceSSID</request-param>
+                  <request-param name="internetSSID">internetSSID</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>FIF057-create</transaction-id>
+         <transaction-type>create</transaction-type>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF057-ExternalOrdersMultipleOP.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF057-ExternalOrdersMultipleOP</request-param>
+                  <request-param name="voiceSSID">voiceSSID</request-param>
+                  <request-param name="internetSSID">internetSSID</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <sql-request>
+         <transaction-id>checkOP1</transaction-id>
+         <statement>
+            select count(1) as NUM_ROWS from external_order_detail eod 
+            where eod.order_id = 'BARCODE_B'
+            and eod.order_position_number = '1'
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="BARCODE"/>
+         </sql-request-input-params>
+         <sql-request-result-params>
+            <request-param name="NUM_ROWS">2</request-param>
+         </sql-request-result-params> 
+      </sql-request>
+      
+      <sql-request>
+         <transaction-id>checkOP2</transaction-id>
+         <statement>
+            select count(1) as NUM_ROWS from external_order_detail eod 
+            where eod.order_id = 'BARCODE_B'
+            and eod.order_position_number = '2'
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="BARCODE"/>
+         </sql-request-input-params>
+         <sql-request-result-params>
+            <request-param name="NUM_ROWS">2</request-param>
+         </sql-request-result-params> 
+      </sql-request>
+      
+                    
+   </requests>
+</request-list>

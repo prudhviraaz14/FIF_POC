@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001" xmlns:ape="http://www.arcor.net/EPSM-CommonTypes-APE-001" xmlns:kunde="http://www.arcor.net/EPSM-CommonTypes-Kunde-002" targetNamespace="http://www.arcor.net/EPSM-CommonTypes-Kunde-002" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-APE-001" schemaLocation="EPSM-CommonTypes-APE-001.xsd"/>
+	<xs:element name="EPSM_Kunde_Dokument_Information">
+		<xs:annotation>
+			<xs:documentation>Diese Schemata wurde aus dem Adonis-XML-Export generiert. Timestamp des Adonis-Exports: 26.10.2007  16:40</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="Kundenkategorie">
+		<xs:annotation>
+			<xs:documentation>[FIF MigrateCustomerClassification]; Bezeichnung der Kundenkategorie </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Kundenklasse">
+		<xs:annotation>
+			<xs:documentation>Kundenklassen aus CCB</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Kundenkennwort">
+		<xs:annotation>
+			<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) AUFTRAG.KUNDENKENNWORT]
+Kundenkennwort zur Authentifizierung über Internet oder Telefon. Wird durch den Kunden bei Auftragserfassung festgelegt z.B. Cats0815
+Das Kundenkennwort darf keine Leerzeichen enthalten</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BereitsKundeVonArcor">
+		<xs:annotation>
+			<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) BESTANDSKUNDE.ART]
+Kennzeichen, das im Rahmen der Erfassung gesetzt wird. Legt fest, ob Kunde bereits Arcor Kunde oder Neukunde ist. (ja/nein)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:simpleType name="ServiceProviderCode">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Kunde">
+		<xs:annotation>
+			<xs:documentation>Ein Kunde hat einen/mehrere Verträge</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ape:AuftragsPositionsElement">
+				<xs:sequence>
+					<xs:element name="kundennummer" type="common:Kundennummer" minOccurs="0"/>
+					<xs:element name="kundenkategorie" type="kunde:Kundenkategorie" minOccurs="0"/>
+					<xs:element name="kundenklasse" type="kunde:Kundenklasse" minOccurs="0"/>
+					<xs:element name="kundenkennwort" type="kunde:Kundenkennwort" minOccurs="0"/>
+					<xs:element name="bereitsKundeVonArcor" type="kunde:BereitsKundeVonArcor" minOccurs="0"/>
+					<xs:element name="serviceProviderCode" type="kunde:ServiceProviderCode" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

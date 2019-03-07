@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF096-ONBVoiceChannels</request-list-name>
+   <request-list-id>FIF096-ONBVoiceChannels-1</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+
+      <sql-request>
+         <transaction-id>getScenarioData</transaction-id>
+         <statement>select '3000' || 'NUMBER1' as ONENETID, '3000' || 'NUMBER2' as SITEID, 'FIF096-ONBVoiceChannels' as SCENARIONAME from dual</statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="generateNumbers" param-name="NUMBER1"/>
+            <request-param-ref transactionID="generateNumbers" param-name="NUMBER2"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="ONENETID"/>
+            <request-param name="SITEID"/>
+            <request-param name="SCENARIONAME"/>
+         </sql-request-output-params>
+      </sql-request>
+  
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-961:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationOneNetBusiness.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  {file:templates/ArcorGK.xml_part}
+                  {file:templates/AccessNumbersMasterdataScenarioName.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="productCodeVoice">VI207</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="serviceLevel">S0106</request-param>
+                  <request-param name="installationPackage">Telefonfunktion</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+        <!-- create a VOICE-ONLINE bundle -->	
+		<request>
+			<action-name>modifyBundleTF</action-name>
+			<request-params>
+				<request-param name="transactionID">createBundle</request-param>
+				<request-param name="OVERRIDE_SYSTEM_DATE">datetime:-192:hour</request-param>
+				<request-param-ref transactionID="masterdata_0" param-name="customerNumber" output-param-name="CUSTOMER_NUMBER"/>
+			</request-params>
+		</request>		
+
+      {file:templates/FindBundle.xml}
+      
+      <sql-request>
+         <transaction-id>OneNet</transaction-id>
+         <statement>
+		      insert into onenet (onenet_id, effective_date, effective_status, name, description, audit_update_date_time, audit_update_user_id, update_number)
+		      values ('oneNetID', sysdate - 7, 'ACTIVE', 'scenarioName', 'OneNetID for scenarioName', sysdate - 7, 'TFW', 1)
+         </statement>
+         <sql-request-input-params>
+			<request-param-ref transactionID="getScenarioData" param-name="ONENETID" output-param-name="oneNetID"/>
+			<request-param-ref transactionID="getScenarioData" param-name="SCENARIONAME" output-param-name="scenarioName"/>
+         </sql-request-input-params>
+      </sql-request>
+      
+      <sql-request>
+         <transaction-id>OneNetCustomer</transaction-id>
+         <statement>
+		      insert into onenet_customer (onenet_id, customer_number, effective_date, effective_status, audit_update_date_time, audit_update_user_id, update_number)
+		      values ('oneNetID', 'customerNumber', sysdate - 7, 'ACTIVE', sysdate - 7, 'TFW', 1)
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="masterdata_0" param-name="customerNumber"/>
+			<request-param-ref transactionID="getScenarioData" param-name="ONENETID" output-param-name="oneNetID"/>
+         </sql-request-input-params>
+      </sql-request>
+      
+      <sql-request>
+         <transaction-id>OneNetSite</transaction-id>
+         <statement>
+		      insert into onenet_site (site_id, effective_date, effective_status, onenet_id, bundle_id, name, description, audit_update_date_time, audit_update_user_id, update_number)
+		      values ('siteID', sysdate - 7, 'ACTIVE', 'oneNetID', 'bundleId', 'scenarioName', 'SiteID for scenarioName', sysdate - 7, 'TFW', 1)
+         </statement>
+         <sql-request-input-params>
+			<request-param-ref transactionID="getScenarioData" param-name="ONENETID" output-param-name="oneNetID"/>
+			<request-param-ref transactionID="getScenarioData" param-name="SITEID" output-param-name="siteID"/>
+			<request-param-ref transactionID="getScenarioData" param-name="SCENARIONAME" output-param-name="scenarioName"/>
+            <request-param-ref transactionID="findBundle" param-name="BUNDLE_ID" output-param-name="bundleId"/>
+         </sql-request-input-params>
+      </sql-request>
+      
+      <sql-request>
+         <transaction-id>commit</transaction-id>
+         <statement>commit</statement>
+      </sql-request>
+      
+      <trx-builder-request>
+         <transaction-id>FIF096-ONBVoiceChannels-create-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-144:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationOneNetBusiness.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-24:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  {file:templates/ArcorGK.xml_part}
+                  {file:templates/AccessNumbersMasterdataScenarioName.xml_part}
+                  <request-param name="productCodeVoice">VI207</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="serviceLevel">S0106</request-param>
+                  <request-param name="installationPackage">Telefonfunktion</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>FIF096-ONBVoiceChannels-create-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-24:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationOneNetBusiness.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-24:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="hardwareONBProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardwareONBCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardwareONBPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">completedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="installationSvcProcessingStatus">completedOPM</request-param>
+                  <request-param name="installationSvcCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="installationSvcPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="FIF096-ONBVoiceChannels-create-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF096-ONBVoiceChannels-create-allocate_1" param-name="ccbId" output-param-name="hardwareONBSSID"/>
+                  <request-param-ref transactionID="FIF096-ONBVoiceChannels-create-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="FIF096-ONBVoiceChannels-create-allocate_3" param-name="ccbId" output-param-name="installationSvcSSID"/>
+                  {file:templates/ArcorGK.xml_part}
+                  {file:templates/AccessNumbersMasterdataScenarioName.xml_part}
+                  <request-param name="productCodeVoice">VI207</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="serviceLevel">S0106</request-param>
+                  <request-param name="installationPackage">Telefonfunktion</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      
+      <trx-builder-request>
+         <transaction-id>FIF096-ONBVoiceChannels-change-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-2:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF096-ONBVoiceChannels.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:0:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:0:hour</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="FIF096-ONBVoiceChannels-create-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF096-ONBVoiceChannels-create-allocate_1" param-name="ccbId" output-param-name="hardwareONBSSID"/>
+                  {file:templates/ArcorGK.xml_part}
+                  {file:templates/AccessNumbersMasterdataScenarioName.xml_part}
+                  <request-param name="productCodeVoice">VI207</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="installationPackage">Telefonfunktion</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>FIF096-ONBVoiceChannels-change-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF096-ONBVoiceChannels.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:0:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:0:hour</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="FIF096-ONBVoiceChannels-create-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF096-ONBVoiceChannels-create-allocate_1" param-name="ccbId" output-param-name="hardwareONBSSID"/>
+                  {file:templates/ArcorGK.xml_part}
+                  {file:templates/AccessNumbersMasterdataScenarioName.xml_part}
+                  <request-param name="productCodeVoice">VI207</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="installationPackage">Telefonfunktion</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      
+   </requests>
+</request-list>

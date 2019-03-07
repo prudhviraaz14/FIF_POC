@@ -1,0 +1,58 @@
+				<hardware ID="hardware1">
+					<processingType>IGNORE</processingType>
+					<ccbId type="S">
+					    <existing>{hardware1SSID}</existing>
+					    <configured>{hardware1SSIDNew}</configured>
+					</ccbId>
+					<refFunctionID>
+						<existing>voice</existing>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultHW1</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeHW1</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetHW1</configured>
+					</providerTrackingNumber>
+					<hardwareConfiguration>
+						<hardwareServiceCode>
+							<existing>V011A</existing>
+						</hardwareServiceCode>
+						<orderReason>
+							<existing>Neuauftrag</existing>
+						</orderReason>
+						<subventionIndicator>
+							<existing>1</existing>
+						</subventionIndicator>
+						<zeroChargeIndicator/>
+						<shippingCosts>
+							<existing>RG</existing>
+						</shippingCosts>
+						<salutationDescription>
+							<existing>Herr</existing>
+						</salutationDescription>
+						<forename>
+							<existing>Millie</existing>
+						</forename>
+						<name>
+							<existing>Malteser</existing>
+						</name>
+						<hardwareMailingAddress>
+							<existing>
+								{file:templates/Address1.xml_part}
+							</existing>
+						</hardwareMailingAddress>
+						<articleNumber>
+							<existing>20080549</existing>
+						</articleNumber>
+						<articleName>
+							<existing>DSL-EasyBox 803</existing>
+						</articleName>
+						<serialNumber>
+							<existing>154947214842</existing>
+						</serialNumber>
+					</hardwareConfiguration>
+					<processingStatus>{hardware1ProcessingStatus}</processingStatus>
+				</hardware>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF067-SDSLBandwidthChange</request-list-name>
+   <request-list-id>FIF067-SDSLBandwidthChange-1</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+  
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-961:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationSDSLOnly.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF067-SDSLBandwidthChange</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="accessTechnology">SDSL</request-param>
+                  <request-param name="productCodeInternet">I1207</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1100</request-param> 
+                  <request-param name="DSLBandwidth">I1220</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+  
+     {file:templates/LineCreationSDSLOnly.xml}
+     
+     {file:templates/FindBundle.xml}
+     
+      <trx-builder-request>
+         <transaction-id>sdsl-bbw-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>  
+         <override-system-date>datetime:-24:hour</override-system-date>       
+         <som-parts>
+            <som-part-template filename="scenario/SOM/SDSLOnlyBandwidthChange.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">CCM</request-param>
+                  <request-param name="sendingSystem">CCM</request-param>
+                  <request-param name="today">datetime:-24:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:-24:hour</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="internetSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="scenarioName">FIF067-SDSLBandwidthChange</request-param>
+                  <request-param name="accessTechnology">SDSL</request-param>
+                  <request-param name="productCodeInternet">I1207</request-param>
+                  <request-param name="pricingStructureCodeInternetNew">I1100</request-param>       
+                  <request-param name="DSLBandwidth">I1220</request-param>           
+                  <request-param name="DSLBandwidthNew">I1221</request-param>           
+                  
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>sdsl-bbw-create</transaction-id>
+         <transaction-type>create</transaction-type>   
+         <override-system-date>datetime:-23:hour</override-system-date>      
+         <som-parts>
+            <som-part-template filename="scenario/SOM/SDSLOnlyBandwidthChange.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">CCM</request-param>
+                  <request-param name="sendingSystem">CCM</request-param>
+                  <request-param name="today">datetime:-24:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:-24:hour</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="internetSSID"/>                  
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="scenarioName">FIF067-SDSLBandwidthChange</request-param>
+                  <request-param name="accessTechnology">SDSL</request-param>
+                  <request-param name="productCodeInternet">I1207</request-param>
+                  <request-param name="pricingStructureCodeInternetNew">I1100</request-param>       
+                  <request-param name="DSLBandwidth">I1220</request-param>           
+                  <request-param name="DSLBandwidthNew">I1221</request-param>           
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>sdsl-bbw-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/SDSLOnlyBandwidthChange.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">CCM</request-param>
+                  <request-param name="sendingSystem">CCM</request-param>
+                  <request-param name="today">datetime:-24:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:-24:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="internetSSID"/>                  
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="scenarioName">FIF067-SDSLBandwidthChange</request-param>
+                  <request-param name="accessTechnology">SDSL</request-param>
+                  <request-param name="productCodeInternet">I1207</request-param>
+                  <request-param name="pricingStructureCodeInternetNew">I1100</request-param>       
+                  <request-param name="DSLBandwidth">I1220</request-param>           
+                  <request-param name="DSLBandwidthNew">I1221</request-param>           
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>sdsl-bbw-close-final</transaction-id>
+         <transaction-type>close-final</transaction-type>   
+         <som-parts>
+            <som-part-template filename="scenario/SOM/SDSLOnlyBandwidthChange.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">CCM</request-param>
+                  <request-param name="sendingSystem">CCM</request-param>
+                  <request-param name="today">datetime:-24:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:-24:hour</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="internetSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="scenarioName">FIF067-SDSLBandwidthChange</request-param>
+                  <request-param name="accessTechnology">SDSL</request-param>
+                  <request-param name="productCodeInternet">I1207</request-param>
+                  <request-param name="pricingStructureCodeInternetNew">I1100</request-param>       
+                  <request-param name="DSLBandwidth">I1220</request-param>           
+                  <request-param name="DSLBandwidthNew">I1221</request-param>           
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+   </requests>
+</request-list>

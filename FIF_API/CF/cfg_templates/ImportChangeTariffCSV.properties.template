@@ -1,0 +1,169 @@
+# START HEADER
+#  File:                $Workfile:   ImportChangeTariffCSV.properties.template  $
+#  Author:              $Author:   lejam  $
+#  Revision:            $Revision:   1.13  $
+#  Purpose:             Configuration file for importing ChangeTariff requests from a CSV file to the FIF_REQUEST table.
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Jan 23 2018 22:15:24  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportChangeTariffCSV.properties.template-arc  $
+#
+#   Rev 1.13   Jan 23 2018 22:15:24   lejam
+#RMS-169758_PPM-196251_278654_ONB_R1.1B
+#
+#   Rev 1.12   Aug 11 2011 16:54:10   makuier
+#Console added to log4j.
+#
+#   Rev 1.11   Dec 09 2010 18:04:16   schwarje
+#SPN-FIF-000107239: fixed ImportChangeTariffCSV.properties.template
+#
+#   Rev 1.10   Nov 23 2010 16:59:56   schwarje
+#fixed!
+#
+#   Rev 1.9   Nov 18 2010 15:49:48   schwarje
+#IT-k-29287: changeTariff: added parameter SUPPRESS_BILLING_NOTIFICATION to allow contract changes w/o impact on invoice
+#
+#   Rev 1.8   Oct 13 2010 14:08:42   banania
+#SPN-CCB-000105323: New keys added:
+#insertExternalSystemIdName
+#UpdatexternalSystemIdStatement
+#
+#   Rev 1.7   Feb 07 2008 11:26:44   schwarje
+#SPN-FIF-000065717: removed Console logging
+#
+#   Rev 1.6   Nov 23 2005 18:57:02   makuier
+#Auto extension attributes added
+#
+#   Rev 1.5   Apr 07 2005 11:19:50   schwarje
+#SPN-FIF-000027213: removed parameter CONTRACT_TYPE from ChangeTariff
+#
+#   Rev 1.4   Nov 09 2004 11:09:52   schwarje
+#SPN-CCB-000026736: added new parameters
+#
+#   Rev 1.3   Oct 19 2004 15:11:28   IARIZOVA
+#added parameter  MIN_PERIOD_START_DATE
+#
+#   Rev 1.2   Oct 15 2004 11:29:18   goethalo
+#SPN-FIF-000026136: Made the target client a templated parameter.
+#
+#   Rev 1.1   Apr 28 2004 14:04:20   goethalo
+#IT-k-000012599: Added column names.
+#
+#   Rev 1.0   Feb 04 2004 10:06:44   goethalo
+#Initial revision.
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+# The names of columns that are mandatory in the CSV
+ImportCSVToDB.ColumnNames.Mandatory=CONTRACT_NUMBER, APPLY_DATE
+
+# The names of columns that are optional in the CSV
+ImportCSVToDB.ColumnNames.Optional=PRODUCT_COMMITMENT_NUMBER,NEW_PRICING_STRUCTURE, LOI_INDICATOR, NOTICE_PER_DUR_VALUE, NOTICE_PER_DUR_UNIT, MIN_PER_DUR_VALUE, MIN_PER_DUR_UNIT, TERM_START_DATE, MONTHLY_ORDER_ENTRY_AMOUNT, TERMINATION_RESTRICTION, DOC_TEMPLATE_NAME, ASSOC_SKELETON_CONT_NUM, OVERRIDE_RESTRICTION, BOARD_SIGN_NAME, BOARD_SIGN_DATE, PRIMARY_CUST_SIGN_NAME, PRIMARY_CUST_SIGN_DATE, CREATE_KBA_CONTACT, CREATE_CCM_CONTACT, MIN_PERIOD_START_DATE, AUTO_EXTENT_PERIOD_VALUE, AUTO_EXTENT_PERIOD_UNIT, AUTO_EXTENSION_IND, SUPPRESS_BILLING_NOTIFICATION, LONG_DESCRIPTION_TEXT, CONTACT_TYPE_RD, SHORT_DESCRIPTION, CONTRACT_NAME
+
+
+##################
+# SQL STATEMENTS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importchangetariffcsv.targetClient
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Name of database target client
+#DefaultValue:      -
+#ExampleValue:      SLS
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     13.10.04
+#Last_Modified_By   goethalo
+#Description:       The name of the target client to insert requests for (e.g. SLS, WRF)
+#END PARAMETER
+# The SQL statement for inserting requests in the database
+ImportCSVToDB.InsertRequestStmt=INSERT INTO FIF_REQUEST (TRANSACTION_ID, TARGET_CLIENT, STATUS, ACTION_NAME, ERROR_TEXT, DUE_DATE, PRIORITY, CREATION_DATE, START_DATE, END_DATE) VALUES (?, '${slsfif.importchangetariffcsv.targetClient}', 'NOT_STARTED', 'changeTariff', '', SYSDATE, 5, SYSDATE, NULL, NULL)
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The SQL statement for inserting request parameters in the database
+ImportCSVToDB.InsertParamStmt=INSERT INTO FIF_REQUEST_PARAM (TRANSACTION_ID, PARAM, VALUE) VALUES (?, ?, ?)
+
+# The name of the database field representing the transaction ID for a request
+ImportCSVToDB.InsertParamStmt.TransactionIDFieldIndex=1
+
+# The name of the database field representing the parameter name for a request
+ImportCSVToDB.InsertParamStmt.ParamNameFieldIndex=2
+
+# The name of the database field representing the parameter value for a request
+ImportCSVToDB.InsertParamStmt.ParamValueFieldIndex=3
+
+# The name of the external system id
+ImportCSVToDB.insertExternalSystemIdName=CONTRACT_NUMBER
+
+# The SQL statement for updating the request external system id
+ImportCSVToDB.UpdatexternalSystemIdStatement=UPDATE FIF_REQUEST SET EXTERNAL_SYSTEM_ID = ? WHERE TRANSACTION_ID=?
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importchangetariffcsv.log4j.appender.File.File
+#ValidFrom:         FIF-API-04.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/ImportChangeTariffCSV.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     04.02.04
+#Last_Modified_By   goethalo
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importchangetariffcsv.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n

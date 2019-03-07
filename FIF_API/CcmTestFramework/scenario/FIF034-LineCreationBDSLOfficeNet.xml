@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF034-LineCreationBDSLOfficeNet</request-list-name>
+   <request-list-id>FIF034-LineCreationBDSLOfficeNet-1</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+  
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-961:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBDSLOfficeNet.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF034-LineCreationBDSLOfficeNet</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>LineCreation-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-144:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBDSLOfficeNet.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-24:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>LineCreation-create</transaction-id>
+         <transaction-type>create</transaction-type>
+         <override-system-date>datetime:-121:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBDSLOfficeNet.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-24:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  <request-param name="voiceProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="internetProcessingStatus">acknowledgedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="seatFixedProcessingStatus">completedOPM</request-param>
+                  <request-param name="seatFixedCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatFixedPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="seatMobileProcessingStatus">completedOPM</request-param>
+                  <request-param name="seatMobileCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatMobilePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="seatConvergedProcessingStatus">completedOPM</request-param>
+                  <request-param name="seatConvergedCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatConvergedPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="hardwareProcessingStatus">completedOPM</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="seatMobileSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="seatFixedSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="seatConvergedSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_5" param-name="ccbId" output-param-name="hardwareSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="scenarioName">OfficeNetLineCreation</request-param>
+                  <request-param name="productCodeVoice">VI204</request-param>
+                  <request-param name="productCodeInternet">I1207</request-param>
+                  <request-param name="pricingStructureCodeVoice">YV009</request-param>                  
+                  <request-param name="pricingStructureCodeInternet">I1122</request-param> 
+                  <request-param name="pricingStructureCodeSeatFixedNew">YV001</request-param>       
+                  <request-param name="pricingStructureCodeSeatMobileNew">YV001</request-param>       
+                  <request-param name="pricingStructureCodeSeatConvergedNew">YV001</request-param>       
+                  <request-param name="DSLBandwidth">I1217</request-param>                 
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>LineCreation-execute0</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-120:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBDSLOfficeNet.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-24:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  <request-param name="voiceProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="internetProcessingStatus">acknowledgedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="seatFixedProcessingStatus">completedOPM</request-param>
+                  <request-param name="seatFixedCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatFixedPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="seatMobileProcessingStatus">completedOPM</request-param>
+                  <request-param name="seatMobileCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatMobilePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="seatConvergedProcessingStatus">completedOPM</request-param>
+                  <request-param name="seatConvergedCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatConvergedPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="hardwareProcessingStatus">completedOPM</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="seatMobileSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="seatFixedSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="seatConvergedSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_5" param-name="ccbId" output-param-name="hardwareSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="scenarioName">OfficeNetLineCreation</request-param>
+                  <request-param name="productCodeVoice">VI204</request-param>
+                  <request-param name="productCodeInternet">I1207</request-param>
+                  <request-param name="pricingStructureCodeVoice">YV009</request-param>                  
+                  <request-param name="pricingStructureCodeInternet">I1122</request-param> 
+                  <request-param name="pricingStructureCodeSeatFixedNew">YV001</request-param>       
+                  <request-param name="pricingStructureCodeSeatMobileNew">YV001</request-param>       
+                  <request-param name="pricingStructureCodeSeatConvergedNew">YV001</request-param>       
+                  <request-param name="DSLBandwidth">I1217</request-param>                 
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>LineCreation-execute1</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-96:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBDSLOfficeNet.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-24:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  <request-param name="voiceProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="internetProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="seatFixedProcessingStatus">completedOPM</request-param>
+                  <request-param name="seatFixedCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatFixedPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="seatMobileProcessingStatus">completedOPM</request-param>
+                  <request-param name="seatMobileCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatMobilePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="seatConvergedProcessingStatus">completedOPM</request-param>
+                  <request-param name="seatConvergedCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatConvergedPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="hardwareProcessingStatus">completedOPM</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="seatMobileSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="seatFixedSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="seatConvergedSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_5" param-name="ccbId" output-param-name="hardwareSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="scenarioName">OfficeNetLineCreation</request-param>
+                  <request-param name="productCodeVoice">VI204</request-param>
+                  <request-param name="productCodeInternet">I1207</request-param>
+                  <request-param name="pricingStructureCodeVoice">YV009</request-param>                  
+                  <request-param name="pricingStructureCodeInternet">I1122</request-param> 
+                  <request-param name="pricingStructureCodeSeatFixedNew">YV001</request-param>       
+                  <request-param name="pricingStructureCodeSeatMobileNew">YV001</request-param>       
+                  <request-param name="pricingStructureCodeSeatConvergedNew">YV001</request-param>       
+                  <request-param name="DSLBandwidth">I1217</request-param>                 
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>LineCreation-execute2</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-24:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBDSLOfficeNet.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-24:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedCCM</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedCCM</request-param>
+                  <request-param name="seatFixedProcessingStatus">completedCCM</request-param>
+                  <request-param name="seatFixedCompletionStatusNew">completedCCM</request-param>
+                  <request-param name="seatFixedPreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatMobileProcessingStatus">completedCCM</request-param>
+                  <request-param name="seatMobileCompletionStatusNew">completedCCM</request-param>
+                  <request-param name="seatMobilePreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatConvergedProcessingStatus">completedCCM</request-param>
+                  <request-param name="seatConvergedCompletionStatusNew">completedCCM</request-param>
+                  <request-param name="seatConvergedPreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardwareProcessingStatus">completedCCM</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="seatMobileSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="seatFixedSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="seatConvergedSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_5" param-name="ccbId" output-param-name="hardwareSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="scenarioName">OfficeNetLineCreation</request-param>
+                  <request-param name="productCodeVoice">VI204</request-param>
+                  <request-param name="productCodeInternet">I1207</request-param>
+                  <request-param name="pricingStructureCodeVoice">YV009</request-param>                  
+                  <request-param name="pricingStructureCodeInternet">I1122</request-param>       
+                  <request-param name="pricingStructureCodeSeatFixedNew">YV001</request-param>       
+                  <request-param name="pricingStructureCodeSeatMobileNew">YV001</request-param>       
+                  <request-param name="pricingStructureCodeSeatConvergedNew">YV001</request-param>       
+                  <request-param name="DSLBandwidth">I1217</request-param>           
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>LineChange-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-0:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineChangeBDSLOfficeNet.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-0:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedCCM</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedCCM</request-param>
+                  <request-param name="seatFixedProcessingStatus">completedCCM</request-param>
+                  <request-param name="seatFixedCompletionStatusNew">completedCCM</request-param>
+                  <request-param name="seatFixedPreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatMobileProcessingStatus">completedCCM</request-param>
+                  <request-param name="seatMobileCompletionStatusNew">completedCCM</request-param>
+                  <request-param name="seatMobilePreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="seatConvergedProcessingStatus">completedCCM</request-param>
+                  <request-param name="seatConvergedCompletionStatusNew">completedCCM</request-param>
+                  <request-param name="seatConvergedPreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardwareProcessingStatus">completedCCM</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSIDNew"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="seatMobileSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="seatFixedSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="seatConvergedSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_5" param-name="ccbId" output-param-name="hardwareSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="scenarioName">OfficeNetLineCreation</request-param>
+                  <request-param name="productCodeVoice">VI204</request-param>
+                  <request-param name="productCodeInternet">I1207</request-param>
+                  <request-param name="pricingStructureCodeVoice">YV009</request-param>                  
+                  <request-param name="pricingStructureCodeInternet">I1122</request-param>       
+                  <request-param name="pricingStructureCodeSeatFixedNew">YV001</request-param>       
+                  <request-param name="pricingStructureCodeSeatMobileNew">YV001</request-param>       
+                  <request-param name="pricingStructureCodeSeatConvergedNew">YV001</request-param>       
+                  <request-param name="DSLBandwidth">I1217</request-param>           
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+   </requests>
+</request-list>

@@ -1,0 +1,76 @@
+# START HEADER
+#  File:                $Workfile:   ImportGenericFifRequest.properties.template  $
+#  Author:              $Author:   schwarje  $
+#  Revision:            $Revision:   1.0  $
+#  Purpose:             Configuration file for importing FifRequests from a CSV file to the FIF_REQUEST tables.
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Apr 20 2012 08:06:28  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportGenericFifRequest.properties.template-arc  $
+#
+#   Rev 1.0   Apr 20 2012 08:06:28   schwarje
+#Initial revision.
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+# Indicates that this app runs insert statements for FifRequests (IT-k-21901)
+ImportCSVToDB.IsGenericFifRequest=true
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importgenericfifrequest.log4j.appender.File.File
+#ValidFrom:         FIF-API-41.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/importGenericFifRequest.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     20.04.12
+#Last_Modified_By   schwarje
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importgenericfifrequest.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n

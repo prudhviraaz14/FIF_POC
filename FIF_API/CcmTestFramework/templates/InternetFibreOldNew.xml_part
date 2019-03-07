@@ -1,0 +1,76 @@
+<internet ID="internet" refAccessID="access-old" targetAccessID="access-new">
+	<processingType>CHANGE</processingType>
+	<ccbId type="S">
+	    <existing>{internetSSID}</existing>
+	    <configured>{internetSSIDNew}</configured>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultInternet</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeInternet</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetInternet</configured>
+	</providerTrackingNumber>
+	<contractNumber>
+		<configured>{targetContractNumberInternet}</configured>
+	</contractNumber>
+	<productCommitmentNumber>
+		<configured>{targetProductCommitmentNumberInternet}</configured>
+	</productCommitmentNumber>
+	{file:(useSDC=true)templates/SDCForFunctionsNew.xml_part}
+	<fibreInternetConfiguration>
+		<pricingStructureCode>
+			<existing>{pricingStructureCodeInternet}</existing>
+			<configured>{pricingStructureCodeInternetNew}</configured>
+		</pricingStructureCode>
+		<productCode>
+			<existing>{productCodeInternet}</existing>
+			<configured>{productCodeInternetNew}</configured>
+		</productCode>
+		<visTrackingPosition/>
+		<primaryCustSignName>
+			<configured>{scenarioName}</configured>
+		</primaryCustSignName>
+		<primaryCustSignDate>
+			<configured>{todayTruncated}</configured>
+		</primaryCustSignDate>
+		<minimumDurationPeriod>
+			<value>
+				<configured>24</configured>
+			</value>
+			<unit>
+				<configured>MONTH</configured>
+			</unit>
+			<startDate>
+				<configured>{minPeriodStartDateInternet}</configured>
+			</startDate>
+		</minimumDurationPeriod>
+		<dialInAccountName>
+			<configured>{internetSSID}</configured>
+		</dialInAccountName>
+		<DSLBandwidth>
+			<existing>{DSLBandwidth}</existing>
+			<configured>{DSLBandwidthNew}</configured>
+		</DSLBandwidth>
+		<specialTimeWindow/>
+		<projectOrderIndicator>
+			<configured>false</configured>
+		</projectOrderIndicator>
+		{file:(productCodeInternet=I1204)templates/ConditionsConfiguredI1204.xml_part}
+		<fibreFee>
+			<existing>
+			    <featureServiceCode>{fibreFee}</featureServiceCode>
+         </existing>
+			<configured>
+			    <featureServiceCode>{fibreFeeNew}</featureServiceCode>
+         </configured>
+		</fibreFee>
+	</fibreInternetConfiguration>
+	<processingStatus>{internetProcessingStatus}</processingStatus>
+	<completionStatusOldCcbId>{internetCompletionStatusOld}</completionStatusOldCcbId>
+	<previousCompletionStatusOldCcbId>{internetPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+	<completionStatusNewCcbId>{internetCompletionStatusNew}</completionStatusNewCcbId>
+	<previousCompletionStatusNewCcbId>{internetPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+</internet>

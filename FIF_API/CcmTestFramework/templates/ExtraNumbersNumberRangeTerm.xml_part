@@ -1,0 +1,52 @@
+<extraNumbers ID="extraNumbersNumberRange">
+	<processingType>TERM</processingType>
+	<ccbId type="S">
+		<existing>{extraNumbersNumberRangeSSID}</existing>
+	</ccbId>
+	<refFunctionID>
+		<existing>voice</existing>
+	</refFunctionID>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultExNR</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeExNR</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetExNR</configured>
+	</providerTrackingNumber>
+	  <numberRangeConfiguration>
+        <oldLocalExchangeCarrier>
+          <existing>D001</existing>
+        </oldLocalExchangeCarrier>
+	    <accessNumberRange1>
+	      <existing>
+	        <countryCode>49</countryCode>
+	        <localAreaCode>211</localAreaCode>
+	        <pilotNumber>{accessNumber3}</pilotNumber>
+	        <startNumber>1</startNumber>
+	        <endNumber>9</endNumber>
+	      </existing>
+	    </accessNumberRange1>
+	    <ownerAccessNumberRange1>
+	      <existing>HeinoEigner</existing>
+	    </ownerAccessNumberRange1>
+	    <lineOwner1>
+	      <existing>
+	        <name>{scenarioName}</name>
+	        <firstName>COM</firstName>
+	      </existing>
+	    </lineOwner1>
+	    <lineOwnerAddress>
+	      <existing>
+	        {file:templates/Address1.xml_part}
+	      </existing>
+	    </lineOwnerAddress>
+	    <splitNumberRangeIndicator>
+	      <existing>true</existing>
+	    </splitNumberRangeIndicator>
+	  </numberRangeConfiguration>
+	<processingStatus>{extraNumbersNumberRangeProcessingStatus}</processingStatus>
+	<completionStatusOldCcbId>{extraNumbersNumberRangeCompletionStatusOld}</completionStatusOldCcbId>
+	<previousCompletionStatusOldCcbId>{extraNumbersNumberRangePreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+</extraNumbers>

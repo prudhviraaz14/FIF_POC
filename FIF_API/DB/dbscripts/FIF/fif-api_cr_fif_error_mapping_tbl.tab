@@ -1,0 +1,15 @@
+--
+-- Create script for the FIF_REQUEST_PARAM table.
+--
+-- @author Olivier Goethals
+-- @date 2003-06-27
+
+CREATE TABLE FIF_ERROR_MAPPING (
+    ERROR_NUMBER         VARCHAR2(10) NOT NULL,
+    ERROR_MESSAGE        VARCHAR2(4000) NOT NULL
+);
+
+COMMENT ON COLUMN FIF_ERROR_MAPPING.ERROR_NUMBER IS
+    'The error number this mapping is for.';
+COMMENT ON COLUMN FIF_ERROR_MAPPING.ERROR_MESSAGE IS
+    'The error message to use for the error number.';

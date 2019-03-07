@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+                HEADER       : $Header:   //PVCS_FIF/archives/FIF_API/CcmTestFramework/etc/mcf-comservice.xml-arc   1.0   Feb 10 2010 15:58:16   schwarje  $
+                REVISION     : $Revision:   1.0  $
+                MODULENAME   : $Workfile:   mcf-comservice.xml  $
+                PROJECT      : ServiceBusInterface
+                AUTHOR       : schwarje
+               
+                DESCRIPTION  : 
+                TABLES       : 
+                
+                HISTORY      : $Log:   //PVCS_FIF/archives/FIF_API/CcmTestFramework/etc/mcf-comservice.xml-arc  $
+
+   Rev 1.0   Feb 10 2010 15:58:16   schwarje
+Initial revision.
+  
+-->
+    <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+    
+        <bean id="syncRequestQueueHandler" class="net.arcor.mcf.jms.QueueHandler"
+            init-method="init">
+            <property name="connectionFactory"  ref="connectionFactory" />
+            <property name="inQueue"            ref="inQueue"/>
+            <property name="outQueue"           ref="outQueue"/>
+            <property name="serviceMap"    ref="serviceRegistryXml" />
+            <property name="propertyMap">
+                <map>
+                    <entry key="JMSPriority" value="4" />
+                    <entry key="JMSReplyTo" value="queue://CCBSVR4E/CCMDEV10" />
+                    <entry key="SBUS_EventTo" value="FIF" />
+                </map>
+            </property>
+        </bean>
+    
+        <bean id="asyncRequestQueueHandler" class="net.arcor.mcf.jms.QueueHandler"
+            init-method="init">
+            <property name="connectionFactory"  ref="connectionFactory" />
+            <property name="inQueue"            ref="inQueue"/>
+            <property name="outQueue"           ref="outQueue"/>
+            <property name="serviceMap"    ref="serviceRegistryXml" />
+            <property name="propertyMap">
+                <map>
+                    <entry key="JMSPriority" value="4" />
+                    <entry key="JMSReplyTo" value="queue://CCBSVR4E/CCMDEV10" />
+                    <entry key="SBUS_EventTo" value="FIF" />
+                </map>
+            </property>
+        </bean>
+
+        <bean id="connectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory">
+            <property name="transportType" value="1" />
+            <property name="queueManager" value="CCBSVR4E" />
+            <property name="hostName" value="ks05t03" />
+            <property name="port" value="5012" />
+            <property name="channel" value="CLIENT.CCBSVR4E" />
+        </bean>
+        
+        <bean id="outQueue" class="com.ibm.mq.jms.MQQueue">
+            <constructor-arg index="0" value="" />
+            <constructor-arg index="1" value="CCMDEV11" />
+        </bean>
+        <bean id="inQueue" class="com.ibm.mq.jms.MQQueue">
+            <constructor-arg index="0" value="CCBSVR4E" />
+            <constructor-arg index="1" value="CCMDEV10" />
+        </bean>
+
+        <bean id="serviceRegistryXml" class="net.arcor.mcf.jms.ServiceRegistryXml">
+            <property name="serviceRegistryXmlMap">
+                <map>
+                    <entry key="startPreclearedFixedLineOrderService,001" value-ref="COM-001"/>
+                </map>
+            </property>
+        </bean>
+
+        <bean id="fatalResponse-001" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+            <property name="properties">
+                <props>
+                    <prop key="requestContextName">net.arcor.sbus.epsm_sbus_001</prop>
+                    <prop key="responseContextName">net.arcor.sbus.epsm_sbus_001</prop>
+                    <prop key="requestSchemaName">EPSM-SBUS-001.xsd</prop>
+                    <prop key="responseSchemaName">EPSM-SBUS-001.xsd</prop>
+                </props>
+            </property>
+        </bean>
+        
+        <bean id="COM-001" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+            <property name="properties">
+                <props>
+                    <prop key="requestContextName">net.arcor.com.epsm_com_001</prop>
+                    <prop key="responseContextName">net.arcor.com.epsm_com_001</prop>
+                    <prop key="requestSchemaName">EPSM-COM-001.xsd</prop>
+                    <prop key="responseSchemaName">EPSM-COM-001.xsd</prop>
+                </props>
+            </property>
+        </bean>
+
+    </beans>     

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="FIF/src"/>
+	<classpathentry kind="lib" path="FIF/lib/xmlParserAPIs.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/xalan.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/log4j-1.2.7.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/junit.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/xsu12.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/jms.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/standard_blowfish.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/com.ibm.mq.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/com.ibm.mqjms.jar"/>
+	<classpathentry sourcepath="D:/java/xalan-j_2_4_1/bin/xalan.jar" kind="lib" path="FIF/lib/xmlparserv2.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/oraclexsql.jar"/>
+	<classpathentry kind="lib" path="FIF/etc"/>
+	<classpathentry kind="lib" path="FIF/lib/ojdbc14.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="FIF/lib/commons-collections-3.0.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/commons-dbcp-1.1.jar"/>
+	<classpathentry kind="lib" path="FIF/lib/commons-pool-1.1.jar"/>
+	<classpathentry kind="output" path="FIF/bin"/>
+</classpath>

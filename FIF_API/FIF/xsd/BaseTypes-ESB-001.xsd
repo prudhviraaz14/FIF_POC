@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema version="0.1" elementFormDefault="qualified" attributeFormDefault="unqualified"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:base="http://www.vodafone.de/ESB/Schema/Common/BaseTypes-ESB-001"
+    targetNamespace="http://www.vodafone.de/ESB/Schema/Common/BaseTypes-ESB-001">
+    
+	<element name="appMonDetails" type="base:AppMonDetailsType"/>
+	<complexType name="AppMonDetailsType">
+		<sequence>
+			<element name="bpId" type="base:BPIDType"/>
+			<element name="bpName" type="base:BPNameType"/>
+			<element name="boId" type="base:BOIDType" minOccurs="0"/>
+			<element name="callingApp" type="base:CallingAppType"/>
+			<element name="initiator" type="base:InitiatorType"/>
+		</sequence>
+	</complexType>
+	<element name="retryObject" type="base:RetryObjectType"/>
+	<complexType name="RetryObjectType">
+		<sequence>
+			<element name="timeOut_s" type="xsd:unsignedInt" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<element name="controllObject" type="base:ControllObjectType"/>
+	<complexType name="ControllObjectType">
+		<sequence>
+			<element name="retryObject" type="base:RetryObjectType" nillable="true"/>
+		</sequence>
+	</complexType>
+	<element name="errorDetails" type="base:ErrorDetailsType"/>
+	<complexType name="ErrorDetailsType">
+		<sequence>
+			<element name="errorCode" type="xsd:string"/>
+			<element name="errorType" type="base:ErrorTypeType" nillable="true"/>
+			<element name="errorSystem" type="xsd:string" nillable="true"/>
+			<element name="errorSeverity" type="xsd:string" nillable="true"/>
+			<element name="errorMessage" type="xsd:string"/>
+			<element name="errorDescription" type="xsd:string" nillable="true"/>
+			<element name="errorInformation" type="xsd:string" nillable="true"/>
+			<element name="errorApplication" type="xsd:string" nillable="true"/>
+			<element name="errorTimestamp" type="xsd:dateTime" nillable="true"/>
+			<element name="errorSubsystem" type="xsd:string" nillable="true"/>
+			<element name="errorClass" type="xsd:string" nillable="true"/>
+			<any namespace="##any" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="ESBException" abstract="true">
+		<sequence>
+			<element name="errorDetails" type="base:ErrorDetailsType"/>
+		</sequence>
+	</complexType>
+	<element name="technicalESBException" type="base:TechnicalESBException"/>
+	<complexType name="TechnicalESBException">
+		<complexContent>
+			<extension base="base:ESBException"/>
+		</complexContent>
+	</complexType>
+	<element name="functionalESBException" type="base:FunctionalESBException"/>
+	<complexType name="FunctionalESBException">
+		<complexContent>
+			<extension base="base:ESBException"/>
+		</complexContent>
+	</complexType>
+	<simpleType name="StatusType">
+		<restriction base="xsd:string">
+			<enumeration value="Success"/>
+			<enumeration value="Warning"/>
+			<enumeration value="Error"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="BPIDType">
+		<restriction base="xsd:string">
+			<maxLength value="80"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="BPNameType">
+		<restriction base="xsd:string">
+			<maxLength value="100"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="CallingAppType">
+		<restriction base="xsd:string">
+			<maxLength value="30"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="BOIDType">
+		<restriction base="xsd:string">
+			<maxLength value="100"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="InitiatorType">
+		<restriction base="xsd:string">
+			<maxLength value="30"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="ErrorTypeType">
+		<restriction base="xsd:string">
+			<enumeration value="Validation"/>
+			<enumeration value="Functional"/>
+			<enumeration value="Infrastructure"/>
+		</restriction>
+	</simpleType>
+
+</schema>

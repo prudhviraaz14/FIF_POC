@@ -1,0 +1,3054 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransformationRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.arcor.de/transformer/SOMToFIFTransformationSchema"
+  xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema"
+  xsi:schemaLocation="http://www.arcor.de/transformer/SOMToFIFTransformationSchema SOMToFIFTransformationSchema.xsd"
+  docTypeQualifiedName="request-list" docTypeSystemId="request-list.dtd">
+  <RootTemplate>
+    <RequestListTemplate orderIdPath="//order[@orderID]">
+
+      <base:Include fileID="functionParameters" fileName="FunctionParameters.xml"/>
+      <base:Include fileID="masterdataChanges" fileName="MasterdataChanges.xml"/>
+
+      <base:DataBufferWriter keyValue="orderIdPath"
+        sourceAttrName="count(/*/barcode) > 0"
+        decoding="'true', '/*/barcode', '/order/@orderID'" />
+
+      <!-- global request list parameters -->
+      <RLPMapping targetName="sourceSystem" sourceAttrName="/order/customerContactPoint" />
+      <RLPMapping targetName="userName" sourceAttrName="/order/entryUser" />
+      <RLPMapping targetName="rollenBezeichnung" sourceAttrName="/order/entryRole" />
+      <RLPMapping targetName="orderId" sourceAttrName="/order/@orderID"/>
+      <RLPMapping targetName="OMTSOrderID" sourceAttrName="${#:orderIdPath}"/>
+      <RLPMapping targetName="salesOrganisationNumber" sourceAttrName="/order/salesOrganisation/salesOrganisationNumber[@type='A']" />
+      <RLPMapping targetName="salesOrganisationNumberVF" sourceAttrName="/order/salesOrganisation/salesOrganisationNumber[@type='V']" />
+      <RLPMapping targetName="eShopID" sourceAttrName="/order/salesOrganisation/eShopCode" />
+      <RLPMapping targetName="desiredDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="orderPositionNumber" sourceAttrName="/order/*/@orderPositionNumber" />
+      <RLPMapping targetName="scanDate" sourceAttrName="/order/scanDate" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="superCustomerTrackingId" sourceAttrName="/order/superCustomerTrackingId" />
+      <RLPMapping targetName="reason" sourceAttrName="/order/*/reason" />
+
+      <base:DataBufferWriter keyValue="currentMainAccessID"
+        sourceAttrName="/*/*/*/otherAccess/ccbId[@type='S']/existing/../../@ID|
+        /*/*/*/isdn/ccbId[@type='S']/existing/../../@ID |
+        /*/*/*/ngn/ccbId[@type='S']/existing/../../@ID |
+        /*/*/*/ipBitstream/ccbId[@type='S']/existing/../../@ID |
+        /*/*/*/preselect/ccbId[@type='S']/existing/../../@ID |
+        /*/*/*/dslr/ccbId[@type='S']/existing/../../@ID" />
+        
+      <base:DataBufferWriter keyValue="targetMainAccessID"
+        sourceAttrName="/*/*/*/isdn/*/*/configured/../../../@ID |
+        /*/*/*/ngn/*/*/configured/../../../@ID |
+        /*/*/*/ipBitstream/*/*/configured/../../../@ID |
+        /*/*/*/preselect/*/*/configured/../../../@ID |
+        /*/*/*/dslr/*/*/configured/../../../@ID |
+        /*/*/*/otherAccess/*/*/configured/../../@ID" />
+
+      <base:DataBufferWriter keyValue="targetTechnology"
+        sourceAttrName="name(/*/*/accesses/ngn[@ID='${/*/*/*/voice/@targetAccessID}'] |
+        /*/*/accesses/isdn[@ID='${/*/*/*/voice/@targetAccessID}'] |
+        /*/*/accesses/ipBitstream[@ID='${/*/*/*/voice/@targetAccessID}'])"
+        decoding="'isdn', 'ISDN', 'ngn', 'NGN', 'ipBitstream', 'BitStream'"/>
+
+      <base:DataBufferWriter keyValue="currentTechnology"
+        sourceAttrName="name(
+        /*/*/accesses/dslr[@ID='${/*/*/*/voice/@refAccessID}'] |
+        /*/*/accesses/preselect[@ID='${/*/*/*/voice/@refAccessID}'] |
+        /*/*/accesses/ngn[@ID='${/*/*/*/voice/@refAccessID}'] |
+        /*/*/accesses/isdn[@ID='${/*/*/*/voice/@refAccessID}'] |
+        /*/*/accesses/ipBitstream[@ID='${/*/*/*/voice/@refAccessID}'])"
+        decoding="'isdn', 'ISDN', 'ngn', 'NGN', 'ipBitstream', 'BitStream',
+        'preselect', 'preselect', 'dslr', 'dslr'"/>
+
+      <base:DataBufferWriter keyValue="currentProductType"
+        sourceAttrName="/*/*/functions/voice[@refAccessID='${#:currentMainAccessID}']/*/mainAccessServiceCode/existing"
+        decoding="'V0003','Basis','V0004','Basis','VI002','Basis','VI009','Basis','Premium'" />
+
+      <base:DataBufferWriter keyValue="targetProductType"
+        sourceAttrName="concat(
+        count(/*/*/*/*[@refAccessID='${#:currentMainAccessID}']/voiceBasisConfiguration/*/configured) > 0,
+        count(/*/*/*/*[@refAccessID='${#:currentMainAccessID}']/voicePremiumConfiguration/*/configured) > 0)"
+        decoding="'truetrue', 'targetProductTypeAmbiguous', 'truefalse', 'Basis',
+        'falsetrue', 'Premium', 'falsefalse', ''" />
+
+      <base:DataBufferWriter keyValue="isRelocation"
+        sourceAttrName="count(/*/relocation) > 0"/>
+
+      <base:DataBufferWriter keyValue="isTechnologyChange"
+        sourceAttrName="'${#:targetTechnology}' != '${#:currentTechnology}' and '${#:targetTechnology}' != ''
+        and (/*/*/*/internet[@refAccessID='${#:currentMainAccessID}']/processingType = 'CHANGE'
+        or /*/*/*/internet[@refAccessID='${#:currentMainAccessID}']/processingType = 'ADD'
+        or /*/*/*/internet[@refAccessID='${#:currentMainAccessID}']/processingType = 'TERM')
+        and /*/*/*/voice[@refAccessID='${#:currentMainAccessID}']/processingType = 'CHANGE'"/>
+
+      <base:DataBufferWriter keyValue="isProductTypeChange"
+        sourceAttrName="'${#:targetProductType}' != '${#:currentProductType}' and '${#:targetProductType}' != ''
+        and /*/*/*/voice[@refAccessID='${#:currentMainAccessID}']/processingType = 'CHANGE'"/>
+
+      <base:DataBufferWriter keyValue="isProductChangeScenario"
+        sourceAttrName="'${#:isTechnologyChange}' = 'true' or
+        '${#:isProductTypeChange}' = 'true' or
+        '${#:isRelocation}' = 'true'"/>
+
+      <base:DataBufferWriter keyValue="isBandwidthChange"
+        sourceAttrName="count(/*/*/*/internet/*/DSLBandwidth/configured) > 0
+        and /*/*/*/internet/*/DSLBandwidth/configured != /*/*/*/internet/*/DSLBandwidth/existing"/>
+
+      <base:DataBufferWriter keyValue="isDSLDowngrade"
+        sourceAttrName="count(/*/*/*/internet/*/DSLBandwidth[configured = 'V0115']) > 0
+        and count(/*/*/*/internet/*/DSLBandwidth[existing != 'V0115']) > 0
+        or /*/*/*/internet[processingType = 'TERM']
+        and count(/*/*/*/internet/*/DSLBandwidth[existing != 'V0115']) > 0
+        and name(/*/*/accesses/ngn[@ID='${/*/*/*/internet/@refAccessID}'] |
+        /*/*/accesses/isdn[@ID='${/*/*/*/internet/@refAccessID}'] |
+        /*/*/accesses/ipBitstream[@ID='${/*/*/*/internet/@refAccessID}']) = 'isdn'"/>
+
+      <base:DataBufferWriter keyValue="isDSLUpgrade"
+        sourceAttrName="count(/*/*/*/internet/*/DSLBandwidth[configured != 'V0115']) > 0
+        and (
+           count(/*/*/*/internet/*/DSLBandwidth[existing = 'V0115']) > 0 or
+           count(/*/*/*/internet/*/DSLBandwidth/existing) = 0)
+        or /*/*/*/internet[processingType = 'ADD']
+        and count(/*/*/*/internet/*/DSLBandwidth[configured != 'V0115']) > 0
+        and name(/*/*/accesses/ngn[@ID='${/*/*/*/internet/@refAccessID}'] |
+        /*/*/accesses/isdn[@ID='${/*/*/*/internet/@refAccessID}'] |
+        /*/*/accesses/ipBitstream[@ID='${/*/*/*/internet/@refAccessID}']) = 'isdn'"/>
+
+      <base:DataBufferWriter keyValue="isFastpathOrder"
+        sourceAttrName="
+        count(/*/*/*/internet/*/featuresList/configured[featureServiceCode = 'I1045']) > 0 and
+        count(/*/*/*/internet/*/featuresList/existing[featureServiceCode = 'I1045']) = 0
+        or
+        count(/*/*/*/internet/*/featuresList/existing[featureServiceCode = 'I1045']) > 0 and
+        count(/*/*/*/internet/*/featuresList/configured[featureServiceCode = 'I1045']) = 0
+        or
+        count(/*/*/*/internet/*/featuresList/existing[featureServiceCode = 'I1045']) > 0 and
+        /*/*/*/internet/*/featuresList/@action = 'remove'" />
+
+      <base:DataBufferWriter keyValue="isTVCenterChange"
+        sourceAttrName="/*/*/*/tvCenter/processingType = 'CHANGE'
+        and '${#:isRelocation}' != 'true'
+        and '${#:isTechnologyChange}' != 'true'
+        and
+        (count(/*/*/*/tvCenter/*/fskLevel/configured) > 0
+           and /*/*/*/tvCenter/*/fskLevel/configured != /*/*/*/tvCenter/*/fskLevel/existing
+        or count(/*/*/*/tvCenter/*/tariffOptionsList/configured) > 0
+        or /*/*/*/tvCenter/*/tariffOptionsList/@action = 'remove'
+        or count(/*/*/*/tvCenter/*/tvCenterOptionsList/configured) > 0
+        or /*/*/*/tvCenter/*/tvCenterOptionsList/@action = 'remove')" />
+
+      <base:DataBufferWriter keyValue="isTVCenterClone"
+        sourceAttrName="'${#:isRelocation}' = 'true'
+        or '${#:isTechnologyChange}' = 'true'" />
+
+      <base:DataBufferWriter keyValue="isTVCenterOrder"
+        sourceAttrName="/*/*/*/tvCenter/processingType = 'ADD'" />
+
+      <base:DataBufferWriter keyValue="isTVCenterTermination"
+        sourceAttrName="/*/*/*/tvCenter/processingType = 'TERM'" />
+
+
+      <base:DataBufferWriter keyValue="isACSUpgrade"
+        sourceAttrName="/*/*/*/isdn/*/acsIndicator/configured = 'true'
+        and (/*/*/*/isdn/*/acsIndicator/existing != 'true'
+        or count(/*/*/*/isdn/*/acsIndicator/existing) = 0)" />
+
+      <!-- TODO zu hart noch, numberOf ... sollte auch größer 0 sein -->
+      <base:DataBufferWriter keyValue="isISDNNumberChange"
+        sourceAttrName="
+        '${#:currentTechnology}' = 'ISDN'
+        and /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/processingType = 'CHANGE'
+        and (
+        count(/*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/numberOfNewAccessNumbers/configured) > 0
+        and /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/numberOfNewAccessNumbers/configured != '0'
+        or /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/portingMode1/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/portingMode2/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/portingMode3/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/portingMode4/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/portingMode5/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/portingMode6/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/portingMode7/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/portingMode8/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/portingMode9/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${#:currentMainAccessID}']/*/*/portingMode10/configured = 'Löschen')" />
+        
+      <base:DataBufferWriter keyValue="isVoIPNumberChange"
+        sourceAttrName="
+        /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/processingType = 'CHANGE'
+        and (
+        count(/*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/numberOfNewAccessNumbers/configured) > 0
+        and /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/numberOfNewAccessNumbers/configured != '0'
+        or /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/portingMode1/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/portingMode2/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/portingMode3/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/portingMode4/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/portingMode5/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/portingMode6/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/portingMode7/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/portingMode8/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/portingMode9/configured = 'Löschen'
+        or /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']/*/*/portingMode10/configured = 'Löschen')" />
+
+
+      <base:DataBufferWriter keyValue="isMainVoiceBlockingNumberChange"
+        sourceAttrName="/*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID  | /*/*/*/ipBitstream/@ID | /*/*/*/isdn/@ID}']/processingType = 'CHANGE'
+        and (/*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID  | /*/*/*/ipBitstream/@ID | /*/*/*/isdn/@ID}']/*/blockingList/configured
+          or /*/*/*/voice[@refAccessID = '${/*/*/*/ngn/@ID  | /*/*/*/ipBitstream/@ID | /*/*/*/isdn/@ID}']/*/blockingList/@action = 'remove')" />
+
+      <base:DataBufferWriter keyValue="isVoIP2ndLineBlockingNumberChange"
+        sourceAttrName="/*/*/*/voice[@refAccessID = '${/*/*/*/sip/@ID}']/processingType = 'CHANGE'
+        and (/*/*/*/voice[@refAccessID = '${/*/*/*/sip/@ID}']/*/blockingList/configured or
+          or /*/*/*/voice[@refAccessID = '${/*/*/*/sip/@ID}']/*/blockingList/@action = 'remove')" />
+
+      <base:DataBufferWriter keyValue="isMailboxAliasReconfiguration"
+        sourceAttrName="
+        count(/*/*/*/voice[@refAccessID = '${/*/*/*/sip/@ID | /*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID}']/*/*/*[starts-with(name(.), 'voipAccount')]/configured) > 0
+        or count(/*/*/*/voice[@refAccessID = '${/*/*/*/sip/@ID | /*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID}']/*/mailboxAlias/configured) > 0" />
+
+      <base:Include fileIDRef="functionParameters" partIDRef="masterdataParameters"/>
+
+      <!-- TODO exclude illegal scenarios with raiseError action -->
+      <RequestTemplate fif-request-name="raiseError"
+        sourceWorkingPath="/*/lineChange | /*/relocation" >
+        <TemplateConditions>
+          <OrComposite>
+            <!-- Fastpath-Order and TV-Center change -->
+            <AndComposite>
+              <base:IsMember value="true" sourceAttrName="#:isTVCenterChange" />
+              <base:IsMember value="true" sourceAttrName="#:isFastpathOrder" />
+            </AndComposite>
+            <!-- VoIP number change with anything -->
+            <AndComposite>
+              <base:IsMember value="true" sourceAttrName="#:isVoIPNumberChange" />
+              <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <OrComposite>
+                <base:IsMember value="true" sourceAttrName="#:isMainVoiceBlockingNumberChange" />
+              </OrComposite>
+            </AndComposite>
+            <!-- Blocking Number Change with anything -->
+            <AndComposite>
+              <base:IsMember value="true" sourceAttrName="#:isMainVoiceBlockingNumberChange" />
+              <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <OrComposite>
+                <base:IsMember value="true" sourceAttrName="#:isVoIPNumberChange" />
+              </OrComposite>
+            </AndComposite>
+          </OrComposite>
+        </TemplateConditions>
+
+        <RPMapping targetName="errorMessage" staticValue="Scenario not supported." />
+      </RequestTemplate>
+
+      <!-- **************** MASTERDATA START ****************** -->
+
+      <base:Include fileIDRef="masterdataChanges" partIDRef="masterdataChanges"/>
+
+      <!-- **************** MASTERDATA END ****************** -->
+
+      <!-- exeute step, which creates all the contracts and services in CCM -->
+      <RequestTemplate fif-request-name="findBundle"
+        sourceWorkingPath="/order/lineChange | /order/relocation">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="functions/*[processingType='ADD']" />
+            <base:IsExisting sourceAttrName="functions/*[processingType='CHANGE']" />
+          </OrComposite>
+          <OrComposite>
+          	<base:IsMember value="dslr" sourceAttrName="#:currentTechnology" />
+          	<base:IsMember value="preselect" sourceAttrName="#:currentTechnology" />
+		  </OrComposite>
+        </TemplateConditions>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="beneficiary/targetCustomerNodeRefID" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="/*/customerData/customer[@ID='${beneficiary/targetCustomerNodeRefID}']/ccbId[@type='C']/*" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="beneficiary/targetCustomerNodeRefID" />
+            <base:IsExisting sourceAttrName="beneficiary/customerNodeRefID" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="/*/customerData/customer[@ID='${beneficiary/customerNodeRefID}']/ccbId[@type='C']/*" />
+        </TransformationTemplate>
+        <RPMapping targetName="amdocsOrderingIndicator"
+          sourceAttrName="aoMastered/configured"
+          decoding="'true', 'Y', 'false','N'" />
+        <RPListTemplate listName="serviceList">
+          <RPListItemTemplate sourceWorkingPath="
+            functions/voice/ccbId[@type='S' and existing != '']/existing |
+            functions/internet/ccbId[@type='S' and existing != '']/existing">
+            <RPMapping sourceAttrName="." targetName="serviceSubscriptionId" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+        
+        <RPMapping targetName="isTVCenterChange" sourceAttrName="#:isTVCenterChange"/>
+        <RPMapping targetName="isProductChangeScenario" sourceAttrName="#:isProductChangeScenario"/>
+        <RPMapping targetName="isTVCenterClone" sourceAttrName="#:isTVCenterClone"/>
+      </RequestTemplate>
+
+      <!-- **************** product change scenarios START ****************** -->
+
+      <!-- Access number change for generic prods -->
+      <RequestTemplate fif-request-name="reconfigureComplexFunction"
+		sourceWorkingPath="/*/*/*/otherFunction">
+		<TemplateConditions>
+			<base:IsMember value="ChgAccessNumbers" sourceAttrName="/*/*/customerIntention" />
+			<base:IsMember value="execute" sourceAttrName="../../../*/transactionType" />
+			<base:IsMember value="CHANGE" sourceAttrName="processingType" />
+		</TemplateConditions>
+		<RPMapping targetName="functionID" sourceAttrName="@ID" />
+		<RPMapping targetName="serviceCode" sourceAttrName="*/mainAccessServiceCode/existing" />
+		<RPMapping targetName="desiredDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+		<RPMapping targetName="serviceSubscriptionId" sourceAttrName="ccbId[@type='S']/existing" />
+		<RPMapping targetName="reason" staticValue="AEND" />
+		<RPMapping targetName="scenarioInformation" staticValue="Access number change" />
+		<RPListTemplate listName="parameterList">
+			<RPListItemTemplate
+				sourceWorkingPath="
+	            ../../accesses/*[@ID = '${@refAccessID}']/*/* |
+	            otherFunctionConfiguration/* |
+	            */portingAccessNumbers/*[name(.) != 'lineOwner1' and name(.) != 'lineOwner2'] | 
+	            */portingAccessNumberRanges/*[name(.) != 'lineOwner1' and name(.) != 'lineOwner2'] |
+	            */*/*[name(.) = 'lineOwner1' or name(.) = 'lineOwner2']/configured/*">
+	        	<base:Include fileIDRef="functionParameters" partIDRef="parameterList"/>
+            	
+		        <TransformationTemplate>
+		            <TemplateConditions>
+		                <base:IsNotMember value="configured" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="existing" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="pricingStructureBillingName" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="productCode" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="productBillingName" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="productVersionCode" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="mainAccessServiceCode" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="boardSignName" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="boardSignDate" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="primaryCustSignName" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="pricingStructureCode" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="minimumDurationPeriod" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="autoExtension" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="noticePeriod" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="specialTerminationRight" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="conditionsList" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="featuresList" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="tariffOptionsList" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="desiredCountriesList" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="chargesAndCreditsList" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="blockingList" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="licencesList" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="licenceOptionsList" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="portingAccessNumbers" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="portingAccessNumberRanges" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="iadPinChange" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="previousCompletionStatusNewCcbId" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="previousCompletionStatusOldCcbId" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="setTopBoxPinChange" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="tvPinChange" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="adultPinChange" sourceAttrName="name(.)" />
+		                <base:IsNotMember value="numberOfNewAccessNumbers" sourceAttrName="name(.)" />   
+		                <base:IsNotMember value="listedAddress" sourceAttrName="name(.)" />   
+		                <base:IsNotMember value="directoryEntryText" sourceAttrName="name(.)" />   
+		                <base:IsNotMember value="titleDescription" sourceAttrName="name(.)" />   
+		                <base:IsNotMember value="surnamePrefix" sourceAttrName="name(.)" />   
+		                <base:IsNotMember value="forename" sourceAttrName="name(.)" />
+		            </TemplateConditions>
+            	
+	            	<base:DataBufferWriter keyValue="existingPath"
+		                sourceAttrName="concat('${#:hasExisting}', '${#:isAccessParameter}', '${#:isPortingAccessNumbersParameter}')"
+		                decoding="
+		                'falsetruefalse', '../../../*/*/', 'falsefalsefalse', '../../*/', 'falsefalsetrue', '../../../*/*/',
+		                'truetruefalse', '../', 'truefalsefalse', '../', 'truefalsetrue', '../'" />
+	            	<TransformationTemplate>
+	                    <TemplateConditions>
+	                        <base:IsMember value="order" sourceAttrName="name(../../../../../..)" />
+	                    </TemplateConditions>
+	                    <base:DataBufferWriter keyValue="currentPath"
+			                sourceAttrName="concat('\',name(../../../../../..), '\','lineChangeWrapper','\', name(../../../../..), '\', name(../../../..), '\', name(../../..), '\', name(../..), '\', name(..), '\')"/>
+	                </TransformationTemplate>
+	                
+	                <TransformationTemplate>
+	                    <TemplateConditions>
+	                        <base:IsMember value="order" sourceAttrName="name(../../../../..)" />
+	                    </TemplateConditions>
+	                    <base:DataBufferWriter keyValue="currentPath"
+			                sourceAttrName="concat('\',name(../../../../..),'\','lineChangeWrapper','\',name(../../../..), '\', name(../../..), '\', name(../..), '\', name(..), '\')"/>
+	                </TransformationTemplate>
+	            
+	            	<TransformationTemplate>
+	                    <TemplateConditions>
+	                        <base:IsMember value="order" sourceAttrName="name(../../../../../../../..)" />
+	                    </TemplateConditions>
+	                    <base:DataBufferWriter keyValue="currentPath"
+			                sourceAttrName="concat('\',name(../../../../../../../..), '\','lineChangeWrapper','\', name(../../../../../../..), '\', name(../../../../../..), '\', name(../../../../..), '\', name(../../../..), '\', name(../../..), '\', name(../..), '\')"/>
+	                </TransformationTemplate>
+	            
+		            <TransformationTemplate>
+		                <RPMapping sourceAttrName="#:currentPath" targetName="path" />
+		            </TransformationTemplate>
+	        	 </TransformationTemplate>
+	         </RPListItemTemplate>   
+		</RPListTemplate>
+	</RequestTemplate>
+      
+      
+      <!-- TV-Center hardware reconfiguration in relocation -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/*/*/hardware"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="I1359" sourceAttrName="*/hardwareServiceCode/existing" />
+          <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+
+        <RPMapping targetName="serviceCode" sourceAttrName="*/hardwareServiceCode/existing" />
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPMapping targetName="reason" staticValue="AEND" />
+        <RPMapping targetName="assignCustomerOrder" staticValue="N" />
+        <RPMapping targetName="scenarioInformation" staticValue="Änderung Settopbox" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="orderReason" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="../tvCenter/processingType"
+              decoding="'TERM', 'Rückgabe Settop-Box', 'Doku - Kein Versand'"/>
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="compensationFeeIndicator" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="*/compensationFeeIndicator"
+              method="configuredExisting" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="changeTechnology"
+        extends="base_productChange_template"
+        sourceWorkingPath="/order/lineChange">
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isTechnologyChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isRelocation" />
+        </TemplateConditions>
+      </RequestTemplate>
+
+      <!-- upgrade / downgrade -->
+      <RequestTemplate fif-request-name="changeProductType"
+        extends="base_productChange_template"
+        sourceWorkingPath="/order/lineChange">
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isProductTypeChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isTechnologyChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isRelocation" />
+        </TemplateConditions>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="relocateContract"
+        extends="base_productChange_template"
+        sourceWorkingPath="/order/relocation">
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isRelocation" />
+        </TemplateConditions>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="true" sourceAttrName="#:isTechnologyChange" />
+            <base:IsMember value="true" sourceAttrName="keepFixedNumbersIndicator" />
+          </TemplateConditions>
+          <RPMapping targetName="orderVariant" staticValue="Umzug mit Technologiewechsel" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="#:isTechnologyChange" />
+            <base:IsMember value="true" sourceAttrName="keepFixedNumbersIndicator" />
+          </TemplateConditions>
+          <RPMapping targetName="orderVariant" staticValue="Umzug mit Rufnummernübernahme" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="keepFixedNumbersIndicator" />
+          </TemplateConditions>
+          <RPMapping targetName="orderVariant" staticValue="Umzug ohne Rufnummernübernahme" />
+        </TransformationTemplate>
+
+        <RPMapping targetName="relocationVariant" sourceAttrName="relocationVariant" />
+        <RPMapping targetName="terminationDate"
+          sourceAttrName="deactivationDate"
+          formatter="SOMToCCBDateFormatter" />
+        <RPMapping targetName="asb"
+          sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/asb"
+          method="configuredExisting"/>
+        <RPMapping targetName="locationTAE"
+          sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/locationTAE"
+          method="configuredExisting"/>
+        <RPMapping targetName="localAreaCode"
+          sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/localAreaCode"
+          method="configuredExisting"/>
+        <RPMapping targetName="carrier"
+          sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/carrier"
+          method="configuredExisting"/>
+
+        <!-- new location address -->
+        <RPMapping targetName="streetName" sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/locationAddress/configured/street" />
+        <RPMapping targetName="streetNumber" sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/locationAddress/configured/streetNumber" />
+        <RPMapping targetName="postalCode" sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/locationAddress/configured/postalCode" />
+        <RPMapping targetName="cityName" sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/locationAddress/configured/city" />
+        <RPMapping targetName="citySuffix" sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/locationAddress/configured/citySuffix" />
+        <RPMapping targetName="additionalText" sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/locationAddress/configured/additionalAddressDescription" />
+        <RPMapping targetName="numberSuffix" sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/locationAddress/configured/streetNumberSuffix" />
+        <RPMapping targetName="countryCode" sourceAttrName="accesses/*[@ID='${#:targetMainAccessID}']/*/locationAddress/configured/country" />
+      </RequestTemplate>
+
+      <!-- online contract for technology change to ISDN -->
+      <RequestTemplate fif-request-name="createOnlineContract"
+        sourceWorkingPath="/*/lineChange/*/internet | /*/relocation/*/internet" >
+        <TemplateConditions>
+          <OrComposite>
+            <AndComposite>
+              <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+              <base:IsMember value="true" sourceAttrName="#:isRelocation" />
+              <base:IsMember value="ISDN" sourceAttrName="#:currentTechnology" />
+              <base:IsMember value="true" sourceAttrName="
+                ../../accesses/*/*/acsIndicator/configured = 'true'
+                or count(../../accesses/*/*/acsIndicator/configured) = 0
+                and ../../accesses/*/*/acsIndicator/existing = 'true'" />
+              <base:IsNotMember value="true" sourceAttrName="../../keepFixedNumbersIndicator" />
+            </AndComposite>
+            <AndComposite>
+              <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+              <base:IsMember value="true" sourceAttrName="#:isTechnologyChange" />
+              <base:IsMember value="ISDN" sourceAttrName="#:targetTechnology" />
+            </AndComposite>
+          </OrComposite>
+        </TemplateConditions>
+
+        <RPMapping targetName="voiceFunctionID" sourceAttrName="../voice[@refAccessID='${#:currentMainAccessID}']/@ID" />
+        <RPMapping targetName="tariffOnline" sourceAttrName="*/pricingStructureCode" method="configuredExisting"/>
+        <RPMapping targetName="reason" sourceAttrName="name(../..)"
+          decoding="'relocation', 'RELOCATION', 'PRODUCT_CHANGE'" />
+        <RPMapping targetName="dueDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+        <RPMapping targetName="customerNumber" sourceAttrName="#:customerNumber" />
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="relocateAdditionalContract"
+        sourceWorkingPath="/*/relocation/*/voice">
+        <TemplateConditions>
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <base:IsMember value="true" sourceAttrName="#:isRelocation" />
+          <base:IsMember value="sip" sourceAttrName="name(/*/*/accesses/*[@ID = '${@refAccessID}'])" />
+        </TemplateConditions>
+
+        <base:Include fileIDRef="functionParameters" partIDRef="productChangeAdditionalProducts"/>
+
+        <RPMapping targetName="keepAccessNumbers"
+          sourceAttrName="*/*/keepExistingNumbers/configured"
+          decoding="'true','Y','N'" />
+        <RPMapping targetName="numberOfNewAccessNumbers"
+          sourceAttrName="*/*/numberOfNewAccessNumbers"
+          method="configuredExisting" />
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="true" sourceAttrName="#:isTechnologyChange" />
+            <base:IsMember value="true" sourceAttrName="*/*/keepExistingNumbers/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="orderVariant" staticValue="Umzug mit Technologiewechsel" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="#:isTechnologyChange" />
+            <base:IsMember value="true" sourceAttrName="*/*/keepExistingNumbers/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="orderVariant" staticValue="Umzug mit Rufnummernübernahme" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="*/*/keepExistingNumbers/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="orderVariant" staticValue="Umzug ohne Rufnummernübernahme" />
+        </TransformationTemplate>
+
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="relocateAdditionalContract"
+        sourceWorkingPath="/*/relocation/*/tvCenter">
+        <TemplateConditions>
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <base:IsMember value="true" sourceAttrName="#:isRelocation" />
+          <base:IsMember value="true" sourceAttrName="'${#:currentMainAccessID}' = '${@refAccessID}'" />
+        </TemplateConditions>
+
+        <base:Include fileIDRef="functionParameters" partIDRef="productChangeAdditionalProducts"/>
+
+        <RPMapping targetName="orderVariant"
+          sourceAttrName="*/multimediaAccountChangeType"
+          method="configuredExisting"
+          decoding="'None', 'Umzug mit Accountübernahme', 'Umzug'"/>
+
+        <RPMapping targetName="allowPartialCancel"
+          sourceAttrName="*/allowPartialCancel"
+          method="configuredExisting"
+          decoding="'true', 'ja', 'false', 'nein'"/>
+        <RPMapping targetName="fskLevel"
+          sourceAttrName="*/fskLevel"
+          method="configuredExisting" />
+        <RPMapping targetName="initialOrderType"
+          sourceAttrName="*/initialOrderType"
+          method="configuredExisting" />
+        <RPMapping targetName="multimediaAccount"
+          sourceAttrName="*/multimediaAccount"
+          method="configuredExisting" />
+      </RequestTemplate>
+
+      <!-- Clone the TV Center contract in a technology change scenario -->
+      <RequestTemplate fif-request-name="changeTechnologyAdditionalContract"
+        sourceWorkingPath="/*/lineChange/*/tvCenter">
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isTechnologyChange" />
+          <OrComposite>
+            <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+            <base:IsMember value="IGNORE" sourceAttrName="processingType" />
+          </OrComposite>
+        </TemplateConditions>
+
+        <base:Include fileIDRef="functionParameters" partIDRef="productChangeAdditionalProducts"/>
+
+        <RPMapping targetName="allowPartialCancel"
+          sourceAttrName="*/allowPartialCancel"
+          method="configuredExisting"
+          decoding="'true', 'ja', 'false', 'nein'"/>
+        <RPMapping targetName="fskLevel"
+          sourceAttrName="*/fskLevel"
+          method="configuredExisting" />
+        <RPMapping targetName="initialOrderType"
+          sourceAttrName="*/initialOrderType"
+          method="configuredExisting" />
+        <RPMapping targetName="multimediaAccount"
+          sourceAttrName="*/multimediaAccount"
+          method="configuredExisting" />
+      </RequestTemplate>
+
+      <!-- instant access for product change scenarios -->
+      <RequestTemplate fif-request-name="addChildService"
+        sourceWorkingPath="/*/*/*/instantAccess">
+        <TemplateConditions>
+          <OrComposite>
+            <AndComposite>
+              <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <OrComposite>
+                <base:IsMember value="IGNORE" sourceAttrName="processingType" />
+                <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+              </OrComposite>
+            </AndComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+          </OrComposite>
+        </TemplateConditions>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          </TemplateConditions>
+          <RPMapping targetName="serviceSubscriptionId"
+            sourceAttrName="/*/*/accesses/*[@ID='${#:currentMainAccessID}']/ccbId[@type='S']"
+            method="configuredExisting"/>
+          <RPMapping targetName="desiredDate" staticValue="today" />
+        </TransformationTemplate>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="true" sourceAttrName="#:isTechnologyChange" />
+            <base:IsMember value="ISDN" sourceAttrName="#:targetTechnology" />
+          </TemplateConditions>
+          <RPMapping targetName="functionID" sourceAttrName="../voice[@refAccessID='${#:currentMainAccessID}']/@ID" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="true" sourceAttrName="#:isTechnologyChange" />
+            <base:IsNotMember value="ISDN" sourceAttrName="#:targetTechnology" />
+          </TemplateConditions>
+          <RPMapping targetName="functionID" sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/@ID" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="#:isTechnologyChange" />
+            <base:IsMember value="ISDN" sourceAttrName="#:currentTechnology" />
+          </TemplateConditions>
+          <RPMapping targetName="functionID" sourceAttrName="../voice[@refAccessID='${#:currentMainAccessID}']/@ID" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="#:isTechnologyChange" />
+            <base:IsNotMember value="ISDN" sourceAttrName="#:currentTechnology" />
+          </TemplateConditions>
+          <RPMapping targetName="functionID" sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/@ID" />
+        </TransformationTemplate>
+
+        <RPMapping staticValue="V8042" targetName="serviceCode" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="simID" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/simID" method="configuredExisting" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="instantAccessTariff" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/instantAccessTariff" method="configuredExisting" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- **************** product change scenarios END ****************** -->
+
+      <!-- creation of contact roles -->
+      <RequestTemplate fif-request-name="createContactRole"
+        sourceWorkingPath="/order/customerData/contactRole"
+        extends="entityCreation_template">
+        <TemplateConditions>
+          <base:IsNotMember value="PREV_TENANT" sourceAttrName="contactRoleTypeRd/*"/>
+          <base:IsNotMember value="INSTALLATION" sourceAttrName="contactRoleTypeRd/*"/>
+          <base:IsMember value="ADD" sourceAttrName="changeType" />
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>
+
+        <RPMapping targetName="contactRoleEntityIdReference" sourceAttrName="@ID" />
+        <RPMapping targetName="contactRoleTypeRd" sourceAttrName="contactRoleTypeRd/configured" />
+        <RPMapping targetName="contactRolePositionName" sourceAttrName="contactRolePositionName/configured" />
+
+        <!-- customer number either from ownerCcbId -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="ownerCcbId/configured" />
+        </TransformationTemplate>
+        <!-- or from ownerNodeRefID -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+        </TransformationTemplate>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="*/address" />
+          </TemplateConditions>
+          <RPMapping staticValue="Y" targetName="createAddress" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="*/accessInformation" />
+          </TemplateConditions>
+          <RPMapping staticValue="Y" targetName="createAccessInformation" />
+        </TransformationTemplate>
+      </RequestTemplate>
+
+      
+      
+      
+
+      <RequestTemplate fif-request-name="createContactRoleReference"
+        sourceWorkingPath="/*/*/accesses/*/*/contactRoleRef/configured">
+        <TemplateConditions>
+          <base:IsNotMember value = "PREV_TENANT"
+            sourceAttrName=" /order/customerData/contactRole[@ID ='${.}']/contactRoleTypeRd/* " />         
+          <base:IsNotMember value = "INSTALLATION"
+            sourceAttrName=" /order/customerData/contactRole[@ID ='${.}']/contactRoleTypeRd/* " />         
+        </TemplateConditions>
+        <RPMapping targetName="supportedObjectTypeRd" staticValue="SERVICE_SUBS" />
+        <RPMapping targetName="contactRoleEntityIdReference" sourceAttrName="." /> 
+        <RPMapping targetName="contactRoleEntityId"
+          sourceAttrName="/*/*/contactRole[@ID = '${.}']/ccbId[@type= 'R']"
+          method="configuredExisting"/>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="true" sourceAttrName="
+              '${#:currentTechnology}' = 'ISDN' and '${#:targetTechnology}' = ''
+              or '${#:targetTechnology}' = 'ISDN'" />
+          </TemplateConditions>
+          <RPMapping targetName="parentSomElementID"
+            sourceAttrName="/*/*/*/voice[@refAccessID='${#:currentMainAccessID}']/@ID" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="
+              '${#:currentTechnology}' = 'ISDN' and '${#:targetTechnology}' = ''
+              or '${#:targetTechnology}' = 'ISDN'" />
+          </TemplateConditions>
+          <RPMapping targetName="parentSomElementID"
+            sourceAttrName="/*/*/*/internet[@refAccessID='${#:currentMainAccessID}']/@ID" />
+        </TransformationTemplate>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          </TemplateConditions>
+          <RPMapping targetName="supportedObjectId" sourceAttrName="../../../ccbId[@type='S']/existing" />
+        </TransformationTemplate>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="createContactRoleReference"
+        sourceWorkingPath="/*/*/accesses/*/technicianContactNodeRefID/configured">        
+        <RPMapping targetName="supportedObjectTypeRd" staticValue="SERVICE_SUBS" />
+        <RPMapping targetName="contactRoleEntityIdReference" sourceAttrName="." />
+        <RPMapping targetName="contactRoleEntityId"
+          sourceAttrName="/*/*/contactRole[@ID = '${.}']/ccbId[@type= 'R']"
+          method="configuredExisting"/>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="true" sourceAttrName="
+              '${#:currentTechnology}' = 'ISDN' and '${#:targetTechnology}' = ''
+              or '${#:targetTechnology}' = 'ISDN'" />
+          </TemplateConditions>
+          <RPMapping targetName="parentSomElementID"
+            sourceAttrName="/*/*/*/voice[@refAccessID='${#:currentMainAccessID}']/@ID" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="
+              '${#:currentTechnology}' = 'ISDN' and '${#:targetTechnology}' = ''
+              or '${#:targetTechnology}' = 'ISDN'" />
+          </TemplateConditions>
+          <RPMapping targetName="parentSomElementID"
+            sourceAttrName="/*/*/*/internet[@refAccessID='${#:currentMainAccessID}']/@ID" />
+        </TransformationTemplate>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          </TemplateConditions>
+          <RPMapping targetName="supportedObjectId" sourceAttrName="../../ccbId[@type='S']/existing" />
+        </TransformationTemplate>
+      </RequestTemplate>
+
+      <!-- **************** scenarios with reconfigurations START ****************** -->
+
+      <RequestTemplate fif-request-name="changeDSLBandwidthAndTariff"
+        sourceWorkingPath="/*/lineChange/functions/voice[@refAccessID='${#:currentMainAccessID}']">
+        <TemplateConditions>
+          <base:IsMember value="CHANGE" sourceAttrName="../internet/processingType" />
+          <base:IsMember value="true" sourceAttrName="#:isBandwidthChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          <base:IsMember value="ISDN" sourceAttrName="#:currentTechnology" />
+        </TemplateConditions>
+
+        <RPMapping targetName="functionID" sourceAttrName="@ID" />
+        <RPMapping targetName="contractNumber" sourceAttrName="contractNumber" />
+        <RPMapping targetName="serviceSubscriptionId" sourceAttrName="../../accesses/*[@ID='${@refAccessID}']/ccbId/existing" />
+        <RPMapping targetName="customerNumber"
+          sourceAttrName="/*/*/customer[@ID='${../../beneficiary/customerNodeRefID}']/ccbId[@type='C']/existing" />
+        <RPMapping targetName="newDSLBandwidth"
+          sourceAttrName="../internet/*/DSLBandwidth/configured"
+          decoding=" 'V0116','DSL 768',  'V0118','DSL 1000', 'V0117','DSL 1500',
+          'V0174','DSL 2000', 'V0175','DSL 3000', 'V0178','DSL 6000',
+          'V018C','DSL 16000',  'V018G','DSL 25000',  'V018H','DSL 50000', ''" />
+        <RPMapping targetName="newUpstreamBandwidth"
+          sourceAttrName="../internet/*/upstreamBandwidth/configured"
+          decoding="'V0198', '384', 'Standard'" />
+        <RPMapping targetName="oldDSLBandwidth"
+          sourceAttrName="../internet/*/DSLBandwidth/existing"
+          decoding=" 'V0116','DSL 768',  'V0118','DSL 1000', 'V0117','DSL 1500',
+          'V0174','DSL 2000', 'V0175','DSL 3000', 'V0178','DSL 6000',
+          'V018C','DSL 16000',  'V018G','DSL 25000',  'V018H','DSL 50000', ''" />
+        <RPMapping targetName="oldUpstreamBandwidth"
+          sourceAttrName="../internet/*/upstreamBandwidth/existing"
+          decoding="'V0198', '384', 'Standard'" />
+        <RPMapping targetName="desiredBandwidth"
+          sourceAttrName="../internet/*/desiredBandwidth"
+          decoding=" 'V0116','DSL 768',  'V0118','DSL 1000', 'V0117','DSL 1500',
+          'V0174','DSL 2000', 'V0175','DSL 3000', 'V0178','DSL 6000',
+          'V018C','DSL 16000',  'V018G','DSL 25000',  'V018H','DSL 50000', ''"
+          method="configuredExisting"/>
+        <RPMapping targetName="allowDowngrade"
+          sourceAttrName="../internet/*/allowBandwidthDowngrade"
+          decoding="'true','Ja','Nein'"
+          method="configuredExisting"/>
+        <RPMapping targetName="setACSIndicator"
+          sourceAttrName="/*/*/*/isdn/*/acsIndicator"
+          decoding="'true', 'Ja', 'false', 'Nein'"
+          method="configuredExisting"/>
+        <RPMapping targetName="multimediaProduct"
+          sourceAttrName="../../accesses/*[@ID = '${@refAccessID}']/*/multimediaPort"
+          method="configuredExisting"/>
+        <!-- deprecated, old parameter -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="../../accesses/*[@ID = '${@refAccessID}']/*/accessTechnology" />
+          </TemplateConditions>
+          <RPMapping targetName="portType"
+            sourceAttrName="../../accesses/*[@ID = '${@refAccessID}']/*/vdslEnabledIndicator"
+            decoding="'true', 'VDSL', 'false', 'ADSL'"
+            method="configuredExisting"/>
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="../../accesses/*[@ID = '${@refAccessID}']/*/accessTechnology" />
+          </TemplateConditions>
+          <RPMapping targetName="portType"
+            sourceAttrName="../../accesses/*[@ID = '${@refAccessID}']/*/accessTechnology"
+            method="configuredExisting"/>
+        </TransformationTemplate>
+
+        <RPMapping targetName="providerTrackingNumberDefault"
+          sourceAttrName="providerTrackingNumber[@type = 'default']/configured" />
+        <RPMapping targetName="providerTrackingNumberChange"
+          sourceAttrName="providerTrackingNumber[@type = 'change']/configured" />
+
+        <TransformationTemplate>
+          <TemplateConditions>
+              <OrComposite>
+                  <base:IsMember value="true" sourceAttrName="#:isTVCenterChange" />
+                  <base:IsMember value="true" sourceAttrName="#:isTVCenterOrder" />
+              </OrComposite>
+          </TemplateConditions>
+            <RPMapping targetName="releaseCONoDelay" staticValue="Y" />
+        </TransformationTemplate>
+
+        <base:Include fileIDRef="functionParameters" partIDRef="contractParametersBandwidthChange"/>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="changeDSLBandwidthAndTariff"
+        sourceWorkingPath="/*/lineChange/functions/internet[@refAccessID='${#:currentMainAccessID}']">
+        <TemplateConditions>
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <base:IsMember value="true" sourceAttrName="#:isBandwidthChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          <base:IsNotMember value="ISDN" sourceAttrName="#:currentTechnology" />
+        </TemplateConditions>
+
+        <RPMapping targetName="functionID" sourceAttrName="@ID" />
+        <RPMapping targetName="contractNumber" sourceAttrName="contractNumber" />
+        <RPMapping targetName="serviceSubscriptionId" sourceAttrName="../../accesses/*[@ID='${@refAccessID}']/ccbId/existing" />
+        <RPMapping targetName="customerNumber"
+          sourceAttrName="/*/*/customer[@ID='${../../beneficiary/customerNodeRefID}']/ccbId[@type='C']/existing" />
+        <RPMapping targetName="newDSLBandwidth"
+          sourceAttrName="*/DSLBandwidth/configured"
+          decoding=" 'V0116','DSL 768',  'V0118','DSL 1000', 'V0117','DSL 1500',
+          'V0174','DSL 2000', 'V0175','DSL 3000', 'V0178','DSL 6000',
+          'V018C','DSL 16000',  'V018G','DSL 25000',  'V018H','DSL 50000', ''" />
+        <RPMapping targetName="newUpstreamBandwidth"
+          sourceAttrName="*/upstreamBandwidth/configured"
+          decoding="'V0198', '384', 'Standard'" />
+        <RPMapping targetName="oldDSLBandwidth"
+          sourceAttrName="*/DSLBandwidth/existing"
+          decoding=" 'V0116','DSL 768',  'V0118','DSL 1000', 'V0117','DSL 1500',
+          'V0174','DSL 2000', 'V0175','DSL 3000', 'V0178','DSL 6000',
+          'V018C','DSL 16000',  'V018G','DSL 25000',  'V018H','DSL 50000', ''" />
+        <RPMapping targetName="oldUpstreamBandwidth"
+          sourceAttrName="*/upstreamBandwidth/existing"
+          decoding="'V0198', '384', 'Standard'" />
+        <RPMapping targetName="desiredBandwidth"
+          sourceAttrName="*/desiredBandwidth"
+          decoding=" 'V0116','DSL 768',  'V0118','DSL 1000', 'V0117','DSL 1500',
+          'V0174','DSL 2000', 'V0175','DSL 3000', 'V0178','DSL 6000',
+          'V018C','DSL 16000',  'V018G','DSL 25000',  'V018H','DSL 50000', ''"
+          method="configuredExisting"/>
+        <RPMapping targetName="allowDowngrade"
+          sourceAttrName="*/allowBandwidthDowngrade"
+          decoding="'true','Ja','Nein'"
+          method="configuredExisting"/>
+        <RPMapping targetName="multimediaProduct"
+          sourceAttrName="../../accesses/*[@ID = '${@refAccessID}']/*/multimediaPort"
+          method="configuredExisting"/>
+        <!-- deprecated, old parameter -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="../../accesses/*[@ID = '${@refAccessID}']/*/accessTechnology" />
+          </TemplateConditions>
+          <RPMapping targetName="portType"
+            sourceAttrName="../../accesses/*[@ID = '${@refAccessID}']/*/vdslEnabledIndicator"
+            decoding="'true', 'VDSL', 'false', 'ADSL'"
+            method="configuredExisting"/>
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="../../accesses/*[@ID = '${@refAccessID}']/*/accessTechnology" />
+          </TemplateConditions>
+          <RPMapping targetName="portType"
+            sourceAttrName="../../accesses/*[@ID = '${@refAccessID}']/*/accessTechnology"
+            method="configuredExisting"/>
+        </TransformationTemplate>
+
+        <RPMapping targetName="providerTrackingNumberDefault"
+          sourceAttrName="providerTrackingNumber[@type = 'default']/configured" />
+        <RPMapping targetName="providerTrackingNumberChange"
+          sourceAttrName="providerTrackingNumber[@type = 'change']/configured" />
+          
+        <TransformationTemplate>
+          <TemplateConditions>
+              <OrComposite>
+                  <base:IsMember value="true" sourceAttrName="#:isTVCenterChange" />
+                  <base:IsMember value="true" sourceAttrName="#:isTVCenterOrder" />
+              </OrComposite>
+          </TemplateConditions>
+          <RPMapping targetName="releaseCONoDelay" staticValue="Y" />
+        </TransformationTemplate>
+          
+        <base:Include fileIDRef="functionParameters" partIDRef="contractParametersBandwidthChange"/>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="modifyContractOpProduct"
+        sourceWorkingPath="/*/lineChange/functions/* | /*/relocation/functions/*">
+        <TemplateConditions>
+          <OrComposite>
+            <!-- generally exclude all specific scenarios -->
+            <AndComposite>
+              <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <base:IsNotMember value="true" sourceAttrName="#:isBandwidthChange" />
+              <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+              <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+            </AndComposite>
+            <!-- include non-voice, internet and tvCenter in product change scenarios -->
+            <AndComposite>
+              <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <base:IsNotMember value="voice" sourceAttrName="name(.)" />
+              <base:IsNotMember value="internet" sourceAttrName="name(.)" />
+              <base:IsNotMember value="tvCenter" sourceAttrName="name(.)" />
+            </AndComposite>
+            <!-- include VoIP 2nd Line outside relocation -->
+            <AndComposite>
+              <base:IsMember value="voice" sourceAttrName="name(.)" />
+              <base:IsMember value="sip" sourceAttrName="name(../../accesses/*[@ID = '${@refAccessID}'])" />
+              <base:IsNotMember value="true" sourceAttrName="#:isRelocation" />
+            </AndComposite>
+            <!-- include TV-Center outside relocation -->
+            <AndComposite>
+              <base:IsMember value="tvCenter" sourceAttrName="name(.)" />
+              <base:IsNotMember value="true" sourceAttrName="#:isTVCenterClone" />
+            </AndComposite>
+            <!-- include non-internet in non-ISDN bandwidth change -->
+            <AndComposite>
+              <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <base:IsMember value="true" sourceAttrName="#:isBandwidthChange" />
+              <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+              <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+              <base:IsNotMember value="ISDN" sourceAttrName="#:currentTechnology" />
+              <base:IsNotMember value="internet" sourceAttrName="name(.)" />
+            </AndComposite>
+            <!-- include non-voice in ISDN bandwidth change -->
+            <AndComposite>
+              <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <base:IsMember value="true" sourceAttrName="#:isBandwidthChange" />
+              <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+              <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+              <base:IsMember value="ISDN" sourceAttrName="#:currentTechnology" />
+              <base:IsNotMember value="voice" sourceAttrName="name(.)" />
+            </AndComposite>
+            <!-- include DSLUpgrade -->
+            <AndComposite>
+              <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <base:IsMember value="voice" sourceAttrName="name(.)" />
+              <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+              <base:IsMember value="true" sourceAttrName="#:isDSLUpgrade" />
+            </AndComposite>
+            <!-- include DSLDowngrade -->
+            <AndComposite>
+              <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <base:IsMember value="voice" sourceAttrName="name(.)" />
+              <base:IsMember value="true" sourceAttrName="#:isDSLDowngrade" />
+              <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+            </AndComposite>
+            <!-- include ISDN product change w/o technology change -->
+            <AndComposite>
+              <base:IsMember value="internet" sourceAttrName="name(.)" />
+              <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <base:IsNotMember value="true" sourceAttrName="#:isTechnologyChange" />
+              <base:IsMember value="ISDN" sourceAttrName="#:currentTechnology" />
+              <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+              <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+            </AndComposite>
+          </OrComposite>
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <base:IsMember value="true" sourceAttrName="
+            */pricingStructureCode/existing != */pricingStructureCode/configured and */pricingStructureCode/configured != ''
+            or */minimumDurationPeriod/value/existing != */minimumDurationPeriod/value/configured and */minimumDurationPeriod/value/configured != ''
+            or */minimumDurationPeriod/unit/existing != */minimumDurationPeriod/unit/configured and */minimumDurationPeriod/unit/configured != ''
+            or */minimumDurationPeriod/startDate/existing != */minimumDurationPeriod/startDate/configured and */minimumDurationPeriod/startDate/configured != ''
+            or */resetContractStartDateIndicator/configured = 'true'
+            or */autoExtension/value/existing != */autoExtension/value/configured and */autoExtension/value/configured != ''
+            or */autoExtension/unit/existing != */autoExtension/unit/configured and */autoExtension/unit/configured != ''
+            or */autoExtension/autoExtensionIndicator/existing != */autoExtension/autoExtensionIndicator/configured and */autoExtension/autoExtensionIndicator/configured != ''
+            or */noticePeriod/value/existing != */noticePeriod/value/configured and */noticePeriod/value/configured != ''
+            or */noticePeriod/unit/existing != */noticePeriod/unit/configured and */noticePeriod/unit/configured != ''
+            or */noticePeriod/noticeRestriction/existing != */noticePeriod/noticeRestriction/configured and */noticePeriod/noticeRestriction/configured != ''
+            or */specialTerminationRight/existing != */specialTerminationRight/configured and */specialTerminationRight/configured != ''" />
+        </TemplateConditions>
+
+        <RPMapping targetName="functionID" sourceAttrName="@ID" />
+        <RPMapping targetName="contractNumber" sourceAttrName="contractNumber" />
+        <RPMapping targetName="customerNumber"
+          sourceAttrName="/*/*/customer[@ID='${../../beneficiary/customerNodeRefID}']/ccbId[@type='C']/existing" />
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="true" sourceAttrName="*/pricingStructureCode/existing != */pricingStructureCode/configured
+              and */pricingStructureCode/configured != ''" />
+          </TemplateConditions>
+          <RPMapping targetName="changeTariff" staticValue="Y" />
+          <RPMapping targetName="newPricingStructureCode" sourceAttrName="*/pricingStructureCode/configured" />
+          <RPMapping targetName="pricingStructureBillingName" sourceAttrName="*/pricingStructureBillingName/configured" />
+        </TransformationTemplate>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="true" sourceAttrName="
+              */minimumDurationPeriod/value/existing != */minimumDurationPeriod/value/configured and */minimumDurationPeriod/value/configured != ''
+              or */minimumDurationPeriod/unit/existing != */minimumDurationPeriod/unit/configured and */minimumDurationPeriod/unit/configured != ''
+              or */minimumDurationPeriod/startDate/existing != */minimumDurationPeriod/startDate/configured and */minimumDurationPeriod/startDate/configured != ''
+              or */resetContractStartDateIndicator/configured = 'true'" />
+          </TemplateConditions>
+          <RPMapping targetName="changeMinimumDuration" staticValue="Y" />
+          <RPMapping targetName="newMinPeriodDurationValue" sourceAttrName="*/minimumDurationPeriod/value/configured" />
+          <RPMapping targetName="newMinPeriodDurationUnit" sourceAttrName="*/minimumDurationPeriod/unit/configured" />
+        </TransformationTemplate>
+        <RPMapping targetName="newAutoExtentPeriodValue" sourceAttrName="*/autoExtension/value/configured" />
+        <RPMapping targetName="newAutoExtentPeriodUnit" sourceAttrName="*/autoExtension/unit/configured" />
+        <RPMapping targetName="newAutoExtensionInd" sourceAttrName="*/autoExtension/autoExtensionIndicator/configured" decoding="'true', 'Y', 'false', 'N'" />
+        <RPMapping targetName="specialTerminationRight" sourceAttrName="*/specialTerminationRight/configured" />
+      </RequestTemplate>
+
+      <!-- instant access -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/functions/*"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="ADD" sourceAttrName="../instantAccess/processingType" />
+          <base:IsMember value="true"
+            sourceAttrName="'${../../accesses/*[@ID = '${#:currentMainAccessID}']/ccbId[@type='S']/existing}' = '${ccbId[@type='S']/existing}'" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isBandwidthChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isFastpathOrder" />
+          <base:IsNotMember value="true" sourceAttrName="#:isTVCenterOrder" />
+          <base:IsNotMember value="true" sourceAttrName="#:isTVCenterTermination" />
+          <base:IsNotMember value="true" sourceAttrName="#:isACSUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isISDNNumberChange" />
+        </TemplateConditions>
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPMapping targetName="reason" staticValue="AEND" />
+        <RPMapping targetName="scenarioInformation" staticValue="InstantAccess-Bestellung" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue" staticValue="unbekannt" />
+          </RPListItemTemplate>
+          <base:Include fileIDRef="functionParameters" partIDRef="instantAccessForReconfiguration"/>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- upgradeToACS -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}']"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isACSUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isBandwidthChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isFastpathOrder" />
+          <base:IsNotMember value="true" sourceAttrName="#:isTVCenterOrder" />
+          <base:IsNotMember value="true" sourceAttrName="#:isTVCenterTermination" />
+          <base:IsNotMember value="true" sourceAttrName="#:isTVCenterChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isRelocation" />
+          <base:IsNotMember value="true" sourceAttrName="#:isISDNNumberChange" />
+        </TemplateConditions>
+        <RPMapping targetName="reason" staticValue="AEND" />
+        <RPMapping targetName="scenarioInformation" staticValue="ACS-Upgrade" />
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue" staticValue="ACS-Migration" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="acsIndicator" />
+            <RPMapping targetName="configuredValue" staticValue="true" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="processingType" />
+            <RPMapping targetName="configuredValue" staticValue="TAL" />
+          </RPListItemTemplate>
+          <base:Include fileIDRef="functionParameters" partIDRef="instantAccessForReconfiguration"/>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- order/change ISDN numbers, KBA trx changeAccessNumbers -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID='${/*/*/*/isdn/@ID}']"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isISDNNumberChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="reason" staticValue="MODIFY_ACCESS_NU" />
+        <RPMapping targetName="scheduleType" staticValue="START_BEFORE" />
+        <RPMapping targetName="scenarioInformation" staticValue="Abschalteanordnung" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue" staticValue="Rufnummernänderung" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="processingType" />
+            <RPMapping targetName="configuredValue" staticValue="TAL" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="numberOfNewAccessNumbers" />
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="*/*/numberOfNewAccessNumbers/configured" />
+              </TemplateConditions>
+              <RPMapping targetName="configuredValue" sourceAttrName="*/*/numberOfNewAccessNumbers/configured" />
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsNotExisting sourceAttrName="*/*/numberOfNewAccessNumbers/configured" />
+              </TemplateConditions>
+              <RPMapping targetName="configuredValue" staticValue="0" />
+            </TransformationTemplate>
+          </RPListItemTemplate>
+          <!-- V0216 specialLetter -->
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="customerCommunication" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="../../customerIntention"
+              decoding="'RNDeaktivierung', 'Abschalteanordnung', 'Standardbriefe'"/>
+          </RPListItemTemplate>
+          <!-- V0217 notice -->
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="accessNumberChangeAnnouncementIndicator" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/customerCommunication/configured" />
+          </RPListItemTemplate>
+          <!-- V0061 **NULL** -->
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="newLocalExchangeCarrierOP" />
+            <RPMapping targetName="existingValue" staticValue="dummy" />
+            <RPMapping targetName="action" staticValue="remove" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="portingMode1OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode1/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode2OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode2/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode3OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode3/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode4OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode4/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode5OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode5/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode6OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode6/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode7OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode7/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode8OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode8/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode9OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode9/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode10OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode10/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <base:Include fileIDRef="functionParameters" partIDRef="instantAccessForReconfiguration"/>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- order VoIP numbers -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID='${/*/*/*/ngn/@ID | /*/*/*/ipBitstream/@ID | /*/*/*/sip/@ID}']"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isVoIPNumberChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="reason"
+          sourceAttrName="../../customerIntention"
+          decoding="'RNDeaktivierung', 'MODIFY_ACCESS_NU', 'UPGRADE_VOIP'"/>
+        <RPMapping targetName="scenarioInformation"
+          sourceAttrName="../../customerIntention"
+          decoding="'RNDeaktivierung', 'Abschalteanordnung', 'VoIP-Rufnummernbestellung'"/>
+        <RPMapping targetName="scheduleType" staticValue="START_BEFORE" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue" staticValue="Rufnummernänderung" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="processingType" />
+            <RPMapping targetName="configuredValue" staticValue="OP" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="numberOfNewAccessNumbers" />
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="*/*/numberOfNewAccessNumbers/configured" />
+              </TemplateConditions>
+              <RPMapping targetName="configuredValue" sourceAttrName="*/*/numberOfNewAccessNumbers/configured" />
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsNotExisting sourceAttrName="*/*/numberOfNewAccessNumbers/configured" />
+              </TemplateConditions>
+              <RPMapping targetName="configuredValue" staticValue="0" />
+            </TransformationTemplate>
+          </RPListItemTemplate>
+          <!-- V0216 specialLetter -->
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="customerCommunication" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="../../customerIntention"
+              decoding="'RNDeaktivierung', 'Abschalteanordnung', 'Standardbriefe'"/>
+          </RPListItemTemplate>
+          <!-- V0217 notice -->
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="accessNumberChangeAnnouncementIndicator" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/customerCommunication/configured" />
+          </RPListItemTemplate>
+          <!-- V0061 **NULL** -->
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="newLocalExchangeCarrierOP" />
+            <RPMapping targetName="action" staticValue="remove" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="portingMode1OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode1/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode2OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode2/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode3OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode3/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode4OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode4/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode5OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode5/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode6OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode6/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode7OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode7/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode8OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode8/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode9OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode9/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsExisting sourceAttrName="voicePremiumConfiguration/*/existing" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="portingMode10OP" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="concat(*/*/numberOfNewAccessNumbers/configured != '0', */*/portingMode10/configured)"
+              decoding="'trueLöschen', 'Ändern', 'falseLöschen', 'Löschen', 'nein'" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- change blocking services -->
+      <!-- main voice function -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID = '${#:currentMainAccessID}']"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isMainVoiceBlockingNumberChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="reason" staticValue="MODIFY_NUM_BLOCK" />
+        <RPMapping targetName="scenarioInformation" staticValue="Rufnummernsperre-Änderung" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue" staticValue="Rufnummernsperre-Änderung" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="processingType" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="#:currentTechnology"
+              decoding="'ISDN', 'TAL', 'OP'" />
+          </RPListItemTemplate>
+          <base:Include fileIDRef="functionParameters" partIDRef="instantAccessForReconfiguration"/>
+        </RPListTemplate>
+      </RequestTemplate>
+      <!-- voice2ndLine function -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID = '${/*/*/*/sip/@ID}']"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isVoIP2ndLineBlockingNumberChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isRelocation" />
+        </TemplateConditions>
+        <RPMapping targetName="reason" staticValue="MODIFY_NUM_BLOCK" />
+        <RPMapping targetName="scenarioInformation" staticValue="Rufnummernsperre-Änderung" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue" staticValue="Rufnummernsperre-Änderung" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="processingType" />
+            <RPMapping targetName="configuredValue" staticValue="OP" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- reconfigure for TV-Center order -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/functions/*"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="ADD" sourceAttrName="../tvCenter/processingType" />
+          <base:IsMember value="true"
+            sourceAttrName="'${../../accesses/*[@ID = '${#:currentMainAccessID}']/ccbId[@type='S']/existing}' = '${ccbId[@type='S']/existing}'" />
+          <base:IsMember value="true" sourceAttrName="#:isTVCenterOrder" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isBandwidthChange" />
+          <base:IsNotMember value="true" sourceAttrName="#:isFastpathOrder" />
+        </TemplateConditions>
+        <!-- TODO PTN hardcoded -->
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPMapping targetName="reason" staticValue="ADD_TV_CENTER" />
+        <RPMapping targetName="scenarioInformation" staticValue="TV-Center Bestellung" />
+        <RPListTemplate listName="parameterList">
+          <base:Include fileIDRef="functionParameters" partIDRef="tvCenterOrderForReconfiguration"/>
+          <base:Include fileIDRef="functionParameters" partIDRef="instantAccessForReconfiguration"/>
+          <base:Include fileIDRef="functionParameters" partIDRef="acsForReconfiguration"/>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- main access with reconf reason and multimediaPort (and instantAccess, acs etc...) -->
+      <RequestTemplate fif-request-name="createTVCenterContract"
+        sourceWorkingPath="/*/lineChange/*/tvCenter | /*/relocation/*/tvCenter">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+          </OrComposite>
+        </TemplateConditions>
+
+        <base:Include fileIDRef="functionParameters" partIDRef="tvCenterParameters"/>
+      </RequestTemplate>
+
+      <!-- TV-Center termination START -->
+      <!-- mainAccess reconfiguration for TV-Center termination -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/functions/*"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="true"
+            sourceAttrName="'${../../accesses/*[@ID = '${#:currentMainAccessID}']/ccbId[@type='S']/existing}' = '${ccbId[@type='S']/existing}'" />
+          <base:IsMember value="true" sourceAttrName="#:isTVCenterTermination" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isBandwidthChange" />
+        </TemplateConditions>
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPMapping targetName="reason" staticValue="AEND" />
+        <RPMapping targetName="scenarioInformation" staticValue="TV-Center Kündigung" />
+        <RPListTemplate listName="parameterList">
+          <base:Include fileIDRef="functionParameters" partIDRef="tvCenterOrderForReconfiguration"/>
+          <base:Include fileIDRef="functionParameters" partIDRef="instantAccessForReconfiguration"/>
+          <base:Include fileIDRef="functionParameters" partIDRef="acsForReconfiguration"/>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- reconfigure hardware -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/hardware"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="TERM" sourceAttrName="processingType" />
+          <base:IsMember value="I1359" sourceAttrName="*/hardwareServiceCode/existing" />
+          <base:IsMember value="true" sourceAttrName="#:isTVCenterTermination" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isBandwidthChange" />
+        </TemplateConditions>
+
+        <RPMapping targetName="alternativeFunctionID" sourceAttrName="refFunctionID/existing" />
+        <RPMapping targetName="serviceCode" sourceAttrName="*/hardwareServiceCode/existing" />
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPMapping targetName="reason" staticValue="AEND" />
+        <RPMapping targetName="scenarioInformation" staticValue="Änderung Settopbox" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="orderReason" />
+            <RPMapping targetName="configuredValue" staticValue="Rückgabe Settop-Box" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="compensationFeeIndicator" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="*/compensationFeeIndicator"
+              method="configuredExisting" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- terminate Settopbox -->
+      <RequestTemplate fif-request-name="terminateFunction"
+        sourceWorkingPath="/*/lineChange/*/hardware" >
+        <TemplateConditions>
+          <base:IsMember value="TERM" sourceAttrName="processingType" />
+          <base:IsMember value="I1359" sourceAttrName="*/hardwareServiceCode/existing" />
+          <base:IsMember value="true" sourceAttrName="#:isTVCenterTermination" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isDSLDowngrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isBandwidthChange" />
+        </TemplateConditions>
+
+  		<RPMapping targetName="terminationDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+		<RPMapping targetName="scheduleType" staticValue="START_AFTER" />
+        <RPMapping targetName="reason" staticValue="TERMINATION" />
+        <base:Include fileIDRef="functionParameters" partIDRef="providerTrackingNumberTermination"/>
+        <RPMapping staticValue="KKG" targetName="terminationReason" />
+        <RPMapping sourceAttrName="ccbId[@type='S']/existing" targetName="serviceSubscriptionId" />
+        <RPMapping sourceAttrName="processingType" targetName="processingType" />
+        <RPMapping sourceAttrName="@ID" targetName="functionID" />
+      </RequestTemplate>
+
+      <!-- terminate TV-Center -->
+      <RequestTemplate fif-request-name="terminateService"
+        sourceWorkingPath="/*/*/*/tvCenter"
+        extends="base_packetChangeTermination_template">
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+        <RPMapping targetName="terminateDSLIndicator" staticValue="Y" />
+      </RequestTemplate>
+      <!-- TV-Center termination END -->
+
+      <RequestTemplate fif-request-name="createVoIP2ndLineContract"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID = '${/*/*/*/sip/@ID}'] |
+        /*/relocation/*/voice[@refAccessID = '${/*/*/*/sip/@ID}']" >
+        <TemplateConditions>
+          <base:IsMember value="ADD" sourceAttrName="processingType" />
+        </TemplateConditions>
+
+        <base:Include fileIDRef="functionParameters" partIDRef="contractFunctionParameters"/>
+        <base:Include fileIDRef="functionParameters" partIDRef="providerTrackingNumberCreation"/>
+
+        <RPMapping targetName="desiredDate" staticValue="today"/>
+        <RPMapping targetName="tariff" sourceAttrName="*/pricingStructureCode" method="configuredExisting"/>
+        <RPMapping targetName="accountNumber" sourceAttrName="#:targetAccountNumber" />
+        <RPMapping targetName="customerNumber" sourceAttrName="#:targetCustomerNumber" />
+        <RPMapping targetName="functionID" sourceAttrName="@ID" />
+
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="locationAddress" />
+            <RPMapping targetName="configuredStreet" sourceAttrName="/*/*/accesses/*[@ID = '${@refAccessID}']/*/locationAddress/configured/street" />
+            <RPMapping targetName="configuredStreetNumber" sourceAttrName="/*/*/accesses/*[@ID = '${@refAccessID}']/*/locationAddress/configured/streetNumber" />
+            <RPMapping targetName="configuredStreetNumberSuffix" sourceAttrName="/*/*/accesses/*[@ID = '${@refAccessID}']/*/locationAddress/configured/streetNumberSuffix" />
+            <RPMapping targetName="configuredPostalCode" sourceAttrName="/*/*/accesses/*[@ID = '${@refAccessID}']/*/locationAddress/configured/postalCode" />
+            <RPMapping targetName="configuredCity" sourceAttrName="/*/*/accesses/*[@ID = '${@refAccessID}']/*/locationAddress/configured/city" />
+            <RPMapping targetName="configuredCitySuffix" sourceAttrName="/*/*/accesses/*[@ID = '${@refAccessID}']/*/locationAddress/configured/citySuffix" />
+            <RPMapping targetName="configuredAdditionalAddressDescription" sourceAttrName="/*/*/accesses/*[@ID = '${@refAccessID}']/*/locationAddress/configured/additionalAddressDescription" />
+            <RPMapping targetName="configuredCountry" sourceAttrName="/*/*/accesses/*[@ID = '${@refAccessID}']/*/locationAddress/configured/country" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="numberOfNewAccessNumbers" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="*/*/numberOfNewAccessNumbers"
+              method="configuredExisting"/>
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="opProcessingType" />
+            <RPMapping targetName="configuredValue" staticValue="OP" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="discountType" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="*/discountType"
+              method="configuredExisting"/>
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- safety package -->
+      <RequestTemplate fif-request-name="createSafetyPackage"
+        sourceWorkingPath="/*/*/*/safetyPackage" >
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+          </OrComposite>
+        </TemplateConditions>
+
+        <base:Include fileIDRef="functionParameters" partIDRef="safetyPackageParameters"/>
+      </RequestTemplate>
+
+      <!-- TVCenter changes -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/tvCenter"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isTVCenterChange" />
+        </TemplateConditions>
+
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPMapping targetName="reason" staticValue="MODIFY_TV_CENTER" />
+        <RPMapping targetName="scenarioInformation" staticValue="Änderung TV-Center" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="remarks" />
+            <RPMapping targetName="configuredValue" staticValue="Änderung TV-Center Vertrag" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue"
+                sourceAttrName="concat(count(*/fskLevel/configured) > 0 and */fskLevel/configured != */fskLevel/existing,
+                count(*/tvCenterOptionsList/configured/tvCenterOption) = 1
+                and */tvCenterOptionsList/configured/tvCenterOption/hotSubscriptionIndicator = 'true')"
+                decoding="'truefalse', 'FSK-Feature ändern', 'falsetrue', 'hot subscription', 'falsefalse','Feature ändern'"/>
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="fskLevel" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/fskLevel/configured" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- tariff options for TVCenter -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="/*/lineChange/*/tvCenter | /*/relocation/*/tvCenter"
+        extends="modifyFeaturesTVCenterTariffOptions_template">
+        <RPMapping targetName="reason" staticValue="CREATE_TVC_NP" />
+        <RPMapping targetName="synchronizeTermination" staticValue="Y" />
+      </RequestTemplate>
+
+      <!-- TV options for TVCenter -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="/*/lineChange/*/tvCenter | /*/relocation/*/tvCenter"
+        extends="modifyFeaturesTVCenterOptions_template">
+        <RPMapping targetName="reason" staticValue="CREATE_TVC_NP" />
+        <RPMapping targetName="synchronizeTermination" staticValue="Y" />
+      </RequestTemplate>
+
+      <!-- modifyDSL KBA-Trx
+        TODO modify Fastpath on BIT and DSLR (including VO-Nr)
+        desiredDate nutzen
+
+         Bistrom:
+         Reconfigure I1213
+         - V0943: Leistungsänderung
+         - V0216: Standardbriefe
+
+         TODO DSLR:
+         Reconfigure I1043
+         - I1011 (Auftragsvariante): Leistungsänderung
+         - I1009: Ja oder Nein, je nach Fastpath
+      -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/internet"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <OrComposite>
+            <base:IsMember value="ipBitstream" sourceAttrName="name(../../accesses/*[@ID='${@refAccessID}'])" />
+            <!-- TODO <base:IsMember value="dslr" sourceAttrName="name(../../accesses/*[@ID='${@refAccessID}'])" /> -->
+          </OrComposite>
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          <base:IsMember value="true" sourceAttrName="#:isFastpathOrder" />
+        </TemplateConditions>
+
+        <RPMapping targetName="scenarioInformation" staticValue="Fastpath-Änderung" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="confirmationLetter" />
+            <RPMapping targetName="configuredValue" staticValue="Standardbriefe" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue" staticValue="Leistungsänderung" />
+          </RPListItemTemplate>
+          <base:Include fileIDRef="functionParameters" partIDRef="instantAccessForReconfiguration"/>
+        </RPListTemplate>
+      </RequestTemplate>
+      <!-- TODO avoid multiple reconfigures -->
+
+
+      <!-- KBA-FIF-Trx reconfigureMailboxAlias -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/voice"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <OrComposite>
+            <base:IsMember value="ipBitstream" sourceAttrName="name(../../accesses/*[@ID='${@refAccessID}'])" />
+            <base:IsMember value="sip" sourceAttrName="name(../../accesses/*[@ID='${@refAccessID}'])" />
+            <base:IsMember value="ngn" sourceAttrName="name(../../accesses/*[@ID='${@refAccessID}'])" />
+          </OrComposite>
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          <base:IsMember value="true" sourceAttrName="#:isMailboxAliasReconfiguration" />
+        </TemplateConditions>
+        <RPMapping targetName="desiredDate" staticValue="tomorrow" />
+        <RPMapping targetName="releaseDelayDate" staticValue="tomorrow" />
+        <RPMapping targetName="dependentRelease" staticValue="Y" />
+        <RPMapping targetName="useExistingServiceTicketPosition" staticValue="Y" />
+        <RPMapping targetName="reason" staticValue="CHG_MAILBOX" />
+        <RPMapping targetName="scenarioInformation" staticValue="Änderung des Mailboxalias" />
+
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="processingType" />
+            <RPMapping targetName="configuredValue" staticValue="OP" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue" staticValue="reconfigure Mailboxalias" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="voipAccount1" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/*/voipAccount1/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="voipAccount2" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/*/voipAccount2/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="voipAccount3" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/*/voipAccount3/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="voipAccount4" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/*/voipAccount4/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="voipAccount5" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/*/voipAccount5/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="voipAccount6" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/*/voipAccount6/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="voipAccount7" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/*/voipAccount7/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="voipAccount8" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/*/voipAccount8/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="voipAccount9" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/*/voipAccount9/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="voipAccount10" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/*/voipAccount10/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="mailboxAlias" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/mailboxAlias/configured" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- KBA-FIF-Trx resetRegistrationKey -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/safetyPackage"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <base:IsMember value="Replace" sourceAttrName="*/activationKeyChangeType/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="reason" staticValue="CHG_REGKEY" />
+        <RPMapping targetName="scenarioInformation" staticValue="Änderung des Registration-Key des Sicherheitspakets" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="activationKey" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="*/activationKey"
+              method="configuredExisting" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="remarks" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="*/remarks"
+              method="configuredExisting" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- **************** scenarios with reconfigurations END ****************** -->
+
+
+      <!-- **************** VoIP, DSL upgrades START ****************** -->
+
+      <!-- upgradeToDSL -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}']"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/*/*/*/isdn[@ID='${@refAccessID}']" />
+          <base:IsMember value="true" sourceAttrName="#:isDSLUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="reason" staticValue="DSL_MIGRATION" />
+        <RPMapping targetName="scenarioInformation" staticValue="DSL-Nachbestellung" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="DSLIndicator" />
+            <RPMapping targetName="configuredValue" staticValue="true" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="oldAccess" />
+            <RPMapping targetName="configuredValue" staticValue="digital" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="automaticMailingIndicator" />
+            <RPMapping targetName="configuredValue" staticValue="true" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="remarks" />
+            <RPMapping targetName="configuredValue" staticValue="DSL-Migration" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="DSLBandwidth" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/DSLBandwidth/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="localAreaCode" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/accessNumber1/existing/localAreaCode" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <TemplateConditions>
+              <base:IsMember value="Premium" sourceAttrName="#:currentProductType" />
+            </TemplateConditions>
+            <RPMapping targetName="parameterName" staticValue="numberOfNewAccessNumbers" />
+            <RPMapping targetName="configuredValue" staticValue="0" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue" staticValue="DSL-Migration" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="processingType" />
+            <RPMapping targetName="configuredValue" staticValue="TAL" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="specialTimeWindow" />
+            <RPMapping targetName="configuredValue" staticValue="NZF" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="fixedOrderDateIndicator" />
+            <RPMapping targetName="configuredValue" staticValue="false" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="activationTime" />
+            <RPMapping targetName="configuredValue" staticValue="12" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="acsIndicator" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="/*/*/*/isdn/*/acsIndicator"
+              method="configuredExisting" />
+          </RPListItemTemplate>
+          <base:Include fileIDRef="functionParameters" partIDRef="instantAccessForReconfiguration"/>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="addChildService"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}']"
+        extends="childService_template">
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/*/*/*/isdn[@ID='${@refAccessID}']" />
+          <base:IsMember value="true" sourceAttrName="#:isDSLUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping staticValue="V0113" targetName="serviceCode" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="DSLBandwidth" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/DSLBandwidth/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="upstreamBandwidth" />
+            <RPMapping targetName="configuredValue"
+              sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/upstreamBandwidth/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="allowDowngrade" />
+            <RPMapping targetName="configuredValue" sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/allowDowngrade/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="desiredBandwidth" />
+            <RPMapping targetName="configuredValue" sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/desiredBandwidth/configured" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="changeToUR2" />
+            <RPMapping targetName="configuredValue" sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/changeToUR2/configured" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- DSL Downstream Bandwidth -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}']">
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/*/*/*/isdn[@ID='${@refAccessID}']" />
+          <OrComposite>
+            <!-- DSL upgrade -->
+            <base:IsMember value="true" sourceAttrName="#:isDSLUpgrade" />
+            <!-- change from ISDN only w/o internet to with internet -->
+            <base:IsMember value="true" sourceAttrName="
+              count(../internet[@refAccessID='${#:currentMainAccessID}']/*/DSLBandwidth/existing) = 0 and
+              count(../internet[@refAccessID='${#:currentMainAccessID}']/*/DSLBandwidth/configured) > 0" />
+          </OrComposite>
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="ignoreDuplicates" staticValue="Y" />
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/DSLBandwidth/existing" />
+          </TemplateConditions>
+          <RPListTemplate listName="existingServiceList">
+            <RPListItemTemplate>
+              <RPMapping targetName="serviceCode" sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/DSLBandwidth/existing"/>
+            </RPListItemTemplate>
+          </RPListTemplate>
+        </TransformationTemplate>
+        <RPListTemplate listName="configuredServiceList">
+          <RPListItemTemplate>
+            <RPMapping targetName="serviceCode" sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/DSLBandwidth/configured"/>
+          </RPListItemTemplate>
+        </RPListTemplate>
+        <RPMapping sourceAttrName="ccbId[@type='S']" targetName="serviceSubscriptionId" method="configuredExisting" />
+        <RPMapping sourceAttrName="@ID" targetName="functionID" />
+        <base:Include fileIDRef="functionParameters" partIDRef="providerTrackingNumberCreation"/>
+      </RequestTemplate>
+
+      <!-- DSL Upstream Bandwidth -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}']">
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/*/*/*/isdn[@ID='${@refAccessID}']" />
+          <base:IsMember value="true" sourceAttrName="#:isDSLUpgrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          <base:IsExisting sourceAttrName="../internet/*/upstreamBandwidth/configured" />
+          <base:IsNotMember value="Standard" sourceAttrName="../internet/*/upstreamBandwidth/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="parentServiceCode" sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/DSLBandwidth/configured"/>
+        <RPListTemplate listName="configuredServiceList">
+          <RPListItemTemplate>
+            <RPMapping targetName="serviceCode" sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/upstreamBandwidth/configured"/>
+          </RPListItemTemplate>
+        </RPListTemplate>
+        <RPMapping sourceAttrName="ccbId[@type='S']" targetName="serviceSubscriptionId" method="configuredExisting" />
+        <RPMapping sourceAttrName="@ID" targetName="functionID" />
+        <base:Include fileIDRef="functionParameters" partIDRef="providerTrackingNumberCreation"/>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="createOnlineContract"
+        sourceWorkingPath="/*/lineChange/*/internet | /*/relocation/*/internet" >
+        <TemplateConditions>
+          <OrComposite>
+            <!-- ISDN customer adding internet (e.g. in an upgrade to DSL) -->
+            <AndComposite>
+              <base:IsMember value="ADD" sourceAttrName="processingType" />
+              <OrComposite>
+                <base:IsMember value="ISDN" sourceAttrName="#:targetTechnology" />
+                <base:IsMember value="" sourceAttrName="#:targetTechnology" />
+              </OrComposite>
+            </AndComposite>
+            <!-- change from a smallband connection to DSL -->
+            <AndComposite>
+              <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+              <base:IsMember value="true" sourceAttrName="#:isDSLUpgrade" />
+              <base:IsMember value="true" sourceAttrName="
+                ../../accesses/*/*/acsIndicator/configured = 'true'
+                or count(../../accesses/*/*/acsIndicator/configured) = 0
+                and ../../accesses/*/*/acsIndicator/existing = 'true'" />
+            </AndComposite>
+            <!-- change from DSL to a smallband connection -->
+            <AndComposite>
+              <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+              <base:IsMember value="true" sourceAttrName="#:isDSLDowngrade" />
+              <base:IsMember value="V0115" sourceAttrName="*/DSLBandwidth/configured" />
+            </AndComposite>
+          </OrComposite>
+        </TemplateConditions>
+
+        <RPMapping targetName="voiceFunctionID" sourceAttrName="../voice[@refAccessID='${#:currentMainAccessID}']/@ID" />
+        <RPMapping targetName="tariffOnline" sourceAttrName="*/pricingStructureCode" method="configuredExisting"/>
+        <RPMapping targetName="reason"
+          sourceAttrName="#:isDSLUpgrade"
+          decoding="'true', 'DSL_MIGRATION', 'DSL_REMIGRATION'"/>
+        <RPMapping targetName="dueDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+        <RPMapping targetName="serviceSubscriptionId" sourceAttrName="../../accesses/isdn[@ID='${@refAccessID}']/ccbId[@type='S']/existing" />
+        <RPMapping targetName="customerNumber"
+          sourceAttrName="/*/*/customer[@ID='${../../beneficiary/customerNodeRefID}']/ccbId[@type='C']/existing" />
+      </RequestTemplate>
+
+      <!-- downgradeFromDSL -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}']"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/*/*/*/isdn[@ID='${@refAccessID}']" />
+          <base:IsMember value="true" sourceAttrName="#:isDSLDowngrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="reason" staticValue="DSL_REMIGRATION" />
+        <RPMapping targetName="scenarioInformation" staticValue="DSL-Abbestellung" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="DSLIndicator" />
+            <RPMapping targetName="configuredValue" staticValue="false" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="oldAccess" />
+            <RPMapping targetName="configuredValue" staticValue="digital" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="automaticMailingIndicator" />
+            <RPMapping targetName="configuredValue" staticValue="true" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="remarks" />
+            <RPMapping targetName="configuredValue" staticValue="DSL-Remigration" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="localAreaCode" />
+            <RPMapping targetName="configuredValue" sourceAttrName="*/accessNumber1/existing/localAreaCode" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="numberOfNewAccessNumbers" />
+            <RPMapping targetName="configuredValue" staticValue="0" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="reconfigurationReason" />
+            <RPMapping targetName="configuredValue" staticValue="Nur DSL-Kündigung" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="processingType" />
+            <RPMapping targetName="configuredValue" staticValue="TAL" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="specialTimeWindow" />
+            <RPMapping targetName="configuredValue" staticValue="NZF" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="fixedOrderDateIndicator" />
+            <RPMapping targetName="configuredValue" staticValue="false" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="activationTime" />
+            <RPMapping targetName="configuredValue" staticValue="12" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="acsIndicator" />
+            <RPMapping targetName="configuredValue" staticValue="false" />
+          </RPListItemTemplate>
+          <base:Include fileIDRef="functionParameters" partIDRef="instantAccessForReconfiguration"/>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- removal of DSL services -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="/*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}']">
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/*/*/*/isdn[@ID='${@refAccessID}']" />
+          <base:IsMember value="true" sourceAttrName="#:isDSLDowngrade" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="action" staticValue="remove"/>
+        <RPMapping targetName="useOneCustomerOrder" staticValue="Y"/>
+        <RPListTemplate listName="existingServiceList">
+          <RPListItemTemplate>
+            <RPMapping targetName="serviceCode" staticValue="V0113"/>
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="serviceCode" sourceAttrName="../internet[@refAccessID='${#:currentMainAccessID}']/*/DSLBandwidth/existing"/>
+          </RPListItemTemplate>
+        </RPListTemplate>
+        <RPMapping sourceAttrName="ccbId[@type='S']" targetName="serviceSubscriptionId" method="configuredExisting" />
+        <RPMapping sourceAttrName="@ID" targetName="functionID" />
+        <base:Include fileIDRef="functionParameters" partIDRef="providerTrackingNumberTermination"/>
+
+      </RequestTemplate>
+
+
+      <!-- **************** VoIP, DSL upgrades END ****************** -->
+
+      <!-- **************** features START ****************** -->
+
+      <!-- features -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="
+        /*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/lineChange/*/internet |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}'] |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/preselect/@ID}'] |
+        /*/relocation/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/relocation/*/internet |
+        /*/relocation/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}']"
+        extends="modifyFeaturesFeatures_template"/>
+
+      <!-- charges and credits -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="
+        /*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/lineChange/*/internet |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}'] |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/preselect/@ID}'] |
+        /*/relocation/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/relocation/*/internet |
+        /*/relocation/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}']"
+        extends="modifyFeaturesChargesAndCredits_template"/>
+      
+      <!-- serviceLevel -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="
+        /*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/lineChange/*/internet |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}'] |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/preselect/@ID}'] |
+        /*/relocation/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/relocation/*/internet |
+        /*/relocation/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}']"
+        extends="modifyFeaturesServiceLevel_template"/>
+      
+      <!-- ServiceLevelLegal -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="
+        /*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/lineChange/*/internet |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}'] |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/preselect/@ID}'] |
+        /*/relocation/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/relocation/*/internet |
+        /*/relocation/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}']"
+        extends="modifyFeaturesServiceLevelLegal_template"/>
+      
+      <!-- desired countries -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="
+        /*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/lineChange/*/internet |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}'] |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/preselect/@ID}'] |
+        /*/relocation/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/relocation/*/internet |
+        /*/relocation/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}']"
+        extends="modifyFeaturesCountries_template"/>
+
+      <!-- tariff options -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="
+        /*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/lineChange/*/internet |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}'] |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/preselect/@ID}'] |
+        /*/relocation/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/relocation/*/internet |
+        /*/relocation/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}']"
+        extends="modifyFeaturesTariffOptions_template"/>
+
+      <!-- conditions -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="
+        /*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/lineChange/*/internet |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}'] |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/preselect/@ID}'] |
+        /*/relocation/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/relocation/*/internet |
+        /*/relocation/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}']"
+        extends="modifyFeaturesConditions_template" />
+
+      <!-- blocking services -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="
+        /*/lineChange/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}'] |
+        /*/lineChange/*/voice[@refAccessID='${/*/*/accesses/preselect/@ID}'] |
+        /*/relocation/*/voice[@refAccessID='${#:currentMainAccessID}'] |
+        /*/relocation/*/voice[@refAccessID='${/*/*/accesses/sip/@ID}']"
+        extends="modifyFeaturesBlockingServices_template" />
+
+      <!-- **************** features END ****************** -->
+
+      <!-- TODO, wird teilweise autom. geklont, dann besser hier nicht -->
+      <RequestTemplate fif-request-name="addHardwareService"
+        sourceWorkingPath="/*/*/*/hardware" >
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="*/articleNumber" />
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+            <AndComposite>
+              <OrComposite>
+                <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+                <base:IsMember value="IGNORE" sourceAttrName="processingType" />
+              </OrComposite>
+              <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <OrComposite>
+                <base:IsMember value="ISDN" sourceAttrName="#:targetTechnology" />
+                <base:IsMember value="" sourceAttrName="#:targetTechnology" />
+              </OrComposite>
+              <base:IsNotMember value="V0109" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0110" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V011A" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V011C" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="I1350" sourceAttrName="*/hardwareServiceCode/existing" />
+              <OrComposite>
+                <base:IsNotMember value="I1359" sourceAttrName="*/hardwareServiceCode/existing" />
+                <base:IsNotMember value="TERM" sourceAttrName="../tvCenter/processingType" />
+              </OrComposite>
+              <OrComposite>
+                <base:IsMember value="true" sourceAttrName="../voice[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+                <base:IsMember value="true" sourceAttrName="../internet[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <OrComposite>
+                <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+                <base:IsMember value="IGNORE" sourceAttrName="processingType" />
+              </OrComposite>
+              <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <OrComposite>
+                <base:IsMember value="NGN" sourceAttrName="#:targetTechnology" />
+                <base:IsMember value="" sourceAttrName="#:targetTechnology" />
+              </OrComposite>
+              <base:IsNotMember value="V0107" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0108" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0109" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0110" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V011A" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V011C" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0048" sourceAttrName="*/hardwareServiceCode/existing" />
+              <OrComposite>
+                <base:IsNotMember value="I1359" sourceAttrName="*/hardwareServiceCode/existing" />
+                <base:IsNotMember value="TERM" sourceAttrName="../tvCenter/processingType" />
+              </OrComposite>
+              <OrComposite>
+                <base:IsMember value="true" sourceAttrName="../voice[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+                <base:IsMember value="true" sourceAttrName="../internet[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <OrComposite>
+                <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+                <base:IsMember value="IGNORE" sourceAttrName="processingType" />
+              </OrComposite>
+              <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <OrComposite>
+                <base:IsMember value="BitStream" sourceAttrName="#:targetTechnology" />
+                <base:IsMember value="" sourceAttrName="#:targetTechnology" />
+              </OrComposite>
+              <base:IsNotMember value="V0107" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0108" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0109" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0110" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V011A" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V011C" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0048" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="I1350" sourceAttrName="*/hardwareServiceCode/existing" />
+              <OrComposite>
+                <base:IsNotMember value="I1359" sourceAttrName="*/hardwareServiceCode/existing" />
+                <base:IsNotMember value="TERM" sourceAttrName="../tvCenter/processingType" />
+              </OrComposite>
+              <OrComposite>
+                <base:IsMember value="true" sourceAttrName="../voice[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+                <base:IsMember value="true" sourceAttrName="../internet[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+              </OrComposite>
+            </AndComposite>
+          </OrComposite>
+        </TemplateConditions>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          </TemplateConditions>
+          <RPMapping sourceAttrName="../*[@ID='${refFunctionID/*}']/ccbId[@type='S']/existing"
+            targetName="serviceSubscriptionId" />
+        </TransformationTemplate>
+        <RPMapping targetName="providerTrackingNumber"
+          sourceAttrName="providerTrackingNumber[@type = 'target']/configured" />
+        <base:Include fileIDRef="functionParameters" partIDRef="hardwareParameters"/>
+      </RequestTemplate>
+
+      <!-- conditions for hardware (hardware bundles) -->
+      <RequestTemplate fif-request-name="modifyFeatureServices"
+        sourceWorkingPath="/*/lineChange/*/hardware | /*/relocation/*/hardware"
+        extends="modifyFeaturesConditions_template" />
+
+        <!-- directory entry -->
+        <RequestTemplate fif-request-name="createDirectoryEntry"
+            sourceWorkingPath="/*/*/*/directoryEntry" >
+            <TemplateConditions>
+                <OrComposite>
+                    <base:IsMember value="ADD" sourceAttrName="processingType" />
+                    <AndComposite>
+                        <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+                        <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+                    </AndComposite>
+                    <AndComposite>
+                        <base:IsMember value="IGNORE" sourceAttrName="processingType" />
+                        <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+                    </AndComposite>
+                </OrComposite>
+            </TemplateConditions>
+
+            <RPMapping sourceAttrName="refFunctionID/*" targetName="type" />
+            <TransformationTemplate>
+                <TemplateConditions>
+                    <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="../*[@ID='${refFunctionID/*}']/ccbId[@type='S']/existing"
+                    targetName="serviceSubscriptionId" />
+            </TransformationTemplate>
+            <base:Include fileIDRef="functionParameters" partIDRef="providerTrackingNumberCreation"/>
+            <base:Include fileIDRef="functionParameters" partIDRef="directoryEntryParameters"/>
+        </RequestTemplate>
+
+      <!-- installation service -->
+      <RequestTemplate fif-request-name="addInstallationService"
+        sourceWorkingPath="/*/*/*/installationSvc" >
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+          </OrComposite>
+        </TemplateConditions>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          </TemplateConditions>
+          <RPMapping sourceAttrName="../*[@ID='${refFunctionID/*}']/ccbId[@type='S']/existing"
+            targetName="serviceSubscriptionId" />
+        </TransformationTemplate>
+        <RPMapping targetName="providerTrackingNumber"
+          sourceAttrName="providerTrackingNumber[@type = 'target']/configured" />
+        <base:Include fileIDRef="functionParameters" partIDRef="installationServiceParameters"/>
+      </RequestTemplate>
+
+        <!-- termination of online contract for product change scenarios -->
+      <RequestTemplate fif-request-name="terminateService"
+        sourceWorkingPath="/*/*/*/internet"
+        extends="base_packetChangeTermination_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="ISDN" sourceAttrName="#:currentTechnology" />
+            <base:IsMember value="preselect" sourceAttrName="#:currentTechnology" />
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping staticValue="Simple" targetName="terminationType" />
+      </RequestTemplate>
+
+      <!-- terminate iptv and VOD -->
+      <RequestTemplate fif-request-name="terminateService"
+        sourceWorkingPath="/*/*/*/iptv | /*/*/*/vod"
+        extends="base_packetChangeTermination_template">
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+        <RPMapping targetName="terminateNGNIndicator"
+          sourceAttrName="#:isProductChangeScenario"
+          decoding="'true', 'Y', 'N'"/>
+      </RequestTemplate>
+
+      <!-- termination of Mobile contracts for provider change -->
+      <RequestTemplate fif-request-name="terminateService"
+        extends="base_packetChangeTermination_template"
+        sourceWorkingPath="/*/*/*/voice">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember sourceAttrName="*/productCode/existing" value="V8000" />
+            <base:IsMember sourceAttrName="*/productCode/existing" value="VI201" />
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+      </RequestTemplate>
+
+      <!-- simple terminations: safetyPackage, Discounts -->
+      <RequestTemplate fif-request-name="terminateService"
+        extends="base_packetChangeTermination_template"
+        sourceWorkingPath="/*/*/*/safetyPackage | /*/*/*/otherFunction | /*/*/discount">
+        <RPMapping staticValue="Simple" targetName="terminationType" />
+      </RequestTemplate>
+
+      <!-- complex terminations: PC Backup, MS Online Suite -->
+      <RequestTemplate fif-request-name="terminateService"
+        extends="base_packetChangeTermination_template"
+        sourceWorkingPath="/*/*/*/msOnlineSuite |
+        /*/*/*/pcBackup">
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+      </RequestTemplate>
+
+      <!-- Change of SIM-ID of instantAccess, KBA-FIF-Trx updateSimIDService -->
+      <RequestTemplate fif-request-name="reconfigureFunction"
+        sourceWorkingPath="/*/lineChange/functions/instantAccess"
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="CHANGE" sourceAttrName="../instantAccess/processingType" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="serviceCode" staticValue="V8042" />
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPMapping targetName="reason" staticValue="UPDATE_SIM" />
+        <RPMapping targetName="scenarioInformation" staticValue="InstantAccess - Änderung SIM-ID" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate sourceWorkingPath="instantAccessConfiguration/*">
+            <base:Include fileIDRef="functionParameters" partIDRef="parameterList"/>
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!-- KBA-FIF-Trx updateSelectedDestinations, remove selected destinations -->
+      <RequestTemplate fif-request-name="updateSelectedDestination"
+        sourceWorkingPath="/*/*/*/voice">
+        <TemplateConditions>
+          <base:IsMember value="remove" sourceAttrName="*/selectedDestinations/@action" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="pricePlanCode" sourceAttrName="*/selectedDestinations/@pricePlanCode" />
+        <RPMapping targetName="serviceSubscriptionId" sourceAttrName="ccbId[@type='S']" method="configuredExisting" />
+        <RPMapping targetName="startDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+      </RequestTemplate>
+
+      <!-- KBA-FIF-Trx updateSelectedDestinations, add selected destinations -->
+      <RequestTemplate fif-request-name="updateSelectedDestination"
+        sourceWorkingPath="/*/*/*/voice">
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="*/selectedDestinations/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="pricePlanCode" sourceAttrName="*/selectedDestinations/@pricePlanCode" />
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          </TemplateConditions>
+          <RPMapping targetName="type" sourceAttrName="@ID" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+          </TemplateConditions>
+          <RPMapping targetName="serviceSubscriptionId" sourceAttrName="ccbId[@type='S']" method="configuredExisting" />
+        </TransformationTemplate>
+        <RPMapping targetName="startDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter"/>
+        <RPListTemplate listName="selectedDestinationsList">
+          <RPListItemTemplate sourceWorkingPath="*/selectedDestinations/configured/plainPhoneNumber">
+            <RPMapping targetName="beginNumber" sourceAttrName="." />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <!--
+        processingType ADD: klar
+        processingType TERM:
+        - status APPROVED => cancelAdjustment
+        - status PROCESSED
+          - non-recurring => createAdjustment, falls reclaim gesetzt
+          - recurring:
+            - cancelAdjustment immer
+            - createAdjustment, falls reclaim gesetzt
+      -->
+
+      <!-- creation of adjustments -->
+      <RequestTemplate fif-request-name="createAdjustment"
+        sourceWorkingPath="/*/*/adjustment">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+            <AndComposite>
+              <base:IsMember value="TERM" sourceAttrName="processingType" />
+              <base:IsMember value="PROCESSED" sourceAttrName="status/existing" />
+              <base:IsMember value="true" sourceAttrName="recurringReclaimIndicator/configured" />
+            </AndComposite>
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping targetName="accountNumber" sourceAttrName="#:targetAccountNumber" />
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+          </TemplateConditions>
+          <RPMapping targetName="adjustmentAmount"
+            sourceAttrName="adjustmentAmount"
+            method="configuredExisting" />
+          <RPMapping targetName="reasonCode"
+            sourceAttrName="reasonCode"
+            method="configuredExisting" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="TERM" sourceAttrName="processingType" />
+          </TemplateConditions>
+          <RPMapping targetName="adjustmentAmount"
+            sourceAttrName="adjustmentAmount/existing * (totalRecurringDuration/existing - remainingRecurringDuration/existing)" />
+          <RPMapping targetName="reasonCode"
+            sourceAttrName="../terminationReasonCode"/>
+        </TransformationTemplate>
+        <RPMapping targetName="resolutionUserId"
+          sourceAttrName="resolutionUserId"
+          method="configuredExisting" />
+        <RPMapping targetName="resolutionDate"
+          sourceAttrName="resolutionDate"
+          method="configuredExisting"
+          formatter="SOMToCCBDateFormatter" />
+        <RPMapping targetName="descriptionText"
+          sourceAttrName="descriptionText"
+          method="configuredExisting" />
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+            <OrComposite>
+              <base:IsNotMember value="1" sourceAttrName="totalRecurringDuration/configured" />
+              <AndComposite>
+                <base:IsNotExisting sourceAttrName="totalRecurringDuration/configured" />
+                <base:IsNotMember value="1" sourceAttrName="totalRecurringDuration/existing" />
+              </AndComposite>
+            </OrComposite>
+          </TemplateConditions>
+          <RPMapping targetName="recurringValue"
+            sourceAttrName="totalRecurringDuration"
+            method="configuredExisting" />
+        </TransformationTemplate>
+        <RPMapping targetName="userName"
+          sourceAttrName="creationUserId"
+          method="configuredExisting" />
+        <RPMapping targetName="createDate"
+          sourceAttrName="creationDate"
+          method="configuredExisting"
+          formatter="SOMToCCBDateFormatter" />
+        <RPMapping targetName="print"
+          sourceAttrName="sendConfirmationIndicator"
+          method="configuredExisting"
+          decoding="'true', 'Y', 'N'" />
+        <RPMapping targetName="KBATransactionNr"
+          sourceAttrName="kbaTransactionNumber"
+          method="configuredExisting" />
+        <RPMapping targetName="paymentMode"
+          sourceAttrName="paymentMode"
+          method="configuredExisting" />
+        <RPMapping targetName="taxCode"
+          sourceAttrName="taxCode"
+          method="configuredExisting" />
+        <RPMapping targetName="internalReasonText"
+          sourceAttrName="internalReasonText"
+          method="configuredExisting" />
+        <RPMapping targetName="productCode"
+          sourceAttrName="productCode"
+          method="configuredExisting" />
+        <RPMapping targetName="internalReasonText"
+          sourceAttrName="internalReasonText"
+          method="configuredExisting" />
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+            <base:IsExisting sourceAttrName="serviceSubscriptionId" />
+          </TemplateConditions>
+          <RPMapping targetName="serviceSubscriptionId"
+            sourceAttrName="serviceSubscriptionId"
+            method="configuredExisting" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+            <base:IsNotExisting sourceAttrName="serviceSubscriptionId" />
+          </TemplateConditions>
+          <RPMapping targetName="serviceSubscriptionId"
+            sourceAttrName="../functions/*[@ID = '${refFunctionID/*}']/ccbId[@type='S']"
+            method="configuredExisting" />
+        </TransformationTemplate>
+      </RequestTemplate>
+
+      <!-- cancelling and terminating adjustments -->
+      <RequestTemplate fif-request-name="cancelAdjustment"
+        sourceWorkingPath="/*/*/adjustment">
+        <TemplateConditions>
+          <base:IsMember value="TERM" sourceAttrName="processingType" />
+          <OrComposite>
+            <base:IsMember value="APPROVED" sourceAttrName="status/existing" />
+            <AndComposite>
+              <base:IsMember value="PROCESSED" sourceAttrName="status/existing" />
+              <base:IsNotMember value="1" sourceAttrName="totalRecurringDuration/existing" />
+              <base:IsNotMember value="0" sourceAttrName="remainingRecurringDuration/existing" />
+            </AndComposite>
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping targetName="customerNumber" sourceAttrName="#:customerNumber" />
+        <RPMapping targetName="adjustmentId" sourceAttrName="ccbId[@type='J']/existing" />
+        <RPMapping targetName="reasonCode" sourceAttrName="../terminationReasonCode"/>
+      </RequestTemplate>
+
+      <!-- campaignInformation -->
+      <RequestTemplate fif-request-name="storeCampaignInformation"
+        sourceWorkingPath="/*/lineChange | /*/relocation">
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="campaignCode" />
+        </TemplateConditions>
+        <RPMapping targetName="customerNumber" sourceAttrName="/*/customerData/customer[@ID='${beneficiary/customerNodeRefID}']/ccbId[@type='C']/*" />
+        <RPMapping targetName="campaignCode" sourceAttrName="campaignCode"/>
+      </RequestTemplate>
+
+
+      
+      <!-- PPM249301 eTOP FIF Trx mapping - eTop-OP inferface -->
+      <RequestTemplate fif-request-name="CompleteCustomerOrder"
+        sourceWorkingPath="/*/*/accesses/otherAccess/otherAccessConfiguration">
+
+        <RPMapping targetName="CustomerOrderID" sourceAttrName="customerOrderID" />
+        <RPMapping targetName="ActivateCustomerOrder" sourceAttrName="activateCustomerOrder" />
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="serviceSubscriptionList" />            
+          </TemplateConditions>
+
+          <RPListTemplate listName="ServiceCharacteristicList;ServiceCharacteristic">
+            <RPListItemTemplate sourceWorkingPath="serviceSubscriptionList/serviceSubscription/serviceCharacteristicList/serviceCharacteristic">
+
+                <RPMapping targetName="ServiceSubscriptionId" sourceAttrName="../../serviceSubscriptionId"/>
+                <RPMapping targetName="ServiceCharCode" sourceAttrName="serviceCharCode"/>
+
+				    <RPMapping targetName="Address;StreetName" sourceAttrName="addr/street"/>
+				    <RPMapping targetName="Address;StreetNumber" sourceAttrName="addr/streetNumber"/>
+				    <RPMapping targetName="Address;StreetNumberSuffix" sourceAttrName="addr/streetNumberSuffix"/>
+				    <RPMapping targetName="Address;PostOfficeBox" sourceAttrName="addr/postOfficeBox"/>
+				    <RPMapping targetName="Address;PostalCode" sourceAttrName="addr/postalCode"/>
+				    <RPMapping targetName="Address;CityName" sourceAttrName="addr/city"/>
+				    <RPMapping targetName="Address;CitySuffixName" sourceAttrName="addr/citySuffixName"/>
+				    <RPMapping targetName="Address;Country" sourceAttrName="addr/country"/>
+				    <RPMapping targetName="Address;AddressType" sourceAttrName="addr/addrType"/>
+				    <RPMapping targetName="Address;AdditionalAddressDesription" sourceAttrName="addr/additionalAddrDescription"/>
+				    <RPMapping targetName="Address;SecondAdditionalAddressDesription" sourceAttrName="addr/secondAdditionalAddrDescription"/>
+				    <RPMapping targetName="ServiceLocation;RoomNumber" sourceAttrName="serviceLocation/roomNumber"/>
+				    <RPMapping targetName="ServiceLocation;DeskNumber" sourceAttrName="serviceLocation/deskNumber"/>
+				    <RPMapping targetName="ServiceLocation;JackLocation" sourceAttrName="serviceLocation/jackLocation"/>
+				    <RPMapping targetName="ServiceLocation;AdditionalLocationInfo" sourceAttrName="serviceLocation/additionalLocationInfo"/>
+				    <RPMapping targetName="ServiceLocation;Floor" sourceAttrName="serviceLocation/floor"/>
+                <RPMapping targetName="StringValue" sourceAttrName="stringValue"/>
+                <RPMapping targetName="IntegerValue" sourceAttrName="integerValue"/>
+				    <RPMapping targetName="DateValue" sourceAttrName="dateValue"/>
+				    <RPMapping targetName="DecimalValue" sourceAttrName="decimalValue"/>
+				    <RPMapping targetName="BooleanValue" sourceAttrName="booleanValue"/>
+                <RPMapping targetName="SingleNumber;CountryCode" sourceAttrName="singleNumber/countryCode"/>
+                <RPMapping targetName="SingleNumber;LocalAreaCode" sourceAttrName="singleNumber/localAreaCode"/>
+                <RPMapping targetName="SingleNumber;PilotNumber" sourceAttrName="singleNumber/pilotNumber"/>
+				    <RPMapping targetName="AccessNumberRange;CountryCode" sourceAttrName="accessNumberRange/countryCode"/>
+				    <RPMapping targetName="AccessNumberRange;LocalAreaCode" sourceAttrName="accessNumberRange/localAreaCode"/>
+				    <RPMapping targetName="AccessNumberRange;PilotNumber" sourceAttrName="accessNumberRange/pilotNumber"/>
+				    <RPMapping targetName="AccessNumberRange;BeginRange" sourceAttrName="accessNumberRange/startRange"/>
+				    <RPMapping targetName="AccessNumberRange;EndRange" sourceAttrName="accessNumberRange/endRange"/>
+				    <RPMapping targetName="NetworkAccount" sourceAttrName="networkAccount"/>
+                <RPMapping targetName="TechnicalServiceId" sourceAttrName="technicalServiceId"/>
+				    <RPMapping targetName="IpNetAddress;IpNumber" sourceAttrName="ipNetAddr/ipNumber"/>
+				    <RPMapping targetName="IpNetAddress;SubnetMask" sourceAttrName="ipNetAddr/subnetMask"/>
+				    <RPMapping targetName="IpNetAddress;Alias" sourceAttrName="ipNetAddr/alias"/>
+
+
+            </RPListItemTemplate>
+          </RPListTemplate>
+
+        </TransformationTemplate>
+
+      </RequestTemplate>        
+
+
+    </RequestListTemplate>
+  </RootTemplate>
+
+  <BaseTemplates>
+
+    <base:Include fileIDRef="functionParameters" partIDRef="featuresTemplates"/>
+
+    <AbstractTransformationTemplate ID="modifyFeatures_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember value="ADD" sourceAttrName="processingType" />
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <AndComposite>
+            <base:IsMember value="IGNORE" sourceAttrName="processingType" />
+            <base:IsMember value="HW" sourceAttrName="hardwareConfiguration/conditionsList/*/*/conditionServiceType" />
+          </AndComposite>
+        </OrComposite>
+      </TemplateConditions>
+
+      <RPMapping staticValue="Y" targetName="skipCheckForOpenTermination" />      
+      <TransformationTemplate>
+        <TemplateConditions>
+          <OrComposite>
+            <base:Include fileIDRef="functionParameters" partIDRef="isMovedService"/>
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping staticValue="Y" targetName="isMovedService" />
+        <RPMapping staticValue="today" targetName="desiredDate" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <OrComposite>
+            <AndComposite>
+              <base:IsNotMember value="tvCenter" sourceAttrName="name(.)" />
+              <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+            </AndComposite>
+            <AndComposite>
+              <base:IsMember value="tvCenter" sourceAttrName="name(.)" />
+              <OrComposite>
+                <base:IsNotMember value="true" sourceAttrName="#:isTVCenterClone" />
+                <base:IsNotMember value="CHANGE" sourceAttrName="processingType" />
+              </OrComposite>
+            </AndComposite>
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping sourceAttrName="ccbId[@type='S']" targetName="serviceSubscriptionId" method="configuredExisting" />
+      </TransformationTemplate>
+      <RPMapping sourceAttrName="@ID" targetName="functionID" />
+
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="providerTrackingNumber"
+          sourceAttrName="providerTrackingNumber[@type = 'target']/configured" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="providerTrackingNumber"
+          sourceAttrName="providerTrackingNumber[@type = 'default']/configured" />
+      </TransformationTemplate>
+    </AbstractTransformationTemplate>
+
+    <AbstractTransformationTemplate ID="base_packetChangeTermination_template" >
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember sourceAttrName="processingType" value="TERM" />
+          <AndComposite>
+            <base:IsMember value="internet" sourceAttrName="name(.)" />
+            <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+            <base:IsMember value="ISDN" sourceAttrName="#:currentTechnology" />
+            <OrComposite>
+              <!-- change from a smallband connection to DSL -->
+              <AndComposite>
+                <base:IsMember value="true" sourceAttrName="#:isDSLUpgrade" />
+                <base:IsMember value="true" sourceAttrName="
+                  ../../accesses/*/*/acsIndicator/configured = 'true'
+                  or count(../../accesses/*/*/acsIndicator/configured) = 0
+                  and ../../accesses/*/*/acsIndicator/existing = 'true'" />
+              </AndComposite>
+              <!-- change from DSL to a smallband connection -->
+              <AndComposite>
+                <base:IsMember value="true" sourceAttrName="#:isDSLDowngrade" />
+                <base:IsMember value="V0115" sourceAttrName="*/DSLBandwidth/configured" />
+              </AndComposite>
+              <!-- technology change -->
+              <base:IsMember value="true" sourceAttrName="#:isTechnologyChange" />
+              <!-- relocation without access number takeover and with ACS -->
+              <AndComposite>
+                <base:IsMember value="true" sourceAttrName="#:isRelocation" />
+                <base:IsMember value="true" sourceAttrName="
+                  ../../accesses/*/*/acsIndicator/configured = 'true'
+                  or count(../../accesses/*/*/acsIndicator/configured) = 0
+                  and ../../accesses/*/*/acsIndicator/existing = 'true'" />
+                <base:IsNotMember value="true" sourceAttrName="../../keepFixedNumbersIndicator" />
+              </AndComposite>
+            </OrComposite>
+          </AndComposite>
+        </OrComposite>
+      </TemplateConditions>
+      <RPMapping targetName="productCode" sourceAttrName="*/productCode/existing" />
+      <RPMapping targetName="functionID" sourceAttrName="@ID" />
+
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="../../terminationReason" />
+        </TemplateConditions>
+        <RPMapping targetName="terminationReason" sourceAttrName="../../terminationReason" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="../../terminationReason" />
+          <base:IsMember value="true" sourceAttrName="#:isRelocation" />
+        </TemplateConditions>
+        <RPMapping targetName="terminationReason" staticValue="UMZ" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="../../terminationReason" />
+          <base:IsNotMember value="true" sourceAttrName="#:isRelocation" />
+          <OrComposite>
+            <base:IsMember value="true" sourceAttrName="#:isTechnologyChange" />
+            <base:IsMember value="true" sourceAttrName="#:isProductTypeChange" />
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping targetName="terminationReason" staticValue="AGKTW" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="../../terminationReason" />
+          <base:IsNotMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        <RPMapping targetName="terminationReason" staticValue="KKG" />
+      </TransformationTemplate>
+
+      <RPMapping targetName="serviceSubscriptionId" sourceAttrName="ccbId[@type='S']/existing" />
+      <RPMapping targetName="contractNumber" sourceAttrName="contractNumber" />
+      <RPMapping targetName="customerNumber" sourceAttrName="#:customerNumber" />
+      <RPMapping targetName="terminationFeeServiceCode" sourceAttrName="*/earlyTerminationFeeServiceCode/configured" />
+      <RPMapping targetName="terminationDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+      <RPMapping targetName="noticePeriodStartDate" sourceAttrName="/order/*/orderReceivedDate" formatter="SOMToCCBDateFormatter" />
+
+      <RPMapping targetName="providerTrackingNumberDefault"
+        sourceAttrName="providerTrackingNumber[@type = 'default']/configured" />
+      <RPMapping targetName="providerTrackingNumberChange"
+        sourceAttrName="providerTrackingNumber[@type = 'change']/configured" />
+    </AbstractTransformationTemplate>
+
+    <!-- template for entity creation -->
+    <AbstractTransformationTemplate ID="entityChange_template">
+      <base:Include fileIDRef="functionParameters" partIDRef="entityParameters"/>
+    </AbstractTransformationTemplate>
+    <AbstractTransformationTemplate ID="entityCreation_template">
+      <base:Include fileIDRef="functionParameters" partIDRef="entityParameters"/>
+    </AbstractTransformationTemplate>
+
+    <AbstractTransformationTemplate ID="contactRole_template"
+      extends="entityCreation_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+          <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+        </OrComposite>
+      </TemplateConditions>
+
+      <!-- customer number either from ownerCcbId -->
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="ownerCcbId/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="customerNumber" sourceAttrName="ownerCcbId/configured" />
+      </TransformationTemplate>
+      <!-- or from ownerNodeRefID -->
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="ownerCcbId/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="customerNumber" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+      </TransformationTemplate>
+
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/*/customerData/skeletonContract[@ID='${@skeletonContractNodeRefID}']" />
+        </TemplateConditions>
+        <RPMapping targetName="supportedObjectTypeRd" staticValue="SKELCNTR" />
+        <RPMapping targetName="supportedObjectId" sourceAttrName="../skeletonContract[@ID='${@skeletonContractNodeRefID}']/ccbId[@type='K']/existing" />
+        <RPMapping targetName="parentSomElementID" sourceAttrName="@skeletonContractNodeRefID" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/*/customerData/serviceDeliveryContract[@ID='${@serviceDeliveryContractNodeRefID}']" />
+        </TemplateConditions>
+        <RPMapping targetName="supportedObjectTypeRd" staticValue="SERVDLVRY" />
+        <RPMapping targetName="supportedObjectId" sourceAttrName="../serviceDeliveryContract[@ID='${@serviceDeliveryContractNodeRefID}']/ccbId[@type='D']/*" />
+        <RPMapping targetName="parentSomElementID" sourceAttrName="@serviceDeliveryContractNodeRefID" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="/*/customerData/skeletonContract[@ID='${@skeletonContractNodeRefID}']" />
+          <base:IsNotExisting sourceAttrName="/*/customerData/serviceDeliveryContract[@ID='${@serviceDeliveryContractNodeRefID}']" />
+        </TemplateConditions>
+        <RPMapping targetName="supportedObjectTypeRd" staticValue="CUSTOMER" />
+        <RPMapping targetName="supportedObjectId" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+      </TransformationTemplate>
+
+      <RPMapping targetName="contactRoleTypeRd" sourceAttrName="contactRoleTypeRd/configured" />
+      <RPMapping targetName="contactRolePositionName" sourceAttrName="contactRolePositionName/configured" />
+    </AbstractTransformationTemplate>
+
+    <!-- abstract template for all product change scenarios: Umzug, VPW, PW, TW, upgrade, downgrade -->
+    <AbstractTransformationTemplate ID="base_productChange_template" >
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember value="ISDN" sourceAttrName="#:currentTechnology" />
+          <base:IsMember value="NGN" sourceAttrName="#:currentTechnology" />
+          <base:IsMember value="BitStream" sourceAttrName="#:currentTechnology" />
+        </OrComposite>
+      </TemplateConditions>
+
+      <RPMapping targetName="customerNumber"
+        sourceAttrName="/*/*/customer[@ID='${beneficiary/customerNodeRefID}']/ccbId[@type='C']/existing" />
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="terminationReason" />
+        </TemplateConditions>
+        <RPMapping targetName="terminationReason" sourceAttrName="terminationReason" />
+      </TransformationTemplate>
+
+      <base:Include fileIDRef="functionParameters" partIDRef="productChangeParameters"/>
+    </AbstractTransformationTemplate>
+
+    <AbstractTransformationTemplate ID="reconfigureFunction_template">
+      <RPMapping sourceAttrName="ccbId[@type='S']/existing" targetName="serviceSubscriptionId" />
+      <RPMapping targetName="activationDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+      <base:Include fileIDRef="functionParameters" partIDRef="serviceType"/>
+      <base:Include fileIDRef="functionParameters" partIDRef="providerTrackingNumberReconfiguration"/>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="refFunctionID" />
+        </TemplateConditions>
+        <RPMapping targetName="productCode" sourceAttrName="../*[@ID='${refFunctionID/existing}']/*/productCode/existing" />
+        <RPMapping targetName="functionID" sourceAttrName="refFunctionID/existing" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="refFunctionID" />
+        </TemplateConditions>
+        <RPMapping targetName="productCode" sourceAttrName="*/productCode/existing" />
+        <RPMapping targetName="functionID" sourceAttrName="@ID" />
+      </TransformationTemplate>
+    </AbstractTransformationTemplate>
+
+    <AbstractTransformationTemplate ID="childService_template">
+      <RPMapping targetName="serviceSubscriptionId" sourceAttrName="ccbId[@type='S']" method="configuredExisting"/>
+      <RPMapping targetName="functionID" sourceAttrName="@ID" />
+      <base:Include fileIDRef="functionParameters" partIDRef="providerTrackingNumberCreation"/>
+    </AbstractTransformationTemplate>
+
+    <AbstractTransformationTemplate ID="notification_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember value="ADD" sourceAttrName="processingType" />
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+        </OrComposite>
+      </TemplateConditions>
+      <RPMapping targetName="customerNumber" sourceAttrName="#:customerNumber" />
+      <RPMapping targetName="type" staticValue="CONTACT" />
+    </AbstractTransformationTemplate>
+  </BaseTemplates>
+
+</TransformationRepository>

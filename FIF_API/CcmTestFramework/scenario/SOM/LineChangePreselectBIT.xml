@@ -1,0 +1,155 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+<lineChange orderPositionNumber="1">
+    {file:templates/OrderPositionHeader.xml_part}
+    <accesses>
+        <preselect ID="preselect1">
+            <ccbId type="S">
+                <existing>{preselect1SSID}</existing>
+            </ccbId>
+        </preselect>
+        <preselect ID="preselect2">
+            <ccbId type="S">
+                <existing>{preselect2SSID}</existing>
+            </ccbId>
+        </preselect>
+        {file:templates/BITAccessNew.xml_part}
+    </accesses>
+    <functions>
+        <voice ID="voicepreselect1" refAccessID="preselect1">
+            <processingType>TERM</processingType>
+            <ccbId type="S">
+                <existing>{preselect1SSID}</existing>
+            </ccbId>
+            <providerTrackingNumber type="default">
+                <configured>ptnDefaultP1</configured>
+            </providerTrackingNumber>
+            <providerTrackingNumber type="change">
+                <configured>ptnChangeP1</configured>
+            </providerTrackingNumber>
+            <providerTrackingNumber type="target">
+                <configured>ptnTargetP1</configured>
+            </providerTrackingNumber>
+            <processingStatus>{voiceP1ProcessingStatus}</processingStatus>
+            <completionStatusOldCcbId>{voiceP1CompletionStatusOld}</completionStatusOldCcbId>
+            <previousCompletionStatusOldCcbId>{voiceP1PreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+        </voice>			
+        <voice ID="voicepreselect2" refAccessID="preselect2" targetAccessID="access-new">
+            <processingType>CHANGE</processingType>
+            <ccbId type="S">
+                <existing>{preselect2SSID}</existing>
+                <configured>{voiceSSIDNew}</configured>
+            </ccbId>
+            <providerTrackingNumber type="default">
+                <configured>ptnDefaultP1</configured>
+            </providerTrackingNumber>
+            <providerTrackingNumber type="change">
+                <configured>ptnChangeP1</configured>
+            </providerTrackingNumber>
+            <providerTrackingNumber type="target">
+                <configured>ptnTargetP1</configured>
+            </providerTrackingNumber>
+            <voiceBasisConfiguration>
+                <productCode>
+                    <existing>{productCodeVoice}</existing>
+                </productCode>
+                <pricingStructureCode>
+                    <existing>{pricingStructureCodeVoice}</existing>
+                    <configured>{pricingStructureCodeVoiceNew}</configured>
+                </pricingStructureCode>		
+                <mainAccessServiceCode>
+                    <existing>{mainAccessServiceCodeVoice}</existing>
+                </mainAccessServiceCode>
+                <visTrackingPosition/>
+                <primaryCustSignName>
+                    <existing>COM {scenarioName}</existing>
+                </primaryCustSignName>
+                <primaryCustSignDate>
+                    <existing>{todayTruncated}</existing>
+                </primaryCustSignDate>
+                <minimumDurationPeriod>
+                    <value>
+                        <existing>24</existing>
+                    </value>
+                    <unit>
+                        <existing>MONTH</existing>
+                    </unit>
+                </minimumDurationPeriod>
+                <automaticMailingIndicator>
+                    <existing>true</existing>
+                </automaticMailingIndicator>
+                <projectOrderIndicator>
+                    <existing>false</existing>
+                </projectOrderIndicator>
+                <activationType>
+                    <existing>Neuanschluss</existing>
+                </activationType>
+                <portingAccessNumbers>
+                    <portingMode>
+                        <existing>None</existing>
+                    </portingMode>
+                    <fixedOrderDateIndicator>
+                        <existing>false</existing>
+                    </fixedOrderDateIndicator>
+                    <numberOfNewAccessNumbers>
+                        <existing>3</existing>
+                    </numberOfNewAccessNumbers>
+                    <oldLocalExchangeCarrier>
+                        <existing>DTAG</existing>
+                    </oldLocalExchangeCarrier>
+                    <maskingDigits>
+                        <existing>0</existing>
+                    </maskingDigits>
+                    <storageMaskingDigits>
+                        <existing>-1</existing>
+                    </storageMaskingDigits>
+                    <accessNumber1>
+                        <existing>
+                            <countryCode>49</countryCode>
+                            <localAreaCode>211</localAreaCode>
+                            <pilotNumber>{accessNumber1}</pilotNumber>
+                        </existing>
+                    </accessNumber1>
+                    <ownerAccessNumber1>
+                        <existing>D001</existing>
+                    </ownerAccessNumber1>
+                    <voipAccount1>
+                        <existing>492111700123@vodafone.de</existing>
+                    </voipAccount1>
+                    <lineOwner1>
+                        <existing>
+                            <firstName>COM</firstName>
+                            <name>{scenarioName}</name>
+                        </existing>
+                    </lineOwner1>
+                    <lineOwnerAddress>
+                        <existing>
+                            <city>Dortmund</city>
+                            <postalCode>44145</postalCode>
+                            <street>Lahnstr.</street>
+                            <streetNumber>11</streetNumber>
+                            <streetNumberSuffix>a</streetNumberSuffix>
+                            <postOfficeBox/>
+                            <country>DE</country>
+                        </existing>
+                    </lineOwnerAddress>
+                </portingAccessNumbers>
+                <remarks>
+                    <existing>GK-Vertrieb B3, IMP, Betreute Schaltung nein, Privatkunde / Telefonbucheintrag / </existing>
+                </remarks>
+                {file:(productCodeVoice=VI208)templates/VoiceFeaturesLTEExisting.xml_part}
+                {file:(productCodeVoice=VI203)templates/VoiceFeaturesNGNExisting.xml_part}
+                {file:(productCodeVoice=VI202)templates/VoiceFeaturesNGNExisting.xml_part}
+                {file:(productCodeVoice=V0002)templates/VoiceFeaturesISDNExisting.xml_part}
+                {file:(productCodeVoice=V0002)templates/ConditionsExisting.xml_part}
+            </voiceBasisConfiguration>				
+            <processingStatus>{voiceProcessingStatus}</processingStatus>
+            <completionStatusOldCcbId>{voiceCompletionStatusOld}</completionStatusOldCcbId>
+            <previousCompletionStatusOldCcbId>{voicePreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+            <completionStatusNewCcbId>{voiceCompletionStatusNew}</completionStatusNewCcbId>
+            <previousCompletionStatusNewCcbId>{voicePreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+        </voice>			
+        {file:templates/InternetNew.xml_part}
+    </functions>
+</lineChange>
+</order>

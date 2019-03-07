@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	 xmlns:tns="http://www.vodafone.de/eai/Address.xsd"
+ 	 xmlns:base="http://www.vodafone.de/eai/BaseTypes.xsd"
+	 targetNamespace="http://www.vodafone.de/eai/Address.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="qualified">
+	<annotation>
+		<documentation xml:lang="en">
+       	Author: Andre Genser
+	     CVS Version: $Id: Address.xsd,v 1.2 2008/08/21 12:35:23 akosel Exp $
+		Request Schema for Address data structures
+       	Version 1.0
+     </documentation>
+	</annotation>
+	<import namespace="http://www.vodafone.de/eai/BaseTypes.xsd" schemaLocation="BaseTypes.xsd"/>
+	<complexType name="AddressType">
+		<sequence>
+			<element name="streetName" type="base:StringMax40" minOccurs="0"/>
+			<element name="houseNumber" type="base:StringMax9" minOccurs="0"/>
+			<element name="postbox" type="base:StringMax10" minOccurs="0"/>
+			<element name="city" type="base:StringMax40" minOccurs="0"/>
+			<element name="postCode" type="base:StringMax10" minOccurs="0"/>
+			<element name="countryCode" type="base:StringMax3" minOccurs="0"/>
+			<element name="country" type="base:StringMax25" minOccurs="0"/>
+		</sequence>
+	</complexType>
+</schema>

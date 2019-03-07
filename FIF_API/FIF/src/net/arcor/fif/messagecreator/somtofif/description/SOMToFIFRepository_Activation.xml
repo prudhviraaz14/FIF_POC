@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransformationRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.arcor.de/transformer/SOMToFIFTransformationSchema"
+  xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema"
+  xsi:schemaLocation="http://www.arcor.de/transformer/SOMToFIFTransformationSchema SOMToFIFTransformationSchema.xsd"
+  docTypeQualifiedName="request-list" docTypeSystemId="request-list.dtd">
+  <RootTemplate>
+    
+    <RequestListTemplate orderIdPath="//order[@orderID]">
+      
+      <!-- global request list parameters -->
+      <RLPMapping targetName="orderId" sourceAttrName="/order/@orderID" />
+      
+      <!-- activateOneGroup -->
+      <RequestTemplate fif-request-name="modifyOneGroup" 
+        sourceWorkingPath="/order/customerData/oneGroup">   
+        <TemplateConditions>
+          <base:IsMember value="activateONEGroup" sourceAttrName="/*/*/transactionType"/>
+        </TemplateConditions>
+        <RPMapping targetName="oneGroupID" sourceAttrName="ccbId" method="configuredExisting"/>
+        <RPMapping targetName="name" sourceAttrName="name" method="configuredExisting"/>
+        <RPMapping targetName="status" staticValue="ACTIVATED" />        
+        <RPMapping targetName="somElementID" sourceAttrName="@ID" />
+      </RequestTemplate>
+      
+    </RequestListTemplate>
+    
+  </RootTemplate>
+</TransformationRepository>

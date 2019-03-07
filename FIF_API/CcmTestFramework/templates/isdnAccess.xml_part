@@ -1,0 +1,16 @@
+<isdn ID="{ID}">
+    <ccbId type="S">
+        <existing>{serviceSubscriptionId}</existing>
+    </ccbId>
+    <isdnConfiguration>
+        <connectionType>
+            <configured>{connectionType}</configured>
+        </connectionType>
+        <ACSIndicator>
+            <configured>{ACSIndicator}</configured>
+        </ACSIndicator>
+        <narrowbandFlatrate>
+            <configured>{narrowbandFlatrate}</configured>
+        </narrowbandFlatrate>
+    </isdnConfiguration>
+</isdn>

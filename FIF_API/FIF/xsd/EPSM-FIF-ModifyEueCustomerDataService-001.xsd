@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by Reto Renner (Arcor AG & Co. KG) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arcor.net/FIF/EPSM-FIF-ModifyEueCustomerDataService-001" 
+xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:types="http://www.arcor.net/billwg/EPSM-BillWG-WHSEUETypes-001" targetNamespace="http://www.arcor.net/FIF/EPSM-FIF-ModifyEueCustomerDataService-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/billwg/EPSM-BillWG-WHSEUETypes-001" schemaLocation="EPSM-BillWG-WHSEUETypes-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="EPSM_FIF_ModifiziereEueKundendatenService_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>
+Aenderungshistorie:
+Version 0.1  19.05.08	Reto Renner	initiale Version
+Version 0.2  19.05.08	Reto Renner	Servicename in englisch
+Version 0.3  21.05.08	Reto Renner	Verwendete Includedatei EPSM-WebAdapter-WHSEUETypes-001.xsd in EPSM-BillWG-WHSEUETypes-001.xsd umbenannt
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>Dieses Dokument basiert auf und referenziert folgende Dokumente:</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>Diese Schnittstelle wird durch den CCM-FIF realisiert</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ==================== AktiviereEingehendePortierungService ====================== -->
+	<xs:complexType name="ModifyEueCustomerDataService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="ModifyEueCustomerDataInput" type="ModifyEueCustomerDataInput"/>
+					<xs:element name="ModifyEueCustomerDataOutput" type="ModifyEueCustomerDataOutput"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ModifyEueCustomerDataInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="phonenumber" type="types:NexNetPhoneNumberServiceRequest" minOccurs="0"/>
+					<xs:element name="customerData" type="types:CustomerData" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ModifyEueCustomerDataOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

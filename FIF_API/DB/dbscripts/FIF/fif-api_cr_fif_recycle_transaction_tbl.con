@@ -1,0 +1,23 @@
+/*
+--#########################################################################
+--
+-- Script Name  :  $Workfile:   fif-api_cr_fif_recycle_transaction_tbl.con  $ 
+-- Header		:  $Header:   //PVCS_BKS/archives/BKS/DB/dbscripts/fif-api_cr_fif_recycle_transaction_tbl.con-arc   1.1   Dec 19 2007 11:40:06   huptasch  $ 
+-- Revision		:  $Revision:   1.1  $
+-- 
+---------------------------------------------------------------------------
+--
+-- Description:
+--
+--
+--
+--#########################################################################
+*/
+
+ALTER TABLE FIF_RECYCLE_TRANSACTION
+  ADD CONSTRAINT FIF_RECYCLE_TRANSACTION_PK PRIMARY KEY (
+   TRANSACTION_ID,
+   CLIENT_NAME
+  )
+  USING INDEX
+  &&ONL_CCM_SMALL_IDX;

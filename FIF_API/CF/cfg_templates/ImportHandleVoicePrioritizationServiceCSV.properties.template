@@ -1,0 +1,221 @@
+# START HEADER
+#  File:                $Workfile:   ImportHandleVoicePrioritizationServiceCSV.properties.template  $
+#  Author:              $Author:   punya  $
+#  Revision:            $Revision:   1.2  $
+#  Purpose:             Configuration file for importing ChangeTariff requests from a CSV file to the FIF_REQUEST table.
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Sep 17 2018 12:52:38  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportHandleVoicePrioritizationServiceCSV.properties.template-arc  $
+#
+#   Rev 1.2   Sep 17 2018 12:52:38   punya
+#changed allowOtherOpenOrders to allowOtherOpenOrder in ImportHandleVoicePrioritizationServiceCSV.properties.template.
+#
+#   Rev 1.1   Aug 07 2018 14:22:52   lejam
+#SPN-CCB-135303 Corrected salesorganizationNumber(VF) to salesOrganizationNumber(VF). Added missing param validation.
+#
+#   Rev 1.0   Jun 06 2018 13:51:16   punya
+#Initial revision.
+#
+#   
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+##################
+# SQL STATEMENTS #
+##################
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# action name used in metadata for this SOM import
+ImportSOMOrdersToDB.ActionName=handleVoicePrioService
+
+#used only by production to reference migration type
+ImportSOMOrdersToDB.migrationType=handleVoicePrio
+
+
+# The SQL statement for inserting requests in the database
+ImportSOMOrdersToDB.Statement=\
+MAIN_USER.SOM_MASS_MIGRATION.handleVoicePrioService( \
+   i_migrationID => ?, \
+   i_bundleID => ?, \
+   i_desiredDate => ?, \
+   i_salesorganisationNumber => ?, \
+   i_salesorganisationNumberVF => ?, \
+   i_allowOpenTermination => ?, \
+   i_allowOtherOpenOrder => ?, \
+   i_action => ?,\
+   i_debugMode => ?, \
+   i_csvImportInfo => ?)
+ 
+
+# parameter names and types used in above statement
+ImportSOMOrdersToDB.Statement.ParameterNames.1=migrationID
+ImportSOMOrdersToDB.Statement.ParameterTypes.1=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.2=bundleID
+ImportSOMOrdersToDB.Statement.ParameterTypes.2=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.3=desiredDate
+ImportSOMOrdersToDB.Statement.ParameterTypes.3=DATE
+ImportSOMOrdersToDB.Statement.ParameterNames.4=salesOrganisationNumber
+ImportSOMOrdersToDB.Statement.ParameterTypes.4=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.5=salesOrganisationNumberVF
+ImportSOMOrdersToDB.Statement.ParameterTypes.5=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.6=allowOpenTermination
+ImportSOMOrdersToDB.Statement.ParameterTypes.6=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.7=allowOtherOpenOrder
+ImportSOMOrdersToDB.Statement.ParameterTypes.7=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.8=action
+ImportSOMOrdersToDB.Statement.ParameterTypes.8=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.9=debugMode
+ImportSOMOrdersToDB.Statement.ParameterTypes.9=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.10=csvImportInfo
+ImportSOMOrdersToDB.Statement.ParameterTypes.10=VARCHAR
+
+
+
+# regular expressions for parameter validations
+messagecreator.ParameterValidator.bundleID=.{16}
+messagecreator.ParameterValidator.salesOrganisationNumber=[0-9]{8}
+messagecreator.ParameterValidator.allowOpenTermination=true|false
+messagecreator.ParameterValidator.allowOtherOpenOrder=true|false
+messagecreator.ParameterValidator.action=Add|Remove
+
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importhandlevoicepriocsv.log4j.appender.File.File
+#ValidFrom:         FIF-API-61
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/importhandlevoicepriocsv.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     05.06.18
+#Last_Modified_By   punya
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importhandlevoicepriocsv.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+
+#############################
+# MESSAGE CREATION SETTINGS #
+#############################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+# The directory where the metadata file is located.
+messagecreator.MetaDataDir=${slsfif.messagecreator.MetaDataDir}
+
+# The directory where the XSLT files are located.
+messagecreator.XSLT.Directory=${slsfif.messagecreator.XSLT.Directory}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#--- GENERAL MESSAGECREATOR SETTINGS --#
+
+# The name of the XML metadata file
+messagecreator.MetaDataFile=som-mass-import-metadata.xml
+
+# Indicates whether the use of reference data should be supported by the client.
+messagecreator.EnableReferenceDataSupport=false
+
+# Indicates whether the XML representation of a request should be
+# written as a file.
+messagecreator.XSLT.WriteIntermediateFiles=false
+
+
+#####################
+# DATABASE SETTINGS #
+#####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+# The name of the JDBC database driver to use.
+db.requestdb.Driver=${slsfif.db.requestdb.Driver}
+
+#  The connection string to use to connect to the database containing the SLS FIF_REQUEST table.
+db.requestdb.ConnectString=${slsfif.db.requestdb.ConnectString}
+
+# The user name to use to connect to the database containing the SLS FIF_REQUEST table.
+db.requestdb.User=${slsfif.db.requestdb.User}
+
+# The ecnrypted password to use to connect to the database (encrypted in CCB format).
+db.requestdb.Password=${slsfif.db.requestdb.Password}
+
+# The encryption key that was used to encrypt the database password.
+db.requestdb.EncryptionKey=${slsfif.db.requestdb.EncryptionKey}
+
+# The maximum number of open connections in the pool
+db.requestdb.MaximumConnectionCount=${slsfif.db.requestdb.MaximumConnectionCount}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of database aliases that are being used by the application
+# An alias maps to a specific set of database configuration settings
+# The DatabaseClient only needs one database alias and this alias should
+# be called requestdb
+db.aliases=requestdb
+
+# The maximum number of minutes that a connection can remain active (in minutes)
+db.requestdb.MaximumConnectionLifeTime=240
+
+# The minimum number of open connections in the pool
+db.requestdb.MinimumConnectionCount=0
+
+# The number of minutes to wait between connection cleanup runs
+db.requestdb.HouseKeepingSleepTime=1

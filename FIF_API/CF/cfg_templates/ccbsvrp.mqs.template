@@ -1,0 +1,138 @@
+* -----------------------------------------------------------------------------
+* START HEADER
+*
+*  File:           ccbsvrp.mqs.template
+*  Author:         C.Binder
+*  Purpose:        Template for ccbsvrp.mqs for DOM/KBP
+*  Last Change:    2002-05-02
+*  Change history:
+*  2002-04-18 bindercl  creation
+*  2002-05-02 bindercl  added namelist
+*                       added qmgr deadq
+*                       added qmgr deadq handler
+*  2002-05-04 bindercl  rearranged commands
+*                       changed repos to reposnl
+*  2002-06-17 kargh     set attr. MAXDEPTH for local queues to 640000 (this is
+*                       the maximum allowed) to cope with system outage.
+*  2003-02-26 kargh     moved qmgr from Cluster
+*                       ${MQ_CLUS_NAME_CCB} to ${MQ_CLUS_NAME_FMC};
+*                       removed namelist CLUSTERNAMELIST
+*  2003-06-02 kargh     Eingangs- u. Antwort-Queues fuer CcmFifInterface hinzugefuegt
+*  2003-07-07 kargh     Objekte fuer BPM und neue FIF Version hinzugefuegt
+*  2003-07-14 kargh     Server-Connection-Channel fuer Administration hinzugefuegt
+*  2003-09-12 bindercl  SLSFIFDatabaseClient Eingangs- u. Antwort-Queues 
+*                       fuer CcmFifInterface hinzugefuegt
+*  2003-10-01 brandanc  Die Cluster-Queues erhalten den Parameter DEFBIND(NOTFIXED)
+*  						BPM.FIF.REQUEST Clusterattribut entfernt
+*  						DOM.BPM.REQUEST default MIT Clusterattribut (Deaktivierung
+*						mit dombpmswitchoffline
+*  2004-02-05 henneh    SAPFIFDatabaseClient - STREAM FIS - included 
+*                       new settings like SLS (incl. TECHRECYCLING)
+*  2004-07-01 henneh    ISISFIFDatabaseClient - STREAM DCL - included 
+*                       new settings like SAP
+*  2004-07-06 henneh    CCMFIFDatabaseClient - 	STREAM CFD 
+*  2004-08-20 hastk     Queues for STREAM WRF included
+*  2005-04-14 kargh     Definition for non DOM/KBA application queues removed
+*  
+* END HEADER
+*
+* Definition der Queue-Manager Attribute
+* -----------------------------------------------------------------------------
+
+* =============================================================================
+* Definition einer Queue zwecks Fernverwaltung mit dem MQSeries Monitor Programm
+* (Support Pac MO72)
+define qlocal(MQMON) replace
+
+* =============================================================================
+* Trigger Intervall
+alter qmgr trigint(${system.workflow.trigint})
+
+* =============================================================================
+* Dead-Letter Queue
+alter qmgr deadq('SYSTEM.DEAD.LETTER.QUEUE')
+
+* =============================================================================
+* Einrichtung des automatischen Starts des Dead Letter Queue Handlers,
+* wenn eine Message auf die DLQ gestellt wird.
+ALTER QLOCAL('SYSTEM.DEAD.LETTER.QUEUE') +
+           MAXDEPTH(640000) +
+*   Triggering fuer den Dead Letter Queue Handler
+           TRIGGER +
+           TRIGTYPE(FIRST) +
+           TRIGDATA(' ') +
+           PROCESS('SYSTEM.DEAD.LETTER.QUEUE') +
+           INITQ('SYSTEM.DEFAULT.INITIATION.QUEUE')
+
+    DEFINE PROCESS('SYSTEM.DEAD.LETTER.QUEUE') REPLACE +
+           APPLTYPE(UNIX) +
+           APPLICID('/home/mqm/bin/dlqh ${MQ_QMGR_NAME_${PKG}}') +
+           USERDATA(' ') +
+           ENVRDATA(' ')
+
+* =============================================================================
+* dieser Queue-Manager ist Repository fuer Cluster ${MQ_CLUS_NAME_FMC}
+* die im Cluster-Namelist definierten Cluster
+alter qmgr repos('${MQ_CLUS_NAME_FMC}') reposnl(' ')
+
+* =============================================================================
+* Cluster-Sender-Channel zu einem Respository Queue-Manager
+define channel('TO.${MQ_QMGR_NAME_${MQ_CLUS_FIRST_KBA}}.TCP') +
+    chltype(clussdr) +
+    trptype(tcp) +
+    conname('${MQ_QMGR_HOST_${MQ_CLUS_FIRST_KBA}}(${MQ_QMGR_PORT_${MQ_CLUS_FIRST_KBA}})') +
+    cluster('${MQ_CLUS_NAME_FMC}') +
+    replace
+
+* =============================================================================
+* Cluster-Receiver-Channel
+define channel(TO.${MQ_QMGR_NAME_${PKG}}.TCP) + 
+    chltype(clusrcvr) +
+    trptype(tcp) +
+    conname('${MQ_QMGR_HOST_${PKG}}(${MQ_QMGR_PORT_${PKG}})') +
+    cluster('${MQ_CLUS_NAME_FMC}') +
+    replace
+
+* =============================================================================
+* Server-Connection-Channel fuer Anwendungen
+define channel(CLIENT.${MQ_QMGR_NAME_${PKG}}) +
+    chltype(svrconn) +
+    trptype(tcp) +
+    replace
+
+
+* =============================================================================
+* Server-Connection-Channel fuer Administration
+*
+* Namenkonvention entsprechend der vom Workflow-Konfigurationsprogramm erstellen
+* Channel
+DEFINE CHANNEL('${MQ_QMGR_NAME_${PKG}}.CL.TCP') +
+       CHLTYPE(SVRCONN) +
+       TRPTYPE(TCP) +
+       DESCR('svrconn-channel to/from ${MQ_QMGR_NAME_${PKG}}') +
+       MAXMSGL(9999999) +
+       MCAUSER('mqm') +
+       REPLACE +
+       RCVDATA(' ') +
+       RCVEXIT(' ') +
+       SCYDATA(' ') +
+       SCYEXIT(' ') +
+       SENDDATA(' ') +
+       SENDEXIT(' ') +
+       HBINT(5)
+*
+* weitere Channel fuer Administration ueber Windows WebSphere MQ Explorer
+DEFINE CHANNEL('SYSTEM.ADMIN.SVRCONN') +
+       CHLTYPE(SVRCONN) +
+       TRPTYPE(TCP) +
+       MAXMSGL(4194304) +
+       MCAUSER(' ') +
+       REPLACE +
+       RCVDATA(' ') +
+       RCVEXIT(' ') +
+       SCYDATA(' ') +
+       SCYEXIT(' ') +
+       SENDDATA(' ') +
+       SENDEXIT(' ') +
+       HBINT(300)
+

@@ -1,0 +1,8 @@
+--
+-- Script for extending the EXTERNAL_SYSTEM_ID column the FIF_REQUEST table.
+--
+-- @author Rusbe Makuie
+-- @date 2010-10-21
+
+
+ALTER TABLE FIF_REQUEST MODIFY EXTERNAL_SYSTEM_ID   varchar2(60);

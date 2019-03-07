@@ -1,0 +1,4 @@
+		<DTAGContractNumber>CN{orderID}</DTAGContractNumber>
+		<DTAGCompletionDate>{desiredDate}</DTAGCompletionDate>
+		<DTAGPaymentDate>{desiredDate}</DTAGPaymentDate>
+		<DTAGOrderNumber>ON{orderID}</DTAGOrderNumber>

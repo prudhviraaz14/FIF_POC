@@ -1,0 +1,6 @@
+<oneGroup ID="oneGroup">
+	<changeType>ADD</changeType>
+	<ccbId type="O">
+		<configured>{oneGroupID}</configured>
+	</ccbId>
+</oneGroup>

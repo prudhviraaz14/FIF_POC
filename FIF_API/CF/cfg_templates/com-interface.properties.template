@@ -1,0 +1,95 @@
+#Internal properties for regression test project.
+
+sqlScriptLocation = resources/sqlscripts/
+
+regressiontest.jdbc.driverClassName=oracle.jdbc.OracleDriver
+
+#START PARAMETER
+#Parameter:         testframework.com.db.ConnectString
+#ValidFrom:         FIF-API-33.00.00
+#ValidTo:           open
+#Components:        FIF-API (Ccm Test Framework)
+#ParameterType:     STRING
+#ValidValues:       Fully qualified URL for JDBC
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:ccmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     15.10.09
+#Last_Modified_By   schwarje
+#Description:       The connection string to use to connect to the database containing the CCM CCM_FIF_REQUEST table.
+#Description:       (Format: jdbc:oracle:thin:@hostname:port:dbname)
+#END PARAMETER
+regressiontest.jdbc.url=${testframework.com.db.ConnectString}
+
+#START PARAMETER
+#Parameter:         testframework.com.db.username
+#ValidFrom:         FIF-API-33.00.00
+#ValidTo:           open
+#Components:        FIF-API (Ccm Test Framework)
+#ParameterType:     STRING
+#ValidValues:       username for database access
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:ccmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     15.10.09
+#Last_Modified_By   schwarje
+#Description:       username for database access
+#END PARAMETER
+regressiontest.jdbc.username=${testframework.com.db.username}
+
+#START PARAMETER
+#Parameter:         testframework.com.db.password
+#ValidFrom:         FIF-API-33.00.00
+#ValidTo:           open
+#Components:        FIF-API (Ccm Test Framework)
+#ParameterType:     STRING
+#ValidValues:       password (not encrypted) for database access
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:ccmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     15.10.09
+#Last_Modified_By   schwarje
+#Description:       password (not encrypted) for database access
+#END PARAMETER
+regressiontest.jdbc.password=${testframework.com.db.password}
+
+#START PARAMETER
+#Parameter:         testframework.com.orderProcessor.configuration
+#ValidFrom:         FIF-API-33.00.00
+#ValidTo:           open
+#Components:        FIF-API (Ccm Test Framework)
+#ParameterType:     STRING
+#ValidValues:       relative path to sql-map-config-ora.xml
+#DefaultValue:      -
+#ExampleValue:      etc/sql-map-config-ora.xml
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     15.10.09
+#Last_Modified_By   schwarje
+#Description:       relative path to sql-map-config-ora.xml
+#END PARAMETER
+regressiontest.sqlMapConfig=${testframework.com.orderProcessor.configuration}
+
+#START PARAMETER
+#Parameter:         testframework.com.orderProcessor.URL
+#ValidFrom:         FIF-API-33.00.00
+#ValidTo:           open
+#Components:        FIF-API (Ccm Test Framework)
+#ParameterType:     STRING
+#ValidValues:       Fully qualified URL for JDBC
+#DefaultValue:      -
+#ExampleValue:      http://acold01:9080/orderProcessor/
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     15.10.09
+#Last_Modified_By   schwarje
+#Description:       URL of the orderProcessor
+#END PARAMETER
+regressiontest.orderProcessorURL=${testframework.com.orderProcessor.URL}
+
+com.som.updateSystem=ORDERPROC
+com.som.defaultOrderPositionStateId=1
+com.som.versionLike=orderSchema

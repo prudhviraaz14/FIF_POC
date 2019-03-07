@@ -1,0 +1,10 @@
+<voice ID="{ID}" refAccessID="{refAccessID}" targetAccessID="{targetAccessID}">
+	<processingType>{processingType}</processingType>
+	<ccbId type="S">
+		<existing>{serviceSubscriptionId}</existing>
+	</ccbId>
+	    <portingPhoneNumbers>
+			<portingCarrier>
+            	<configured>{portingCarrier}</configured>
+          	</portingCarrier>
+	

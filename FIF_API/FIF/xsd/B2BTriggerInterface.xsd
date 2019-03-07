@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- $Id: B2BTriggerInterface.xsd,v 1.7 2009/01/19 10:24:12 akosel Exp $ -->
+<xsd:schema xmlns="http://www.vodafone.de/eai/B2BTriggerInterface"
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	 xmlns:commontypes="http://www.vodafone.de/eai/BaseTypes.xsd"
+	 targetNamespace="http://www.vodafone.de/eai/B2BTriggerInterface"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation>
+		  B2BTriggerInterface.xsd
+		   Initial version 1.0 - Arnoud Ekker
+		   version 1.1 - Andreas Kosel; type of "triggerDate" was changed to dateTime
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:import namespace="http://www.vodafone.de/eai/BaseTypes.xsd" schemaLocation="BaseTypes.xsd"/>
+	<xsd:simpleType name="CustomerOrigin">
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="V"/>
+			<xsd:enumeration value="A"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="TriggerRequest" type="TriggerRequestType"/>
+	<xsd:complexType name="TriggerRequestType">
+		<xsd:sequence>
+			<xsd:element name="triggerType" type="xsd:string"/>
+			<xsd:element name="sequenceNumber" type="xsd:long"/>
+			<xsd:element name="triggerDate" type="xsd:dateTime"/>
+			<xsd:element name="customerNumber" type="commontypes:CustomerNumber"/>
+			<xsd:element name="customerType" type="xsd:string"/>
+			<xsd:element name="customerOrigin" type="CustomerOrigin" minOccurs="0"/>
+			<xsd:element name="ban" type="commontypes:BANType" minOccurs="0"/>
+			<xsd:element name="ioid" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="TriggerResponse" type="commontypes:ResultDetailsObject"/>
+</xsd:schema>

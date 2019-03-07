@@ -1,0 +1,12 @@
+<blockingList>
+	<existing>
+		<blockingServiceCode>V0026</blockingServiceCode>
+		<blockingServiceCode>V0027</blockingServiceCode>
+	</existing>
+</blockingList>
+<desiredCountriesList>
+	<existing>
+		<desiredCountryServiceCode>V2101</desiredCountryServiceCode>
+		<desiredCountryServiceCode>V2107</desiredCountryServiceCode>
+	</existing>
+</desiredCountriesList>

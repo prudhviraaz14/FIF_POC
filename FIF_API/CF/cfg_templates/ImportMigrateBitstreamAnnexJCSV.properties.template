@@ -1,0 +1,217 @@
+# START HEADER
+#  File:                $Workfile:   ImportMigrateBitstreamAnnexJCSV.properties.template  $
+#  Author:              $Author:   naveen.k  $
+#  Revision:            $Revision:   1.2  $
+#  Purpose:             Configuration file for importing ChangeTariff requests from a CSV file to the FIF_REQUEST table.
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Jul 03 2017 17:39:36  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportMigrateBitstreamAnnexJCSV.properties.template-arc  $
+#
+#   Rev 1.2   Jul 03 2017 17:39:36   naveen.k
+#RMS 162687 IT-K 33636,Add two features to ImportSOMOrdersToDB
+#
+#   Rev 1.1   Jul 22 2016 08:26:08   schwarje
+#PPM-135759_179749: added dtagFreeText to AnnexJ and VDSL-L2 migrations
+#
+#   Rev 1.0   Oct 20 2015 07:33:44   schwarje
+#Initial revision.
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+# The names of columns that are mandatory in the CSV
+ImportCSVToDB.ColumnNames.Mandatory=serviceSubscriptionId
+
+# The names of columns that are optional in the CSV
+ImportCSVToDB.ColumnNames.Optional= 
+
+# Indicates, if the parameter names are converted to upper case
+ImportCSVToDB.ColumnNames.convertToUpperCase=false
+
+
+##################
+# SQL STATEMENTS #
+##################
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# action name used in metadata for this SOM import
+ImportSOMOrdersToDB.ActionName=migrateBitstreamAnnexJ
+
+#used only by production to reference migration type
+ImportSOMOrdersToDB.migrationType=PPM100743_181773
+
+
+# The SQL statement for inserting requests in the database
+ImportSOMOrdersToDB.Statement=\
+main_user.som_mass_migration.migrateBitstreamAnnexJ( \
+   i_migrationID => ?, \
+   i_bundleID => ?, \
+   i_OPMMigrationType => ?, \
+   i_desiredDate => ?, \
+   i_salesOrganisationNumber => ?, \
+   i_salesOrganisationNumberVF => ?, \
+   i_dtagFreeText => ?, \
+   i_csvImportInfo => ?)
+
+# parameter names and types used in above statement
+ImportSOMOrdersToDB.Statement.ParameterNames.1=migrationID
+ImportSOMOrdersToDB.Statement.ParameterTypes.1=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.2=bundleID
+ImportSOMOrdersToDB.Statement.ParameterTypes.2=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.3=OPMMigrationType
+ImportSOMOrdersToDB.Statement.ParameterTypes.3=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.4=desiredDate
+ImportSOMOrdersToDB.Statement.ParameterTypes.4=DATE
+ImportSOMOrdersToDB.Statement.ParameterNames.5=salesOrganisationNumber
+ImportSOMOrdersToDB.Statement.ParameterTypes.5=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.6=salesOrganisationNumberVF
+ImportSOMOrdersToDB.Statement.ParameterTypes.6=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.7=dtagFreeText
+ImportSOMOrdersToDB.Statement.ParameterTypes.7=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.8=csvImportInfo
+ImportSOMOrdersToDB.Statement.ParameterTypes.8=VARCHAR
+
+# regular expressions for parameter validations
+messagecreator.ParameterValidator.OPMMigrationType=silent|regular
+messagecreator.ParameterValidator.bundleID=.{16}
+messagecreator.ParameterValidator.salesOrganisationNumber=[0-9]{8}
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importmigratebutstreamannexjcsv.log4j.appender.File.File
+#ValidFrom:         FIF-API-53
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/importMigrateBitstreamAnnexJCSV.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     20.10.15
+#Last_Modified_By   schwarje
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importmigratebutstreamannexjcsv.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+
+#############################
+# MESSAGE CREATION SETTINGS #
+#############################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+# The directory where the metadata file is located.
+messagecreator.MetaDataDir=${slsfif.messagecreator.MetaDataDir}
+
+# The directory where the XSLT files are located.
+messagecreator.XSLT.Directory=${slsfif.messagecreator.XSLT.Directory}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#--- GENERAL MESSAGECREATOR SETTINGS --#
+
+# The name of the XML metadata file
+messagecreator.MetaDataFile=som-mass-import-metadata.xml
+
+# Indicates whether the use of reference data should be supported by the client.
+messagecreator.EnableReferenceDataSupport=false
+
+# Indicates whether the XML representation of a request should be
+# written as a file.
+messagecreator.XSLT.WriteIntermediateFiles=false
+
+
+#####################
+# DATABASE SETTINGS #
+#####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+# The name of the JDBC database driver to use.
+db.requestdb.Driver=${slsfif.db.requestdb.Driver}
+
+#  The connection string to use to connect to the database containing the SLS FIF_REQUEST table.
+db.requestdb.ConnectString=${slsfif.db.requestdb.ConnectString}
+
+# The user name to use to connect to the database containing the SLS FIF_REQUEST table.
+db.requestdb.User=${slsfif.db.requestdb.User}
+
+# The ecnrypted password to use to connect to the database (encrypted in CCB format).
+db.requestdb.Password=${slsfif.db.requestdb.Password}
+
+# The encryption key that was used to encrypt the database password.
+db.requestdb.EncryptionKey=${slsfif.db.requestdb.EncryptionKey}
+
+# The maximum number of open connections in the pool
+db.requestdb.MaximumConnectionCount=${slsfif.db.requestdb.MaximumConnectionCount}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of database aliases that are being used by the application
+# An alias maps to a specific set of database configuration settings
+# The DatabaseClient only needs one database alias and this alias should
+# be called requestdb
+db.aliases=requestdb
+
+# The maximum number of minutes that a connection can remain active (in minutes)
+db.requestdb.MaximumConnectionLifeTime=240
+
+# The minimum number of open connections in the pool
+db.requestdb.MinimumConnectionCount=0
+
+# The number of minutes to wait between connection cleanup runs
+db.requestdb.HouseKeepingSleepTime=1

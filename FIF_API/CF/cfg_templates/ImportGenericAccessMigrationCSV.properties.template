@@ -1,0 +1,418 @@
+# START HEADER
+#  File:                $Workfile:   ImportGenericAccessMigrationCSV.properties.template  $
+#  Author:              $Author:   punya  $
+#  Revision:            $Revision:   1.8  $
+#  Purpose:             Configuration file for importing ChangeTariff requests from a CSV file to the FIF_REQUEST table.
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Dec 19 2018 14:18:46  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportGenericAccessMigrationCSV.properties.template-arc  $
+#
+#   Rev 1.8   Dec 19 2018 14:18:46   punya
+#Changes delivered for IT-k-000034240
+#
+#   Rev 1.7   Jul 05 2018 13:30:26   punya
+#Check in by lalit SPN-FIF-000135131
+#
+#   Rev 1.6   Jul 05 2018 13:24:02   punya
+#Check in by Lalit SPN-FIF-000135131
+#
+#   Rev 1.5   Jun 14 2018 11:02:40   lejam
+#PPM205977 ISDN PhaseOut
+#
+#   Rev 1.4   Nov 09 2017 14:08:54   naveen.k
+#Fixed SPN-FIF-000134371, Removed debug from CSV import
+#
+#   Rev 1.3   Oct 02 2017 18:32:52   naveen.k
+#PPM-242395 VDSL ULL Nearshore Technology Continuation
+#
+#   Rev 1.2   Jul 03 2017 17:40:38   naveen.k
+#RMS 162687 IT-K 33636,Add two features to ImportSOMOrdersToDB
+#
+#   Rev 1.1   Dec 16 2016 19:03:30   naveen.k
+#IT-K 33633:Added customerNumber and tasi to slection criteria for function genericAccessMigratation
+#
+#Rev 1.1   Dec 16 2016 08:40:16   naveen
+#Added customerNumber and tasi to genericAccessMigration
+#
+#   Rev 1.0   Jul 22 2016 08:36:40   schwarje
+#Initial revision.
+#
+# END HEADER
+
+
+##################
+# SQL STATEMENTS #
+##################
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# action name used in metadata for this SOM import
+ImportSOMOrdersToDB.ActionName=genericAccessMigration
+
+#used only by production to reference migration type
+ImportSOMOrdersToDB.migrationType=PPM179749
+
+# The SQL statement for inserting requests in the database
+ImportSOMOrdersToDB.Statement=\
+main_user.som_mass_migration.genericAccessMigration( \
+   i_migrationID => ?, \
+   i_bundleID => ?, \
+   i_customerNumber => ?, \
+   i_tasi => ?, \
+   i_desiredDate => ?, \
+   i_currentAccessType => ?, \
+   i_targetAccessTechnology => ?, \
+   i_targetAccessType => ?, \
+   i_migrationSubject => ?, \
+   i_dtagFreeText => ?, \
+   i_ignoreTmt => ?, \
+   i_suppressOpmLetters => ?, \
+   i_OPMMigrationType => ?, \
+   i_allowOpenTermination => ?, \
+   i_allowOtherOpenOrders => ?, \
+   i_salesOrganisationNumber => ?, \
+   i_salesOrganisationNumberVF => ?, \
+   i_internetTariff => ?, \
+   i_voiceTariff => ?, \
+   i_targetBandwidth => ?, \
+   i_internetContractNumber => ?, \
+   i_voiceContractNumber => ?, \
+   i_internetPCNumber => ?, \
+   i_voicePCNumber => ?, \
+   i_extendContract => ?, \
+   i_minimumDuration => ?, \
+   i_autoExtensionDuration => ?, \
+   i_conditionType1 => ?, \
+   i_conditionName1 => ?, \
+   i_conditionID1 => ?, \
+   i_conditionStartDate1 => ?, \
+   i_conditionType2 => ?, \
+   i_conditionName2 => ?, \
+   i_conditionID2 => ?, \
+   i_conditionStartDate2 => ?, \
+   i_conditionType3 => ?, \
+   i_conditionName3 => ?, \
+   i_conditionID3 => ?, \
+   i_conditionStartDate3 => ?, \
+   i_removeConditions => ?, \
+   i_tariffOption1 => ?, \
+   i_tariffOption2 => ?, \
+   i_tariffOption3 => ?, \
+   i_removeTariffOptions => ?, \
+   i_removeObsoleteTariffOptions => ?, \
+   i_removeObsoleteCountries => ?, \
+   i_voiceServiceLevel => ?, \
+   i_internetServiceLevel => ?, \
+   i_usePrimaryForInstallation => ?, \
+   i_installationSalutation => ?, \
+   i_installationFirstName => ?, \
+   i_installationLastName => ?, \
+   i_installationPhoneNumber => ?, \
+   i_installationMobileNumber => ?, \
+   i_installationEmailAddress => ?, \
+   i_installationStreet => ?, \
+   i_installationStreetNumber => ?, \
+   i_installationNumberSuffix => ?, \
+   i_installationPostalCode => ?, \
+   i_installationCity => ?, \
+   i_debugMode => ?, \
+   i_csvImportInfo => ?)
+
+   
+
+# parameter names and types used in above statement
+ImportSOMOrdersToDB.Statement.ParameterNames.1=migrationID
+ImportSOMOrdersToDB.Statement.ParameterTypes.1=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.2=bundleID
+ImportSOMOrdersToDB.Statement.ParameterTypes.2=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.3=customerNumber
+ImportSOMOrdersToDB.Statement.ParameterTypes.3=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.4=tasi
+ImportSOMOrdersToDB.Statement.ParameterTypes.4=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.5=desiredDate
+ImportSOMOrdersToDB.Statement.ParameterTypes.5=DATE
+ImportSOMOrdersToDB.Statement.ParameterNames.6=currentAccessType
+ImportSOMOrdersToDB.Statement.ParameterTypes.6=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.7=targetAccessTechnology
+ImportSOMOrdersToDB.Statement.ParameterTypes.7=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.8=targetAccessType
+ImportSOMOrdersToDB.Statement.ParameterTypes.8=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.9=migrationSubject
+ImportSOMOrdersToDB.Statement.ParameterTypes.9=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.10=dtagFreeText
+ImportSOMOrdersToDB.Statement.ParameterTypes.10=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.11=ignoreTmt
+ImportSOMOrdersToDB.Statement.ParameterTypes.11=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.12=suppressOpmLetters
+ImportSOMOrdersToDB.Statement.ParameterTypes.12=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.13=OPMMigrationType
+ImportSOMOrdersToDB.Statement.ParameterTypes.13=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.14=allowOpenTermination
+ImportSOMOrdersToDB.Statement.ParameterTypes.14=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.15=allowOtherOpenOrders
+ImportSOMOrdersToDB.Statement.ParameterTypes.15=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.16=salesOrganisationNumber
+ImportSOMOrdersToDB.Statement.ParameterTypes.16=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.17=salesOrganisationNumberVF
+ImportSOMOrdersToDB.Statement.ParameterTypes.17=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.18=internetTariff
+ImportSOMOrdersToDB.Statement.ParameterTypes.18=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.19=voiceTariff
+ImportSOMOrdersToDB.Statement.ParameterTypes.19=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.20=targetBandwidth
+ImportSOMOrdersToDB.Statement.ParameterTypes.20=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.21=internetContractNumber
+ImportSOMOrdersToDB.Statement.ParameterTypes.21=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.22=voiceContractNumber
+ImportSOMOrdersToDB.Statement.ParameterTypes.22=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.23=internetPCNumber
+ImportSOMOrdersToDB.Statement.ParameterTypes.23=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.24=voicePCNumber
+ImportSOMOrdersToDB.Statement.ParameterTypes.24=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.25=extendContract
+ImportSOMOrdersToDB.Statement.ParameterTypes.25=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.26=minimumDuration
+ImportSOMOrdersToDB.Statement.ParameterTypes.26=NUMBER
+ImportSOMOrdersToDB.Statement.ParameterNames.27=autoExtensionDuration
+ImportSOMOrdersToDB.Statement.ParameterTypes.27=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.28=conditionType1
+ImportSOMOrdersToDB.Statement.ParameterTypes.28=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.29=conditionName1
+ImportSOMOrdersToDB.Statement.ParameterTypes.29=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.30=conditionID1
+ImportSOMOrdersToDB.Statement.ParameterTypes.30=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.31=conditionStartDate1
+ImportSOMOrdersToDB.Statement.ParameterTypes.31=DATE
+ImportSOMOrdersToDB.Statement.ParameterNames.32=conditionType2
+ImportSOMOrdersToDB.Statement.ParameterTypes.32=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.33=conditionName2
+ImportSOMOrdersToDB.Statement.ParameterTypes.33=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.34=conditionID2
+ImportSOMOrdersToDB.Statement.ParameterTypes.34=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.35=conditionStartDate2
+ImportSOMOrdersToDB.Statement.ParameterTypes.35=DATE
+ImportSOMOrdersToDB.Statement.ParameterNames.36=conditionType3
+ImportSOMOrdersToDB.Statement.ParameterTypes.36=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.37=conditionName3
+ImportSOMOrdersToDB.Statement.ParameterTypes.37=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.38=conditionID3
+ImportSOMOrdersToDB.Statement.ParameterTypes.38=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.39=conditionStartDate3
+ImportSOMOrdersToDB.Statement.ParameterTypes.39=DATE
+ImportSOMOrdersToDB.Statement.ParameterNames.40=removeConditions
+ImportSOMOrdersToDB.Statement.ParameterTypes.40=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.41=tariffOption1
+ImportSOMOrdersToDB.Statement.ParameterTypes.41=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.42=tariffOption2
+ImportSOMOrdersToDB.Statement.ParameterTypes.42=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.43=tariffOption3
+ImportSOMOrdersToDB.Statement.ParameterTypes.43=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.44=removeTariffOptions
+ImportSOMOrdersToDB.Statement.ParameterTypes.44=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.45=removeObsoleteTariffOptions
+ImportSOMOrdersToDB.Statement.ParameterTypes.45=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.46=removeObsoleteCountries
+ImportSOMOrdersToDB.Statement.ParameterTypes.46=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.47=voiceServiceLevel
+ImportSOMOrdersToDB.Statement.ParameterTypes.47=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.48=internetServiceLevel
+ImportSOMOrdersToDB.Statement.ParameterTypes.48=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.49=usePrimaryForInstallation
+ImportSOMOrdersToDB.Statement.ParameterTypes.49=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.50=installationSalutation
+ImportSOMOrdersToDB.Statement.ParameterTypes.50=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.51=installationFirstName
+ImportSOMOrdersToDB.Statement.ParameterTypes.51=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.52=installationLastName
+ImportSOMOrdersToDB.Statement.ParameterTypes.52=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.53=installationPhoneNumber
+ImportSOMOrdersToDB.Statement.ParameterTypes.53=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.54=installationMobileNumber
+ImportSOMOrdersToDB.Statement.ParameterTypes.54=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.55=installationEmailAddress
+ImportSOMOrdersToDB.Statement.ParameterTypes.55=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.56=installationStreet
+ImportSOMOrdersToDB.Statement.ParameterTypes.56=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.57=installationStreetNumber
+ImportSOMOrdersToDB.Statement.ParameterTypes.57=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.58=installationNumberSuffix
+ImportSOMOrdersToDB.Statement.ParameterTypes.58=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.59=installationPostalCode
+ImportSOMOrdersToDB.Statement.ParameterTypes.59=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.60=installationCity
+ImportSOMOrdersToDB.Statement.ParameterTypes.60=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.61=debugMode
+ImportSOMOrdersToDB.Statement.ParameterTypes.61=VARCHAR
+ImportSOMOrdersToDB.Statement.ParameterNames.62=csvImportInfo
+ImportSOMOrdersToDB.Statement.ParameterTypes.62=VARCHAR
+
+
+
+# regular expressions for parameter validations
+messagecreator.ParameterValidator.bundleID=.{16}
+messagecreator.ParameterValidator.customerNumber=[0-9]{12}
+messagecreator.ParameterValidator.ignoreTmt=true|false
+messagecreator.ParameterValidator.suppressOpmLetters=true|false
+messagecreator.ParameterValidator.allowOpenTermination=true|false
+messagecreator.ParameterValidator.allowOtherOpenOrders=true|false
+messagecreator.ParameterValidator.OPMMigrationType=silent|regular
+messagecreator.ParameterValidator.salesOrganisationNumber=[0-9]{8}
+messagecreator.ParameterValidator.migrationSubject=PortChange|TW TAL BSA L3|TW TAL BSA L2|LMAE VDSL ADSL|TW ISDN TAL ADSL|TW ISDN ADSL BSA L3|TW ISDN VDSL BSA L3|TW ISDN VDSL BSA L2
+messagecreator.ParameterValidator.internetTariff=.{5}
+messagecreator.ParameterValidator.voiceTariff=.{5}
+messagecreator.ParameterValidator.voiceContractNumber=[0-9]{12}
+messagecreator.ParameterValidator.voicePCNumber=[0-9]{12}
+messagecreator.ParameterValidator.internetContractNumber=[0-9]{12}
+messagecreator.ParameterValidator.internetPCNumber=[0-9]{12}
+messagecreator.ParameterValidator.extendContract=true|false
+messagecreator.ParameterValidator.minimumDuration=^[0-9]{1,2}
+messagecreator.ParameterValidator.autoExtensionDuration=^[0-9]{1,2}
+messagecreator.ParameterValidator.targetBandwidth=.{5}
+messagecreator.ParameterValidator.conditionType1=CO|CM|MO|MM
+messagecreator.ParameterValidator.conditionType2=CO|CM|MO|MM
+messagecreator.ParameterValidator.conditionType3=CO|CM|MO|MM
+messagecreator.ParameterValidator.voiceServiceLevel=.{5}
+messagecreator.ParameterValidator.internetServiceLevel=.{5}
+messagecreator.ParameterValidator.usePrimaryForInstallation=true|false
+messagecreator.ParameterValidator.installationSalutation=Herr|Frau|Firma
+messagecreator.ParameterValidator.removeConditions=true|false
+messagecreator.ParameterValidator.removeTariffOptions=true|false
+messagecreator.ParameterValidator.removeObsoleteTariffOptions=true|false
+messagecreator.ParameterValidator.removeObsoleteCountries=true|false
+
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importgenericaccessmigrationcsv.log4j.appender.File.File
+#ValidFrom:         FIF-API-56
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/importGenericAccessMigrationCSV.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     16.12.16
+#Last_Modified_By   naveen
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importgenericaccessmigration.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+
+#############################
+# MESSAGE CREATION SETTINGS #
+#############################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+# The directory where the metadata file is located.
+messagecreator.MetaDataDir=${slsfif.messagecreator.MetaDataDir}
+
+# The directory where the XSLT files are located.
+messagecreator.XSLT.Directory=${slsfif.messagecreator.XSLT.Directory}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#--- GENERAL MESSAGECREATOR SETTINGS --#
+
+# The name of the XML metadata file
+messagecreator.MetaDataFile=som-mass-import-metadata.xml
+
+# Indicates whether the use of reference data should be supported by the client.
+messagecreator.EnableReferenceDataSupport=false
+
+# Indicates whether the XML representation of a request should be
+# written as a file.
+messagecreator.XSLT.WriteIntermediateFiles=false
+
+
+#####################
+# DATABASE SETTINGS #
+#####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+# The name of the JDBC database driver to use.
+db.requestdb.Driver=${slsfif.db.requestdb.Driver}
+
+#  The connection string to use to connect to the database containing the SLS FIF_REQUEST table.
+db.requestdb.ConnectString=${slsfif.db.requestdb.ConnectString}
+
+# The user name to use to connect to the database containing the SLS FIF_REQUEST table.
+db.requestdb.User=${slsfif.db.requestdb.User}
+
+# The ecnrypted password to use to connect to the database (encrypted in CCB format).
+db.requestdb.Password=${slsfif.db.requestdb.Password}
+
+# The encryption key that was used to encrypt the database password.
+db.requestdb.EncryptionKey=${slsfif.db.requestdb.EncryptionKey}
+
+# The maximum number of open connections in the pool
+db.requestdb.MaximumConnectionCount=${slsfif.db.requestdb.MaximumConnectionCount}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of database aliases that are being used by the application
+# An alias maps to a specific set of database configuration settings
+# The DatabaseClient only needs one database alias and this alias should
+# be called requestdb
+db.aliases=requestdb
+
+# The maximum number of minutes that a connection can remain active (in minutes)
+db.requestdb.MaximumConnectionLifeTime=240
+
+# The minimum number of open connections in the pool
+db.requestdb.MinimumConnectionCount=0
+
+# The number of minutes to wait between connection cleanup runs
+db.requestdb.HouseKeepingSleepTime=1

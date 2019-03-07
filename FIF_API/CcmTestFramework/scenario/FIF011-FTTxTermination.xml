@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+
+<request-list>
+   <request-list-name>FTTxTermination</request-list-name>
+   <request-list-id>FTTxTermination-1</request-list-id>
+   <requests>
+
+	 <!-- include file -->
+	  {file:templates/GenerateStep.xml}
+       <trx-builder-request>
+	  		  <transaction-id>FTTxTermination-lc-masterdata</transaction-id>
+	  		  <transaction-type>masterdata</transaction-type>
+	  		  <override-system-date>datetime:-1200:hour</override-system-date>
+	  		  <som-parts>
+	  			 <som-part-template filename="scenario/SOM/FTTxlineCreation_standard.xml">
+	  				<som-part-params>
+	  				   <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+	  				   <request-param name="entrySystem">KBA</request-param>
+	  				   <request-param name="sendingSystem">KBA</request-param>
+	  				   <request-param name="today">datetime:-960:hour</request-param>
+	  				   <request-param name="desiredDate">datetime:-960:hour</request-param>
+	  				   <request-param name="todayTruncated">date:-960:hour</request-param>
+	  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER1" output-param-name="accessNumber1"/>
+	  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER2" output-param-name="accessNumber2"/>
+	  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER3" output-param-name="accessNumber3"/>
+	  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER4" output-param-name="mobileAccessNumber"/>
+	  				   <request-param name="salutation">Herr</request-param>
+	  				   <request-param name="titleDescription">Dr.</request-param>
+	  				   <request-param name="nobilityPrefixDescription">Baron</request-param>
+	  				   <request-param name="forename">COM</request-param>
+	  				   <request-param name="name">FTTxTermination</request-param>
+	  				   <request-param name="surnamePrefix">de</request-param>
+	  				   <request-param name="birthDate">1978-09-13</request-param>
+	  				   <request-param name="titleDescription">Dr.</request-param>
+	  				   <request-param name="customerCategory">RESIDENTIAL</request-param>
+	  				   <request-param name="classification">VE</request-param>
+	  				   <request-param name="paymentMethod">DIRECT_DEBIT</request-param>
+	  				   <request-param name="mailingName">FTTxTermination</request-param>
+	  				   <request-param name="bankCode">36010043</request-param>
+	  				   <request-param name="bankAccountNumber">123450001</request-param>
+	  				   <request-param name="BankAccountOwner">COM FTTxTermination</request-param>
+	  				   <request-param name="directDebitAuthorizationDate">2009-11-09</request-param>
+	  				   <request-param name="contactName">COM FTTxTermination</request-param>
+	  				   <request-param name="phoneNumber">0231/3792229</request-param>
+	  				   <request-param name="faxNumber">0231/3792229</request-param>
+	  				   <request-param name="mobileNumber">0179/3792229</request-param>
+	  				   <request-param name="emailAddress">com@vodafone.com</request-param>
+	  				   <request-param name="postalCode">44145</request-param>
+	  				  <request-param name="city">Dortmund</request-param>
+	  				   <request-param name="street">Tiefe Str.</request-param>
+	  				   <request-param name="streetNumber">1</request-param>
+	  				   <request-param name="marketingIndicator">true</request-param>
+	  				   <request-param name="marketingAuthorizationDate">2009-11-07</request-param>
+	  				</som-part-params>
+	  			 </som-part-template>
+	  		  </som-parts>
+	  	   </trx-builder-request>
+
+
+	        <trx-builder-request>
+	           <transaction-id>FTTxTermination-lc-allocate</transaction-id>
+	           <transaction-type>allocate</transaction-type>
+	           <override-system-date>datetime:-1008:hour</override-system-date>
+	           <som-parts>
+	              <som-part-template filename="scenario/SOM/FTTxlineCreation_standard.xml">
+	                 <som-part-params>
+	                    <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+	                    <request-param name="entrySystem">POS</request-param>
+	                    <request-param name="sendingSystem">POS</request-param>
+	                    <request-param name="today">datetime:-960:hour</request-param>
+	                    <request-param name="desiredDate">datetime:-960:hour</request-param>
+	                    <request-param name="todayTruncated">date:-960:hour</request-param>
+	  				   <request-param name="customerCategory">RESIDENTIAL</request-param>
+	  				   <request-param name="classification">VE</request-param>
+	                     <request-param-ref transactionID="FTTxTermination-lc-masterdata_0" param-name="customerNumber" />
+	                     <request-param-ref transactionID="FTTxTermination-lc-masterdata_1" param-name="accountNumber" />
+	  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER1" output-param-name="accessNumber1"/>
+	  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER2" output-param-name="accessNumber2"/>
+	  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER3" output-param-name="accessNumber3"/>
+	  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER4" output-param-name="mobileAccessNumber"/>
+	                 </som-part-params>
+	              </som-part-template>
+	           </som-parts>
+	        </trx-builder-request>
+
+			<trx-builder-request>
+			   <transaction-id>FTTxTermination-lc-createExternalOrder</transaction-id>
+			   <transaction-type>create</transaction-type>
+			  <override-system-date>datetime:-980:hour</override-system-date>
+			   <som-parts>
+				  <som-part-template filename="scenario/SOM/FTTxlineCreation_standard.xml">
+					 <som-part-params>
+						<request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+						<request-param name="entrySystem">POS</request-param>
+						<request-param name="sendingSystem">POS</request-param>
+						<request-param name="today">datetime:-960:hour</request-param>
+						<request-param name="desiredDate">datetime:-960:hour</request-param>
+						<request-param name="todayTruncated">date:-960:hour</request-param>
+						<request-param name="internetProcessingStatus">ackOPM</request-param>
+						<request-param name="internetCompletionStatusNew">ackOPM</request-param>
+						<request-param name="internetPreviousCompletionStatusNew">precompletedOPM</request-param>
+						<request-param name="voiceProcessingStatus">ackOPM</request-param>
+						<request-param name="voiceCompletionStatusNew">ackOPM</request-param>
+						<request-param name="voicePreviousCompletionStatusNew">ackOPM</request-param>
+						<request-param name="directoryEntryProcessingStatus">ackOPM</request-param>
+						<request-param name="directoryEntryCompletionStatusNew">ackOPM</request-param>
+						<request-param name="directoryEntryPreviousCompletionStatusNew">ackOPM</request-param>
+						<request-param name="hardware1ProcessingStatus">completedOPM</request-param>
+						<request-param name="hardware1CompletionStatusNew">ackOPM</request-param>
+						<request-param name="hardware1PreviousCompletionStatusNew">precompletedOPM</request-param>
+						<request-param name="hardware2ProcessingStatus">completedOPM</request-param>
+						<request-param name="hardware2ProcessingStatus">completedOPM</request-param>
+						<request-param name="hardware2CompletionStatusNew">ackOPM</request-param>
+						<request-param name="installationSvcProcessingStatus">ackOPM</request-param>
+						<request-param name="installationSvcCompletionStatusNew">ackOPM</request-param>
+						<request-param name="installationSvcPreviousCompletionStatusNew">ackOPM</request-param>
+						<request-param name="safetyPackageProcessingStatus">ackOPM</request-param>
+						<request-param name="safetyPackageSvcCompletionStatusNew">ackOPM</request-param>
+						<request-param name="safetyPackageSvcPreviousCompletionStatusNew">completedOPM</request-param>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_4" param-name="ccbId" output-param-name="hardware2SSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_5" param-name="ccbId" output-param-name="installationSvcSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_6" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-masterdata_0" param-name="customerNumber" />
+						<request-param-ref transactionID="FTTxTermination-lc-masterdata_1" param-name="accountNumber" />
+					  <request-param-ref transactionID="generateNumbers" param-name="NUMBER1" output-param-name="accessNumber1"/>
+					  <request-param-ref transactionID="generateNumbers" param-name="NUMBER2" output-param-name="accessNumber2"/>
+					  <request-param-ref transactionID="generateNumbers" param-name="NUMBER3" output-param-name="accessNumber3"/>
+					  <request-param-ref transactionID="generateNumbers" param-name="NUMBER4" output-param-name="mobileAccessNumber"/>
+					 </som-part-params>
+				  </som-part-template>
+			   </som-parts>
+			</trx-builder-request>
+
+			<trx-builder-request>
+			   <transaction-id>FTTxTermination-lc-execute</transaction-id>
+			   <transaction-type>execute</transaction-type>
+			   <override-system-date>datetime:-970:hour</override-system-date>
+			   <som-parts>
+				  <som-part-template filename="scenario/SOM/FTTxlineCreation_standard.xml">
+					 <som-part-params>
+						<request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+						<request-param name="entrySystem">POS</request-param>
+						<request-param name="sendingSystem">POS</request-param>
+						<request-param name="today">datetime:-960:hour</request-param>
+						<request-param name="desiredDate">datetime:-960:hour</request-param>
+						<request-param name="todayTruncated">date:-960:hour</request-param>
+						<request-param name="internetProcessingStatus">completedOPM</request-param>
+						<request-param name="internetCompletionStatusNew">completedOPM</request-param>
+						<request-param name="internetPreviousCompletionStatusNew">precompletedOPM</request-param>
+						<request-param name="voiceProcessingStatus">completedOPM</request-param>
+						<request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+						<request-param name="voicePreviousCompletionStatusNew">precompletedOPM</request-param>
+						<request-param name="directoryEntryProcessingStatus">precompletedOPM</request-param>
+						<request-param name="directoryEntryCompletionStatusNew">precompletedOPM</request-param>
+						<request-param name="directoryEntryPreviousCompletionStatusNew">ackOPM</request-param>
+						<request-param name="hardware1ProcessingStatus">completedOPM</request-param>
+						<request-param name="hardware1CompletionStatusNew">completedOPM</request-param>
+						<request-param name="hardware1PreviousCompletionStatusNew">completedOPM</request-param>
+						<request-param name="hardware2ProcessingStatus">completedOPM</request-param>
+						<request-param name="hardware2CompletionStatusNew">completedOPM</request-param>
+						<request-param name="hardware2PreviousCompletionStatusNew">completedOPM</request-param>
+						<request-param name="installationSvcProcessingStatus">completedOPM</request-param>
+						<request-param name="installationSvcCompletionStatusNew">completedOPM</request-param>
+						<request-param name="installationSvcPreviousCompletionStatusNew">precompletedOPM</request-param>
+						<request-param name="safetyPackageProcessingStatus">completedOPM</request-param>
+						<request-param name="safetyPackageCompletionStatusNew">completedOPM</request-param>
+						<request-param name="safetyPackagePreviousCompletionStatusNew">precompletedOPM</request-param>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_4" param-name="ccbId" output-param-name="hardware2SSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_5" param-name="ccbId" output-param-name="installationSvcSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_6" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-masterdata_0" param-name="customerNumber" />
+						<request-param-ref transactionID="FTTxTermination-lc-masterdata_1" param-name="accountNumber" />
+					 <request-param-ref transactionID="generateNumbers" param-name="NUMBER1" output-param-name="accessNumber1"/>
+					  <request-param-ref transactionID="generateNumbers" param-name="NUMBER2" output-param-name="accessNumber2"/>
+					  <request-param-ref transactionID="generateNumbers" param-name="NUMBER3" output-param-name="accessNumber3"/>
+					  <request-param-ref transactionID="generateNumbers" param-name="NUMBER4" output-param-name="mobileAccessNumber"/>
+						<request-param name="titleDescription">Dr.</request-param>
+						<request-param name="nobilityPrefixDescription">Baron</request-param>
+						<request-param name="salutation">Herr</request-param>
+						<request-param name="forename">COM</request-param>
+						<request-param name="name">FTTxTermination</request-param>
+					 </som-part-params>
+				  </som-part-template>
+			   </som-parts>
+			</trx-builder-request>
+
+			<trx-builder-request>
+			   <transaction-id>FTTxTermination-lc-closeExternalOrder</transaction-id>
+			   <transaction-type>close-final</transaction-type>
+			   <override-system-date>datetime:-960:hour</override-system-date>
+			   <som-parts>
+				  <som-part-template filename="scenario/SOM/FTTxlineCreation_standard.xml">
+					 <som-part-params>
+						<request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+						<request-param name="entrySystem">POS</request-param>
+						<request-param name="sendingSystem">POS</request-param>
+						<request-param name="today">datetime:-960:hour</request-param>
+						<request-param name="desiredDate">datetime:-960:hour</request-param>
+						<request-param name="todayTruncated">date:-960:hour</request-param>
+						<request-param name="internetProcessingStatus">completedCCM</request-param>
+						<request-param name="internetCompletionStatusNew">completedCCM</request-param>
+						<request-param name="internetPreviousCompletionStatusNew">completedCCM</request-param>
+						<request-param name="voiceProcessingStatus">completedCCM</request-param>
+						<request-param name="voiceCompletionStatusNew">completedCCM</request-param>
+						<request-param name="voicePreviousCompletionStatusNew">completedCCM</request-param>
+						<request-param name="directoryEntryProcessingStatus">precompletedOPM</request-param>
+						<request-param name="directoryEntryCompletionStatusNew">precompletedOPM</request-param>
+						<request-param name="directoryEntryPreviousCompletionStatusNew">ackOPM</request-param>
+						<request-param name="hardware1ProcessingStatus">completedCCM</request-param>
+						<request-param name="hardware1CompletionStatusNew">completedCCM</request-param>
+						<request-param name="hardware1PreviousCompletionStatusNew">completedCCM</request-param>
+						<request-param name="hardware2ProcessingStatus">completedCCM</request-param>
+						<request-param name="hardware2CompletionStatusNew">completedCCM</request-param>
+						<request-param name="hardware2PreviousCompletionStatusNew">completedCCM</request-param>
+						<request-param name="installationSvcProcessingStatus">completedCCM</request-param>
+						<request-param name="installationSvcCompletionStatusNew">completedCCM</request-param>
+						<request-param name="installationSvcPreviousCompletionStatusNew">completedOPM</request-param>
+						<request-param name="safetyPackageProcessingStatus">completedCCM</request-param>
+						<request-param name="safetyPackageCompletionStatusNew">completedCCM</request-param>
+						<request-param name="safetyPackagePreviousCompletionStatusNew">completedOPM</request-param>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_4" param-name="ccbId" output-param-name="hardware2SSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_5" param-name="ccbId" output-param-name="installationSvcSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-allocate_6" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+						<request-param-ref transactionID="FTTxTermination-lc-masterdata_0" param-name="customerNumber" />
+						<request-param-ref transactionID="FTTxTermination-lc-masterdata_1" param-name="accountNumber" />
+					  <request-param-ref transactionID="generateNumbers" param-name="NUMBER1" output-param-name="accessNumber1"/>
+					  <request-param-ref transactionID="generateNumbers" param-name="NUMBER2" output-param-name="accessNumber2"/>
+					  <request-param-ref transactionID="generateNumbers" param-name="NUMBER3" output-param-name="accessNumber3"/>
+					  <request-param-ref transactionID="generateNumbers" param-name="NUMBER4" output-param-name="mobileAccessNumber"/>
+					 </som-part-params>
+				  </som-part-template>
+			   </som-parts>
+			</trx-builder-request>
+
+           <!-- <trx-builder-request>
+			           <transaction-id>FTTxTermination-allocate</transaction-id>
+			           <transaction-type>allocate</transaction-type>
+			           <som-parts>
+			              <som-part-template filename="scenario/SOM/FTTxTermination.xml">
+			                 <som-part-params>
+			                    <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+			                    <request-param name="entrySystem">POS</request-param>
+			                    <request-param name="sendingSystem">POS</request-param>
+			                    <request-param name="today">datetime:-960:hour</request-param>
+			                    <request-param name="desiredDate">datetime:-960:hour</request-param>
+			                    <request-param name="todayTruncated">date:-960:hour</request-param>
+			                     <request-param-ref transactionID="FTTxTermination-lc-masterdata_0" param-name="customerNumber" />
+			  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER1" output-param-name="accessNumber1"/>
+			  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER2" output-param-name="accessNumber2"/>
+			  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER3" output-param-name="accessNumber3"/>
+			  				   <request-param-ref transactionID="generateNumbers" param-name="NUMBER4" output-param-name="mobileAccessNumber"/>
+			                 </som-part-params>
+			              </som-part-template>
+			           </som-parts>-->
+
+					<trx-builder-request>
+					   <transaction-id>FTTxTermination-createExternalOrder</transaction-id>
+					   <transaction-type>create</transaction-type>
+					   <som-parts>
+						  <som-part-template filename="scenario/SOM/FTTxTermination.xml">
+							 <som-part-params>
+								<request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+								<request-param name="entrySystem">POS</request-param>
+								<request-param name="sendingSystem">POS</request-param>
+								<request-param name="today">datetime:-960:hour</request-param>
+								<request-param name="desiredDate">datetime:-960:hour</request-param>
+								<request-param name="todayTruncated">date:-960:hour</request-param>
+								<request-param name="internetProcessingStatus">ackOPM</request-param>
+								<request-param name="internetCompletionStatusOld">ackOPM</request-param>
+								<request-param name="internetPreviousCompletionStatusOld">precompletedOPM</request-param>
+								<request-param name="voiceProcessingStatus">ackOPM</request-param>
+								<request-param name="voiceCompletionStatusOld">ackOPM</request-param>
+								<request-param name="voicePreviousCompletionStatusOld">ackOPM</request-param>
+								<request-param name="directoryEntryProcessingStatus">ackOPM</request-param>
+								<request-param name="directoryEntryCompletionStatusOld">ackOPM</request-param>
+								<request-param name="directoryEntryPreviousCompletionStatusOld">ackOPM</request-param>
+								<request-param name="hardware1ProcessingStatus">completedOPM</request-param>
+								<request-param name="hardware1CompletionStatusOld">ackOPM</request-param>
+								<request-param name="hardware1PreviousCompletionStatusOld">precompletedOPM</request-param>
+								<request-param name="hardware2ProcessingStatus">completedOPM</request-param>
+								<request-param name="hardware2ProcessingStatus">completedOPM</request-param>
+								<request-param name="hardware2PreviousCompletionStatusOld">ackOPM</request-param>
+								<request-param name="installationSvcProcessingStatus">ackOPM</request-param>
+								<request-param name="installationSvcCompletionStatusOld">ackOPM</request-param>
+								<request-param name="installationSvcPreviousCompletionStatusOld">ackOPM</request-param>
+								<request-param name="safetyPackageProcessingStatus">ackOPM</request-param>
+								<request-param name="safetyPackageSvcCompletionStatusOld">ackOPM</request-param>
+								<request-param name="safetyPackageSvcPreviousCompletionStatusOld">completedOPM</request-param>
+								<request-param-ref transactionID="FTTxTermination-lc-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+								<request-param-ref transactionID="FTTxTermination-lc-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+								<request-param-ref transactionID="FTTxTermination-lc-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+								<request-param-ref transactionID="FTTxTermination-lc-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+								<request-param-ref transactionID="FTTxTermination-lc-allocate_4" param-name="ccbId" output-param-name="hardware2SSID"/>
+								<request-param-ref transactionID="FTTxTermination-lc-allocate_5" param-name="ccbId" output-param-name="installationSvcSSID"/>
+								<request-param-ref transactionID="FTTxTermination-lc-allocate_6" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+								<request-param-ref transactionID="FTTxTermination-lc-masterdata_0" param-name="customerNumber" />
+								<request-param-ref transactionID="FTTxTermination-lc-masterdata_1" param-name="accountNumber" />
+							  <request-param-ref transactionID="generateNumbers" param-name="NUMBER1" output-param-name="accessNumber1"/>
+							  <request-param-ref transactionID="generateNumbers" param-name="NUMBER2" output-param-name="accessNumber2"/>
+							  <request-param-ref transactionID="generateNumbers" param-name="NUMBER3" output-param-name="accessNumber3"/>
+							  <request-param-ref transactionID="generateNumbers" param-name="NUMBER4" output-param-name="mobileAccessNumber"/>
+							 </som-part-params>
+						  </som-part-template>
+					   </som-parts>
+			</trx-builder-request>
+
+		      <trx-builder-request>
+		         <transaction-id>FTTxTermination-execute</transaction-id>
+		         <transaction-type>execute</transaction-type>
+		         <som-parts>
+		            <som-part-template filename="scenario/SOM/FTTxTermination.xml">
+		               <som-part-params>
+		                  <request-param-ref transactionID="generateBarcodes"
+		                     param-name="BARCODE2" output-param-name="orderID"/>
+		                  <request-param name="entrySystem">KBA</request-param>
+		                  <request-param name="sendingSystem">KBA</request-param>
+		                  <request-param name="today">datetime:-198:hour</request-param>
+		                  <request-param name="desiredDate">datetime:0:hour</request-param>
+		                  <request-param name="todayTruncated">date:-198:hour</request-param>
+						  <request-param name="internetProcessingStatus">completedOPM</request-param>
+					      <request-param name="internetCompletionStatusOld">completedOPM</request-param>
+						  <request-param name="internetPreviousCompletionStatusOld">precompletedOPM</request-param>
+						  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+						  <request-param name="voiceCompletionStatusOld">completedOPM</request-param>
+						  <request-param name="voicePreviousCompletionStatusOld">precompletedOPM</request-param>
+						  <request-param name="directoryEntryProcessingStatus">ackOPM</request-param>
+						  <request-param name="directoryEntryCompletionStatusOld">completedOPM</request-param>
+						  <request-param name="directoryEntryPreviousCompletionStatusOld">precompletedOPM</request-param>
+						  <request-param name="hardware1ProcessingStatus">completedOPM</request-param>
+						  <request-param name="hardware1CompletionStatusOld">completedOPM</request-param>
+						  <request-param name="hardware1PreviousCompletionStatusOld">precompletedOPM</request-param>
+						  <request-param name="hardware2ProcessingStatus">completedOPM</request-param>
+						  <request-param name="hardware2ProcessingStatus">completedOPM</request-param>
+						  <request-param name="hardware2PreviousCompletionStatusOld">precompletedOPM</request-param>
+						  <request-param name="installationSvcProcessingStatus">completedOPM</request-param>
+						  <request-param name="installationSvcCompletionStatusOld">completedOPM</request-param>
+					      <request-param name="installationSvcPreviousCompletionStatusNew">precompletedOPM</request-param>
+						  <request-param name="safetyPackageProcessingStatus">completedOPM</request-param>
+						  <request-param name="safetyPackageSvcCompletionStatusOld">ackOPM</request-param>
+						  <request-param name="safetyPackageSvcPreviousCompletionStatusOld">precompletedOPM</request-param>
+						  <request-param name="safetyPackageSvcPreviousCompletionStatusOld">completedOPM</request-param>
+					      <request-param-ref transactionID="FTTxTermination-lc-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+						  <request-param-ref transactionID="FTTxTermination-lc-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+						  <request-param-ref transactionID="FTTxTermination-lc-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+						  <request-param-ref transactionID="FTTxTermination-lc-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+						  <request-param-ref transactionID="FTTxTermination-lc-allocate_4" param-name="ccbId" output-param-name="hardware2SSID"/>
+						  <request-param-ref transactionID="FTTxTermination-lc-allocate_5" param-name="ccbId" output-param-name="installationSvcSSID"/>
+						  <request-param-ref transactionID="FTTxTermination-lc-allocate_6" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+						  <request-param-ref transactionID="FTTxTermination-lc-masterdata_0" param-name="customerNumber" />
+						  <request-param-ref transactionID="FTTxTermination-lc-masterdata_1" param-name="accountNumber" />
+		                  <request-param-ref transactionID="generateNumbers"
+		                     param-name="NUMBER1" output-param-name="accessNumber1"/>
+		                  <request-param-ref transactionID="generateNumbers"
+		                     param-name="NUMBER2" output-param-name="accessNumber2"/>
+		                  <request-param-ref transactionID="generateNumbers"
+		                     param-name="NUMBER3" output-param-name="accessNumber3"/>
+		                  <request-param-ref transactionID="generateNumbers"
+		                     param-name="NUMBER4" output-param-name="mobileAccessNumber"/>
+		               </som-part-params>
+		            </som-part-template>
+		         </som-parts>
+      </trx-builder-request>
+
+	  <trx-builder-request>
+		 <transaction-id>FTTxTermination--closeExternalOrder</transaction-id>
+		 <transaction-type>execute</transaction-type>
+		 <som-parts>
+			<som-part-template filename="scenario/SOM/FTTxTermination.xml">
+			   <som-part-params>
+				  <request-param-ref transactionID="generateBarcodes"
+					 param-name="BARCODE2" output-param-name="orderID"/>
+				  <request-param name="entrySystem">KBA</request-param>
+				  <request-param name="sendingSystem">KBA</request-param>
+				  <request-param name="today">datetime:-198:hour</request-param>
+				  <request-param name="desiredDate">datetime:0:hour</request-param>
+				  <request-param name="todayTruncated">date:-198:hour</request-param>
+				  <request-param name="internetProcessingStatus">completedCCM</request-param>
+				  <request-param name="internetCompletionStatusOld">completedCCM</request-param>
+				  <request-param name="internetPreviousCompletionStatusOld">completedOPM</request-param>
+				  <request-param name="voiceProcessingStatus">completedCCM</request-param>
+				  <request-param name="voiceCompletionStatusOld">completedCCM</request-param>
+				  <request-param name="voicePreviousCompletionStatusOld">completedOPM</request-param>
+				  <request-param name="directoryEntryProcessingStatus">ackOPM</request-param>
+				  <request-param name="directoryEntryCompletionStatusOld">completedCCM</request-param>
+				  <request-param name="directoryEntryPreviousCompletionStatusOld">completedOPM</request-param>
+				  <request-param name="hardware1ProcessingStatus">completedCCM</request-param>
+				  <request-param name="hardware1CompletionStatusOld">completedCCM</request-param>
+				  <request-param name="hardware1PreviousCompletionStatusOld">completedOPM</request-param>
+				  <request-param name="hardware2ProcessingStatus">completedCCM</request-param>
+				  <request-param name="hardware2CompletionStatusOld">completedCCM</request-param>
+				  <request-param name="hardware2PreviousCompletionStatusOld">completedOPM</request-param>
+				  <request-param name="installationSvcProcessingStatus">completedCCM</request-param>
+				  <request-param name="installationSvcCompletionStatusOld">completedCCM</request-param>
+				  <request-param name="installationSvcPreviousCompletionStatusNew">completedOPM</request-param>
+				  <request-param name="safetyPackageProcessingStatus">completedCCM</request-param>
+				  <request-param name="safetyPackageSvcCompletionStatusOld">completedCCM</request-param>
+				  <request-param name="safetyPackageSvcPreviousCompletionStatusOld">completedOPM</request-param>
+				  <request-param-ref transactionID="FTTxTermination-lc-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+				  <request-param-ref transactionID="FTTxTermination-lc-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+				  <request-param-ref transactionID="FTTxTermination-lc-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+				  <request-param-ref transactionID="FTTxTermination-lc-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+				  <request-param-ref transactionID="FTTxTermination-lc-allocate_4" param-name="ccbId" output-param-name="hardware2SSID"/>
+				  <request-param-ref transactionID="FTTxTermination-lc-allocate_5" param-name="ccbId" output-param-name="installationSvcSSID"/>
+				  <request-param-ref transactionID="FTTxTermination-lc-allocate_6" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+				  <request-param-ref transactionID="FTTxTermination-lc-masterdata_0" param-name="customerNumber" />
+				  <request-param-ref transactionID="FTTxTermination-lc-masterdata_1" param-name="accountNumber" />
+				  <request-param-ref transactionID="generateNumbers"
+					 param-name="NUMBER1" output-param-name="accessNumber1"/>
+				  <request-param-ref transactionID="generateNumbers"
+					 param-name="NUMBER2" output-param-name="accessNumber2"/>
+				  <request-param-ref transactionID="generateNumbers"
+					 param-name="NUMBER3" output-param-name="accessNumber3"/>
+				  <request-param-ref transactionID="generateNumbers"
+					 param-name="NUMBER4" output-param-name="mobileAccessNumber"/>
+			   </som-part-params>
+			</som-part-template>
+		 </som-parts>
+</trx-builder-request>
+
+   </requests>
+</request-list>
+
+
+

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<!--
+ NOTE: All objects, service and event types are defined with regards to the latest available     
+ issue of the corresponding AAW-xyz document. Since this document is not final, changes 
+ become necessary for the schema with new versions of the document. 
+ Based on XXX ENTER_NAME V ENTER_VERSION_NUMBER
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:aipcommon="http://datatypes.callisto.com/EPSM-AIP-CommonTypes-001" xmlns:aipbase="http://www.arcor.net/AIP/EPSM-AIP-Base-001" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:mct="http://www.arcor.net/EPSM-CommonTypes-Mobilnummer-001" xmlns="http://www.arcor.net/AIP/EPSM-AIP-StarteEingehendeRufnummerPortierung-001" xmlns:simkarte="http://www.arcor.net/EPSM-CommonTypes-SIMKarte-001" targetNamespace="http://www.arcor.net/AIP/EPSM-AIP-StarteEingehendeRufnummerPortierung-001" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.1">
+	<!-- Import all base types -->
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/AIP/EPSM-AIP-Base-001" schemaLocation="EPSM-AIP-Base-001.xsd"/>
+	<!-- Import all common types -->
+	<xs:import namespace="http://datatypes.callisto.com/EPSM-AIP-CommonTypes-001" schemaLocation="EPSM-AIP-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-SIMKarte-001" schemaLocation="EPSM-CommonTypes-SIMKarte-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-Mobilnummer-001" schemaLocation="EPSM-CommonTypes-Mobilnummer-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Aenderungshistorie ================== -->
+	<xs:element name="EPSM_AIP_StarteEingehendeRufnummerPortierung_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>
+            XML schema definition for AIP SEPS and services Version:  0.6
+
+            Status des Dokument: in progress
+
+            Aenderungshistorie: 
+            Version 0.1 16.07.2008 Robert Suschnik
+            Version 0.2 01.08.2008 Ulrich Grepel - Feld umbenannt: starteEingehendeRufnummerPortierungOutput -> meldeStarteEingehendeRufnummerPortierungOutput
+            Version 0.3 04.08.2008 Ulrich Grepel - MeldeStarteEingehendeRufnummerPortierungEvent mit eigener Datenstruktur (fuer SimID, PUK, Portierungsdatum)
+            Version 0.4 07.08.2008 Ulrich Grepel - dreimal minOccurs="0" in MeldeStarteEingehendeRufnummerPortierungOutput hinzugefuegt und dort Doku angepasst
+            Version 0.5 02.12.2008 Ulrich Grepel - portierteRufnummer zu MeldeStarteEingehendeRufnummerPortierungEvent hinzugefÃ¼gt
+            Version 0.6.03.12.2008 Reto Renner - überflüssige Includes (CommonTypes) entfernt
+         </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>
+                     Dieses Dokument basiert auf und referenziert
+                     folgende Dokumente:
+                  </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>
+                     Diese Schnittstelle wird durch die AIP
+                     realisiert
+                  </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ========================= Endpunkt specifische 'complex types' ===================== -->
+	<xs:complexType name="StarteEingehendeRufnummerPortierungInput">
+		<xs:annotation>
+			<xs:documentation>
+            Startet eine eingehende Portierung. AIP prueft, ob die Rufnummer nicht bereits bei
+            der VF im inporting steht. Ausserdem wird geprueft, ob syntaktisch alles korrekt ist.
+            Im Fehlerfall wird der request zurueckgewiesen. Der Aufrufer hat die response
+            auszuwerten und unternimmt im Fehlerfall die notwendigen Schritte zum clearing der
+            Porzesskette (z.B. GV vom Typ process). Im Gegensatz zu   'StarteEingehendePortierung'
+            (obsolete) wird auch der abweichende Vertragsinhaber uebertragen. Auf der X.400 Transaktion
+            wird dieser in den Personendaten eingetragen (und nicht(!) die Daten aus 'kundeninformation'.
+            Bsp.: Ehefrau wechselt zu Arcor, will aber die RN ihres Ehemanns mitportieren => Ehemann
+            der abweichende Vertragspartner. Ja, soetwas gibt's tatsaechlich...
+         </xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="aipbase:AIPServiceInput">
+				<xs:sequence>
+					<xs:element name="portierteRufnummer" type="mct:Mobilnummer"/>
+					<xs:element name="vorigerServiceProvider" type="xs:string"/>
+					<xs:element name="wunschPortierungsdatum" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="tarifOption" type="xs:string"/>
+					<xs:element name="artikelnumber" type="aipcommon:Artikelnummer"/>
+					<xs:element name="vonumber" type="aipcommon:VONummer"/>
+					<xs:element name="kundeninformation">
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="natPerson" type="aipbase:AIPNatPerson"/>
+								<xs:element name="jurPerson" type="aipbase:AIPJurPerson"/>
+							</xs:choice>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="abweichenderVertragsInhaber" minOccurs="0">
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="natPerson" type="aipbase:AIPAbweichenderVertragsInhaberNat"/>
+								<xs:element name="jurPerson" type="aipbase:AIPAbweichenderVertragsInhaberJur"/>
+							</xs:choice>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="StarteEingehendeRufnummerPortierungOutput">
+		<xs:annotation>
+			<xs:documentation>
+            siehe Definition von base:OutputData
+            result true      erfolgreich von der AIP angenommen
+            result false   request von der AIP abgewiesen
+                        Der errorcode ist immer 0
+                        Der errorText ist immer gefuellt.
+         </xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MeldeStarteEingehendeRufnummerPortierungOutput">
+		<xs:annotation>
+			<xs:documentation>
+            siehe Definition von base:OutputData
+            result       true   Inporting erfolgreich von der AIP durchgefuehrt
+                        false   Inporting abgebrochen
+            errorcode   bei result=true immer "0", ansonsten:
+                     0      Inporting wurde im CRM abgebrochen
+                     1      Inporting wurde aufgrund X400-Antwort abgebrochen
+            ErrorText ist immer gefuellt, bei result=false und errorcode=1 wird die X400-Antwort gegeben.
+            
+            simSerienNr, simPuk und portierungsDatum sind nur bei result=true gefuellt.
+         </xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element name="simSerienNr" type="simkarte:SimSerienNr" minOccurs="0"/>
+					<xs:element name="simPuk" type="simkarte:SimPuk" minOccurs="0"/>
+					<xs:element name="portierungsDatum" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="portierteRufnummer" type="mct:Mobilnummer" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ========================= Service Definitionen Diensterbringer ===================== -->
+	<xs:complexType name="StarteEingehendeRufnummerPortierungService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="StarteEingehendeRufnummerPortierungInput" type="StarteEingehendeRufnummerPortierungInput"/>
+					<xs:element name="StarteEingehendeRufnummerPortierungOutput" type="StarteEingehendeRufnummerPortierungOutput"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ========================= Event Definitionen Diensterbringer ======================= -->
+	<xs:complexType name="MeldeStarteEingehendeRufnummerPortierungEvent">
+		<xs:annotation>
+			<xs:documentation>Meldet an den Aufrufer das Ergebnis der StarteEingehendeRufnummerPortierung Transaktion</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderEvent">
+				<xs:sequence>
+					<xs:element name="meldeStarteEingehendeRufnummerPortierungOutput" type="MeldeStarteEingehendeRufnummerPortierungOutput"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

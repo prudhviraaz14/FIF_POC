@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.vodafone.de/ESB/Service/SBUS/FIF/FIF-ActivateCustomerOrder-001" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001" xmlns:fifcommon="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001" targetNamespace="http://www.vodafone.de/ESB/Service/SBUS/FIF/FIF-ActivateCustomerOrder-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001" schemaLocation="EPSM-FIF-CommonTypes-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="FIF_ActivateCustomerOrderService_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>XML schema definition for FIF ASBO and services Version: 0.1 Status des Dokument: Entwurf Aenderungshistorie: Version 0.1 15.08.08 Aziz Banani initial</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>Dieses Dokument basiert auf und referenziert folgende Dokumente:</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>Diese Schnittstelle wird durch den CCM-FIF realisiert</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ==================== ActivateCustomerOrder ====================== -->
+	<xs:complexType name="ActivateCustomerOrderRequest">
+		<xs:annotation>
+			<xs:documentation>Inputdaten Dienst ActivateCustomerOrder</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="customerOrderID" type="xs:string"/>
+					<xs:element name="activateCustomerOrder" type="xs:boolean"/>
+					<xs:element name="serviceSubscriptionList" type="ServiceSubscriptionList" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ActivateCustomerOrderResponse">
+		<xs:annotation>
+			<xs:documentation>Outputdaten Dienst ActivateCustomerOrderService</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ServiceCharacteristicList">
+		<xs:sequence>
+			<xs:element name="serviceCharacteristic" type="ServiceCharacteristic" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ServiceCharacteristic">
+		<xs:sequence>
+			<xs:element name="serviceCharCode" type="xs:string"/>
+			<xs:choice>
+				<xs:element name="address" type="fifcommon:Address"/>
+				<xs:element name="serviceLocation" type="fifcommon:ServiceLocation"/>
+				<xs:element name="integerValue" type="xs:integer"/>
+				<xs:element name="stringValue" type="xs:string"/>
+				<xs:element name="decimalValue" type="xs:decimal"/>
+				<xs:element name="dateValue" type="xs:dateTime"/>
+				<xs:element name="booleanValue" type="xs:boolean"/>
+				<xs:element name="singleNumber" type="fifcommon:SingleNumber"/>
+				<xs:element name="accessNumberRange" type="fifcommon:AccessNumberRange"/>
+				<xs:element name="networkAccount" type="xs:string"/>
+				<xs:element name="technicalServiceId" type="xs:string"/>
+				<xs:element name="ipNetAddress" type="fifcommon:IPAddress"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ServiceSubscriptionList">
+		<xs:sequence>
+			<xs:element name="serviceSubscription" type="ServiceSubscription" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ServiceSubscription">
+		<xs:sequence>
+			<xs:element name="serviceSubscriptionId" type="xs:string"/>
+			<xs:element name="serviceCharacteristicList" type="ServiceCharacteristicList" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

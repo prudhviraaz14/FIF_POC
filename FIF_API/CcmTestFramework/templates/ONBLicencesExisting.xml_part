@@ -1,0 +1,28 @@
+<licencesList>
+    <existing>
+        <licence>
+            <serviceCode>VI251</serviceCode>
+            <quantity>20</quantity>
+        </licence>
+        <licence>
+            <serviceCode>VI252</serviceCode>
+            <quantity>5</quantity>
+        </licence>
+    </existing>
+</licencesList>
+<licenceOptionsList>
+    <existing>
+        <licenceOption>
+            <serviceCode>VI272</serviceCode>
+            <quantity>10</quantity>
+        </licenceOption>
+        <licenceOption>
+            <serviceCode>VI273</serviceCode>
+            <quantity>15</quantity>
+        </licenceOption>
+        <licenceOption>
+            <serviceCode>VI274</serviceCode>
+            <quantity>0</quantity>
+        </licenceOption>
+    </existing>
+</licenceOptionsList>

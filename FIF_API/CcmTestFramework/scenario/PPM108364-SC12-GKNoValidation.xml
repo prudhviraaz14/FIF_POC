@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>PPM108364-SC12-GKNoValidation</request-list-name>
+   <request-list-id>PPM108364-SC12-GKNoValidation</request-list-id>
+  
+  <!-- Scenario 12, no validation for GK:
+  	1) create customer with same email addresses for
+  		- customer <= no validation
+  		- account <= no validation
+  		- contactRole <= no validation
+   -->
+  
+   <requests>
+  
+     {file:templates/GenerateStep.xml}
+
+      <trx-builder-request>
+         <transaction-id>PPM108364-SC12-GKNoValidation-create</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/PPM108364-Create.xml">            
+              <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">PPM108364-SC12-GKNoValidation</request-param>
+                  {file:templates/VodafoneGK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-24:hour</request-param>
+                  <request-param name="desiredDate">datetime:-24:hour</request-param>
+                  <request-param name="todayTruncated">date:-24:hour</request-param>
+                  <request-param name="customerEmailAddress">oneemail@vodafone.com</request-param>                  
+                  <request-param name="accountEmailAddress">oneemail@vodafone.com</request-param>                  
+                  <request-param name="contactRoleEmailAddress">oneemail@vodafone.com</request-param>                  
+              </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <sql-request>
+         <transaction-id>checkEmailValidation</transaction-id>
+         <statement>
+            select count(1) numberOfValidations 
+            from EMAIL_VALIDATION ev 
+            where customer_number = 'customerNumber'                        
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="PPM108364-SC12-GKNoValidation-create_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-result-params>
+         	<request-param name="numberOfValidations">0</request-param>
+         </sql-request-result-params>         
+      </sql-request>
+      
+   </requests>
+</request-list>

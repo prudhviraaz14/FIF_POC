@@ -1,0 +1,11 @@
+--
+-- Script for adding the AUDIT_UPDATE_USER_ID column the FIF_REQUEST table.
+--
+-- @author Olivier Goethals
+-- @date 2004-05-06
+
+
+ALTER TABLE FIF_REQUEST ADD (AUDIT_UPDATE_USER_ID VARCHAR2(30) DEFAULT user NOT NULL);
+
+COMMENT ON COLUMN FIF_REQUEST.AUDIT_UPDATE_USER_ID IS
+    'The database user that inserted the FIF_REQUEST row.';

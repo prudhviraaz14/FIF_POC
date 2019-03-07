@@ -1,0 +1,67 @@
+<safetyPackage ID="safetyPackage">
+	<processingType>CHANGE</processingType>
+	<ccbId type="S">
+	    <existing>{safetyPackageSSID}</existing>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>001f1</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>001f2</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>001f3</configured>
+	</providerTrackingNumber>
+	<safetyPackageConfiguration>
+		<pricingStructureCode>
+			<existing>{pricingStructureCodeSafetyPackage}</existing>
+			<configured>{pricingStructureCodeSafetyPackageNew}</configured>
+		</pricingStructureCode>
+		<primaryCustSignName>
+			<existing>{scenarioName}</existing>
+		</primaryCustSignName>
+		<primaryCustSignDate>
+			<existing>{todayTruncated}</existing>
+		</primaryCustSignDate>
+		<minimumDurationPeriod>
+			<value>
+				<existing>24</existing>
+			</value>
+			<unit>
+				<existing>MONTH</existing>
+			</unit>
+		</minimumDurationPeriod>
+		<conditionsList>
+			<existing>
+				<conditionService>
+					<conditionServiceType>CM</conditionServiceType>
+					<conditionServiceName>Startguthaben 10Eu mtl</conditionServiceName>
+					<conditionServiceID>1234567890</conditionServiceID>
+					<conditionServiceCode>V0046</conditionServiceCode>
+				</conditionService>
+			</existing>
+		</conditionsList>
+		<!-- Following elements are enriched by BKS -->
+		<productCode>
+			<existing>I1410</existing>
+		</productCode>
+		<productVersionCode>
+			<existing>1</existing>
+		</productVersionCode>
+		<productBillingName>
+			<existing>Arcor-Sicherheitspaket</existing>
+		</productBillingName>
+		<mainAccessServiceCode>
+			<existing>I1410</existing>
+		</mainAccessServiceCode>
+		<pricingStructureBillingName>
+			<existing>.</existing>
+		</pricingStructureBillingName>
+		<!-- Following element is enriched by OPM -->
+		<activationKey>
+			<existing>1234567890</existing>
+		</activationKey>
+	</safetyPackageConfiguration>
+	<processingStatus>{safetyPackageProcessingStatus}</processingStatus>
+	<completionStatusOldCcbId>{safetyPackageProcessingStatus}</completionStatusOldCcbId>
+</safetyPackage>

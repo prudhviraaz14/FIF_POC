@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: EmailUtility-001.xsd,v 1.0 2014/02/11 06:53:09 dulcysyr Exp $ -->
+<xs:schema xmlns="http://www.vodafone.de/ESB/Service/SBUS/FIF/FIF-001" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:primitivebasetypes="http://www.vodafone.de/ESB/Schema/Common/PrimitiveBaseTypes-ESB-001" xmlns:fifwebticket="http://www.arcor.net/FIF/FIF-CreateTerminateWebTicketContract-001" xmlns:fifactcustorder="http://www.vodafone.de/ESB/Service/SBUS/FIF/FIF-ActivateCustomerOrder-001" targetNamespace="http://www.vodafone.de/ESB/Service/SBUS/FIF/FIF-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>
+			History of Changes:
+			Vers.	Date		    Author			   Comment
+			====	==========	    ===========		   ===================================================
+			1.0    2014-02-11  Dulcy Sylvia      Initial version    
+			2.0	2014-03-20  Reto Renner		Update (FIF service)
+        </xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://www.vodafone.de/ESB/Schema/Common/PrimitiveBaseTypes-ESB-001" schemaLocation="PrimitiveBaseTypes-ESB-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/FIF-CreateTerminateWebTicketContract-001" schemaLocation="FIF-CreateTerminateWebTicketContract-001.xsd"/>
+	<xs:import namespace="http://www.vodafone.de/ESB/Service/SBUS/FIF/FIF-ActivateCustomerOrder-001" schemaLocation="FIF-ActivateCustomerOrder-001.xsd"/>
+	<xs:element name="UpdateEmailStatusRequest">
+		<xs:annotation>
+			<xs:documentation>Request element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="callingSystem" type="primitivebasetypes:StringMax20">
+					<xs:annotation>
+						<xs:documentation>Name of the calling system for the back routing</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="validationId" type="primitivebasetypes:StringMax100">
+					<xs:annotation>
+						<xs:documentation>validation identifier for the target system</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="email" type="primitivebasetypes:StringMax150">
+					<xs:annotation>
+						<xs:documentation>Email address of validation process</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="customerNumber" type="primitivebasetypes:StringMax20">
+					<xs:annotation>
+						<xs:documentation>KIAS - BAN CCB - Kundennummer</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="status" type="primitivebasetypes:StringMax10">
+					<xs:annotation>
+						<xs:documentation>Status of the validation process</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="statusDate" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>Timestamp of the status</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="bounceReasonCode" type="primitivebasetypes:StringMax20" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reason code</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="bounceReason" type="primitivebasetypes:StringMax200" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reason of the bounce as clear text</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UpdateEmailStatusResponse">
+		<xs:annotation>
+			<xs:documentation>Response element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="callingSystem" type="primitivebasetypes:StringMax100" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Name of the calling system for the back routing</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="validationId" type="primitivebasetypes:StringMax100" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>validation identifier for the target system</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="email" type="primitivebasetypes:StringMax150">
+					<xs:annotation>
+						<xs:documentation>The email</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="status" type="primitivebasetypes:String1">
+					<xs:annotation>
+						<xs:documentation>status code of the service</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="errorCode" type="primitivebasetypes:StringMax10" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>error code mandatory if status is 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="errorMessage" type="primitivebasetypes:StringMax260" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>error message</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ==================== CreateTerminateWebTicketContract ====================== -->
+	<xs:element name="CreateTerminateWebTicketContractRequest" type="fifwebticket:CreateTerminateWebTicketContractRequest">
+		<xs:annotation>
+			<xs:documentation>Request data for CreateTerminateWebTicketContract service</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="CreateTerminateWebTicketContractResponse" type="fifwebticket:CreateTerminateWebTicketContractResponse">
+		<xs:annotation>
+			<xs:documentation>Response data for CreateTerminateWebTicketContract service</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- ==================== ActivateCustomerOrder ====================== -->
+	<xs:element name="ActivateCustomerOrderRequest" type="fifactcustorder:ActivateCustomerOrderRequest">
+		<xs:annotation>
+			<xs:documentation>Request data for ActivateCustomerOrder service</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ActivateCustomerOrderResponse" type="fifactcustorder:ActivateCustomerOrderResponse">
+		<xs:annotation>
+			<xs:documentation>Response data for ActivateCustomerOrder service</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

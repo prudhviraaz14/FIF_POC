@@ -1,0 +1,57 @@
+				<hardware ID="mobile-hardware">
+					<processingType>ADD</processingType>
+					<ccbId type="S">
+					    <configured>{hardwareMobileSSID}</configured>
+					</ccbId>
+					<refFunctionID>
+						<configured>mobile-voice</configured>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultHWM</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeHWM</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetHWM</configured>
+					</providerTrackingNumber>
+					<hardwareConfiguration>
+						<hardwareServiceCode>
+							<configured>V0114</configured>
+						</hardwareServiceCode>
+						<orderReason>
+							<configured>Neuauftrag</configured>
+						</orderReason>
+						<subventionCode>
+							<configured>1</configured>
+						</subventionCode>
+						<shippingCosts>
+							<configured>RG</configured>
+						</shippingCosts>
+						<salutationDescription>
+							<configured>Herr</configured>
+						</salutationDescription>
+						<forename>
+							<configured>COM</configured>
+						</forename>
+						<name>
+							<configured>{scenarioName}</configured>
+						</name>
+						<hardwareMailingAddress>
+							<configured>
+								{file:templates/Address1.xml_part}
+							</configured>
+						</hardwareMailingAddress>
+						<articleNumber>
+							<configured>20080360</configured>
+						</articleNumber>
+						<articleName>
+							<configured>MoreConnect SIM-Karte</configured>
+						</articleName>
+						<serialNumber>
+							<configured>154947214842</configured>
+						</serialNumber>
+					</hardwareConfiguration>
+					<completionStatusNewCcbId>{hardwareMobileCompletionStatusNew}</completionStatusNewCcbId>
+					<processingStatus>{hardwareMobileProcessingStatus}</processingStatus>
+				</hardware>

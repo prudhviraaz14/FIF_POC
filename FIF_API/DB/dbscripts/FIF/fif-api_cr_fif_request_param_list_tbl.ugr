@@ -1,0 +1,7 @@
+--
+-- User Grants script for the FIF_REQUEST_PARAM_LIST table.
+--
+-- @author Olivier Goethals
+-- @date 2003-09-09
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON FIF_REQUEST_PARAM_LIST TO CCM_USER;

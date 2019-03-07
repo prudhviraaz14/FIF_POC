@@ -1,0 +1,11 @@
+            <fixedIPAddressChangeType>
+              <configured>Replace</configured>
+            </fixedIPAddressChangeType>
+            <dialInAccountNameStatic>
+              <existing>ar{accountNumber}-static</existing>
+              <configured>vf{accountNumber}-static</configured>
+            </dialInAccountNameStatic>
+            <fixedIPAddress>
+              <existing>;255.255.255.0;213.23.71.186</existing>
+              <configured>;255.255.255.0;213.23.71.187</configured>
+            </fixedIPAddress>

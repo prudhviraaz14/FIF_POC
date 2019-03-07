@@ -1,0 +1,23 @@
+<!--
+    DTD for the XML representation of a FIF response to a request list
+    
+    File name : $Workfile:   response-list.dtd  $
+    Header    : $Header:   F:/GRUPPEN/PROJEKTE/PVCS_FIF/archives/FIF/KBAFIFQueueClient/response-list.dtd-arc   1.0   Jun 14 2004 15:37:22   goethalo  $
+    Revision  : $Revision:   1.0  $
+    
+    History:
+    $Log:   F:/GRUPPEN/PROJEKTE/PVCS_FIF/archives/FIF/KBAFIFQueueClient/response-list.dtd-arc  $
+  
+     Rev 1.0   Jun 14 2004 15:37:22   goethalo
+  Initial revision.
+-->
+
+<!ENTITY % response.dtd SYSTEM "response.dtd"> 
+%response.dtd;
+
+<!ELEMENT response-list (request-list-id, request-list-name, request-list-result, request-list-errors?, responses?)>
+<!ELEMENT request-list-id (#PCDATA)>
+<!ELEMENT request-list-name (#PCDATA)>
+<!ELEMENT request-list-result (#PCDATA)>
+<!ELEMENT request-list-errors (error+)>
+<!ELEMENT responses (response)+>

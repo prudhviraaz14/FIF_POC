@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arcor.net/FIF/FIF-CreateTerminateWebTicketContract-001" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001" xmlns:fifcommon="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001" targetNamespace="http://www.arcor.net/FIF/FIF-CreateTerminateWebTicketContract-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001" schemaLocation="EPSM-FIF-CommonTypes-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="EPSM_FIF_CreateTerminateWebTicketContract_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>XML schema definition for FIF ASBO and services
+                Version: 0.1
+                
+                Status des Dokument: Entwurf
+                
+                Aenderungshistorie:
+                Version 0.1 06.02.2017	Jens Schwarzwaelder	initial
+            </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>Dieses Dokument basiert auf und referenziert folgende Dokumente:</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>Diese Schnittstelle wird durch den CCM-FIF realisiert</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ==================== CreateTerminateWebTicketContract ====================== -->
+	<xs:complexType name="CreateTerminateWebTicketContractRequest">
+		<xs:annotation>
+			<xs:documentation>Inputdaten Dienst CreateTerminateWebTicketContract</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="customerNumber" type="common:Kundennummer"/>
+					<xs:element name="action" type="fifcommon:Action"/>
+					<xs:element name="dateTime" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="onboarderFirstName" type="xs:string" minOccurs="0"/>
+					<xs:element name="onboarderLastName" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CreateTerminateWebTicketContractResponse">
+		<xs:annotation>
+			<xs:documentation>Outputdaten Dienst CreateTerminateWebTicketContract</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData"/>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

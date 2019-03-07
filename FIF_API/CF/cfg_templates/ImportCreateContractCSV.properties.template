@@ -1,0 +1,132 @@
+# START HEADER
+#  File:                $Workfile:   ImportCreateContractCSV.properties.template  $
+#  Author:              $Author:   schwarje  $
+#  Revision:            $Revision:   1.0  $
+#  Purpose:             Configuration file for importing ModifyAccessInformationCSV requests from a CSV file to the FIF_REQUEST table.
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Aug 20 2014 17:19:22  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportCreateContractCSV.properties.template-arc  $
+#
+#   Rev 1.0   Aug 20 2014 17:19:22   schwarje
+#Initial revision.
+#
+#
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+# The names of columns that are mandatory in the CSV
+ImportCSVToDB.ColumnNames.Mandatory=customerNumber
+
+# The names of columns that are optional in the CSV
+ImportCSVToDB.ColumnNames.Optional=contractNumber, skeletonContractNumber, contractType, createContract, createProductCommitment, name, currencyRd, languageRd, loiIndicator, productCode, pricingStructureCode, boardSignName, boardSignDate, primaryCustSignName, primaryCustSignDate, secondaryCustSignName, secondaryCustSignDate, minPeriodDurationValue, minPeriodDurationUnit, minPeriodStartDate, autoExtentPeriodValue, autoExtentPeriodUnit, autoExtensionInd, salesOrganisationNumber, salesOrganisationNumberVF, noticePeriodDurationValue, noticePeriodDurationUnit, terminationRestriction, createContact, contactTypeRd, shortDescription, longDescriptionText
+
+# Indicates, if the parameter names are converted to upper case
+ImportCSVToDB.ColumnNames.convertToUpperCase=false
+
+##################
+# SQL STATEMENTS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importcreatecontractcsv.targetClient
+#ValidFrom:         FIF-API-48
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Name of database target client
+#DefaultValue:      -
+#ExampleValue:      SLS
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     20.08.14
+#Last_Modified_By   schwarje
+#Description:       The name of the target client to insert requests for (e.g. SLS, WRF)
+#END PARAMETER
+# The SQL statement for inserting requests in the database
+ImportCSVToDB.InsertRequestStmt=INSERT INTO FIF_REQUEST (TRANSACTION_ID, TARGET_CLIENT, STATUS, ACTION_NAME, ERROR_TEXT, DUE_DATE, PRIORITY, CREATION_DATE, START_DATE, END_DATE) VALUES (?, '${slsfif.importcreatecontractcsv.targetClient}', 'NOT_STARTED', 'createContract', '', SYSDATE, 5, SYSDATE, NULL, NULL)
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The SQL statement for inserting request parameters in the database
+ImportCSVToDB.InsertParamStmt=INSERT INTO FIF_REQUEST_PARAM (TRANSACTION_ID, PARAM, VALUE) VALUES (?, ?, ?)
+
+# The name of the database field representing the transaction ID for a request
+ImportCSVToDB.InsertParamStmt.TransactionIDFieldIndex=1
+
+# The name of the database field representing the parameter name for a request
+ImportCSVToDB.InsertParamStmt.ParamNameFieldIndex=2
+
+# The name of the database field representing the parameter value for a request
+ImportCSVToDB.InsertParamStmt.ParamValueFieldIndex=3
+
+# The name of the external system id
+ImportCSVToDB.insertExternalSystemIdName=customerNumber
+
+# The SQL statement for updating the request external system id
+ImportCSVToDB.UpdatexternalSystemIdStatement=UPDATE FIF_REQUEST SET EXTERNAL_SYSTEM_ID = ? WHERE TRANSACTION_ID=?
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importcreatecontractcsv.log4j.appender.File.File
+#ValidFrom:         FIF-API-48
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/ImportCreateContractCSV.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     20.08.14
+#Last_Modified_By   schwarje
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importcreatecontractcsv.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n

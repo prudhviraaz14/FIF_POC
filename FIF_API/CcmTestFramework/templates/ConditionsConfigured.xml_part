@@ -1,0 +1,14 @@
+		<conditionsList>
+			<configured>
+				<conditionService>
+					<conditionServiceType>CM</conditionServiceType>
+					<conditionServiceName>GS_LTE_6x32,49E[br]</conditionServiceName>
+					<conditionServiceID>P-0229-06-03</conditionServiceID>
+				</conditionService>
+				<conditionService>
+					<conditionServiceType>CM</conditionServiceType>
+					<conditionServiceName>GS_LTE_EOL_10E[br]</conditionServiceName>
+					<conditionServiceID>P-0239-02-02</conditionServiceID>
+				</conditionService>
+			</configured>
+		</conditionsList>		

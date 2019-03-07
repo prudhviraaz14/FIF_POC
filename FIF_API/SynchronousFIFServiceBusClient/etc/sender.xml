@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+    <beans>        
+        <bean id="queueHandler" class="net.arcor.mcf.jms.QueueHandler"
+            init-method="init">
+            <property name="connectionFactory"  ref="connectionFactory" />
+            <property name="outQueue"           ref="outQueue"/>
+            <property name="fileURL"          value="xml/1und1.xml"/>
+            
+            <property name="propertyMap">
+                <map>
+                </map>
+            </property>
+        </bean>
+        
+        <bean id="mcfStartClient" class="net.arcor.sample.SendFile"/>
+        
+        <bean id="connectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory">
+            <property name="transportType" value="1" />
+            <property name="queueManager" value="CCBSVR3E" />
+            <property name="hostName" value="ks05t03" />
+            <property name="port" value="5011" />
+            <property name="channel" value="CLIENT.CCBSVR3E" />
+        </bean>
+        
+        <bean id="outQueue" class="com.ibm.mq.jms.MQQueue">
+            <constructor-arg index="0" value="CCBSVR3E" />
+            <constructor-arg index="1" value="CCMDEV37" />
+        </bean>
+        
+        <!-- 
+            <bean id="connectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory">
+            <property name="transportType" value="1" />
+            <property name="queueManager" value="CCBSVRZ3" />
+            <property name="hostName" value="ks09t02" />
+            <property name="port" value="5190" />
+            <property name="channel" value="CLIENT.CCBSVRZ3" />
+        </bean>
+        <bean id="outQueue" class="com.ibm.mq.jms.MQQueue">
+            <constructor-arg index="0" value="CCBSVRZ3" />
+            <constructor-arg index="1" value="AAW.SYNCFIF.SBUSOUT" />
+        </bean>
+        -->
+        
+    </beans>    

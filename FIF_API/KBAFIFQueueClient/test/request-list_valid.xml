@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "request-list.dtd">
+<request-list>
+  <request-list-name>requestListValid</request-list-name>
+  <request-list-id>valid_01</request-list-id>
+  <requests>
+    <!-- Complex termination -->
+    <request>
+      <action-name>terminateService</action-name>
+      <request-params>
+        <request-param name="transactionID"><![CDATA[KBA_COMPLEX_WORKING_01]]></request-param>
+        <request-param name="terminationType"><![CDATA[Complex]]></request-param>
+        <request-param name="productCode"><![CDATA[V0001]]></request-param>
+        <request-param name="accessNumber"><![CDATA[49;2159;114477]]></request-param>
+        <request-param name="contractNumber"><![CDATA[000000156263]]></request-param>
+        <request-param name="customerNumber"><![CDATA[000000086639]]></request-param>
+        <request-param name="noticePeriodStartDate"><![CDATA[2003.07.03 00:00:00]]></request-param>
+        <request-param name="terminationDate"><![CDATA[2003.07.30 00:00:00]]></request-param>
+        <request-param name="terminationReason"><![CDATA[complex KBA]]></request-param>
+        <request-param name="sendConfirmationLetter"><![CDATA[Y]]></request-param>
+        <request-param name="deactivateOnlineAccount"><![CDATA[Y]]></request-param>
+        <request-param name="OMTSOrderID"><![CDATA[ARC001010101]]></request-param>
+        <request-param name="userName"><![CDATA[kba_user_name]]></request-param>
+      </request-params>
+    </request>
+    <request>
+      <action-name>relocateService</action-name>
+      <request-params>
+        <request-param name="transactionID"><![CDATA[CCM_TEST_RELOCATION_PLEASE_IGNORE]]></request-param>
+        <request-param name="accessNumber"><![CDATA[49;173;52525]]></request-param>
+        <request-param name="productCode"><![CDATA[V0001]]></request-param>
+        <request-param name="contractNumber"><![CDATA[000000012345]]></request-param>
+        <request-param name="customerNumber"><![CDATA[0000123456789012]]></request-param>
+        <request-param name="relocationDate"><![CDATA[2003.07.30 00:00:00]]></request-param>
+        <request-param name="changeCustomerAddress"><![CDATA[Y]]></request-param>
+        <request-param name="changeBillingAddress"><![CDATA[Y]]></request-param>
+        <request-param name="newStreet"><![CDATA[New Street]]></request-param>
+        <request-param name="newNumber"><![CDATA[New Number]]></request-param>
+        <request-param name="newNumberSuffix"><![CDATA[New Number Suffix]]></request-param>
+        <request-param name="newPostalCode"><![CDATA[New Postcode]]></request-param>
+        <request-param name="newCity"><![CDATA[New City]]></request-param>
+        <request-param name="newCitySuffix"><![CDATA[New City Suffix]]></request-param>
+        <request-param name="OMTSOrderID"><![CDATA[ARC001010101]]></request-param>
+        <request-param name="userName"><![CDATA[kba_user_name]]></request-param>
+        <request-param name="relocationType"><![CDATA[Umzug ohne Rufnummernmitnahme]]></request-param>
+        <request-param name="TAEType"><![CDATA[type]]></request-param>
+        <request-param name="ASBNumber"><![CDATA[ASB]]></request-param>
+        <request-param name="carrier"><![CDATA[carrier]]></request-param>
+        <request-param name="ONKZ"><![CDATA[ONKZ]]></request-param>
+        <request-param name="accessNumberCount"><![CDATA[2]]></request-param>
+        <request-param name="provisioningProvider"><![CDATA[Arcor]]></request-param>
+        <request-param-list name="newServiceCodeList">
+          <request-param-list-item>
+            <request-param name="serviceCode"><![CDATA[V0100]]></request-param>
+          </request-param-list-item>
+          <request-param-list-item>
+            <request-param name="serviceCode"><![CDATA[V0112]]></request-param>
+          </request-param-list-item>
+          <request-param-list-item>
+            <request-param name="serviceCode"><![CDATA[V0115]]></request-param>
+          </request-param-list-item>
+          <request-param-list-item>
+            <request-param name="serviceCode"><![CDATA[V0011]]></request-param>
+          </request-param-list-item>
+          <request-param-list-item>
+            <request-param name="serviceCode"><![CDATA[V0013]]></request-param>
+          </request-param-list-item>
+        </request-param-list>
+      </request-params>
+    </request>
+  </requests>
+</request-list>

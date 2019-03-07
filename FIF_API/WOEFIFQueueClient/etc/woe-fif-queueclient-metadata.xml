@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE messagecreator-metadata SYSTEM "messagecreator-metadata.dtd"[
+<!ENTITY woe_changeDSLBandwidth SYSTEM "woe_changeDSLBandwidth.xml">
+<!ENTITY woe_modifyContract SYSTEM "woe_modifyContract.xml">
+<!ENTITY woe_setDesiredCountries SYSTEM "woe_setDesiredCountries.xml">
+<!ENTITY woe_addFeatureService SYSTEM "woe_addFeatureService.xml">
+<!ENTITY woe_setDesiredTariffOption SYSTEM "woe_setDesiredTariffOption.xml">
+<!ENTITY woe_createSafetyPackage SYSTEM "woe_createSafetyPackage.xml">
+<!ENTITY woe_createVoIPContract SYSTEM "woe_createVoIPContract.xml">
+<!ENTITY woe_upgradeToVoIP SYSTEM "woe_upgradeToVoIP.xml">
+<!ENTITY woe_addHardwareService SYSTEM "woe_addHardwareService.xml">
+<!ENTITY woe_createDirectoryEntry SYSTEM "woe_createDirectoryEntry.xml">
+<!ENTITY woe_updateSelectedDestination SYSTEM "woe_updateSelectedDestination.xml">
+<!ENTITY woe_createOnlineContract SYSTEM "woe_createOnlineContract.xml">
+<!ENTITY woe_terminateService SYSTEM "woe_terminateService.xml">
+<!ENTITY woe_upgradeToPremium SYSTEM "woe_upgradeToPremium.xml">
+<!ENTITY woe_downgradeToBasis SYSTEM "woe_downgradeToBasis.xml">
+<!ENTITY woe_addInstallationService SYSTEM "woe_addInstallationService.xml">
+<!ENTITY woe_createMultimediaContract SYSTEM "woe_createMultimediaContract.xml">
+<!ENTITY woe_changeTechnology SYSTEM "woe_changeTechnology.xml">
+<!ENTITY woe_addConditionService SYSTEM "woe_addConditionService.xml">
+<!ENTITY woe_storeCampaignInformation SYSTEM "woe_storeCampaignInformation.xml">
+<!ENTITY woe_createAdjustment SYSTEM "woe_createAdjustment.xml">
+<!ENTITY woe_modifyCustomerInfo SYSTEM "woe_modifyCustomerInfo.xml">
+<!ENTITY woe_createMobilePhoneContract SYSTEM "woe_createMobilePhoneContract.xml">
+]>
+
+<!--
+    This document contains the message metadata for the WOE-FIF QueueClient.
+    It contains information about the supported request, message, and message
+    creator types.  It also contains the action mappings that specify which
+    actions are supported.
+-->
+
+<messagecreator-metadata>
+
+    <!-- Request definitions -->
+    <request-definitions>
+        <request-definition>
+            <request-type>FIF</request-type>
+            <request-class>net.arcor.fif.messagecreator.FIFRequest</request-class>
+        </request-definition>
+    </request-definitions>
+
+    <!-- Message definitions -->
+    <message-definitions>
+        <message-definition>
+            <message-type>FIF</message-type>
+            <message-class>net.arcor.fif.messagecreator.FIFMessage</message-class>
+        </message-definition>
+    </message-definitions>
+
+    <!-- Message Creator definitions -->
+    <message-creator-definitions>
+        <message-creator-definition>
+            <creator-type>xsql</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSQLMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+        <message-creator-definition>
+            <creator-type>xslt</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSLTMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+    </message-creator-definitions>
+
+    <!-- Action Mappings-->
+    <action-mappings>
+      <!-- Change Bandwidth of the DSL service -->
+      &woe_changeDSLBandwidth;
+      <!-- Modify Contract  -->
+      &woe_modifyContract;
+      <!-- Set Desired Countries  -->
+      &woe_setDesiredCountries;
+      <!-- Add feature service  -->
+      &woe_addFeatureService;
+      <!-- Set Desired Tariff Option  -->
+      &woe_setDesiredTariffOption;
+      <!-- Create safety package -->
+      &woe_createSafetyPackage;
+      <!-- Create Voice over IP contract -->
+      &woe_createVoIPContract;
+      <!-- Upgrade from Preselect to VoIP -->
+      &woe_upgradeToVoIP;
+      <!-- Add hardware service -->
+      &woe_addHardwareService;
+      <!-- Add Directory Entry -->
+      &woe_createDirectoryEntry;
+      <!-- Add Selected Destination -->
+      &woe_updateSelectedDestination;
+      <!-- Create Online Contract -->
+      &woe_createOnlineContract; 
+      <!-- Terminate Service -->
+      &woe_terminateService; 
+      <!-- Upgrade to Premium -->
+      &woe_upgradeToPremium;
+      <!-- Downgrade to Basis -->
+      &woe_downgradeToBasis;           
+      <!-- Add installation service -->
+      &woe_addInstallationService; 
+      <!-- Change technology -->
+      &woe_changeTechnology;      
+      <!-- Create Multimedia Contract -->
+      &woe_createMultimediaContract;             
+        <!-- Add  Condition Service -->
+        &woe_addConditionService;
+        <!-- Store Campaign Information -->
+        &woe_storeCampaignInformation;
+        <!-- Create Adjustment -->
+        &woe_createAdjustment;  
+        <!-- Modify Customer Information -->
+        &woe_modifyCustomerInfo;
+        &woe_createMobilePhoneContract;
+    </action-mappings>
+</messagecreator-metadata>

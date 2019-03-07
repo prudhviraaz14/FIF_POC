@@ -1,0 +1,305 @@
+* -----------------------------------------------------------------------------
+* START HEADER
+*
+*  File:           fifccbp.mqs.template
+*  Author:         C.Binder
+*  Purpose:        Template for fifccbp.mqs for DOM/KBP
+*  Last Change:    2002-05-02
+*  Change history:
+*  2002-04-18 bindercl  creation
+*  2002-05-02 bindercl  added namelist
+*                       added qmgr deadq
+*                       added qmgr deadq handler
+*  2002-05-04 bindercl  rearranged commands
+*                       changed repos to reposnl
+*  2002-06-17 kargh     set attr. MAXDEPTH for local queues to 640000 (this is
+*                       the maximum allowed) to cope with system outage.
+*  2003-02-26 kargh     moved qmgr from Cluster
+*                       ${MQ_CLUS_NAME_CCB} to ${MQ_CLUS_NAME_FMC};
+*                       removed namelist CLUSTERNAMELIST
+*  2003-06-02 kargh     Eingangs- u. Antwort-Queues fuer CcmFifInterface hinzugefuegt
+*  2003-07-07 kargh     Objekte fuer BPM und neue FIF Version hinzugefuegt
+*  2003-07-14 kargh     Server-Connection-Channel fuer Administration hinzugefuegt
+*  2003-09-12 bindercl  SLSFIFDatabaseClient Eingangs- u. Antwort-Queues 
+*                       fuer CcmFifInterface hinzugefuegt
+*  2003-10-01 brandanc  Die Cluster-Queues erhalten den Parameter DEFBIND(NOTFIXED)
+*  						BPM.FIF.REQUEST Clusterattribut entfernt
+*  						DOM.BPM.REQUEST default MIT Clusterattribut (Deaktivierung
+*						mit dombpmswitchoffline
+*  2004-02-05 henneh    SAPFIFDatabaseClient - STREAM FIS - included 
+*                       new settings like SLS (incl. TECHRECYCLING)
+*  2004-07-01 henneh    ISISFIFDatabaseClient - STREAM DCL - included 
+*                       new settings like SAP
+*  2004-07-06 henneh    CCMFIFDatabaseClient - 	STREAM CFD 
+*  2004-08-20 hastk     Queues for STREAM WRF included
+*  2005-04-07 henneh    Queues for WOEFIFQueueClient included
+*			STREAM : WPM - WOE Process Manager
+*  
+* END HEADER
+*
+* Definition der Queue-Manager Attribute
+* -----------------------------------------------------------------------------
+
+* =============================================================================
+* FIF-CCB
+* =============================================================================
+
+* Eingangs-Queue des CcmMQReader
+define qlocal(DOM.CI.CCB.REQUEST) replace +
+    MAXDEPTH(640000) +
+    cluster(${MQ_CLUS_NAME_FMC}) +
+	DEFBIND(NOTFIXED)
+
+* Lokale Recycler Queues des CcmMQReader
+define qlocal(DOM.CI.CCB.TECHRECYCLE1) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(DOM.CI.CCB.TECHRECYCLE2) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(DOM.CI.CCB.TECHRECYCLE3) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(DOM.CI.CCB.TECHRECYCLE4) replace +
+           MAXDEPTH(640000)
+
+* =============================================================================
+* FIF-OPM
+* =============================================================================
+
+* Eingangs- und Antwort-Queues des CcmFifInterface fuer Kommunikation mit OPM
+define qlocal(OPM.CI.CCB.REQUEST) replace +
+    MAXDEPTH(640000)
+
+define qlocal(OPM.CI.CCB.REPLY) replace +
+    MAXDEPTH(640000)    
+
+* Lokale Recycler Queues von FIF
+
+define qlocal(OPM.FIF.TECHRECYCLE1) replace +
+	MAXDEPTH(640000)
+
+define qlocal(OPM.FIF.TECHRECYCLE2) replace +
+	MAXDEPTH(640000)
+
+define qlocal(OPM.FIF.TECHRECYCLE3) replace +
+	MAXDEPTH(640000)
+
+define qlocal(OPM.FIF.TECHRECYCLE4) replace +
+	MAXDEPTH(640000)
+    
+
+* =============================================================================
+* FIF-SLS
+* =============================================================================
+
+* Eingangs- und Antwort-Queues des CcmFifInterface fuer Kommunikation mit SLS
+define qlocal(SLS.CI.CCB.REQUEST) replace +
+    MAXDEPTH(640000)
+
+define qlocal(SLS.CI.CCB.REPLY) replace +
+    MAXDEPTH(640000)
+
+* =============================================================================
+* FIF-BPM
+* =============================================================================
+
+* Eingangs-Queue fuer FIF
+define qlocal(BPM.FIF.REQUEST) replace +
+    MAXDEPTH(640000)
+
+* Lokale Recycler Queues von FIF
+define qlocal(BPM.FIF.TECHRECYCLE1) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(BPM.FIF.TECHRECYCLE2) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(BPM.FIF.TECHRECYCLE3) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(BPM.FIF.TECHRECYCLE4) replace +
+           MAXDEPTH(640000)
+
+* Queue fuer die Antworten von FIF an BPM
+define qlocal(BPM.FIF.REPLY) replace +
+    MAXDEPTH(640000)
+
+
+* =============================================================================
+* KBA-BPM
+* =============================================================================
+
+* Eingangs-Queue fuer BPM (primary)
+define qlocal(DOM.BPM.REQUEST) replace +
+    MAXDEPTH(640000) +
+    cluster(${MQ_CLUS_NAME_FMC}) +
+	DEFBIND(NOTFIXED)
+
+
+* =============================================================================
+* FIF-FIS
+* =============================================================================
+
+* Eingangs-Queue fuer FIF
+define qlocal(SAP.FIF.REQUEST) replace +
+    MAXDEPTH(640000)
+
+* Lokale Recycler Queues von FIF
+define qlocal(SAP.FIF.TECHRECYCLE1) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(SAP.FIF.TECHRECYCLE2) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(SAP.FIF.TECHRECYCLE3) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(SAP.FIF.TECHRECYCLE4) replace +
+           MAXDEPTH(640000)
+
+* Queue fuer die Antworten von FIF an SAP 
+define qlocal(SAP.FIF.REPLY) replace +
+    MAXDEPTH(640000)
+
+
+* =============================================================================
+* FIF-DCL
+* =============================================================================
+
+* Eingangs-Queue fuer FIF
+define qlocal(ISIS.FIF.REQUEST) replace +
+    MAXDEPTH(640000)
+
+* Lokale Recycler Queues von FIF
+define qlocal(ISIS.FIF.TECHRECYCLE1) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(ISIS.FIF.TECHRECYCLE2) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(ISIS.FIF.TECHRECYCLE3) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(ISIS.FIF.TECHRECYCLE4) replace +
+           MAXDEPTH(640000)
+
+* Queue fuer die Antworten von FIF an ISIS 
+define qlocal(ISIS.FIF.REPLY) replace +
+    MAXDEPTH(640000)
+
+* =============================================================================
+* FIF-CFD
+* =============================================================================
+
+* Eingangs-Queue fuer FIF
+define qlocal(CCM.FIF.REQUEST) replace +
+    MAXDEPTH(640000)
+
+* Lokale Recycler Queues von FIF
+define qlocal(CCM.FIF.TECHRECYCLE1) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(CCM.FIF.TECHRECYCLE2) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(CCM.FIF.TECHRECYCLE3) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(CCM.FIF.TECHRECYCLE4) replace +
+           MAXDEPTH(640000)
+
+* Queue fuer die Antworten von FIF an ISIS 
+define qlocal(CCM.FIF.REPLY) replace +
+    MAXDEPTH(640000)
+
+
+* =============================================================================
+* FIF-WRF
+* =============================================================================
+
+* Eingangs-Queue fuer FIF
+define qlocal(WRF.FIF.REQUEST) replace +
+    MAXDEPTH(640000)
+
+* Queue fuer die Antworten von FIF an ISIS 
+define qlocal(WRF.FIF.REPLY) replace +
+    MAXDEPTH(640000)
+
+* =============================================================================
+* FIF-WPM
+* =============================================================================
+
+* Eingangs-Queue fuer FIF
+define qlocal(WPM.FIF.REQUEST) replace +
+    MAXDEPTH(640000)
+
+* Lokale Recycler Queues von FIF
+define qlocal(WPM.FIF.TECHRECYCLE1) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(WPM.FIF.TECHRECYCLE2) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(WPM.FIF.TECHRECYCLE3) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(WPM.FIF.TECHRECYCLE4) replace +
+           MAXDEPTH(640000)
+
+* Queue fuer die Antworten von FIF an WPM
+define qlocal(WPM.FIF.REPLY) replace +
+    MAXDEPTH(640000)
+
+
+* =============================================================================
+* WOE-WPM
+* =============================================================================
+
+* Eingangs-Queue fuer WPM (primary)
+define qlocal(DOM.WPM.REQUEST) replace +
+    MAXDEPTH(640000) +
+    cluster(${MQ_CLUS_NAME_FMC}) +
+	DEFBIND(NOTFIXED)
+
+
+
+* =============================================================================
+* FIF-POS
+* =============================================================================
+
+* Eingangs-Queue fuer FIF
+define qlocal(POS.FIF.REQUEST) replace +
+    MAXDEPTH(640000)
+
+* Lokale Recycler Queues von FIF
+define qlocal(POS.FIF.TECHRECYCLE1) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(POS.FIF.TECHRECYCLE2) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(POS.FIF.TECHRECYCLE3) replace +
+           MAXDEPTH(640000)
+           
+define qlocal(POS.FIF.TECHRECYCLE4) replace +
+           MAXDEPTH(640000)
+
+* Queue fuer die Antworten von FIF an POS
+define qlocal(POS.FIF.REPLY) replace +
+    MAXDEPTH(640000)
+
+* =============================================================================
+* POS-POS
+* =============================================================================
+
+* Eingangs-Queue fuer POS (primary)
+define qlocal(POS.POS.REQUEST) replace +
+    MAXDEPTH(640000)
+
+* Eingangs-Queue fuer POS (primary)
+define qlocal(POS.POS.REPLY) replace +
+    MAXDEPTH(640000)
+    
+    
+    

@@ -1,0 +1,28 @@
+--
+-- Constraints script for the FIF_ISIS_REQUEST table.  Customized script for the ISIS-FIF Database Client.
+--
+-- @author Olivier Goethals
+-- @date 2004-05-17
+
+ALTER TABLE FIF_ISIS_REQUEST
+ADD  (CONSTRAINT XPKFIF_ISIS_REQUEST PRIMARY KEY (TRANSACTION_ID));
+
+CREATE INDEX XIE1FIF_ISIS_REQUEST ON FIF_ISIS_REQUEST
+(
+       STATUS                      ASC
+);
+
+CREATE INDEX XIE2FIF_ISIS_REQUEST ON FIF_ISIS_REQUEST
+(
+       PRIORITY                    ASC
+);
+
+CREATE INDEX XIE3FIF_ISIS_REQUEST ON FIF_ISIS_REQUEST
+(
+       DUE_DATE                    ASC
+);
+
+CREATE INDEX XIE4FIF_ISIS_REQUEST ON FIF_ISIS_REQUEST
+(
+       EXTERNAL_SYSTEM_ID		   ASC
+);

@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}" xmlns="http://www.arcor.net/orderSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+  <sendingSystem>CCM</sendingSystem>
+  <entryUser>CCM</entryUser>
+  <entryRole>CCM</entryRole>
+  <entrySystem>CCM</entrySystem>
+  <entryDateTime>{today}</entryDateTime>
+  <customerContactPoint>CCM</customerContactPoint>
+  <salesOrganisation>
+    <salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+    <salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+    <eShopCode>123</eShopCode>
+  </salesOrganisation>
+  <superCustomerTrackingId>superCustomerTrackingId</superCustomerTrackingId>
+  <scanDate>{todayTruncated}</scanDate>
+  <customerData>
+    <customer ID="customer" >
+        <ccbId type="C">
+            <existing>{customerNumber}</existing>
+        </ccbId>
+    </customer>
+    <billingAccount ID="account"  ownerNodeRefID="customer">
+        <ccbId type="A">
+            <existing>{accountNumber}</existing>
+        </ccbId>
+    </billingAccount>
+  </customerData>
+  <termination orderPositionNumber="1">
+    <customerIntention>LineCreation</customerIntention>
+    <desiredDate>{desiredDate}</desiredDate>
+      <orderReceivedDate>{today}</orderReceivedDate>
+  	<terminationReasonCode>ABWR</terminationReasonCode>
+    <providerCode>
+      <existing>VFAI</existing>
+    </providerCode>
+    <salesPacketName>
+      <existing>All Inclusive Paket</existing>
+    </salesPacketName>
+    <beneficiary ID="beneficiary" role="new">
+      <customerNodeRefID>customer</customerNodeRefID>
+    </beneficiary>
+    <payerAllCharges ID="payer-001">
+      <billingAccountNodeRefID>account</billingAccountNodeRefID>
+    </payerAllCharges>
+      <accesses>
+      	<lte ID="LTE-001">
+      		<ccbId type="S">
+      			<existing>{internetSSID}</existing>
+      		</ccbId>
+      		<lteConfiguration>
+      			<locationAddress>
+      				<existing>
+      					<city>Dortmund</city>
+      					<postalCode>44145</postalCode>
+      					<street>Lahnstr.</street>
+      					<streetNumber>13</streetNumber>
+      					<streetNumberSuffix/>
+      					<postOfficeBox/>
+      					<country>DE</country>
+      				</existing>
+      			</locationAddress>
+      			<salesSegment>
+      				<existing>GK</existing>
+      			</salesSegment>
+      			<asb>
+      				<existing>31</existing>
+      			</asb>
+      			<localAreaCode>
+      				<existing>0211</existing>
+      			</localAreaCode>
+      			<carrier>
+      				<existing>Arcor</existing>
+      			</carrier>
+      			<serviceProvider>
+      				<existing>Arcor</existing>
+      			</serviceProvider>
+      			<oldAccess>
+      				<existing>NEW</existing>
+      			</oldAccess>
+      			<vdslEnabledIndicator>
+      				<existing>false</existing>
+      			</vdslEnabledIndicator>
+      			<mobileAccessNumber>
+      				<countryCode>
+      					<countryCode>49</countryCode>
+      					<localAreaCode>173</localAreaCode>
+      					<pilotNumber>{mobileAccessNumber}</pilotNumber>
+      				</countryCode>
+      			</mobileAccessNumber>
+      			<imsi>
+      				<existing>262200300400500</existing>
+      			</imsi>
+      			<simPin>
+      				<existing>1234</existing>
+      			</simPin>
+      			<simSerialNumber>
+      				<existing>1234567890123456786</existing>
+      			</simSerialNumber>
+      		</lteConfiguration>
+      		<processingStatus>{{internetProcessingStatus}}</processingStatus>
+      	</lte>
+      	<mobile ID="mobile">
+      		<ccbId type="S">
+      			<existing>{mobileSSID}</existing>
+      		</ccbId>
+      		<mobileConfiguration>
+      			<simSerialNumber>
+      				<existing>1234567890123456786</existing>
+      			</simSerialNumber>
+      		</mobileConfiguration>
+      	</mobile>      	
+      </accesses>
+  	<functions>
+  		<internet ID="FUNCI-001" refAccessID="LTE-001">
+  			<processingType>TERM</processingType>
+  			<ccbId type="S">
+  				<existing>{internetSSID}</existing>
+  			</ccbId>
+  			<contractNumber>
+  				<existing>{internetContract}</existing>
+  			</contractNumber>
+  			<providerTrackingNumber type="default">
+  				<configured>ptnDefaultInternet</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="change">
+  				<configured>ptnChangeInternet</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="target">
+  				<configured>ptnTargetInternet</configured>
+  			</providerTrackingNumber>
+  			<adslInternetConfiguration>
+  				<pricingStructureCode>
+  					<existing>YI002</existing>
+  				</pricingStructureCode>
+  				<productCode>
+  					<existing>I1208</existing>
+  				</productCode>
+  				<visTrackingPosition/>
+  				<primaryCustSignName>
+  					<existing>Lotte Lettermann</existing>
+  				</primaryCustSignName>
+  				<primaryCustSignDate>
+  					<existing>2010-06-22</existing>
+  				</primaryCustSignDate>
+  				<minimumDurationPeriod>
+  					<value>
+  						<existing>24</existing>
+  					</value>
+  					<unit>
+  						<existing>MONTH</existing>
+  					</unit>
+  				</minimumDurationPeriod>
+  				<DSLBandwidth>
+  					<existing>V017J</existing>
+  				</DSLBandwidth>
+  				<allowBandwidthDowngrade>
+  					<existing>true</existing>
+  				</allowBandwidthDowngrade>
+  				<desiredBandwidth>
+  					<existing>V017J</existing>
+  				</desiredBandwidth>
+  				<fixedIPAddressIndicator>
+  					<existing>false</existing>
+  				</fixedIPAddressIndicator>
+  				<specialTimeWindow/>
+  				<projectOrderIndicator>
+  					<existing>false</existing>
+  				</projectOrderIndicator>
+  				<fixedOrderDateIndicator>
+  					<existing>false</existing>
+  				</fixedOrderDateIndicator>
+  				<automaticMailingIndicator>
+  					<existing>true</existing>
+  				</automaticMailingIndicator>
+  			</adslInternetConfiguration>
+  			<processingStatus>{internetProcessingStatus}</processingStatus>
+  			<completionStatusOldCcbId>{internetCompletionStatusOld}</completionStatusOldCcbId>
+  			<previousCompletionStatusOldCcbId>{internetPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+  		</internet>
+  		<voice ID="FUNCV-001" refAccessID="LTE-001">
+  			<processingType>TERM</processingType>
+  			<ccbId type="S">
+  				<existing>{voiceSSID}</existing>
+  			</ccbId>
+  			<contractNumber>
+  				<existing>{voiceContract}</existing>
+  			</contractNumber>
+  			<providerTrackingNumber type="default">
+  				<configured>ptnDefaultVoice</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="change">
+  				<configured>ptnChangeVoice</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="target">
+  				<configured>ptnTargetVoice</configured>
+  			</providerTrackingNumber>
+  			<voicePremiumConfiguration>
+  				<productCode>
+  					<existing>VI208</existing>
+  				</productCode>
+  				<pricingStructureCode>
+  					<existing>YK007</existing>
+  				</pricingStructureCode>
+  				<visTrackingPosition/>
+  				<primaryCustSignName>
+  					<existing>Lotte Lettermann</existing>
+  				</primaryCustSignName>
+  				<primaryCustSignDate>
+  					<existing>2010-06-22</existing>
+  				</primaryCustSignDate>
+  				<minimumDurationPeriod>
+  					<value>
+  						<existing>24</existing>
+  					</value>
+  					<unit>
+  						<existing>MONTH</existing>
+  					</unit>
+  				</minimumDurationPeriod>
+  				<automaticMailingIndicator>
+  					<existing>true</existing>
+  				</automaticMailingIndicator>
+  				<projectOrderIndicator>
+  					<existing>false</existing>
+  				</projectOrderIndicator>
+  				<activationType>
+  					<existing>Neuanschluss</existing>
+  				</activationType>
+  				<portingAccessNumbers>
+  					<portingMode>
+  						<existing>None</existing>
+  					</portingMode>
+  					<fixedOrderDateIndicator>
+  						<existing>false</existing>
+  					</fixedOrderDateIndicator>
+  					<numberOfNewAccessNumbers>
+  						<existing>3</existing>
+  					</numberOfNewAccessNumbers>
+  					<oldLocalExchangeCarrier>
+  						<existing>DTAG</existing>
+  					</oldLocalExchangeCarrier>
+  					<maskingDigits>
+  						<existing>0</existing>
+  					</maskingDigits>
+  					<storageMaskingDigits>
+  						<existing>-1</existing>
+  					</storageMaskingDigits>
+  					<accessNumber1>
+  						<existing>
+  							<countryCode>49</countryCode>
+  							<localAreaCode>211</localAreaCode>
+  							<pilotNumber>{accessNumber1}</pilotNumber>
+  						</existing>
+  					</accessNumber1>
+  					<ownerAccessNumber1>
+  						<existing>D001</existing>
+  					</ownerAccessNumber1>
+  					<voipAccount1>
+  						<existing>492111700123@vodafone.de</existing>
+  					</voipAccount1>
+  					<accessNumber2>
+  						<existing>
+  							<countryCode>49</countryCode>
+  							<localAreaCode>211</localAreaCode>
+  							<pilotNumber>{accessNumber2}</pilotNumber>
+  						</existing>
+  					</accessNumber2>
+  					<ownerAccessNumber2>
+  						<existing>D001</existing>
+  					</ownerAccessNumber2>
+  					<accessNumber3>
+  						<existing>
+  							<countryCode>49</countryCode>
+  							<localAreaCode>211</localAreaCode>
+  							<pilotNumber>{accessNumber3}</pilotNumber>
+  						</existing>
+  					</accessNumber3>
+  					<ownerAccessNumber3>
+  						<existing>D001</existing>
+  					</ownerAccessNumber3>
+  					<lineOwner1>
+  						<existing>
+  							<firstName>Lotte</firstName>
+  							<name>Lettermann</name>
+  						</existing>
+  					</lineOwner1>
+  					<lineOwnerAddress>
+  						<existing>
+  							<city>Dortmund</city>
+  							<postalCode>44145</postalCode>
+  							<street>Lahnstr.</street>
+  							<streetNumber>11</streetNumber>
+  							<streetNumberSuffix>a</streetNumberSuffix>
+  							<postOfficeBox/>
+  							<country>DE</country>
+  						</existing>
+  					</lineOwnerAddress>
+  				</portingAccessNumbers>
+  				<remarks>
+  					<existing>GK-Vertrieb B3, IMP, Betreute Schaltung nein, Privatkunde / Telefonbucheintrag / </existing>
+  				</remarks>
+  				<blockingList>
+  					<existing>
+  						<blockingServiceCode>V0323</blockingServiceCode>
+  					</existing>
+  				</blockingList>
+  			</voicePremiumConfiguration>
+  			<processingStatus>{voiceProcessingStatus}</processingStatus>
+  			<completionStatusOldCcbId>{voiceCompletionStatusOld}</completionStatusOldCcbId>
+  			<previousCompletionStatusOldCcbId>{voicePreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+  		</voice>
+  		<directoryEntry ID="DIR-FUNCV-002-1">
+  			<processingType>TERM</processingType>
+  			<ccbId type="S">
+  				<existing>{directoryEntrySSID}</existing>
+  			</ccbId>
+  			<refFunctionID>
+  				<existing>FUNCV-001</existing>
+  			</refFunctionID>
+  			<providerTrackingNumber type="default">
+  				<configured>ptnDefaultTBE</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="change">
+  				<configured>ptnChangeTBE</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="target">
+  				<configured>ptnTargetTBE</configured>
+  			</providerTrackingNumber>
+  			<directoryEntryConfiguration>									
+  				<dtagId>
+  					<existing>{dtagId}</existing>
+  				</dtagId>
+  				<directoryEntryText>{directoryEntryText}</directoryEntryText>
+  				<directoryEntryType>
+  					<existing>Einzeleintrag</existing>
+  				</directoryEntryType>
+  				<inverseSearchIndicator>
+  					<existing>false</existing>
+  				</inverseSearchIndicator>
+  				<titleDescription>
+  					<existing>Dr.</existing>
+  				</titleDescription>
+  				<forename>
+  					<existing>Millie</existing>
+  				</forename>
+  				<nobilityPrefixDescription>
+  					<existing>Baron</existing>
+  				</nobilityPrefixDescription>
+  				<surnamePrefix>
+  					<existing>de</existing>
+  				</surnamePrefix>
+  				<name>
+  					<existing>Malteser</existing>
+  				</name>
+  				<profession>
+  					<existing>Künstler</existing>
+  				</profession>
+  				<industrialSectorRd>
+  					<existing>121</existing>
+  				</industrialSectorRd>
+  				<listedAddress>
+  					<existing>
+  						<city>Düsseldorf</city>
+  						<postalCode>40215</postalCode>
+  						<street>Morsestr.</street>
+  						<streetNumber>11</streetNumber>
+  						<streetNumberSuffix>a</streetNumberSuffix>
+  						<postOfficeBox/>
+  						<country>DE</country>
+  					</existing>
+  				</listedAddress>
+  				<listedPhoneNumber>
+  					<existing>
+  						<countryCode>49</countryCode>
+  						<localAreaCode>211</localAreaCode>
+  						<pilotNumber>{accessNumber1}</pilotNumber>
+  					</existing>
+  				</listedPhoneNumber>
+  			</directoryEntryConfiguration>
+  			<processingStatus>{directoryEntryProcessingStatus}</processingStatus>
+  			<completionStatusOldCcbId>{directoryEntryCompletionStatusOld}</completionStatusOldCcbId>
+  			<previousCompletionStatusOldCcbId>{directoryEntryPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+  		</directoryEntry>
+  		<hardware ID="HW-FUNCI-001-1">
+  			<processingType>TERM</processingType>
+  			<ccbId type="S">
+  				<existing>{hardware1SSID}</existing>
+  			</ccbId>
+  			<refFunctionID>
+  				<existing>FUNCI-001</existing>
+  			</refFunctionID>
+  			<providerTrackingNumber type="default">
+  				<configured>ptnDefaultHW1</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="change">
+  				<configured>ptnChangeHW1</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="target">
+  				<configured>ptnTargetHW1</configured>
+  			</providerTrackingNumber>
+  			<hardwareConfiguration>
+  				<!-- Following elements are already supplied in the Input-SOM -->
+  				<hardwareServiceCode>
+  					<existing>V0330</existing>
+  				</hardwareServiceCode>
+  				<orderReason>
+  					<existing>Neuauftrag</existing>
+  				</orderReason>
+  				<subventionIndicator>
+  					<existing>1</existing>
+  				</subventionIndicator>
+  				<zeroChargeIndicator/>
+  				<shippingCosts>
+  					<existing>RG</existing>
+  				</shippingCosts>
+  				<salutationDescription>
+  					<existing>Herr</existing>
+  				</salutationDescription>
+  				<forename>
+  					<existing>Millie</existing>
+  				</forename>
+  				<name>
+  					<existing>Malteser</existing>
+  				</name>
+  				<hardwareMailingAddress>
+  					<existing>
+  						<city>Dortmund</city>
+  						<postalCode>44145</postalCode>
+  						<street>Morsestr.</street>
+  						<streetNumber>11</streetNumber>
+  						<streetNumberSuffix>a</streetNumberSuffix>
+  						<postOfficeBox/>
+  						<country>DE</country>
+  					</existing>
+  				</hardwareMailingAddress>
+  				<!-- Following elements are enriched by OPM -->
+  				<articleNumber>
+  					<existing>20080549</existing>
+  				</articleNumber>
+  				<articleName>
+  					<existing>DSL-EasyBox 803</existing>
+  				</articleName>
+  				<serialNumber>
+  					<existing>154947214842</existing>
+  				</serialNumber>
+  				<conditionsList>
+  					<existing>
+  						<conditionService>
+  							<conditionServiceType>HW</conditionServiceType>
+  							<conditionServiceName>Monatsprei Einmalpreisbefreiung</conditionServiceName>
+  							<conditionServiceCode>V0850</conditionServiceCode>
+  						</conditionService>
+  					</existing>
+  				</conditionsList>
+  			</hardwareConfiguration>
+  			<processingStatus>{hardware1ProcessingStatus}</processingStatus>
+  		</hardware>
+  		<hardware ID="HW-FUNCI-001-2">
+  			<processingType>TERM</processingType>
+  			<ccbId type="S">
+  				<existing>{hardware2SSID}</existing>
+  			</ccbId>
+  			<refFunctionID>
+  				<existing>FUNCI-001</existing>
+  			</refFunctionID>
+  			<providerTrackingNumber type="default">
+  				<configured>ptnDefaultHW2</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="change">
+  				<configured>ptnChangeHW2</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="target">
+  				<configured>ptnTargetHW2</configured>
+  			</providerTrackingNumber>
+  			<hardwareConfiguration>
+  				<!-- Following elements are already supplied in the Input-SOM -->
+  				<hardwareServiceCode>
+  					<existing>I1295</existing>
+  				</hardwareServiceCode>
+  				<orderReason>
+  					<existing>Neuauftrag</existing>
+  				</orderReason>
+  				<subventionIndicator>
+  					<existing>1</existing>
+  				</subventionIndicator>
+  				<zeroChargeIndicator/>
+  				<shippingCosts>
+  					<existing>RG</existing>
+  				</shippingCosts>
+  				<salutationDescription>
+  					<existing>Herr</existing>
+  				</salutationDescription>
+  				<forename>
+  					<existing>Millie</existing>
+  				</forename>
+  				<name>
+  					<existing>Malteser</existing>
+  				</name>
+  				<hardwareMailingAddress>
+  					<existing>
+  						<city>Dortmund</city>
+  						<postalCode>44145</postalCode>
+  						<street>Morsestr.</street>
+  						<streetNumber>11</streetNumber>
+  						<streetNumberSuffix>a</streetNumberSuffix>
+  						<postOfficeBox/>
+  						<country>DE</country>
+  					</existing>
+  				</hardwareMailingAddress>
+  				<!-- Following elements are enriched by OPM -->
+  				<articleNumber>
+  					<existing>84361497</existing>
+  				</articleNumber>
+  				<articleName>
+  					<existing>LTE Vorschaltmodem</existing>
+  				</articleName>
+  				<serialNumber>
+  					<existing>842156789412</existing>
+  				</serialNumber>
+  			</hardwareConfiguration>
+  			<processingStatus>{hardware2ProcessingStatus}</processingStatus>
+  		</hardware>
+  		<hardware ID="HW-FUNCI-001-3">
+  			<processingType>TERM</processingType>
+  			<ccbId type="S">
+  				<existing>{hardware3SSID}</existing>
+  			</ccbId>
+  			<refFunctionID>
+  				<existing>FUNCI-001</existing>
+  			</refFunctionID>
+  			<providerTrackingNumber type="default">
+  				<configured>ptnDefaultHW3</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="change">
+  				<configured>ptnChangeHW3</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="target">
+  				<configured>ptnTargetHW3</configured>
+  			</providerTrackingNumber>
+  			<hardwareConfiguration>
+  				<!-- Following elements are already supplied in the Input-SOM -->
+  				<hardwareServiceCode>
+  					<existing>I1291</existing>
+  				</hardwareServiceCode>
+  				<orderReason>
+  					<existing>Neuauftrag</existing>
+  				</orderReason>
+  				<subventionIndicator>
+  					<existing>1</existing>
+  				</subventionIndicator>
+  				<zeroChargeIndicator/>
+  				<shippingCosts>
+  					<existing>RG</existing>
+  				</shippingCosts>
+  				<salutationDescription>
+  					<existing>Herr</existing>
+  				</salutationDescription>
+  				<forename>
+  					<existing>Millie</existing>
+  				</forename>
+  				<name>
+  					<existing>Malteser</existing>
+  				</name>
+  				<hardwareMailingAddress>
+  					<existing>
+  						<city>Dortmund</city>
+  						<postalCode>44145</postalCode>
+  						<street>Morsestr.</street>
+  						<streetNumber>11</streetNumber>
+  						<streetNumberSuffix>a</streetNumberSuffix>
+  						<postOfficeBox/>
+  						<country>DE</country>
+  					</existing>
+  				</hardwareMailingAddress>
+  				<!-- Following elements are enriched by OPM -->
+  				<articleNumber>
+  					<existing>54123789</existing>
+  				</articleNumber>
+  				<articleName>
+  					<existing>SIM-Karte für LTE</existing>
+  				</articleName>
+  				<serialNumber>
+  					<existing>5412369874521</existing>
+  				</serialNumber>
+  				<simSerialNumber>
+  					<existing>2345678901234567897</existing>
+  				</simSerialNumber>
+  			</hardwareConfiguration>
+  			<processingStatus>{hardware3ProcessingStatus}</processingStatus>
+  		</hardware>
+  		<installationSvc ID="INST-FUNCI-001-1">
+  			<processingType>TERM</processingType>
+  			<ccbId type="S">
+  				<existing>{installationSvcSSID}</existing>
+  			</ccbId>
+  			<refFunctionID>
+  				<existing>FUNCI-001</existing>
+  			</refFunctionID>
+  			<providerTrackingNumber type="default">
+  				<configured>ptnDefaultIS</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="change">
+  				<configured>ptnChangeIS</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="target">
+  				<configured>ptnTargetIS</configured>
+  			</providerTrackingNumber>
+  			<installationSvcConfiguration>
+  				<installationPackage>
+  					<existing>ATA</existing>
+  				</installationPackage>
+  				<quantity>
+  					<existing>1</existing>
+  				</quantity>
+  				<signatureRequiredIndicator>
+  					<existing>false</existing>
+  				</signatureRequiredIndicator>
+  				<desiredDate>
+  					<existing>2010-02-10</existing>
+  				</desiredDate>
+  				<contactPhoneNumber>
+  					<existing>49;173;1602601</existing>
+  				</contactPhoneNumber>
+  				<sundayServiceIndicator>
+  					<existing>false</existing>
+  				</sundayServiceIndicator>
+  			</installationSvcConfiguration>
+  			<processingStatus>{installationSvcProcessingStatus}</processingStatus>
+  		</installationSvc>
+  		<safetyPackage ID="SP-FUNCI-001-1">
+  			<processingType>TERM</processingType>
+  			<ccbId type="S">
+  				<existing>{safetyPackageSSID}</existing>
+  			</ccbId>
+  			<contractNumber>
+  				<existing>{safetyPackageContract}</existing>
+  			</contractNumber>
+  			<providerTrackingNumber type="default">
+  				<configured>ptnDefaultSP</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="change">
+  				<configured>ptnChangeSP</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="target">
+  				<configured>ptnTargetSP</configured>
+  			</providerTrackingNumber>
+  			<safetyPackageConfiguration>
+  				<!-- Following elements are already supplied in the Input-SOM -->
+  				<pricingStructureCode>
+  					<existing>YI412</existing>
+  				</pricingStructureCode>
+  				<visTrackingPosition/>
+  				<primaryCustSignName>
+  					<existing>Lotte Lettermann</existing>
+  				</primaryCustSignName>
+  				<primaryCustSignDate>
+  					<existing>2010-06-22</existing>
+  				</primaryCustSignDate>
+  				<minimumDurationPeriod>
+  					<value>
+  						<existing>24</existing>
+  					</value>
+  					<unit>
+  						<existing>MONTH</existing>
+  					</unit>
+  				</minimumDurationPeriod>
+  				<conditionsList>
+  					<existing>
+  						<conditionService>
+  							<conditionServiceType>CM</conditionServiceType>
+  							<conditionServiceName>Startguthaben 10Eu mtl</conditionServiceName>
+  							<conditionServiceID>1234567890</conditionServiceID>
+  							<conditionServiceCode>V0046</conditionServiceCode>
+  						</conditionService>
+  					</existing>
+  				</conditionsList>
+  				<!-- Following elements are enriched by BKS -->
+  				<productCode>
+  					<existing>I1410</existing>
+  				</productCode>
+  				<productVersionCode>
+  					<existing>1</existing>
+  				</productVersionCode>
+  				<productBillingName>
+  					<existing>Arcor-Sicherheitspaket</existing>
+  				</productBillingName>
+  				<mainAccessServiceCode>
+  					<existing>I1410</existing>
+  				</mainAccessServiceCode>
+  				<pricingStructureBillingName>
+  					<existing>.</existing>
+  				</pricingStructureBillingName>
+  				<!-- Following element is enriched by OPM -->
+  				<activationKey>
+  					<existing>1234567890</existing>
+  				</activationKey>
+  			</safetyPackageConfiguration>
+  			<processingStatus>{safetyPackageProcessingStatus}</processingStatus>
+  		</safetyPackage>
+  		<voice ID="mobilevoice" refAccessID="mobile">
+  			<processingType>TERM</processingType>
+  			<ccbId type="S">
+  				<existing>{mobileSSID}</existing>
+  			</ccbId>
+  			<contractNumber>
+  				<existing>{mobileContract}</existing>
+  			</contractNumber>
+  			<providerTrackingNumber type="default">
+  				<configured>ptnDefaultMobile</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="change">
+  				<configured>ptnChangeMobile</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="target">
+  				<configured>ptnTargetMobile</configured>
+  			</providerTrackingNumber>
+  			<voicePremiumConfiguration>
+  				<productCode>
+  					<existing>V8000</existing>
+  				</productCode>
+  				<pricingStructureCode>
+  					<existing>V8013</existing>
+  				</pricingStructureCode>
+  				<primaryCustSignName>
+  					<existing>Lotte Lettermann</existing>
+  				</primaryCustSignName>
+  				<primaryCustSignDate>
+  					<existing>2010-06-22</existing>
+  				</primaryCustSignDate>
+  				<minimumDurationPeriod>
+  					<value>
+  						<existing>24</existing>
+  					</value>
+  					<unit>
+  						<existing>MONTH</existing>
+  					</unit>
+  				</minimumDurationPeriod>
+  			</voicePremiumConfiguration>
+  			<processingStatus>{mobileProcessingStatus}</processingStatus>
+  			<completionStatusOldCcbId>{mobileCompletionStatusOld}</completionStatusOldCcbId>
+  			<previousCompletionStatusOldCcbId>{mobilePreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+  		</voice>  		
+  		<hardware ID="HW-mobile">
+  			<processingType>TERM</processingType>
+  			<ccbId type="S">
+  				<existing>{mobileHWSSID}</existing>
+  			</ccbId>
+  			<refFunctionID>
+  				<existing>mobilevoice</existing>
+  			</refFunctionID>
+  			<providerTrackingNumber type="default">
+  				<configured>ptnDefaultHW4</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="change">
+  				<configured>ptnChangeHW4</configured>
+  			</providerTrackingNumber>
+  			<providerTrackingNumber type="target">
+  				<configured>ptnTargetHW4</configured>
+  			</providerTrackingNumber>
+  			<hardwareConfiguration>
+  				<hardwareServiceCode>
+  					<existing>V0114</existing>
+  				</hardwareServiceCode>
+  				<orderReason>
+  					<existing>Neuauftrag</existing>
+  				</orderReason>
+  				<subventionIndicator>
+  					<existing>1</existing>
+  				</subventionIndicator>
+  				<zeroChargeIndicator/>
+  				<shippingCosts>
+  					<existing>RG</existing>
+  				</shippingCosts>
+  				<salutationDescription>
+  					<existing>Herr</existing>
+  				</salutationDescription>
+  				<forename>
+  					<existing>Millie</existing>
+  				</forename>
+  				<name>
+  					<existing>Malteser</existing>
+  				</name>
+  				<hardwareMailingAddress>
+  					<existing>
+  						<city>Dortmund</city>
+  						<postalCode>44145</postalCode>
+  						<street>Morsestr.</street>
+  						<streetNumber>11</streetNumber>
+  						<streetNumberSuffix>a</streetNumberSuffix>
+  						<postOfficeBox/>
+  						<country>DE</country>
+  					</existing>
+  				</hardwareMailingAddress>
+  				<articleNumber>
+  					<existing>20080549</existing>
+  				</articleNumber>
+  				<articleName>
+  					<existing>DSL-EasyBox 803</existing>
+  				</articleName>
+  				<serialNumber>
+  					<existing>154947214842</existing>
+  				</serialNumber>
+  			</hardwareConfiguration>
+  			<processingStatus>{mobileHWProcessingStatus}</processingStatus>
+  			<completionStatusOldCcbId>{mobileHWCompletionStatusOld}</completionStatusOldCcbId>
+  			<previousCompletionStatusOldCcbId>{mobileHWPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+  		</hardware>
+  	</functions>
+  </termination>
+</order>

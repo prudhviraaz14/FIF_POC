@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001" xmlns:ape="http://www.arcor.net/EPSM-CommonTypes-APE-001" xmlns:kunde="http://www.arcor.net/EPSM-CommonTypes-Kunde-002" xmlns:juristischeperson="http://www.arcor.net/EPSM-CommonTypes-JuristischePerson-002" targetNamespace="http://www.arcor.net/EPSM-CommonTypes-JuristischePerson-002" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-Kunde-002" schemaLocation="EPSM-CommonTypes-Kunde-002.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-APE-001" schemaLocation="EPSM-CommonTypes-APE-001.xsd"/>
+	<xs:element name="EPSM_JuristischePerson_Dokument_Information">
+		<xs:annotation>
+			<xs:documentation>Diese Schemata wurde aus dem Adonis-XML-Export generiert. Timestamp des Adonis-Exports: 26.10.2007  16:40</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="Firmenname">
+		<xs:annotation>
+			<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) ORGANISATION.FIRMENNAME1]
+[Befüllung durch BOI  (Ver. 29.5.07) SELBSTSTAENDIGER.FIRMENNAME]
+Vollständiger Firmenname z.B. Clariant AG</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Namenszusatz">
+		<xs:annotation>
+			<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) ORGANISATION.FIRMENNAME2]
+Zusatz zum Firmennamen z.B. A XYZ Company</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Rechtsform">
+		<xs:annotation>
+			<xs:documentation>[CI][FIF - Modify Customer Info] 
+Rechtsform der Firma</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Registernummer">
+		<xs:annotation>
+			<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) ORGANISATION.REGISTERNR]
+Eindeutige Registernummer des Unternehmens z.B. HRB 51728</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Registereintragsort">
+		<xs:annotation>
+			<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) ORGANISATION.REGISTERORT]
+Eintragsort des Registereintrags z.B. Hamburg</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Registerart">
+		<xs:annotation>
+			<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) ORGANISATION.REGISTERNR]
+Art des Registereintrags (z.B. Handelsregister A, Handelsregister B etc.)
+Sollte der Kunde keine Registerart besitzen wird der der Eintrag "Unregistriert"
+erwartet</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="16"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SelbststaendigerFreiberufler">
+		<xs:annotation>
+			<xs:documentation>[Befüllung durch BOI]</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:complexType name="JuristischePerson">
+		<xs:annotation>
+			<xs:documentation>Angaben zu juristischen Personen</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="kunde:Kunde">
+				<xs:sequence>
+					<xs:element name="firmenname" type="juristischeperson:Firmenname" minOccurs="0"/>
+					<xs:element name="namenszusatz" type="juristischeperson:Namenszusatz" minOccurs="0"/>
+					<xs:element name="rechtsform" type="juristischeperson:Rechtsform" minOccurs="0"/>
+					<xs:element name="registernummer" type="juristischeperson:Registernummer" minOccurs="0"/>
+					<xs:element name="registereintragsort" type="juristischeperson:Registereintragsort" minOccurs="0"/>
+					<xs:element name="registerart" type="juristischeperson:Registerart" minOccurs="0"/>
+					<xs:element name="selbststaendigerFreiberufler" type="juristischeperson:SelbststaendigerFreiberufler" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

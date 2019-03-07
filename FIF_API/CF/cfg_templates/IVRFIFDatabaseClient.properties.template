@@ -1,0 +1,1056 @@
+# START HEADER
+#  File:                $Workfile:   IVRFIFDatabaseClient.properties.template  $
+#  Author:              $Author:   lejam  $
+#  Revision:            $Revision:   1.22  $
+#  Purpose:             Configuration file for the IVR-FIF DatabaseClient application
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Feb 21 2019 13:39:08  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/IVRFIFDatabaseClient.properties.template-arc  $
+#
+#   Rev 1.22   Feb 21 2019 13:39:08   lejam
+#SPN-FIF-000136076 IT-k-34229 FIF-DB-Clients: Reading input parameters from results of dependent transactions
+#
+#   Rev 1.21   Nov 29 2012 15:49:04   lejam
+#Added request reprocessing functionality IT-k-32482
+#
+#   Rev 1.20   Jan 19 2012 12:27:38   schwarje
+#SPN-FIF-000118104: fixed "order by" expression in search for parameter lists
+#
+#   Rev 1.19   Nov 23 2010 14:37:58   wlazlow
+#IT-k-29265
+#
+#   Rev 1.18   Nov 17 2010 16:22:12   schwarje
+#SPN-FIF-000104048: parametrized RequestHandler.SelectInterval and SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion
+#
+#   Rev 1.17   Oct 13 2010 14:25:28   schwarje
+#SPN-FIF-000105218: added "order by" to request param list statements (IVR, SLS, CCM and ERP clients)
+#
+#   Rev 1.16   Sep 14 2010 16:30:54   schwarje
+#fixed statement for failed request notification
+#
+#   Rev 1.15   Jul 06 2010 08:38:14   schwarje
+#SPN-FIF-000101380: fixed database statements for IVR-Client
+#
+#   Rev 1.14   Jun 30 2010 18:21:24   schwarje
+#changed parameters for logging request files
+#
+#   Rev 1.13   Jun 30 2010 10:48:06   schwarje
+#SPN-FIF-000101164: fixed configuration
+#
+#   Rev 1.12   Jun 25 2010 16:42:02   schwarje
+#SPN-FIF-000101037: fixed configuration templates
+#
+#   Rev 1.11   Jun 14 2010 19:58:06   schwarje
+#IT-26029: fixed wrong statement in configuration
+#
+#   Rev 1.10   Jun 09 2010 18:02:58   schwarje
+#IT-26029: changed selectInterval
+#
+#   Rev 1.9   Jun 08 2010 17:52:20   schwarje
+#IT-26029: updated selectInterval
+#
+#   Rev 1.8   Jun 08 2010 15:56:16   schwarje
+#IT-26029: config changes
+#
+#   Rev 1.7   Nov 25 2009 13:24:00   lejam
+#Modified FIF database clients templates for property files SPN-CCB-88372,SPN-CCB-93658
+#
+#   Rev 1.6   Jan 27 2009 17:46:10   lejam
+#Added request locking functionality to FIF-API database client to allow multiple running instances of the application SPN-FIF-82246
+#
+#   Rev 1.5   Dec 23 2008 07:41:52   schwarje
+#SPN-FIF-000063298: changed statement for selecting requests for database client
+#
+#   Rev 1.4   Oct 21 2008 13:36:54   lejam
+#Set RequestSleepTime to 500 as requested by production.
+#
+#   Rev 1.3   Oct 20 2008 10:49:58   lejam
+#Added sorting transaction list by transaction_id SPN-FIF-78181
+#
+#   Rev 1.2   Feb 07 2008 11:26:22   schwarje
+#SPN-FIF-000065717: removed Console logging
+#
+#   Rev 1.1   Aug 20 2007 12:52:18   schwarje
+#IT-19036: added parameters for populating OMTSOrderId
+#
+#   Rev 1.0   Apr 25 2007 14:56:38   schwarje
+#Initial revision.
+#
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+#START PARAMETER
+#Parameter:         ivrfif.SynchronousFifClient.NumberOfRequestReceivers
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      1
+#RecomnendedVal.:   1
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       number of request receivers (threads waiting for requests from the front end)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         ivrfif.SynchronousFifClient.NumberOfRequestHandlers
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      4
+#RecomnendedVal.:   4
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       number of regular request handlers (threads processing FifTransactions in the back end)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         ivrfif.SynchronousFifClient.NumberOfRecycleHandlers
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      1
+#RecomnendedVal.:   1
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       number of recycling request handlers (threads processing FifTransactions in recycling)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         ivrfif.SynchronousFifClient.ClientId
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      IVR1
+#RecomnendedVal.:   IVR1
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       client ID (unique identifier (for each instance) of a client of a certain type)
+#Description:       different client IDs are needed, if e.g. two IVR-FIF clients are run in seperate packages
+#Description:       Then one client would have IVR1, the other one IVR2
+#END PARAMETER
+
+SynchronousFifClient.NumberOfRequestReceivers=${ivrfif.SynchronousFifClient.NumberOfRequestReceivers}
+SynchronousFifClient.NumberOfRequestHandlers=${ivrfif.SynchronousFifClient.NumberOfRequestHandlers}
+SynchronousFifClient.NumberOfRecycleHandlers=${ivrfif.SynchronousFifClient.NumberOfRecycleHandlers}
+SynchronousFifClient.ClientId=${ivrfif.SynchronousFifClient.ClientId}
+
+
+#START PARAMETER
+#Parameter:         ivrfif.SynchronousFifClient.FilePath
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./WORK
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The path to the directory where all FIF related messages are stored.
+#Description:       The messages are actually stored in child directories like sent.
+#END PARAMETER
+
+SynchronousFifClient.SentOutputDir=${ivrfif.SynchronousFifClient.FilePath}/IVRFIFDatabaseClient/sent
+SynchronousFifClient.ReplyOutputDir=${ivrfif.SynchronousFifClient.FilePath}/IVRFIFDatabaseClient/reply
+SynchronousFifClient.InvalidReplyOutputDir=${ivrfif.SynchronousFifClient.FilePath}/IVRFIFDatabaseClient/invalid-reply
+
+# Indicates whether the sent messages should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteSentMessages=${databaseclient.WriteSentMessages}
+
+# Indicates whether the reply messages should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteReplyMessages=${databaseclient.WriteReplyMessages}
+
+
+#START PARAMETER
+#Parameter:         ivrfif.SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion
+#ValidFrom:         FIF-API-37.01.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     boolean
+#ValidValues:       true/false
+#DefaultValue:      -
+#ExampleValue:      true
+#RecomnendedVal.:   true
+#Optional:          N
+#Last_Modified:     17.11.10
+#Last_Modified_By   schwarje
+#Description:       indicates, if FifTransactions, for which no customer number could be found, are deleted
+#Description:       (only used, if SynchronousFifClient.DeleteAfterCompletion is set to 'false')
+#END PARAMETER
+SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion=${ivrfif.SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion}
+
+#START PARAMETER
+#Parameter:         ivrfif.RequestHandler.SelectInterval
+#ValidFrom:         FIF-API-37.01.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       -
+#DefaultValue:      -
+#ExampleValue:      ./WORK
+#RecomnendedVal.:   300000
+#Optional:          N
+#Last_Modified:     17.11.10
+#Last_Modified_By   schwarje
+#Description:       waiting time (in milliseconds) after retrieving FifTransactions without success
+#END PARAMETER
+RequestHandler.SelectInterval=${ivrfif.RequestHandler.SelectInterval}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+
+SynchronousFifClient.ClientType=IVR
+
+# database alias for processing FifTransactions
+SynchronousFifClient.FifTransaction.DBAlias=fifdb
+
+# indicates, if notifications are created (CCM-FIF handleFailedFifRequest) after a request failed in the back end
+SynchronousFifClient.FailedRequestNotification=false
+# list of action names (comma seperated), for which notifications are created
+SynchronousFifClient.FailedRequestNotification.ActionNames=
+# database alias for notifications for failed requests
+SynchronousFifClient.FailedRequestNotification.DBAlias=fifdb
+
+# indicates, if all FifTransactions are deleted from the database after processing
+SynchronousFifClient.DeleteAfterCompletion=false
+# list of action names (comma seperated), for which FifTransactions are deleted from the database after processing
+# (only used, if SynchronousFifClient.DeleteAfterCompletion is set to 'false')
+SynchronousFifClient.DeleteAfterCompletion.ActionNames=
+
+# indicates, if certain actions are blocked (and postponed) by this client
+SynchronousFifClient.BlockActionNames=false
+# list of blocked action names (comma seperated)
+SynchronousFifClient.BlockActionNames.ActionNames=modifyContract
+# postponement delay (in minutes) for blocked actions
+SynchronousFifClient.BlockActionNames.Delay=360
+
+# indicates, if failed responses (transactions completed in the backend, but errors while sending the 
+# responses back to the front end) are taken care of
+SynchronousFifClient.FailedResponseHandling=true
+# maxmimum number of retries for resending responses
+SynchronousFifClient.FailedResponseHandling.MaxRetries=10
+# batch size for retrieving failed responses
+SynchronousFifClient.FailedResponseHandling.BatchSize=100
+# waiting time (in minutes) between two batches
+SynchronousFifClient.FailedResponseHandling.SleepTime=60
+# delay time (in minutes) after which a retry is done
+SynchronousFifClient.FailedResponseHandling.ResendDelay=720
+
+# indicates, if hanging requests (requests which still seem to be in progress in FIF after a certain time) 
+# are reset on startup of the FIF client
+SynchronousFifClient.HangingRequestHandling=true
+# batch size for retrieving hanging requests
+SynchronousFifClient.HangingRequestHandling.BatchSize=100
+# minimum age (in minutes) for hanging requests to be reset
+SynchronousFifClient.HangingRequestHandling.RequestAge=60
+
+
+
+#########################################
+# Settings specific to database clients #
+#########################################
+
+# strings for the FIF states in the database table
+SynchronousDatabaseClient.RequestStatusNotStarted=NOT_STARTED
+SynchronousDatabaseClient.RequestStatusReprocess=REPROCESS
+SynchronousDatabaseClient.RequestStatusInProgress=IN_PROGRESS
+SynchronousDatabaseClient.RequestStatusCompleted=COMPLETED
+SynchronousDatabaseClient.RequestStatusFailed=FAILED
+SynchronousDatabaseClient.RequestStatusNotExecuted=NOT_EXECUTED
+SynchronousDatabaseClient.RequestStatusCanceled=CANCELED
+
+# data type of the status field (VARCHAR / NUMBER)
+SynchronousDatabaseClient.RequestStatusDataType=VARCHAR
+
+# The maximum size (in characters) of the error message field
+SynchronousDatabaseClient.MaxErrorLength=4000
+
+# database alias for retrieving requests from the front end
+SynchronousDatabaseClient.DatabaseAlias=requestdb
+# waiting time (in minutes) after retrieving a batch of requests without success
+SynchronousDatabaseClient.RequestSleepTime=5
+# number of requests retrieved with each batch
+SynchronousDatabaseClient.BatchSize=100
+# indicates, if this client supports dependent transactions
+SynchronousDatabaseClient.EnableDependentTransactions=false
+# indicates, if this client supports transaction lists, ie more than one request within one transaction
+SynchronousDatabaseClient.EnableTransactionLists=true
+# indicates, if this client supports transaction results, ie if results are written back to the front end DB
+SynchronousDatabaseClient.EnableTransactionResults=true
+# indicates, if this client supports FIF parameter lists
+SynchronousDatabaseClient.EnableParameterLists=true
+
+# indicates, if all single requests are wrapped in a transaction list
+SynchronousDatabaseClient.WrapRequestInTransactionList=true
+# the name of the transaction list for wrapped requests
+SynchronousDatabaseClient.ArtificialListName=artificial-list
+# indicates, if the OMTS orderID is populated on the wrapped request
+SynchronousDatabaseClient.PopulateOmtsOrderId=true
+# default parameter name of OMTSOrderID for wrapped requests
+SynchronousDatabaseClient.DefaultOmtsOrderIdParameterName=OMTSOrderID
+
+
+###########################
+# Backend Server Settings #
+###########################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         ivrfif.ServerHandler.ServerProcessName
+#ValidFrom:         FIF-API-26
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       process names
+#DefaultValue:      -
+#ExampleValue:      CcmFifInterface_std
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the CcmFifInterface process
+#END PARAMETER
+ServerHandler.ServerProcessName=${ivrfif.ServerHandler.ServerProcessName}
+
+#START PARAMETER
+#Parameter:         ivrfif.ServerHandler.ServerInstanceBase
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       instance name base
+#DefaultValue:      -
+#ExampleValue:      fifie_CFD_
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The base for name of the instance of the CcmFifInterface
+#Description:       The actual name of the instance is craeted by concatinating 
+#Description:       the thread number to the instance base
+#END PARAMETER
+ServerHandler.ServerInstanceBase=${ivrfif.ServerHandler.ServerInstanceBase}
+
+#START PARAMETER
+#Parameter:         ivrfif.ServerHandler.ServerArguments
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#DefaultValue:      -
+#ExampleValue:      
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       arguments the CcmFifInterface is called with
+#END PARAMETER
+ServerHandler.ServerArguments=${ivrfif.ServerHandler.ServerArguments}
+
+
+
+###########################
+# RequestHandler Settings #
+###########################
+
+# batch size for retrieving FifTransactions
+RequestHandler.BatchSize=100
+
+######################
+# Recycling Settings #
+######################
+
+#START PARAMETER
+#Parameter:         ivrfif.RequestHandler.EnableRecycling
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       true/false
+#DefaultValue:      -
+#ExampleValue:      true
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       enables/disables recycling.
+#END PARAMETER
+RequestHandler.EnableRecycling=${ivrfif.RequestHandler.EnableRecycling}
+
+#START PARAMETER
+#Parameter:         ivrfif.RequestHandler.MaxRecycleStage
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      4
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The maximum number of recycling stages.
+#Description:       You have to declare RequestHandler.RecycleDelay.StageX variables 
+#Description:       up to the value of MaxRecycleStage
+#END PARAMETER
+RequestHandler.MaxRecycleStage=${ivrfif.RequestHandler.MaxRecycleStage}
+
+#START PARAMETER
+#Parameter:         ivrfif.RequestHandler.RecycleDelay.Stage1
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for first stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage1=${ivrfif.RequestHandler.RecycleDelay.Stage1}
+#START PARAMETER
+#Parameter:         ivrfif.RequestHandler.RecycleDelay.Stage2
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for second stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage2=${ivrfif.RequestHandler.RecycleDelay.Stage2}
+#START PARAMETER
+#Parameter:         ivrfif.RequestHandler.RecycleDelay.Stage3
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for third stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage3=${ivrfif.RequestHandler.RecycleDelay.Stage3}
+#START PARAMETER
+#Parameter:         ivrfif.RequestHandler.RecycleDelay.Stage4
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for fourth stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage4=${ivrfif.RequestHandler.RecycleDelay.Stage4}
+
+# db alias for retrieving recycled errors
+RequestHandler.RecycledErrorsDBAlias=fifdb
+# database statement for retrieving recycled errors
+RequestHandler.RetrieveRecycledErrorStmt=select value from general_code_item where group_code = 'ERR_REF'
+
+
+#############################
+# MESSAGE CREATION SETTINGS #
+#############################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         ivrfif.messagecreator.MetaDataDir
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./etc
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The directory where the metadata file is located.
+#END PARAMETER
+messagecreator.MetaDataDir=${ivrfif.messagecreator.MetaDataDir}
+
+#START PARAMETER
+#Parameter:         ivrfif.messagecreator.OutputDir
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./output
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The directory to store the output XML files in.
+#Description:       (Not used if messagecreator.WriteOutputFiles is set to false).
+#END PARAMETER
+messagecreator.OutputDir=${ivrfif.messagecreator.OutputDir}
+
+#START PARAMETER
+#Parameter:         ivrfif.messagecreator.XSQL.Directory
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./xsql
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The directory where the XSQL files are located.
+#END PARAMETER
+messagecreator.XSQL.Directory=${ivrfif.messagecreator.XSQL.Directory}
+
+#START PARAMETER
+#Parameter:         ivrfif.messagecreator.XSLT.Directory
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./xslt
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The directory where the XSLT files are located.
+#END PARAMETER
+messagecreator.XSLT.Directory=${ivrfif.messagecreator.XSLT.Directory}
+
+#START PARAMETER
+#Parameter:         ivrfif.messagecreator.XSLT.IntermediateDir
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./intermediate
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The directory where the intermediate XML files should be written to.
+#Description:       (Not used if messagecreator.XSLT.WriteIntermediateFiles is set to false).
+#END PARAMETER
+messagecreator.XSLT.IntermediateDir=${ivrfif.messagecreator.XSLT.IntermediateDir}
+
+#START PARAMETER
+#Parameter:         ivrfif.messagecreator.MetaDataFile
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       file name
+#DefaultValue:      -
+#ExampleValue:      ivr-fif-databaseclient-metadata.xml
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     20.10.04
+#Last_Modified_By   schwarje
+#Description:       The name of the XML metadata file
+#END PARAMETER
+messagecreator.MetaDataFile=${ivrfif.messagecreator.MetaDataFile}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#--- GENERAL MESSAGECREATOR SETTINGS --#
+
+# Indicates whether the produced XML messages should also be written
+# as a file in the output directory
+messagecreator.WriteOutputFiles=false
+
+# Indicates whether the use of reference data should be supported by the client.
+messagecreator.EnableReferenceDataSupport=true
+
+# The name of the database alias to use for retrieving reference data
+messagecreator.ReferenceDataDBAlias=fifdb
+
+
+#--- XSLT SETTINGS ---#
+
+# Indicates whether the XML representation of a request should be
+# written as a file.
+messagecreator.XSLT.WriteIntermediateFiles=false
+
+
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         ivrfif.log4j.appender.File.File
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/IVRFIFDatabaseClient.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The name (including relative of absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${ivrfif.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=10MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+
+
+#####################
+# DATABASE SETTINGS #
+#####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         ivrfif.db.requestdb.Driver
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Class name
+#DefaultValue:      -
+#ExampleValue:      oracle.jdbc.driver.OracleDriver
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The name of the JDBC database driver to use.
+#END PARAMETER
+db.requestdb.Driver=${ivrfif.db.requestdb.Driver}
+
+#START PARAMETER
+#Parameter:         ivrfif.db.requestdb.ConnectString
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Fully qualified URL for JDBC
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:ccmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The connection string to use to connect to the database containing the IVR FIF_REQUEST table.
+#Description:       (Format: jdbc:oracle:thin:@hostname:port:dbname)
+#END PARAMETER
+db.requestdb.ConnectString=${ivrfif.db.requestdb.ConnectString}
+
+#START PARAMETER
+#Parameter:         ivrfif.db.requestdb.User
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       All users of database.
+#DefaultValue:      -
+#ExampleValue:      ccm_user
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The user name to use to connect to the database containing the IVR FIF_REQUEST table.
+#END PARAMETER
+db.requestdb.User=${ivrfif.db.requestdb.User}
+
+#START PARAMETER
+#Parameter:         ivrfif.db.requestdb.Password
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Valid password.
+#DefaultValue:      -
+#ExampleValue:      ernirnlihlrieppg
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The ecnrypted password to use to connect to the database (encrypted in CCB format).
+#END PARAMETER
+db.requestdb.Password=${ivrfif.db.requestdb.Password}
+
+#START PARAMETER
+#Parameter:         ivrfif.db.requestdb.EncryptionKey
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Encryption key used to encrypt the password.
+#DefaultValue:      -
+#ExampleValue:      pshsodoehseffjlhsohedqfpnpfssmpleggfqpprnlhjhess
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The encryption key that was used to encrypt the database password.
+#END PARAMETER
+db.requestdb.EncryptionKey=${ivrfif.db.requestdb.EncryptionKey}
+
+#START PARAMETER
+#Parameter:         ivrfif.db.fifdb.Driver
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Class name
+#DefaultValue:      -
+#ExampleValue:      oracle.jdbc.driver.OracleDriver
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The name of the JDBC database driver to use.
+#END PARAMETER
+db.fifdb.Driver=${ivrfif.db.fifdb.Driver}
+
+#START PARAMETER
+#Parameter:         ivrfif.db.fifdb.ConnectString
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Fully qualified URL for JDBC
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:ccmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The connection string to use to connect to the database containing the CCB reference data.
+#Description:       (Format: jdbc:oracle:thin:@hostname:port:dbname)
+#END PARAMETER
+db.fifdb.ConnectString=${ivrfif.db.fifdb.ConnectString}
+
+#START PARAMETER
+#Parameter:         ivrfif.db.fifdb.User
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       All users of database.
+#DefaultValue:      -
+#ExampleValue:      ccm_user
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The user name to use to connect to the database containing the CCB reference data.
+#END PARAMETER
+db.fifdb.User=${ivrfif.db.fifdb.User}
+
+#START PARAMETER
+#Parameter:         ivrfif.db.fifdb.Password
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Valid password.
+#DefaultValue:      -
+#ExampleValue:      ernirnlihlrieppg
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The ecnrypted password to use to connect to the database (encrypted in CCB format).
+#END PARAMETER
+db.fifdb.Password=${ivrfif.db.fifdb.Password}
+
+#START PARAMETER
+#Parameter:         ivrfif.db.fifdb.EncryptionKey
+#ValidFrom:         FIF-API-23.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Encryption key used to encrypt the password.
+#DefaultValue:      -
+#ExampleValue:      pshsodoehseffjlhsohedqfpnpfssmpleggfqpprnlhjhess
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     24.04.07
+#Last_Modified_By   schwarje
+#Description:       The encryption key that was used to encrypt the database password.
+#END PARAMETER
+db.fifdb.EncryptionKey=${ivrfif.db.fifdb.EncryptionKey}
+
+#START PARAMETER
+#Parameter:         ivrfif.db.fifdb.MaximumConnectionCount
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (IVR-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       -
+#DefaultValue:      -
+#ExampleValue:      30
+#RecomnendedVal.:   30
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The maximum number of open connections in the pool
+#Description:       The number has to be high enough for all request handler, recycle handlers, 
+#Description:       for failed response handling and for failed request handling
+#END PARAMETER
+db.fifdb.MaximumConnectionCount=${ivrfif.db.fifdb.MaximumConnectionCount}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of database aliases that are being used by the application
+# An alias maps to a specific set of database configuration settings
+# The DatabaseClient only needs one database alias and this alias should
+# be called requestdb
+db.aliases=requestdb, fifdb
+
+# The maximum number of minutes that a connection can remain active (in minutes)
+db.requestdb.MaximumConnectionLifeTime=240
+
+# The minimum number of open connections in the pool
+db.requestdb.MinimumConnectionCount=0
+
+# The maximum number of open connections in the pool
+db.requestdb.MaximumConnectionCount=15
+
+# The number of minutes to wait between connection cleanup runs
+db.requestdb.HouseKeepingSleepTime=1
+
+# The maximum number of minutes that a connection can remain active (in minutes)
+db.fifdb.MaximumConnectionLifeTime=240
+
+# The minimum number of open connections in the pool
+db.fifdb.MinimumConnectionCount=0
+
+# The number of minutes to wait between connection cleanup runs
+db.fifdb.HouseKeepingSleepTime=1
+
+
+#######################
+# Database statements #
+#######################
+
+# statement for retrieving a FifRequest from the front end by transactionID
+SynchronousDatabaseClient.FifRequest.FetchFifRequestById=\
+SELECT TRANSACTION_ID, TRANSACTION_STATUS, TRANSACTION_LIST_ID, TRANSACTION_LIST_STATUS, \
+DUE_DATE, START_DATE, END_DATE, ACTION_NAME FROM IVR_FIF_REQUEST \
+WHERE TARGET_CLIENT = 'IVR' AND TRANSACTION_ID = ?
+
+# statement for retrieving a FifRequestList from the front end by transactionListID
+SynchronousDatabaseClient.FifRequest.FetchFifRequestListById=\
+SELECT TRANSACTION_ID FROM IVR_FIF_REQUEST \
+WHERE TARGET_CLIENT = 'IVR' AND TRANSACTION_LIST_ID = ?
+
+# statement for retrieving the parameters for a FifRequest
+SynchronousDatabaseClient.FifRequest.FetchFifRequestParam=\
+SELECT PARAM, VALUE FROM IVR_FIF_REQUEST_PARAM \
+WHERE TRANSACTION_ID = ?
+
+# statement for retrieving the parameter lists for a FifRequest
+SynchronousDatabaseClient.FifRequest.FetchFifRequestParamList=\
+SELECT PARAM_LIST, LIST_ITEM_NUMBER, PARAM, VALUE FROM IVR_FIF_REQUEST_PARAM_LIST \
+WHERE TRANSACTION_ID = ? \
+ORDER BY PARAM_LIST, LIST_ITEM_NUMBER
+
+# statement for retrieving a batch of pending FifRequests
+SynchronousDatabaseClient.FifRequest.FetchPendingFifRequests=\
+SELECT TRANSACTION_ID FROM IVR_FIF_REQUEST IVR1 \
+WHERE TARGET_CLIENT = 'IVR' \
+AND TRANSACTION_STATUS=? \
+AND ( \
+  TRANSACTION_LIST_ID IS NOT NULL \
+  AND TRANSACTION_LIST_STATUS='NOT_STARTED' \
+  AND NOT EXISTS ( \
+    SELECT 1 FROM IVR_FIF_REQUEST IVR2 \
+	WHERE IVR1.TRANSACTION_LIST_ID = IVR2.TRANSACTION_LIST_ID \
+	AND (TRANSACTION_LIST_STATUS != 'NOT_STARTED' OR TRANSACTION_STATUS != 'NOT_STARTED')) \
+  OR \
+  TRANSACTION_LIST_ID IS NULL) \
+AND SYSDATE >= DUE_DATE \
+AND ROWNUM <= ? \
+ORDER BY PRIORITY DESC, TRANSACTION_ID ASC
+
+# statement for locking a FifRequest
+SynchronousDatabaseClient.FifRequest.LockFifRequest=\
+SELECT 1 FROM IVR_FIF_REQUEST WHERE TRANSACTION_ID = ? \
+AND TRANSACTION_STATUS = ? FOR UPDATE
+
+# statement for updating a FifRequest
+SynchronousDatabaseClient.FifRequest.UpdateFifRequest=\
+UPDATE IVR_FIF_REQUEST SET \
+DUE_DATE = ?, START_DATE = ?, END_DATE = ?, TRANSACTION_STATUS = ?, \
+ERROR_TEXT = ?, TRANSACTION_LIST_STATUS = ? \
+WHERE TRANSACTION_ID = ?
+
+# statement for populating the results of a FifRequest on the front end
+SynchronousDatabaseClient.FifRequest.InsertFifRequestResult=\
+INSERT INTO IVR_FIF_REQUEST_RESULT (TRANSACTION_ID, RETURN_PARAM, RETURN_VALUE) \
+VALUES (?, ?, ?)
+
+# statement for retrieving the result of a FifRequest on the front end
+SynchronousDatabaseClient.FifRequest.FetchFifRequestResult=\
+SELECT RETURN_VALUE FROM IVR_FIF_REQUEST_RESULT \
+WHERE TRANSACTION_ID = ? AND RETURN_PARAM = ?
+
+#### Database statements for FifTransaction logging ####
+
+# The select statement recycle transaction by ID 
+SynchronousFifClient.FifTransaction.RetrieveFifTransactionsById= \
+select * from fif_transaction where transaction_id = ? and client_type = ?
+
+# The select statement to retrieve pending transactions
+SynchronousFifClient.FifTransaction.RetrievePendingFifTransactions= \
+select * from fif_transaction \
+where status = ? and client_id = ? \
+and due_date <= sysdate \
+and rownum <= ?
+
+# The select statement to retrieve completed requests with failed responses
+SynchronousFifClient.FifTransaction.RetrieveFailedResponses= \
+select * from fif_transaction \
+where status = ? \
+and client_id = ? \
+and audit_update_date_time <= ? \
+and response_retry_count < ? \
+and rownum <= ?
+
+# The delete statement recycle transaction
+SynchronousFifClient.FifTransaction.DeleteFifTransaction= \
+delete from fif_transaction where transaction_id = ? and client_type = ?
+
+
+
+
+# The update statement recycle transaction
+SynchronousFifClient.FifTransaction.UpdateFifTransaction= \
+update fif_transaction set \
+due_date = ?, end_date = ?, status = ?, recycle_stage = ?, client_response = ?, \
+customer_number = ?, audit_update_user_id = ?, audit_update_date_time = sysdate, response_retry_count = ?, jms_correlation_id = ?, jms_reply_to = ? \
+where transaction_id = ? and client_type = ?
+
+# The insert statement recycle transaction
+SynchronousFifClient.FifTransaction.InsertFifTransaction= \
+insert into fif_transaction \
+(transaction_id, client_type, client_id, client_request, client_response, due_date, entry_date, \
+status, recycle_stage, customer_number, audit_update_user_id, response_retry_count, jms_correlation_id, jms_reply_to, audit_update_date_time) \
+values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate)
+
+
+
+
+#### Database statements for creation of notifications for failed requests ####
+
+# parameters for creating notifications for failed fif requests   
+SynchronousFifClient.FailedRequestNotification.GetTransactionID.Statement=\
+select 'FR-'||lpad(fif_transaction_id_seq.nextval, 15, '0') from dual
+
+SynchronousFifClient.FailedRequestNotification.InsertRequest.Statement=\
+insert into ccm_fif_request (transaction_id, target_client, status, action_name, \
+   due_date, priority, creation_date, audit_update_user_id, external_system_id) \
+values (?, 'CCM', 'NOT_STARTED', 'handleFailedFifRequest', sysdate, 0, sysdate, 'IVR-FIF', ?)
+
+SynchronousFifClient.FailedRequestNotification.InsertRequestParam.Statement=\
+insert into ccm_fif_request_param (transaction_id, param, value) \
+values (?, ?, ?)   
+
+SynchronousFifClient.FailedRequestNotification.InsertRequestParamList.Statement=\
+insert into ccm_fif_request_param_list (transaction_id, param_list, list_item_number, param, value) \
+values (?, ?, ?, ?, ?)   
+

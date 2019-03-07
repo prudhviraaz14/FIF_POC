@@ -1,0 +1,125 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<lineCreation orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/ONBAccessNew.xml_part}
+		</accesses>
+		<functions>
+			<voice ID="voice" refAccessID="access-new">
+				<processingType>ADD</processingType>
+				<ccbId type="S">
+				    <configured>{voiceSSID}</configured>
+				</ccbId>
+				<providerTrackingNumber type="default">
+					<configured>ptnDefaultVoice</configured>
+				</providerTrackingNumber>
+				<providerTrackingNumber type="change">
+					<configured>ptnChangeVoice</configured>
+				</providerTrackingNumber>
+				<providerTrackingNumber type="target">
+					<configured>ptnTargetVoice</configured>
+				</providerTrackingNumber>
+				<contractNumber>
+					<configured>{targetContractNumberVoice}</configured>
+				</contractNumber>
+				<productCommitmentNumber>
+					<configured>{targetProductCommitmentNumberVoice}</configured>
+				</productCommitmentNumber>
+				<voicePBXConfiguration>
+					<productCode>
+						<configured>{productCodeVoice}</configured>
+					</productCode>
+					<pricingStructureCode>
+						<configured>{pricingStructureCodeVoice}{pricingStructureCodeVoiceNew}</configured>
+					</pricingStructureCode>
+					<visTrackingPosition/>
+					<primaryCustSignName>
+						<configured>COM {scenarioName}</configured>
+					</primaryCustSignName>
+					<primaryCustSignDate>
+						<configured>{todayTruncated}</configured>
+					</primaryCustSignDate>
+					<minimumDurationPeriod>
+						<value>
+							<configured>24</configured>
+						</value>
+						<unit>
+							<configured>MONTH</configured>
+						</unit>
+					</minimumDurationPeriod>
+					<automaticMailingIndicator>
+						<configured>true</configured>
+					</automaticMailingIndicator>
+					<projectOrderIndicator>
+						<configured>false</configured>
+					</projectOrderIndicator>
+					<activationType>
+						<configured>Neuanschluss</configured>
+					</activationType>
+					<portingAccessNumberRanges>
+				        <oldLocalExchangeCarrier>
+				          <configured>D001</configured>
+				        </oldLocalExchangeCarrier>
+					    <accessNumberRange1>
+					      <configured>
+					        <countryCode>49</countryCode>
+					        <localAreaCode>211</localAreaCode>
+					        <pilotNumber>{accessNumber3}</pilotNumber>
+					        <startNumber>0</startNumber>
+					        <endNumber>9</endNumber>
+					      </configured>
+					    </accessNumberRange1>
+					    <ownerAccessNumberRange1>
+					      <existing>HeinoEigner</existing>
+					    </ownerAccessNumberRange1>
+					    <lineOwner1>
+					      <configured>
+					        <name>{scenarioName}</name>
+					        <firstName>COM</firstName>
+					      </configured>
+					    </lineOwner1>
+					    <lineOwnerAddress>
+					      <existing>
+					        {file:templates/Address1.xml_part}
+					      </existing>
+					    </lineOwnerAddress>
+					</portingAccessNumberRanges>
+					<remarks>
+						<configured>GK-Vertrieb B3, IMP, Betreute Schaltung nein, Privatkunde / Telefonbucheintrag / </configured>
+					</remarks>
+					<chargesAndCreditsList>
+						<configured>
+							<featureService>
+								<featureServiceCode>VI031</featureServiceCode> 
+								<additionalInfo>
+									<key>VI115</key> 
+									<value>1</value> 
+								</additionalInfo>
+								<additionalInfo>
+									<key>V0882</key> 
+									<value>Nein</value> 
+								</additionalInfo>
+							</featureService>
+							<featureService>
+								<featureServiceCode>VI034</featureServiceCode> 
+								<additionalInfo>
+									<key>VI115</key> 
+									<value>1</value> 
+								</additionalInfo>
+								<additionalInfo>
+									<key>V0882</key> 
+									<value>Nein</value> 
+								</additionalInfo>
+							</featureService>
+						</configured>
+					</chargesAndCreditsList>
+					{file:(productCodeVoice=VI207)templates/ONBLicencesConfigured.xml_part}
+				</voicePBXConfiguration>
+				<processingStatus>{voiceProcessingStatus}</processingStatus>
+				<completionStatusNewCcbId>{voiceCompletionStatusNew}</completionStatusNewCcbId>
+				<previousCompletionStatusNewCcbId>{voicePreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+			</voice>
+		</functions>
+	</lineCreation>
+</order>

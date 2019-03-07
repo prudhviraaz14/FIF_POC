@@ -1,0 +1,16 @@
+--
+-- Script for adding the EXTERNAL_SYSTEM_ID column the FIF_REQUEST table.
+--
+-- @author Olivier Goethals
+-- @date 2004-05-18
+
+
+ALTER TABLE FIF_REQUEST ADD (EXTERNAL_SYSTEM_ID VARCHAR2(30));
+
+COMMENT ON COLUMN FIF_REQUEST.EXTERNAL_SYSTEM_ID IS
+    'ID that can be used by the external systems that inserted the request.';
+    
+CREATE INDEX XIE4FIF_REQUEST ON FIF_REQUEST
+(
+       EXTERNAL_SYSTEM_ID		   ASC
+);

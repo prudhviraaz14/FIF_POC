@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>PPM108364-SC15-SLSmodify</request-list-name>
+   <request-list-id>PPM108364-SC15-SLSmodify</request-list-id>
+  
+  <!-- Scenario 14: SAP with synchronization:
+  	1) create customer with same email addresses for
+  		- customer <= validation triggered
+  		- account <= validation reused
+  		- contactRole <= no validation
+ 	2) SLS modifyAccessInformation with FORCE and SUPPRESS
+   -->
+  
+   <requests>
+  
+     {file:templates/GenerateStep.xml}
+
+      <trx-builder-request>
+         <transaction-id>PPM108364-SC15-SLSmodify-create</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-96:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/PPM108364-Create.xml">            
+              <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">PPM108364-SC15-SLSmodify</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-96:hour</request-param>
+                  <request-param name="desiredDate">datetime:-96:hour</request-param>
+                  <request-param name="todayTruncated">date:-96:hour</request-param>
+                  <request-param name="customerEmailAddress">customer@vodafone.com</request-param>
+                  <request-param name="customerValidationIndicator">VALIDATED</request-param>
+              </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <sql-request>
+         <transaction-id>checkEmailValidation</transaction-id>
+         <statement>
+            select count(1) numberOfValidations 
+            from EMAIL_VALIDATION ev 
+            where customer_number = 'customerNumber'
+            and state_rd = 'SUCCESS'
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="PPM108364-SC15-SLSmodify-create_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-result-params>
+         	<request-param name="numberOfValidations">1</request-param>
+         </sql-request-result-params>         
+      </sql-request>
+      
+      <!-- get accessInformationIDs -->
+      <sql-request>
+         <transaction-id>getCustomerAIID</transaction-id>
+         <statement>
+            select PRIMARY_ACCESS_INFORMATION_ID from entity 
+            where customer_number = 'customerNumber'            
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="PPM108364-SC15-SLSmodify-create_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="PRIMARY_ACCESS_INFORMATION_ID"/>
+         </sql-request-output-params>
+      </sql-request>
+      <sql-request>
+         <transaction-id>getAccountAIID</transaction-id>
+         <statement>
+            select ACCESS_INFORMATION_ID from document_recipient where mailing_id in (
+            	select mailing_id from mailing where customer_number = 'customerNumber')            
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="PPM108364-SC15-SLSmodify-create_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="ACCESS_INFORMATION_ID"/>
+         </sql-request-output-params>
+      </sql-request>
+      
+      <request>
+         <action-name>modifyAccessInformation</action-name>
+         <request-params>
+            <request-param name="transactionID">PPM108364-SC15-SLSmodify-SLSmodifyCustomer</request-param>
+            <request-param name="emailValidationIndicator">FORCE</request-param>
+            <request-param name="contactElectronicContactIndicator">Y</request-param>
+            <request-param-ref transactionID="getCustomerAIID" param-name="PRIMARY_ACCESS_INFORMATION_ID" output-param-name="accessInformationId"/>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>modifyAccessInformation</action-name>
+         <request-params>
+            <request-param name="transactionID">PPM108364-SC15-SLSmodify-SLSmodifyAccount</request-param>
+            <request-param name="contactEmailAddress">account@vodafone.com</request-param>
+            <request-param name="emailValidationIndicator">SUPPRESS</request-param>
+            <request-param name="contactElectronicContactIndicator">Y</request-param>
+            <request-param-ref transactionID="getAccountAIID" param-name="ACCESS_INFORMATION_ID" output-param-name="accessInformationId"/>
+         </request-params>
+      </request>
+
+      <sql-request>
+         <transaction-id>checkEmailValidation</transaction-id>
+         <statement>
+            select count(1) numberOfValidations 
+            from EMAIL_VALIDATION ev 
+            where customer_number = 'customerNumber'                        
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="PPM108364-SC15-SLSmodify-create_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-result-params>
+         	<request-param name="numberOfValidations">3</request-param>
+         </sql-request-result-params>         
+      </sql-request>
+      
+   </requests>
+</request-list>

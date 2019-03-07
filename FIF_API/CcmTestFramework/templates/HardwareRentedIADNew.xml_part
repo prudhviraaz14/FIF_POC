@@ -1,0 +1,66 @@
+				<hardware ID="hardwareRentedIAD">
+					<processingType>ADD</processingType>
+					<ccbId type="S">
+					    <configured>{hardwareRentedIADSSID}</configured>
+					</ccbId>
+					<refFunctionID>
+						<configured>internet</configured>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultRentedIAD</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeRentedIAD</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetRentedIAD</configured>
+					</providerTrackingNumber>
+					<rentedHardwareConfiguration>
+						<hardwareServiceCode>
+							<configured>V011A</configured>
+						</hardwareServiceCode>
+						<orderReason>
+							<configured>Neuauftrag</configured>
+						</orderReason>
+						<subventionCode>
+							<configured>1</configured>
+						</subventionCode>
+						<shippingCosts>
+							<configured>RG</configured>
+						</shippingCosts>
+						<salutationDescription>
+							<configured>Herr</configured>
+						</salutationDescription>
+						<forename>
+							<configured>COM</configured>
+						</forename>
+						<name>
+							<configured>{scenarioName}</configured>
+						</name>
+						<hardwareMailingAddress>
+							<configured>
+								{file:templates/Address1.xml_part}
+							</configured>
+						</hardwareMailingAddress>
+						<articleNumber>
+							<configured>20090130</configured>
+						</articleNumber>
+						<articleName>
+							<configured>VF EasyBox 904 xDSL</configured>
+						</articleName>
+						<serialNumber>
+							<configured>154947214842</configured>
+						</serialNumber>
+						<conditionsList>
+							<configured>
+								<conditionService>
+									<conditionServiceType>HW</conditionServiceType>
+									<conditionServiceCode>V0854</conditionServiceCode>
+								</conditionService>
+							</configured>
+						</conditionsList>		
+					</rentedHardwareConfiguration>
+					<previousCompletionStatusNewCcbId>{hardwareRentedIADPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+					<completionStatusNewCcbId>{hardwareRentedIADCompletionStatusNew}</completionStatusNewCcbId>
+					<processingStatus>{hardwareRentedIADProcessingStatus}</processingStatus>
+				</hardware>

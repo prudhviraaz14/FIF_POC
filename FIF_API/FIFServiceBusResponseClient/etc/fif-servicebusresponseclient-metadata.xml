@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE messagecreator-metadata SYSTEM "messagecreator-metadata.dtd"[
+<!ENTITY bus_AktualisiereEueKundendaten SYSTEM "bus_AktualisiereEueKundendaten.xml">
+<!ENTITY bus_StarteEingehendeRufnummerPortierung SYSTEM "bus_StarteEingehendeRufnummerPortierung.xml">
+<!ENTITY bus_StartPreclearedFixedLineOrder SYSTEM "bus_StartPreclearedFixedLineOrder.xml">
+<!ENTITY bus_ValidateEmailAddress SYSTEM "bus_ValidateEmailAddress.xml">
+]>
+
+<!--
+    This document contains the message metadata for the OPM DatabaseClient.
+    It contains information about the supported request, message, and message
+    creator types.  It also contains the action mappings that specify which
+    actions are supported.
+-->
+<messagecreator-metadata>
+    <!-- Request definitions -->
+    <request-definitions>
+        <request-definition>
+            <request-type>FIF</request-type>
+            <request-class>net.arcor.fif.messagecreator.FIFRequest</request-class>
+        </request-definition>
+    </request-definitions>
+    <!-- Message definitions -->
+    <message-definitions>
+        <message-definition>
+            <message-type>FIF</message-type>
+            <message-class>net.arcor.fif.messagecreator.FIFMessage</message-class>
+        </message-definition>
+    </message-definitions>
+    <!-- Message Creator definitions -->
+    <message-creator-definitions>
+        <message-creator-definition>
+            <creator-type>xsql</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSQLMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+        <message-creator-definition>
+            <creator-type>xslt</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSLTMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+    </message-creator-definitions>
+    <!-- Action Mappings-->
+    <action-mappings>
+        &bus_AktualisiereEueKundendaten;
+        &bus_StarteEingehendeRufnummerPortierung;
+        &bus_StartPreclearedFixedLineOrder;
+		&bus_ValidateEmailAddress;
+    </action-mappings>
+</messagecreator-metadata>

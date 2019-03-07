@@ -1,0 +1,84 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerDataOld.xml_part}
+	<lineChange orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/ISDNAccessOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/VoicePremiumIgnore.xml_part}
+			<hardware ID="hardware1">
+				<processingType>ADD</processingType>
+				<ccbId type="S">
+				    <configured>{hardware1SSID}</configured>
+				</ccbId>
+				<refFunctionID>
+					<configured>voice</configured>
+				</refFunctionID>
+				<providerTrackingNumber type="default">
+					<configured>ptnDefaultHW1</configured>
+				</providerTrackingNumber>
+				<providerTrackingNumber type="change">
+					<configured>ptnChangeHW1</configured>
+				</providerTrackingNumber>
+				<providerTrackingNumber type="target">
+					<configured>ptnTargetHW1</configured>
+				</providerTrackingNumber>
+				<hardwareConfiguration>
+					<hardwareServiceCode>
+						<configured>V011A</configured>
+					</hardwareServiceCode>
+					<orderReason>
+						<configured>Neuauftrag</configured>
+					</orderReason>
+					<subventionCode>
+						<configured>1</configured>
+					</subventionCode>
+					<shippingCosts>
+						<configured>RG</configured>
+					</shippingCosts>
+					<salutationDescription>
+						<configured>Herr</configured>
+					</salutationDescription>
+					<forename>
+						<configured>COM</configured>
+					</forename>
+					<name>
+						<configured>{scenarioName}</configured>
+					</name>
+					<hardwareMailingAddress>
+						<configured>
+							{file:templates/Address1.xml_part}
+						</configured>
+					</hardwareMailingAddress>
+					<articleNumber>
+						<configured>20080549</configured>
+					</articleNumber>
+					<articleName>
+						<configured>Vodafone Webby</configured>
+					</articleName>
+					<serialNumber>
+						<configured>154947214842</configured>
+					</serialNumber>
+					<quantity>
+						<configured>1</configured>
+					</quantity>
+					<remarkForTechnician>
+						<configured>remarkForTechnician</configured>
+					</remarkForTechnician>
+					<conditionsList>
+						<configured>
+							<conditionService>
+								<conditionServiceType>HW</conditionServiceType>
+								<conditionServiceID>P-0229-06-03</conditionServiceID>
+							</conditionService>
+						</configured>
+					</conditionsList>		
+				</hardwareConfiguration>
+				<previousCompletionStatusNewCcbId>{hardware1PreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+				<completionStatusNewCcbId>{hardware1ProcessingStatus}</completionStatusNewCcbId>
+				<processingStatus>{hardware1ProcessingStatus}</processingStatus>
+			</hardware>
+		</functions>
+	</lineChange>
+</order>

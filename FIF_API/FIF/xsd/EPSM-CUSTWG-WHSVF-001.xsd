@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arcor.net/CUSTWG/EPSM-CUSTWG-WHSVF-001" 
+xmlns:cust="http://www.vodafone.de/eai/CustomerServices.xsd" xmlns:trigger="http://www.vodafone.de/eai/B2BTriggerInterface" xmlns:cldb="http://www.vodafone.de/eai/CLDBServices.xsd"
+xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" targetNamespace="http://www.arcor.net/CUSTWG/EPSM-CUSTWG-WHSVF-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.vodafone.de/eai/CustomerServices.xsd" schemaLocation="CustomerServices.xsd"/>
+	<xs:import namespace="http://www.vodafone.de/eai/B2BTriggerInterface" schemaLocation="B2BTriggerInterface.xsd"/>
+	<xs:import namespace="http://www.vodafone.de/eai/CLDBServices.xsd" schemaLocation="CLDBServices.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="_Endpunkt_Dokumentation_CUSTWGVF">
+		<xs:annotation>
+			<xs:documentation>XML schema definition for Wholesale VF Interface, SBUS Interface Provisioning Web Gateway
+Änderungshistorie:
+0.1 	29.10.2008 	Reto Renner 	Initiale Version
+0.2	03.11.2008	Reto Renner	setLinkService, deleteLinkService und getCompleteCustomerLinkService zugefügt
+			</xs:documentation>
+			<xs:appinfo>
+				<version>0.1</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>Dieses Dokument basiert auf und referenziert folgende Dokumente:
+[1] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>
+Diese Schnittstelle wird durch den Provisioning Web-Gateway realisiert und bietet diesen Service auf dem Arcor Service-Bus an.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ================================endpoint specific types============================= -->
+	<!-- ================================= endpoint specific services ========================= -->
+	<xs:complexType name="GetCustomerDataKIASService">
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="getCustomerDataKIASInput" type="GetCustomerDataKIASInput"/>
+					<xs:element name="getCustomerDataKIASOutput" type="GetCustomerDataKIASOutput">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetCustomerDataKIASInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="customerDataKIASRequest" type="cust:CustomerDataKIASRequest">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetCustomerDataKIASOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element name="customerDataCCMResponse" type="cust:CustomerDataKIASResponse" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ================================= endpoint specific services ========================= -->
+	<xs:complexType name="SetTriggerService">
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="setTriggerInput" type="SetTriggerInput"/>
+					<xs:element name="setTriggerOutput" type="SetTriggerOutput">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetTriggerInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element ref="trigger:TriggerRequest">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetTriggerOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element ref="trigger:TriggerResponse" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ================================= endpoint specific services ========================= -->
+	<xs:complexType name="SetLinkService">
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="setLinkInput" type="SetLinkInput"/>
+					<xs:element name="setLinkOutput" type="SetLinkOutput">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetLinkInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element ref="cldb:setLinkRequest">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetLinkOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element ref="cldb:setLinkResponse" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ================================= endpoint specific services ========================= -->
+	<xs:complexType name="DeleteLinkService">
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="deleteLinkInput" type="DeleteLinkInput"/>
+					<xs:element name="deleteLinkOutput" type="DeleteLinkOutput">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DeleteLinkInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element ref="cldb:deleteLinkRequest">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DeleteLinkOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element ref="cldb:deleteLinkResponse" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ================================= endpoint specific services ========================= -->
+	<xs:complexType name="GetCompleteCustomerLinkService">
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="getCompleteCustomerLinkInput" type="GetCompleteCustomerLinkInput"/>
+					<xs:element name="getCompleteCustomerLinkOutput" type="GetCompleteCustomerLinkOutput">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetCompleteCustomerLinkInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element ref="cldb:getCompleteCustomerLinksRequest">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetCompleteCustomerLinkOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element ref="cldb:getCompleteCustomerLinksResponse" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ================================= Services and Events ============================== -->
+	<xs:element name="getCustomerDataKIASService" type="GetCustomerDataKIASService">
+		<xs:annotation>
+			<xs:documentation>Service zum Ermitteln der VF-Kundendaten aus der CLDB</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="setTriggerService" type="SetTriggerService">
+		<xs:annotation>
+			<xs:documentation>Service zum Übermitteln der Kundendaten an die CLDB</xs:documentation>
+		</xs:annotation>
+	</xs:element><xs:element name="setLinkService" type="SetLinkService">
+		<xs:annotation>
+			<xs:documentation>Service zum Setzen eines Links in derCLDB</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="deleteLinkService" type="DeleteLinkService">
+		<xs:annotation>
+			<xs:documentation>Service zum Löschen eines Links in derCLDB</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getCompleteCustomerLinkService" type="GetCompleteCustomerLinkService">
+		<xs:annotation>
+			<xs:documentation>Service zum Ausgeben aller Links zu einer CustomerNumber oder Ban aus der CLDB</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- =================================root Element======================================= -->
+	<xs:element name="_Endpunkt_Diensterbringer_CUSTWG_WHSVF">
+		<xs:annotation>
+			<xs:documentation>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="getCustomerDataKIASService"/>
+				<xs:element ref="setTriggerService"/>
+				<xs:element ref="setLinkService"/>
+				<xs:element ref="deleteLinkService"/>
+				<xs:element ref="getCompleteCustomerLinkService"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

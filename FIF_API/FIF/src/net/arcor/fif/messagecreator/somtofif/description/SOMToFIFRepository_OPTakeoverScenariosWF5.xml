@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransformationRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns="http://www.arcor.de/transformer/SOMToFIFTransformationSchema" 
+  xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema" 
+  xsi:schemaLocation="http://www.arcor.de/transformer/SOMToFIFTransformationSchema SOMToFIFTransformationSchema.xsd" 
+  docTypeQualifiedName="request-list" docTypeSystemId="request-list.dtd">
+  <RootTemplate>
+    <RequestListTemplate orderIdPath="//order[@orderID]">
+
+      <base:Include fileID="functionParameters" fileName="FunctionParameters.xml"/>
+      
+      <base:DataBufferWriter keyValue="orderIdPath"
+        sourceAttrName="count(/*/barcode) > 0"
+        decoding="'true', '/*/barcode', '/order/@orderID'" />
+      
+      <!-- global request list parameters -->
+      <RLPMapping targetName="sourceSystem" sourceAttrName="/order/customerContactPoint" />
+      <RLPMapping targetName="userName" sourceAttrName="/order/entryUser" />
+      <RLPMapping targetName="rollenBezeichnung" sourceAttrName="/order/entryRole" />
+      <RLPMapping targetName="manualRollback" sourceAttrName="/order/*/transactionType" decoding="'validate','Y','N'" />
+      <RLPMapping targetName="somDate" sourceAttrName="/order/entryDateTime" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="orderId" sourceAttrName="/order/@orderID"/>
+      <RLPMapping targetName="OMTSOrderID" sourceAttrName="${#:orderIdPath}"/>
+      <RLPMapping targetName="salesOrganisationNumber" sourceAttrName="/order/salesOrganisation/salesOrganisationNumber[@type='A']" />
+      <RLPMapping targetName="salesOrganisationNumberVF" sourceAttrName="/order/salesOrganisation/salesOrganisationNumber[@type='V']" />
+      <RLPMapping targetName="desiredDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="orderPositionNumber" sourceAttrName="/order/*/@orderPositionNumber" />
+      <RLPMapping targetName="scanDate" sourceAttrName="/order/scanDate" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="superCustomerTrackingId" sourceAttrName="/order/superCustomerTrackingId" />
+      <RLPMapping targetName="reason" sourceAttrName="/order/*/reason" />
+      
+      
+      <base:DataBufferWriter keyValue="currentMainAccessID"
+        sourceAttrName="/*/*/*/isdn/ccbId[@type='S']/existing/../../@ID |
+        /*/*/*/ngn/ccbId[@type='S']/existing/../../@ID |
+        /*/*/*/ipBitstream/ccbId[@type='S']/existing/../../@ID |
+        /*/*/*/dslr/ccbId[@type='S']/existing/../../@ID" />
+      
+      <base:DataBufferWriter keyValue="targetMainAccessID"
+        sourceAttrName="/*/*/*/isdn/*/*/configured/../../../@ID |
+        /*/*/*/ngn/*/*/configured/../../../@ID |
+        /*/*/*/ipBitstream/*/*/configured/../../../@ID |
+        /*/*/*/dslr/*/*/configured/../../../@ID" />
+      
+      <base:DataBufferWriter keyValue="targetTechnology"
+        sourceAttrName="name(/*/*/accesses/ngn[@ID='${/*/*/*/voice/@targetAccessID}'] |
+        /*/*/accesses/isdn[@ID='${/*/*/*/voice/@targetAccessID}'] |
+        /*/*/accesses/ipBitstream[@ID='${/*/*/*/voice/@targetAccessID}'])"
+        decoding="'isdn', 'ISDN', 'ngn', 'NGN', 'ipBitstream', 'BitStream'"/>
+      
+      <base:DataBufferWriter keyValue="currentTechnology"
+        sourceAttrName="name(
+        /*/*/accesses/dslr[@ID='${/*/*/*/voice/@refAccessID}'] |
+        /*/*/accesses/preselect[@ID='${/*/*/*/voice/@refAccessID}'] |
+        /*/*/accesses/ngn[@ID='${/*/*/*/voice/@refAccessID}'] |
+        /*/*/accesses/isdn[@ID='${/*/*/*/voice/@refAccessID}'] |
+        /*/*/accesses/ipBitstream[@ID='${/*/*/*/voice/@refAccessID}'])"
+        decoding="'isdn', 'ISDN', 'ngn', 'NGN', 'ipBitstream', 'BitStream', 
+        'preselect', 'preselect', 'dslr', 'dslr'"/>
+      
+      <base:DataBufferWriter keyValue="currentProductType"
+        sourceAttrName="/*/*/functions/voice[@refAccessID='${#:currentMainAccessID}']/*/mainAccessServiceCode/existing" 
+        decoding="'V0003','Basis','VI002','Basis','VI009','Basis','Premium'" />
+      
+      <base:DataBufferWriter keyValue="targetProductType"
+        sourceAttrName="concat(
+        count(/*/*/*/*[@refAccessID='${#:currentMainAccessID}']/voiceBasisConfiguration/*/configured) > 0, 
+        count(/*/*/*/*[@refAccessID='${#:currentMainAccessID}']/voicePremiumConfiguration/*/configured) > 0)"
+        decoding="'truetrue', 'targetProductTypeAmbiguous', 'truefalse', 'Basis', 
+        'falsetrue', 'Premium', 'falsefalse', ''" />
+      
+      <base:DataBufferWriter keyValue="isRelocation"
+        staticValue="false"/>
+      
+      <base:DataBufferWriter keyValue="isTechnologyChange"
+        sourceAttrName="'${#:targetTechnology}' != '${#:currentTechnology}' and '${#:targetTechnology}' != ''
+        and (/*/*/*/internet[@refAccessID='${#:currentMainAccessID}']/processingType = 'CHANGE' or 
+        /*/*/*/internet[@refAccessID='${#:currentMainAccessID}']/processingType = 'ADD')
+        and /*/*/*/voice[@refAccessID='${#:currentMainAccessID}']/processingType = 'CHANGE'"/>
+      
+      <base:DataBufferWriter keyValue="isProductTypeChange"
+        sourceAttrName="'${#:targetProductType}' != '${#:currentProductType}' and '${#:targetProductType}' != ''
+        and (/*/*/*/internet[@refAccessID='${#:currentMainAccessID}']/processingType = 'CHANGE' or /*/*/*/internet[@refAccessID='${#:currentMainAccessID}']/processingType = 'ADD')
+        and /*/*/*/voice[@refAccessID='${#:currentMainAccessID}']/processingType = 'CHANGE'"/>
+      
+      <base:DataBufferWriter keyValue="isProductChangeScenario"
+        staticValue="true"/>
+            
+      <base:DataBufferWriter keyValue="isTVCenterOrder"        
+        sourceAttrName="/*/*/*/tvCenter/processingType = 'ADD'" />
+      
+      <base:Include fileIDRef="functionParameters" partIDRef="masterdataParameters"/>
+      
+      <!-- allocateCustomer, needed by COM to create initial notifications -->
+      <RequestTemplate fif-request-name="allocateCustomerNumber" sourceWorkingPath="/order/providerChange | /order/contractPartnerChange">
+        <TemplateConditions>
+          <base:IsMember value="allocate" sourceAttrName="/order/*/transactionType" />
+        </TemplateConditions>
+
+        <RPMapping targetName="name" sourceAttrName="additionalData/name" />
+        <RPMapping targetName="forename" sourceAttrName="additionalData/forename" />
+        <RPMapping targetName="systemID" sourceAttrName="#:customerNumber" />
+        <RPMapping targetName="useUniqueSystemId" staticValue="Y" />
+        <RPMapping targetName="systemType" staticValue="COM" />
+      </RequestTemplate>
+
+      <!-- ***************************************************************************************** -->
+
+      <!-- Provider Change / Contract Partner Change -->
+
+      <!-- cloneCustomer, first step in provider change -->
+      <RequestTemplate fif-request-name="cloneCustomer" 
+        sourceWorkingPath="/order/providerChange" 
+        extends="base_executevalidate_template">
+
+        <RPMapping targetName="newServiceProvider" staticValue="VODAFONE" /> 
+        <RPMapping targetName="customerCategory" 
+          sourceAttrName="/*/*/customer[@ID='${beneficiary/targetCustomerNodeRefID}']/classification/configured" 
+          decoding="'VC','BUSINESS','RESIDENTIAL'" />
+        <RPMapping targetName="sourceCustomerNumber" sourceAttrName="#:customerNumber" />
+        <RPMapping targetName="targetCustomerNumber" sourceAttrName="#:targetCustomerNumber" />        
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="modifyCustomer" 
+        sourceWorkingPath="/*/*/customer[@ID='${/*/providerChange/beneficiary/targetCustomerNodeRefID}']" 
+        extends="base_executevalidate_template" >
+        <TemplateConditions>
+          <base:IsMember value="true" sourceAttrName="count(*/configured) > 0" />          
+        </TemplateConditions>
+        
+        <RPMapping targetName="customerNumber" sourceAttrName="#:targetCustomerNumber" />
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPMapping targetName="riskCategory" sourceAttrName="riskCategory/configured" />
+        <RPMapping targetName="userPassword" sourceAttrName="userPassword/configured" />
+        <RPMapping targetName="matchCodeId" sourceAttrName="matchCodeId/configured" />
+        <RPMapping targetName="customerGroup" sourceAttrName="customerGroup/configured" />
+        <RPMapping targetName="customerInternalRefNumber" sourceAttrName="customerInternalRefNumber/configured" />
+        <RPMapping targetName="marketingPhoneIndicator" sourceAttrName="marketingPhoneIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingMailIndicator" sourceAttrName="marketingMailIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingFaxIndicator" sourceAttrName="marketingFaxIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingUseDataIndicator" sourceAttrName="marketingUseDataIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="postIdentIndicator" sourceAttrName="postIdentIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="billingAccountNumber" sourceAttrName="billingAccountNumber/configured" />
+        <RPMapping targetName="cdrEgnFormat" sourceAttrName="cdrEgnFormat/configured" />
+        <RPMapping targetName="marketingAuthorizationDate" sourceAttrName="marketingAuthorizationDate/configured" formatter="SOMToCCBDateFormatter" />
+      </RequestTemplate>
+      
+      <!-- change access information and address in case of a relocation -->
+      <RequestTemplate fif-request-name="modifyEntity" 
+        sourceWorkingPath="/*/*/customer[@ID='${/*/providerChange/beneficiary/targetCustomerNodeRefID}']"         
+        extends="entityCreation_template">
+        <TemplateConditions>
+          <base:IsMember value="true" 
+            sourceAttrName="count(individual/*/configured | organization/*/configured) > 0" />          
+        </TemplateConditions>
+        <RPMapping targetName="entityChangeType" staticValue="IGNORE" />
+        <RPMapping targetName="addressChangeType" 
+          sourceAttrName="count(*/address/configured) > 0" 
+          decoding="'true', 'CHANGE', 'IGNORE'" />
+        <RPMapping targetName="accessInformationChangeType" 
+          sourceAttrName="count(*/accessInformation/configured) > 0" 
+          decoding="'true', 'CHANGE', 'IGNORE'" />
+        <RPMapping targetName="relatedObjectId" sourceAttrName="#:targetCustomerNumber" />
+        <RPMapping targetName="relatedObjectType" staticValue="CUSTOMER" />
+      </RequestTemplate>      
+      
+      <RequestTemplate fif-request-name="modifyEntity" 
+        sourceWorkingPath="/*/*/billingAccount[@ID='${/*/providerChange/payerAllCharges/targetBillingAccountNodeRefID}']" 
+        extends="entityCreation_template">
+        <TemplateConditions>
+          <base:IsMember value="true" 
+            sourceAttrName="count(individual/*/configured | organization/*/configured) > 0" />          
+        </TemplateConditions>
+        <RPMapping targetName="entityChangeType" staticValue="CHANGE" />
+        <RPMapping targetName="addressChangeType" 
+          sourceAttrName="count(*/address/configured) > 0" 
+          decoding="'true', 'CHANGE', 'IGNORE'" />
+        <RPMapping targetName="accessInformationChangeType" 
+          sourceAttrName="count(*/accessInformation/configured) > 0" 
+          decoding="'true', 'CHANGE', 'IGNORE'" />
+        <RPMapping targetName="relatedObjectType" staticValue="ACCOUNT" />
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="modifyMethodOfPayment" 
+        sourceWorkingPath="/*/*/billingAccount[@ID='${/*/providerChange/payerAllCharges/targetBillingAccountNodeRefID}']/methodOfPayment" 
+        extends="base_executevalidate_template">
+        <RPMapping targetName="paymentTermRd" sourceAttrName="paymentTerm/configured" />
+        <RPMapping targetName="paymentMethod" sourceAttrName="paymentMethod/configured" />
+        <RPMapping targetName="bankCode" sourceAttrName="bankCode/configured" />
+        <RPMapping targetName="bankAccountNumber" sourceAttrName="bankAccountNumber/configured" />
+        <RPMapping targetName="owner" sourceAttrName="owner/configured" />
+        <RPMapping targetName="directDebitAuthorizDate" 
+          sourceAttrName="directDebitAuthorizationDate/configured" 
+          formatter="SOMToCCBDateFormatter" />
+      </RequestTemplate>
+
+      <!-- setInvoiceDeliveryType, WEBBILL trx -->
+      <RequestTemplate fif-request-name="setInvoiceDeliveryType" 
+        sourceWorkingPath="/*/*/billingAccount[@ID='${/*/providerChange/payerAllCharges/targetBillingAccountNodeRefID}']/invoiceDelivery" 
+        extends="base_executevalidate_template">
+        <RPMapping targetName="desiredDate" staticValue="tomorrow" />
+        <RPMapping targetName="deliveryType" sourceAttrName="invoiceDeliveryType/configured" />
+        <RPMapping targetName="invoiceTemplateName" sourceAttrName="specialInvoiceTemplateName/configured" />
+        <RPMapping targetName="enableEgn" sourceAttrName="enableItemizedBill/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="enableStorage" sourceAttrName="enableStorage/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="maskingDigits" sourceAttrName="maskingDigits/configured" />
+        <RPMapping targetName="storageMaskingDigits" sourceAttrName="storageDigits/configured" />
+      </RequestTemplate>
+
+      <!-- TV-Center hardware reconfiguration in relocation -->
+      <RequestTemplate fif-request-name="reconfigureFunction" 
+        sourceWorkingPath="/*/providerChange/*/hardware" 
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="I1359" sourceAttrName="*/hardwareServiceCode/existing" />
+          <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        
+        <RPMapping targetName="serviceCode" sourceAttrName="*/hardwareServiceCode/existing" />
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPMapping targetName="reason" staticValue="AEND" />
+        <RPMapping targetName="assignCustomerOrder" staticValue="N" />
+        <RPMapping targetName="scenarioInformation" staticValue="Änderung Settopbox" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+              <RPMapping targetName="parameterName" staticValue="orderReason" />
+              <RPMapping targetName="configuredValue" staticValue="Rückgabe Settop-Box" />
+          </RPListItemTemplate>
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="compensationFeeIndicator" />
+            <RPMapping targetName="configuredValue" 
+              sourceAttrName="*/compensationFeeIndicator" 
+              method="configuredExisting" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>      
+
+      <!-- changeProvider, most is done in the abstract template -->
+      <RequestTemplate fif-request-name="changeProvider" 
+        extends="base_productChange_template" 
+        sourceWorkingPath="/order/providerChange">
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="/order/providerChange/accesses/ipBitstream" />
+        </TemplateConditions>
+      </RequestTemplate>
+
+      <!-- createCustomer -->
+      <RequestTemplate fif-request-name="createCustomer" 
+        sourceWorkingPath="/*/*/customer[@ID='${/*/*/beneficiary/targetCustomerNodeRefID}']" 
+        extends="entityCreation_template">
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/order/contractPartnerChange" />
+        </TemplateConditions>        
+        <RPMapping targetName="parentCustomerNumber" sourceAttrName="ownerCcbId/*" />
+        <RPMapping targetName="riskCategory" sourceAttrName="riskCategory/configured" />
+        <RPMapping targetName="userPassword" sourceAttrName="userPassword/configured" />
+        <RPMapping targetName="matchCodeId" sourceAttrName="matchCodeId/configured" />
+        <RPMapping targetName="customerGroup" sourceAttrName="customerGroup/configured" />
+        <RPMapping targetName="customerCategory" sourceAttrName="customerCategory/configured" />
+        <RPMapping targetName="customerClassification" sourceAttrName="classification/configured" />
+        <RPMapping targetName="customerInternalRefNumber" sourceAttrName="customerInternalRefNumber/configured" />
+        <RPMapping targetName="marketingPhoneIndicator" sourceAttrName="marketingPhoneIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingMailIndicator" sourceAttrName="marketingMailIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingFaxIndicator" sourceAttrName="marketingFaxIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingUseDataIndicator" sourceAttrName="marketingUseDataIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="postIdentIndicator" sourceAttrName="postIdentIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="billingAccountNumber" sourceAttrName="billingAccountNumber/configured" />
+        <RPMapping targetName="cdrEgnFormat" sourceAttrName="cdrEgnFormat/configured" />
+        <RPMapping targetName="allocatedCustomerNumber" sourceAttrName="/*/customerData/customer[@ID='${/*/*/beneficiary/targetCustomerNodeRefID}']/ccbId[@type='C']/configured" />
+        <RPMapping targetName="marketingAuthorizationDate" sourceAttrName="marketingAuthorizationDate/configured" formatter="SOMToCCBDateFormatter" />
+        
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="affinityGroupList" />            
+            <OrComposite>              
+              <base:IsMember value="VE" sourceAttrName="classification/configured" />
+              <base:IsMember value="VC" sourceAttrName="classification/configured" />
+              <AndComposite>
+                <base:IsNotExisting sourceAttrName="classification/configured" />
+                <OrComposite>
+                  <base:IsMember value="VE" sourceAttrName="/*/*/customer[@ID='${/*/*/beneficiary/customerNodeRefID}']/classification/existing" />
+                  <base:IsMember value="VC" sourceAttrName="/*/*/customer[@ID='${/*/*/beneficiary/customerNodeRefID}']/classification/existing" />
+                </OrComposite>
+              </AndComposite>
+            </OrComposite>
+          </TemplateConditions>            
+          <RPListTemplate listName="affinityGroupList">
+            <RPListItemTemplate>
+              <RPMapping staticValue="VODAFONE_RESALE" targetName="affinityGroup" />
+            </RPListItemTemplate>
+          </RPListTemplate>
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="affinityGroupList" />
+          </TemplateConditions>
+          <RPListTemplate listName="affinityGroupList">
+            <RPListItemTemplate sourceWorkingPath="affinityGroupList/configured/affinityGroup">
+              <RPMapping sourceAttrName="." targetName="affinityGroup" />
+            </RPListItemTemplate>
+          </RPListTemplate>
+        </TransformationTemplate>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="createBillingAccount" 
+        sourceWorkingPath="/*/*/billingAccount[@ID='${/*/*/payerAllCharges/targetBillingAccountNodeRefID}']" 
+        extends="entityCreation_template">
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/order/contractPartnerChange" />
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>
+
+        <!-- customer number either from ownerCcbId -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="ownerCcbId/configured" />
+        </TransformationTemplate>
+        <!-- or from ownerNodeRefID -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/*" />
+        </TransformationTemplate>
+
+        <RPMapping targetName="bankAccountNumber" sourceAttrName="methodOfPayment/bankAccountNumber/configured" />
+        <RPMapping targetName="ownerFullName" sourceAttrName="methodOfPayment/owner/configured" />
+        <RPMapping targetName="bankClearingCode" sourceAttrName="methodOfPayment/bankCode/configured" />
+        <RPMapping targetName="directDebitAuthorizDate" sourceAttrName="methodOfPayment/directDebitAuthorizationDate/configured" formatter="SOMToCCBDateFormatter" />
+        <RPMapping targetName="paymentMethod" sourceAttrName="methodOfPayment/paymentMethod/configured" />
+        <RPMapping targetName="paymentTerm" sourceAttrName="methodOfPayment/paymentTerm/configured" />
+
+        <RPMapping targetName="mailingPrinterDestination" sourceAttrName="mailing/mailingPrinterDestination/configured" />
+        <RPMapping targetName="mailingName" sourceAttrName="mailing/mailingName/configured" />
+        <RPMapping targetName="mailingDocumentType" sourceAttrName="mailing/mailingDocumentType/configured" />
+        <RPMapping targetName="docTemplateName" sourceAttrName="/order/customerData/customer/classification/configured" decoding="'VE', 'Vodafone PK-Rechnung', 'VC', 'VF Rechnung', 
+          'D', 'Privatkunden Rechnung', 'E', 'Privatkunden Rechnung', 'Rechnung'" />
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="setInvoiceDeliveryType" 
+        sourceWorkingPath="/*/*/billingAccount[@ID='${/*/*/payerAllCharges/targetBillingAccountNodeRefID}']" 
+        extends="base_executevalidate_template">        
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/order/contractPartnerChange" />
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping targetName="desiredDate" staticValue="tomorrow" />
+        <RPMapping targetName="deliveryType" sourceAttrName="invoiceDelivery/invoiceDeliveryType/configured" />
+        <RPMapping targetName="maskingDigits" sourceAttrName="invoiceDelivery/maskingDigits/configured" />
+        <RPMapping targetName="enableEgn" sourceAttrName="invoiceDelivery/enableItemizedBill/configured" />
+      </RequestTemplate>
+
+      <!-- TV-Center hardware reconfiguration in relocation -->
+      <RequestTemplate fif-request-name="reconfigureFunction" 
+        sourceWorkingPath="/*/contractPartnerChange/*/hardware" 
+        extends="reconfigureFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="I1359" sourceAttrName="*/hardwareServiceCode/existing" />
+          <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+        </TemplateConditions>
+        
+        <RPMapping targetName="serviceCode" sourceAttrName="*/hardwareServiceCode/existing" />
+        <RPMapping targetName="desiredDate" staticValue="today" />
+        <RPMapping targetName="reason" staticValue="AEND" />
+        <RPMapping targetName="assignCustomerOrder" staticValue="N" />
+        <RPMapping targetName="scenarioInformation" staticValue="Änderung Settopbox" />
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate>
+              <RPMapping targetName="parameterName" staticValue="orderReason" />
+              <RPMapping targetName="configuredValue" staticValue="Rückgabe Settop-Box" />
+          </RPListItemTemplate>            
+          <RPListItemTemplate>
+            <RPMapping targetName="parameterName" staticValue="compensationFeeIndicator" />
+            <RPMapping targetName="configuredValue" 
+              sourceAttrName="*/compensationFeeIndicator" 
+              method="configuredExisting" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+            
+      <!-- contractPartnerChange, most is done in the abstract template -->
+      <RequestTemplate fif-request-name="changeContractPartner" 
+        extends="base_productChange_template" 
+        sourceWorkingPath="/order/contractPartnerChange">
+
+        <RPMapping targetName="amdocsOrderingIndicator" 
+          sourceAttrName="aoMastered" 
+          method="configuredExisting" 
+          decoding="'true', 'Y', 'false', 'N'" />    
+        
+        <!-- new location address -->
+        <RPMapping targetName="streetName" sourceAttrName="accesses/*[@ID='${#:currentMainAccessID}']/*/locationAddress/existing/street" />
+        <RPMapping targetName="streetNumber" sourceAttrName="accesses/*[@ID='${#:currentMainAccessID}']/*/locationAddress/existing/streetNumber" />
+        <RPMapping targetName="postalCode" sourceAttrName="accesses/*[@ID='${#:currentMainAccessID}']/*/locationAddress/existing/postalCode" />
+        <RPMapping targetName="cityName" sourceAttrName="accesses/*[@ID='${#:currentMainAccessID}']/*/locationAddress/existing/city" />
+        <RPMapping targetName="citySuffix" sourceAttrName="accesses/*[@ID='${#:currentMainAccessID}']/*/locationAddress/existing/citySuffix" />
+        <RPMapping targetName="additionalText" sourceAttrName="accesses/*[@ID='${#:currentMainAccessID}']/*/locationAddress/existing/additionalAddressDescription" />
+        <RPMapping targetName="numberSuffix" sourceAttrName="accesses/*[@ID='${#:currentMainAccessID}']/*/locationAddress/existing/streetNumberSuffix" />
+        <RPMapping targetName="countryCode" sourceAttrName="accesses/*[@ID='${#:currentMainAccessID}']/*/locationAddress/existing/country" />                                                       
+      </RequestTemplate>
+
+      <!-- hardware service for voice function -->
+      <RequestTemplate fif-request-name="addHardwareService" 
+        sourceWorkingPath="/*/providerChange/*/hardware | /*/contractPartnerChange/*/hardware" 
+        extends="base_executevalidate_template">
+        <TemplateConditions>          
+          <base:IsExisting sourceAttrName="*/articleNumber" />
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+            <AndComposite>
+              <OrComposite>
+                <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+                <base:IsMember value="IGNORE" sourceAttrName="processingType" />
+              </OrComposite>
+              <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />
+              <OrComposite>              
+                <base:IsMember value="ISDN" sourceAttrName="#:targetTechnology" />
+                <base:IsMember value="" sourceAttrName="#:targetTechnology" />
+              </OrComposite>              
+              <base:IsNotMember value="V0109" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0110" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V011A" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="I1350" sourceAttrName="*/hardwareServiceCode/existing" />
+              <OrComposite>              
+                <base:IsNotMember value="I1359" sourceAttrName="*/hardwareServiceCode/existing" />
+                <base:IsNotMember value="TERM" sourceAttrName="../tvCenter/processingType" />
+              </OrComposite>              
+              <OrComposite>
+                <base:IsMember value="true" sourceAttrName="../voice[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+                <base:IsMember value="true" sourceAttrName="../internet[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <OrComposite>
+                <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+                <base:IsMember value="IGNORE" sourceAttrName="processingType" />
+              </OrComposite>
+              <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />              
+              <OrComposite>              
+                <base:IsMember value="NGN" sourceAttrName="#:targetTechnology" />
+                <base:IsMember value="" sourceAttrName="#:targetTechnology" />
+              </OrComposite>              
+              <base:IsNotMember value="V0109" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0110" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V011A" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0048" sourceAttrName="*/hardwareServiceCode/existing" />
+              <OrComposite>              
+                <base:IsNotMember value="I1359" sourceAttrName="*/hardwareServiceCode/existing" />
+                <base:IsNotMember value="TERM" sourceAttrName="../tvCenter/processingType" />
+              </OrComposite>              
+              <OrComposite>
+                <base:IsMember value="true" sourceAttrName="../voice[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+                <base:IsMember value="true" sourceAttrName="../internet[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <OrComposite>
+                <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+                <base:IsMember value="IGNORE" sourceAttrName="processingType" />
+              </OrComposite>
+              <base:IsMember value="true" sourceAttrName="#:isProductChangeScenario" />              
+              <OrComposite>              
+                <base:IsMember value="BitStream" sourceAttrName="#:targetTechnology" />
+                <base:IsMember value="" sourceAttrName="#:targetTechnology" />
+              </OrComposite>              
+              <base:IsNotMember value="V0109" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0110" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V011A" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="V0048" sourceAttrName="*/hardwareServiceCode/existing" />
+              <base:IsNotMember value="I1350" sourceAttrName="*/hardwareServiceCode/existing" />
+              <OrComposite>              
+                <base:IsNotMember value="I1359" sourceAttrName="*/hardwareServiceCode/existing" />
+                <base:IsNotMember value="TERM" sourceAttrName="../tvCenter/processingType" />
+              </OrComposite>              
+              <OrComposite>
+                <base:IsMember value="true" sourceAttrName="../voice[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+                <base:IsMember value="true" sourceAttrName="../internet[@ID='${refFunctionID/existing}']/@refAccessID = '${#:currentMainAccessID}'" />
+              </OrComposite>
+            </AndComposite>
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping targetName="OMTSOrderID" sourceAttrName="../../parentBarcode" />
+        <RPMapping targetName="providerTrackingNumber" 
+          sourceAttrName="providerTrackingNumber[@type = 'target']/configured" />
+        <base:Include fileIDRef="functionParameters" partIDRef="hardwareParameters"/>        
+      </RequestTemplate>
+
+      <!-- conditions for hardware (hardware bundles) -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/providerChange/*/hardware | /*/contractPartnerChange/*/hardware" 
+        extends="modifyFeaturesConditions_template" />            
+
+      <!-- features -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/*/*/voice | /*/*/*/internet" 
+        extends="modifyFeaturesFeatures_template"/>
+      
+      <!-- charges and credits -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/*/*/voice | /*/*/*/internet" 
+        extends="modifyFeaturesChargesAndCredits_template"/>
+      
+      <!-- serviceLevel -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/*/*/voice | /*/*/*/internet" 
+        extends="modifyFeaturesServiceLevel_template"/>
+      
+      <!-- desired countries -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/*/*/voice | /*/*/*/internet" 
+        extends="modifyFeaturesCountries_template"/>
+      
+      <!-- tariff options -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/*/*/voice | /*/*/*/internet" 
+        extends="modifyFeaturesTariffOptions_template"/>
+      
+      <!-- conditions -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/*/*/voice | /*/*/*/internet" 
+        extends="modifyFeaturesConditions_template" />
+            
+      <!-- blocking services -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/*/*/voice | /*/*/*/internet" 
+        extends="modifyFeaturesBlockingServices_template" />
+      
+      <RequestTemplate fif-request-name="createSafetyPackage" 
+        sourceWorkingPath="/*/providerChange/*/safetyPackage | /*/contractPartnerChange/*/safetyPackage" 
+        extends="base_executevalidate_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+          </OrComposite>
+        </TemplateConditions>
+        <base:Include fileIDRef="functionParameters" partIDRef="safetyPackageParameters"/>
+        <RPMapping targetName="OMTSOrderID" sourceAttrName="../../parentBarcode" />
+        <RPMapping targetName="providerTrackingNumber" 
+          sourceAttrName="providerTrackingNumber[@type = 'target']/configured" />                
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="createDirectoryEntry" 
+        sourceWorkingPath="/*/providerChange/*/directoryEntry | /*/contractPartnerChange/*/directoryEntry" 
+        extends="base_executevalidate_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+          </OrComposite>
+        </TemplateConditions>
+        
+        <RPMapping targetName="OMTSOrderID" sourceAttrName="../../parentBarcode" />
+        <RPMapping targetName="providerTrackingNumber" 
+          sourceAttrName="providerTrackingNumber[@type = 'target']/configured" />                
+
+        <base:Include fileIDRef="functionParameters" partIDRef="directoryEntryParameters"/>
+      </RequestTemplate>
+
+      <!-- installation service -->
+      <RequestTemplate fif-request-name="addInstallationService" 
+        sourceWorkingPath="/*/providerChange/*/installationSvc | /*/contractPartnerChange/*/installationSvc" 
+        extends="base_executevalidate_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping targetName="OMTSOrderID" sourceAttrName="../../parentBarcode" />
+        <base:Include fileIDRef="functionParameters" partIDRef="installationServiceParameters"/>  
+        <RPMapping targetName="providerTrackingNumber" 
+          sourceAttrName="providerTrackingNumber[@type = 'target']/configured" />                      
+      </RequestTemplate>      
+
+      <RequestTemplate fif-request-name="createOnlineContract" 
+        sourceWorkingPath="/*/providerChange/*/internet | /*/contractPartnerChange/*/internet" 
+        extends="base_executevalidate_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="/order/*/functions/internet[@targetAccessID=../../accesses/isdn/@ID]" />
+            <AndComposite>
+              <base:IsNotExisting sourceAttrName="/order/*/functions/internet[@targetAccessID=../../accesses/*/@ID]" />
+              <base:IsExisting sourceAttrName="/order/*/functions/internet[@refAccessID=../../accesses/isdn/@ID]" />
+            </AndComposite>
+          </OrComposite>
+          <OrComposite>
+            <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+          </OrComposite>
+        </TemplateConditions>
+
+        <RPMapping targetName="OMTSOrderID" sourceAttrName="../../parentBarcode" />
+        <RPMapping targetName="tariffOnline" sourceAttrName="*/pricingStructureCode" method="configuredExisting"/>
+
+        <RPMapping sourceAttrName="name(../..)" targetName="reasonRd" 
+          decoding="'providerChange', 'PROVIDER_CHANGE', 'contractPartnerChange', 'TAKEOVERCONTRACT', 'CUST_REQUEST'" />
+        <RPMapping targetName="dueDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="providerChange" sourceAttrName="name(../..)" />
+          </TemplateConditions>
+          <RPMapping targetName="salesOrganisationNumber" sourceAttrName="/order/salesOrganisation/salesOrganisationNumber[@type='V']" />
+          <RPMapping targetName="salesOrganisationNumberVF" staticValue="" />
+        </TransformationTemplate>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="/*/*/*/voice/@targetAccessID" />
+          </TemplateConditions>
+          <RPMapping targetName="voiceFunctionID" sourceAttrName="/*/*/*/voice[@targetAccessID='${/*/*/*/isdn/@ID}']/@ID" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="/*/*/*/voice/@targetAccessID" />
+          </TemplateConditions>
+          <RPMapping targetName="voiceFunctionID" sourceAttrName="/*/*/*/voice[@refAccessID='${/*/*/*/isdn/@ID}']/@ID" />
+        </TransformationTemplate>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="createTVCenterContract" 
+        sourceWorkingPath="/*/providerChange/*/tvCenter | /*/contractPartnerChange/*/tvCenter" 
+        extends="base_executevalidate_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+            <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          </OrComposite>
+        </TemplateConditions>
+        <base:Include fileIDRef="functionParameters" partIDRef="tvCenterParameters"/>            
+        <RPMapping targetName="OMTSOrderID" sourceAttrName="../../parentBarcode" />
+      </RequestTemplate>
+            
+      <!-- tariff options for TVCenter -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/providerChange/*/tvCenter | /*/contractPartnerChange/*/tvCenter" 
+        extends="modifyFeaturesTVCenterTariffOptions_template">
+        <RPMapping targetName="reason" staticValue="CREATE_TVC_NP" />
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="terminateService" 
+        sourceWorkingPath="/*/providerChange/*/internet | /*/contractPartnerChange/*/internet" 
+        extends="base_productChangeTermination_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="/order/*/functions/internet[@refAccessID=../../accesses/isdn/@ID]" />
+            <base:IsExisting sourceAttrName="/order/*/functions/internet[@refAccessID=../../accesses/preselect/@ID]" />
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping staticValue="Simple" targetName="terminationType" />
+      </RequestTemplate>
+
+      <!-- terminate iptv and VOD -->
+      <RequestTemplate fif-request-name="terminateService" 
+        sourceWorkingPath="/*/providerChange/*/iptv | /*/providerChange/*/vod |
+          /*/contractPartnerChange/*/iptv | /*/contractPartnerChange/*/vod" 
+          extends="base_productChangeTermination_template">
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+        <RPMapping targetName="DSLServiceSubscriptionId" sourceAttrName="../../accesses/*[@ID='${@refAccessID}']/ccbId/existing" />
+        <RPMapping staticValue="Y" targetName="terminateNGNIndicator" />
+      </RequestTemplate>
+
+      <!-- terminate TV-Center -->
+      <RequestTemplate fif-request-name="terminateService" 
+        sourceWorkingPath="/*/providerChange/*/tvCenter | /*/contractPartnerChange/*/tvCenter" 
+        extends="base_productChangeTermination_template">
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+        <RPMapping targetName="DSLServiceSubscriptionId" sourceAttrName="../../accesses/*[@ID='${@refAccessID}']/ccbId/existing" />
+        <RPMapping staticValue="Y" targetName="terminateDSLIndicator" />
+      </RequestTemplate>
+      
+      <!-- termination of Mobile contracts for provider change -->
+      <RequestTemplate fif-request-name="terminateService" extends="base_productChangeTermination_template" sourceWorkingPath="/*/providerChange/*/voice | /*/contractPartnerChange/*/voice">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember sourceAttrName="*/productCode/existing" value="V8000" />
+            <base:IsMember sourceAttrName="*/productCode/existing" value="VI201" />
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+      </RequestTemplate>
+
+      <!-- simple terminations: safetyPackage, Discounts -->
+      <RequestTemplate fif-request-name="terminateService" extends="base_productChangeTermination_template" sourceWorkingPath="/*/providerChange/*/safetyPackage | /*/providerChange/discount | 
+                /*/contractPartnerChange/*/safetyPackage | /*/contractPartnerChange/discount">
+        <RPMapping staticValue="Simple" targetName="terminationType" />
+      </RequestTemplate>
+
+      <!-- complex terminations: PC Backup, MS Online Suite -->
+      <RequestTemplate fif-request-name="terminateService" extends="base_productChangeTermination_template" sourceWorkingPath="/*/providerChange/*/msOnlineSuite | 
+        /*/providerChange/*/pcBackup | 
+        /*/contractPartnerChange/*/msOnlineSuite | 
+        /*/contractPartnerChange/*/pcBackup">
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+      </RequestTemplate>
+      
+      <!-- ***************************************************************************************** -->
+
+    </RequestListTemplate>
+  </RootTemplate>
+
+  <BaseTemplates>
+    <AbstractTransformationTemplate ID="base_executevalidate_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember value="validate" sourceAttrName="/order/*/transactionType" />
+          <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        </OrComposite>
+      </TemplateConditions>
+    </AbstractTransformationTemplate>
+
+    <AbstractTransformationTemplate ID="base_productChangeTermination_template" extends="base_executevalidate_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember sourceAttrName="processingType" value="TERM" />
+          <base:IsMember sourceAttrName="processingType" value="CHANGE" />
+        </OrComposite>
+      </TemplateConditions>
+      <RPMapping targetName="functionID" sourceAttrName="@ID" />
+      <RPMapping targetName="productCode" sourceAttrName="*/productCode/existing | productCode/existing" />
+      <RPMapping targetName="terminationReason" 
+        sourceAttrName="name(../..)" 
+        decoding="'providerChange', 'AGKPW', 'contractPartnerChange', 'VPW'" />         
+      <RPMapping targetName="serviceSubscriptionId" sourceAttrName="ccbId[@type='S']/existing" />
+      <RPMapping targetName="contractNumber" sourceAttrName="contractNumber" />
+      <RPMapping targetName="customerNumber" 
+        sourceAttrName="/*/*/customer[@ID='${/*/*/beneficiary/customerNodeRefID}']/ccbId[@type='C']/existing" />
+      <RPMapping targetName="terminationFeeServiceCode" sourceAttrName="fee/configured" />
+      <RPMapping targetName="terminationDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+      <RPMapping targetName="noticePeriodStartDate" sourceAttrName="/order/*/orderReceivedDate" formatter="SOMToCCBDateFormatter" />
+      <RPMapping targetName="providerTrackingNumberDefault" 
+        sourceAttrName="providerTrackingNumber[@type = 'default']/configured" />
+      <RPMapping targetName="providerTrackingNumberChange" 
+        sourceAttrName="providerTrackingNumber[@type = 'change']/configured" />              
+    </AbstractTransformationTemplate>
+
+    <!-- abstract template for all product change scenarios: Umzug, VPW, PW, TW, upgrade, downgrade -->
+    <AbstractTransformationTemplate ID="base_productChange_template" extends="base_executevalidate_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember value="ISDN" sourceAttrName="#:currentTechnology" />
+          <base:IsMember value="NGN" sourceAttrName="#:currentTechnology" />
+          <base:IsMember value="BitStream" sourceAttrName="#:currentTechnology" />
+        </OrComposite>
+      </TemplateConditions>
+
+      <RPMapping targetName="sourceCustomerNumber" 
+        sourceAttrName="/*/*/customer[@ID='${beneficiary/customerNodeRefID}']/ccbId[@type='C']/existing" />
+      <RPMapping targetName="targetCustomerNumber" 
+        sourceAttrName="/*/*/customer[@ID='${beneficiary/targetCustomerNodeRefID}']/ccbId[@type='C']/configured" />
+      
+      <RPMapping targetName="targetOMTSOrderID" sourceAttrName="parentBarcode" />
+      <RPMapping targetName="sourceOMTSOrderID" sourceAttrName="/order/@orderID" />      
+
+      <base:Include fileIDRef="functionParameters" partIDRef="productChangeParameters"/>
+    </AbstractTransformationTemplate>
+
+    <!-- template for entity creation START -->
+    <AbstractTransformationTemplate ID="entityCreation_template" extends="base_executevalidate_template">
+      <base:Include fileIDRef="functionParameters" partIDRef="entityParameters"/>       
+    </AbstractTransformationTemplate>
+    <!-- template for entity creation END -->
+
+    <!-- ****************************************************************** -->
+    <base:Include fileIDRef="functionParameters" partIDRef="featuresTemplates"/>
+    
+    <AbstractTransformationTemplate ID="modifyFeatures_template"
+      extends="base_executevalidate_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember value="ADD" sourceAttrName="processingType" />
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <AndComposite>    
+            <base:IsMember value="IGNORE" sourceAttrName="processingType" />
+            <base:IsMember value="HW" sourceAttrName="hardwareConfiguration/conditionsList/*/*/conditionServiceType" />
+          </AndComposite>          
+        </OrComposite>
+      </TemplateConditions>      
+      <RPMapping targetName="OMTSOrderID" sourceAttrName="../../parentBarcode" />
+      <RPMapping sourceAttrName="@ID" targetName="functionID" />
+      <RPMapping staticValue="Y" targetName="isMovedService" />
+      <RPMapping targetName="providerTrackingNumber" 
+        sourceAttrName="providerTrackingNumber[@type = 'target']/configured" />      
+    </AbstractTransformationTemplate>
+    
+    <AbstractTransformationTemplate ID="reconfigureFunction_template"
+      extends="base_executevalidate_template">
+      <RPMapping sourceAttrName="ccbId[@type='S']/existing" targetName="serviceSubscriptionId" />      
+      <RPMapping targetName="activationDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+      <base:Include fileIDRef="functionParameters" partIDRef="providerTrackingNumberReconfiguration"/>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="refFunctionID" />
+        </TemplateConditions>
+        <RPMapping targetName="productCode" sourceAttrName="../*[@ID='${refFunctionID/existing}']/*/productCode/existing" />
+        <RPMapping targetName="functionID" sourceAttrName="refFunctionID/existing" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="refFunctionID" />
+        </TemplateConditions>
+        <RPMapping targetName="productCode" sourceAttrName="*/productCode/existing" />
+        <RPMapping targetName="functionID" sourceAttrName="@ID" />
+      </TransformationTemplate>      
+    </AbstractTransformationTemplate>
+    
+  </BaseTemplates>
+</TransformationRepository>

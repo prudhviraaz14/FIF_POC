@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.vodafone.de/eai/CLDB.xsd" xmlns:commontypes="http://www.vodafone.de/eai/BaseTypes.xsd" targetNamespace="http://www.vodafone.de/eai/CLDB.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.vodafone.de/eai/BaseTypes.xsd" schemaLocation="BaseTypes.xsd"/>
+	<!-- =========================================  Types CLDB  =========================================== -->
+	<xs:simpleType name="CustomerId">
+		<xs:annotation>
+			<xs:documentation>CustomerId</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long"/>
+	</xs:simpleType>
+	<xs:simpleType name="Application">
+		<xs:annotation>
+			<xs:documentation>application name</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IntegrativeOrderId">
+		<xs:annotation>
+			<xs:documentation>IntegrativeOrderId</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CustomerType">
+		<xs:annotation>
+			<xs:documentation>CustomerType</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="G"/>
+			<xs:enumeration value="S"/>
+			<xs:enumeration value="B"/>
+			<xs:enumeration value="I"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ArcorCustomerType">
+		<xs:annotation>
+			<xs:documentation>CustomerType</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="P"/>
+			<xs:enumeration value="B"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LinkStatus">
+		<xs:annotation>
+			<xs:documentation>LinkStatus</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="O"/>
+			<xs:enumeration value="T"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LinkSource">
+		<xs:annotation>
+			<xs:documentation>LinkSource</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CustomerResponseType">
+		<xs:annotation>
+			<xs:documentation>CustomerResponse</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="BanCLDB">
+		<xs:sequence>
+			<xs:element name="Ban" type="commontypes:BANType" minOccurs="0"/>
+			<xs:element name="MarketCode" type="commontypes:MarketCodeType" minOccurs="0"/>
+			<xs:element name="Type" type="CustomerType" minOccurs="0"/>
+			<xs:element name="Status" type="LinkStatus" minOccurs="0"/>
+			<xs:element name="KiasBanLinkId" type="xs:long" minOccurs="0"/>
+			<xs:element name="IntegrativeOrderId" type="IntegrativeOrderId" minOccurs="0"/>
+			<xs:element name="CustomerResponse" type="CustomerResponseType" minOccurs="0"/>
+			<xs:element name="ResponseDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ArcorCustomerNumberCLDB">
+		<xs:sequence>
+			<xs:element name="ArcorCustomerNumber" type="commontypes:CustomerNumber" minOccurs="0"/>
+			<xs:element name="Type" type="ArcorCustomerType" minOccurs="0"/>
+			<xs:element name="Status" type="LinkStatus" minOccurs="0"/>
+			<xs:element name="IntegrativeOrderId" type="IntegrativeOrderId" minOccurs="0"/>
+			<xs:element name="CustomerResponse" type="CustomerResponseType" minOccurs="0"/>
+			<xs:element name="ResponseDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CustomerLinks">
+		<xs:sequence>
+			<xs:element name="Ban" type="commontypes:BANType" minOccurs="0"/>
+			<xs:element name="ArcorCustomerNumber" type="commontypes:CustomerNumber" minOccurs="0"/>
+			<xs:element name="LinkSource" type="LinkSource" minOccurs="0"/>
+			<xs:element name="Application" type="Application" minOccurs="0"/>
+			<xs:element name="CreationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="UpdateDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

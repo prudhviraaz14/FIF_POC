@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by Reto Renner (Arcor AG & Co. KG) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns="http://www.arcor.net/FIF/EPSM-FIF-FifBaseResult-001" 
+	xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" 
+	targetNamespace="http://www.arcor.net/FIF/EPSM-FIF-FifBaseResult-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="EPSM_FIF_AktiviereEingehendePortierungService_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>XML schema definition for FIF ASBO and services
+Version: 0.1
+
+Status des Dokument: Entwurf
+
+Aenderungshistorie:
+Version 0.1  17.07.07   Jens Schwarzwaelder initial
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>Dieses Dokument basiert auf und referenziert folgende Dokumente:</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>Diese Schnittstelle wird durch den CCM-FIF realisiert</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="FifBaseResultEvent">
+		<xs:annotation>
+			<xs:documentation>generisches Event für Fif-Rückmeldungen
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderEvent">
+				<xs:sequence>
+					<xs:element name="result" type="base:Result"/>
+					<xs:element name="errorCode" type="base:ErrorCode" minOccurs="0"/>
+					<xs:element name="errorText" type="base:ErrorText" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>		
+</xs:schema>

@@ -1,0 +1,75 @@
+<!--
+    DTD for the message creator configuration file
+    
+    File name : $Workfile:   messagecreator-metadata.dtd  $
+    Header    : $Header:   F:/GRUPPEN/PROJEKTE/PVCS_FIF/archives/FIF/KBAFIFQueueClient/etc/messagecreator-metadata.dtd-arc   1.4   May 18 2004 17:04:06   goethalo  $
+    Revision  :  $Revision:   1.4  $
+    
+    History:
+    $Log:   F:/GRUPPEN/PROJEKTE/PVCS_FIF/archives/FIF/KBAFIFQueueClient/etc/messagecreator-metadata.dtd-arc  $
+ 
+    Rev 1.4   May 18 2004 17:04:06   goethalo
+ IT-8410: Improved support for parameter lists in database clients.
+ 
+    Rev 1.3   Mar 03 2004 15:49:18   goethalo
+ SPN-FIF-000020483: Added PVCS header.
+    
+-->
+	
+<!-- Root -->
+<!ELEMENT messagecreator-metadata (request-definitions, message-definitions, message-creator-definitions, action-mappings)*>
+
+<!-- Request definitions -->
+<!ELEMENT request-definitions (request-definition)*>
+<!ELEMENT request-definition (request-type, request-class)*>
+<!ELEMENT request-type (#PCDATA)>
+<!ELEMENT request-class (#PCDATA)>
+
+<!-- Message definitions -->
+<!ELEMENT message-definitions (message-definition)*>
+<!ELEMENT message-definition (message-type, message-class)*>
+<!ELEMENT message-type (#PCDATA)>
+<!ELEMENT message-class (#PCDATA)>
+
+<!-- Message Creator definitions -->
+<!ELEMENT message-creator-definitions (message-creator-definition)*>
+<!ELEMENT message-creator-definition (creator-type, creator-class, creator-params, creator-input-request-type, creator-output-message-type)*>
+<!ELEMENT creator-type (#PCDATA)>
+<!ELEMENT creator-class (#PCDATA)>
+<!ELEMENT creator-input-request-type (#PCDATA)>
+<!ELEMENT creator-output-message-type (#PCDATA)>
+<!ELEMENT creator-params (creator-param)*>
+<!ELEMENT creator-param (param-name, param-value?)*>
+
+<!-- Action Mappings -->
+<!ELEMENT action-mappings (action-mapping)*>
+<!ELEMENT action-mapping (action-name, message-creation, message-parameters, response-handling)*>
+<!ELEMENT action-name (#PCDATA)>
+<!ELEMENT message-creation (creator-type, creator-params)*>
+<!ELEMENT message-parameters (message-param-list|message-param)*>
+
+<!-- Response Handling -->
+<!ELEMENT response-handling (return-warnings, output-parameters)>
+<!ELEMENT return-warnings (#PCDATA)>
+<!ELEMENT output-parameters (output-param)*>
+<!ELEMENT output-param (response-command-id?, response-param-name, output-param-name)>
+<!ELEMENT response-command-id (#PCDATA)>
+<!ELEMENT response-param-name (#PCDATA)>
+<!ELEMENT output-param-name (#PCDATA)>
+
+<!-- Message parameters -->
+<!ELEMENT message-param (param-name, param-mandatory, (param-default-value|param-default-refdata-value)?)*>
+<!ELEMENT param-name (#PCDATA)>
+<!ELEMENT param-value (#PCDATA)>
+<!ELEMENT param-mandatory (#PCDATA)>
+<!ELEMENT param-default-value (#PCDATA)>
+<!ELEMENT param-default-refdata-value (group-code, item-identifier)>
+
+<!-- Message parameter lists -->
+<!ELEMENT message-param-list (param-list-name, param-list-mandatory, (message-param-list|message-param)*)>
+<!ELEMENT param-list-name (#PCDATA)>
+<!ELEMENT param-list-mandatory (#PCDATA)>
+
+<!-- Default Reference Data Value -->
+<!ELEMENT group-code (#PCDATA)>
+<!ELEMENT item-identifier (#PCDATA)>

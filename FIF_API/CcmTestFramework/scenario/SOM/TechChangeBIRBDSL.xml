@@ -1,0 +1,83 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<lineChange orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+
+			{file:templates/BIRAccessOld.xml_part}
+
+<businessDSL ID="access-new">
+	<ccbId type="S">
+		<configured>{internetSSID}</configured>
+	</ccbId>
+	<businessDSLConfiguration>
+		<locationAddress>
+			<configured>
+				{file:templates/Address1.xml_part}
+			</configured>
+		</locationAddress>
+        <salesSegment>
+            <configured>PK</configured>
+        </salesSegment>
+        <locationTAE>
+            <configured>oben links</configured>
+        </locationTAE>
+        <asb>
+            <configured>1</configured>
+        </asb>
+        <localAreaCode>
+            <configured>0211</configured>
+        </localAreaCode>
+        <carrier>
+            <configured>Arcor</configured>
+        </carrier>
+        <serviceProvider>
+            <configured>Arcor</configured>
+        </serviceProvider>
+        <lineType>
+            <configured>CuDa</configured>
+        </lineType>
+        <oldAccess>
+            <configured>ANALOG</configured>
+        </oldAccess>
+        <numberVoiceChannels>
+            <configured>4</configured>
+        </numberVoiceChannels>
+        <iadPin>
+            <configured>123123</configured>
+        </iadPin>
+        <lineID>
+            <configured>lineID</configured>
+        </lineID>
+        <responsibleRegion>
+            <configured>responsibleRegion</configured>
+        </responsibleRegion>
+        <responsibleDepartment>
+            <configured>responsibleDepartment</configured>
+        </responsibleDepartment>
+        <technicalServiceGroup>
+            <configured>technicalServiceGroup</configured>
+        </technicalServiceGroup>
+        <technicalServiceId>
+            <configured>technicalServiceId</configured>
+        </technicalServiceId>
+        <acsIndicator>
+            <configured>true</configured>
+        </acsIndicator>
+        <accessTechnology>
+            <configured>{accessTechnologyNew}</configured>
+        </accessTechnology>
+		<DTAGContractNumber>CN{orderID}</DTAGContractNumber>
+		<DTAGCompletionDate>{desiredDate}</DTAGCompletionDate>
+		<DTAGPaymentDate>{desiredDate}</DTAGPaymentDate>
+		<DTAGOrderNumber>ON{orderID}</DTAGOrderNumber>
+ 	</businessDSLConfiguration>
+	<processingStatus>{internetProcessingStatus}</processingStatus>
+</businessDSL>
+		</accesses>
+		<functions>
+			{file:templates/InternetTechChange.xml_part}
+			{file:templates/HardwareBDSLNew.xml_part}
+		</functions>
+	</lineChange>
+</order>

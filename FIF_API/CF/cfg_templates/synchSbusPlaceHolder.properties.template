@@ -1,0 +1,168 @@
+
+mcf.queue.out=AAW.FIF.SBUSIN
+mcf.queue.in=AAW.FIF.SBUSOUT
+mcf.queue.listen=AAW.FIF.SBUSOUT
+mcf.queue.response=AAW.FIF.SBUSIN
+
+
+# Queue des Delay-Services
+#mcf.queue.delay=AAW.DELAY.SBUSIN
+mcf.queue.delay=
+
+
+#
+# Timings ----------
+#
+
+# Wartezeit vor Retry (in Millisekunden)
+mcf.delay.retry=5000
+
+# Default-Receiver-Timeout für synchrone Anfragen (in Millisekunden)
+mcf.default.receive.timeout=30000
+
+
+#
+# Backout ----------
+#
+
+# Maximale Anzahl der Wiederversuche
+mcf.backout.threshold=0
+
+# Backout-Verzeichnis
+mcf.backout.dir=
+
+
+#START PARAMETER
+#Parameter:         syncfifservicebus.transport.QueueManagerName
+#ValidFrom:         FIF-API-23
+#ValidTo:           open
+#Components:        FIF
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager name
+#DefaultValue:      -
+#ExampleValue:      CCBSVR2E
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     02.08.07
+#Last_Modified_By   makuier
+#Description:       The name of the queue manager to connect to for requests coming from ServiceBus.
+#END PARAMETER
+mcf.queue.manager=${syncfifservicebus.transport.QueueManagerName}
+    
+    
+#START PARAMETER
+#Parameter:         syncfifservicebus.transport.QueueManagerHostName
+#ValidFrom:         FIF-API-23
+#ValidTo:           open
+#Components:        FIF
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager host name
+#DefaultValue:      -
+#ExampleValue:      hp64d01
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     02.08.07
+#Last_Modified_By   makuier
+#Description:       The host name of the queue manager to connect to for requests coming from ServiceBus.
+#END PARAMETER
+mcf.queue.host=${syncfifservicebus.transport.QueueManagerHostName}
+    
+    
+#START PARAMETER
+#Parameter:         syncfifservicebus.transport.QueueManagerPortNumber
+#ValidFrom:         FIF-API-23
+#ValidTo:           open
+#Components:        FIF
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager port number
+#DefaultValue:      -
+#ExampleValue:      5012
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     02.08.07
+#Last_Modified_By   makuier
+#Description:       The port number of the queue manager to connect to for requests coming from ServiceBus.
+#END PARAMETER
+mcf.queue.port=${syncfifservicebus.transport.QueueManagerPortNumber}
+
+
+#START PARAMETER
+#Parameter:         ccmservicebus.transport.QueueManagerName
+#ValidFrom:         FIF-API-98
+#ValidTo:           open
+#Components:        FIF
+#ParameterType:     STRING
+#ValidValues:       A valid ccm queue manager name
+#DefaultValue:      -
+#ExampleValue:      CCBSVR2E
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     02.08.07
+#Last_Modified_By   lejam
+#Description:       The name of the queue manager to connect to for requests coming from ServiceBus.
+#END PARAMETER
+mcf.ccm.queue.manager=${ccmservicebus.transport.QueueManagerName}
+
+#START PARAMETER
+#Parameter:         ccmservicebus.transport.QueueManagerHostName
+#ValidFrom:         FIF-API-98
+#ValidTo:           open
+#Components:        FIF
+#ParameterType:     STRING
+#ValidValues:       A valid ccm queue manager host name
+#DefaultValue:      -
+#ExampleValue:      hp64d01
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     02.08.07
+#Last_Modified_By   lejam
+#Description:       The host name of the queue manager to connect to for requests coming from ServiceBus.
+#END PARAMETER
+mcf.ccm.queue.host=${ccmservicebus.transport.QueueManagerHostName}
+    
+    
+#START PARAMETER
+#Parameter:         ccmservicebus.transport.QueueManagerPortNumber
+#ValidFrom:         FIF-API-98
+#ValidTo:           open
+#Components:        FIF
+#ParameterType:     STRING
+#ValidValues:       A valid ccm queue manager port number
+#DefaultValue:      -
+#ExampleValue:      5012
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     02.08.07
+#Last_Modified_By   lejam
+#Description:       The port number of the queue manager to connect to for requests coming from ServiceBus.
+#END PARAMETER
+mcf.ccm.queue.port=${ccmservicebus.transport.QueueManagerPortNumber}
+
+
+#START PARAMETER
+#Parameter:         syncfifservicebus.listener.concurrentConsumers
+#ValidFrom:         FIF-API-26
+#ValidTo:           open
+#Components:        FIF
+#ParameterType:     STRING
+#ValidValues:       any positive integer
+#DefaultValue:      -
+#ExampleValue:      1
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     15.04.08
+#Last_Modified_By   makuier
+#Description:       Number of concurrent threads consuming the messages. 
+#END PARAMETER
+ConcurrentConsumers=${syncfifservicebus.listener.concurrentConsumers}
+
+#
+# Datenbank-Konfiguration ----------
+# (darf leer sein, wenn nicht benötigt, txTimeout muß auf einen int (z.B. 0) gesetzt werden)
+#
+mcf.database.driverClassName=
+mcf.database.url=
+mcf.database.username=
+mcf.database.password=
+mcf.database.txTimeout=0
+

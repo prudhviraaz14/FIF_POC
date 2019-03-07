@@ -1,0 +1,134 @@
+# START HEADER
+#  File:                $Workfile:   ImportMoveProductSubscriptionsCSV.properties.template  $
+#  Author:              $Author:   naveen.k  $
+#  Revision:            $Revision:   1.1  $
+#  Purpose:             
+#  Operating System:    UNIX
+#  Last Change:         $ $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportMoveProductSubscriptionsCSV.properties.template-arc  $  
+#
+#   Rev 1.1   Nov 06 2017 16:05:26   naveen.k
+#Removed requestListId from optional fields.
+#
+#   Rev 1.0   Oct 12 2017 12:05:58   naveen.k
+#Initial revision.
+#
+#   
+#
+####################
+# GENERAL SETTINGS #
+####################
+
+# The names of columns that are mandatory in the CSV
+ImportCSVToDB.ColumnNames.Mandatory=desiredDate,sourceCustomerNumber,sourceContractNumber,sourceProductCommitmentNumber,sourceContractType,sourceProductSubscriptionId,targetCustomerNumber,targetContractNumber,targetProductCommitmentNumber,targetContractType,targetAccountNumber
+
+# The names of columns that are optional in the CSV
+ImportCSVToDB.ColumnNames.Optional=OVERRIDE_SYSTEM_DATE,sourceBundleId,targetBundleId,createBundle
+                  
+
+ImportCSVToDB.ColumnNames.convertToUpperCase=false
+                                  
+##################
+# SQL STATEMENTS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importmoveproductsubscriptioncsv.targetClient
+#ValidFrom:         FIF-API-59.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Name of database target client
+#DefaultValue:      -
+#ExampleValue:      SLS
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     06.10.2017
+#Last_Modified_By   naveen
+#Description:       The name of the target client to insert requests for (e.g. SLS, WRF)
+#END PARAMETER
+# The SQL statement for inserting requests in the database
+ImportCSVToDB.InsertRequestStmt=INSERT INTO FIF_REQUEST (TRANSACTION_ID, TARGET_CLIENT, STATUS, ACTION_NAME, ERROR_TEXT, DUE_DATE, PRIORITY, CREATION_DATE, START_DATE, END_DATE) VALUES (?, '${slsfif.importmoveproductsubscriptionscsv.targetClient}', 'NOT_STARTED', 'moveProductSubscription', '', SYSDATE, 5, SYSDATE, NULL, NULL)
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The SQL statement for inserting request parameters in the database
+ImportCSVToDB.InsertParamStmt=INSERT INTO FIF_REQUEST_PARAM (TRANSACTION_ID, PARAM, VALUE) VALUES (?, ?, ?)
+
+# The name of the database field representing the transaction ID for a request
+ImportCSVToDB.InsertParamStmt.TransactionIDFieldIndex=1
+
+# The name of the database field representing the parameter name for a request
+ImportCSVToDB.InsertParamStmt.ParamNameFieldIndex=2
+
+# The name of the database field representing the parameter value for a request
+ImportCSVToDB.InsertParamStmt.ParamValueFieldIndex=3
+
+
+# The name of the external system id
+ImportCSVToDB.insertExternalSystemIdName=targetCustomerNumber
+
+# The SQL statement for updating the request external system id
+ImportCSVToDB.UpdatexternalSystemIdStatement=UPDATE FIF_REQUEST SET EXTERNAL_SYSTEM_ID = ? WHERE TRANSACTION_ID=?
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importmodifydocumentpatterncsv.log4j.appender.File.File
+#ValidFrom:         FIF-API-58.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/ImportModifyDocumentPatternCSV.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     30.06.2017
+#Last_Modified_By   naveen
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importmoveproductsubscriptionscsv.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<!--
+    This document contains an example for a scenario for the TestFramework
+    It contains following actions:
+    - Create entity, create address, create customer, create bank account, create mailing , create account, 
+      create SDC, create SDCPC, sign SDC, sign SDCPC, create product subscription group,
+      create product subscription, create product subscription, create Customer Order, release Customer Order
+      and activate services.
+
+    
+    File name : $Workfile:$
+    Header    : $Header:$
+    Revision  : $Revision:$
+    
+    History:
+    $Log:$  
+-->
+<request-list>
+   <request-list-name>createFullCustomerSDCSDC</request-list-name>
+   <request-list-id>createFullCustomerSDCSDCID</request-list-id>
+   <requests>
+      <!-- Create entity, address, customer, bank account, mailing and account -->
+      <request>
+         <action-name>createFullCustomer</action-name>
+         <request-params>
+            <request-param name="transactionID">createFullCustomerSDC_createFullCustomer</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">2005.09.02 00:00:00</request-param>
+            <!-- Create entity -->
+            <request-param name="ENTITY_TYPE">I</request-param>
+            <request-param name="SALUTATION_DESCRIPTION">Herr</request-param>
+            <request-param name="FORENAME">TF</request-param>
+            <request-param name="NAME">FullCustomerSDC</request-param>
+            <request-param name="BIRTH_DATE">1963.12.20 00:00:00</request-param>
+            <!-- Create address -->
+            <request-param name="ADDRESS_TYPE">KUND</request-param>
+            <request-param name="STREET_NAME">Elm Str.</request-param>
+            <request-param name="STREET_NUMBER">13</request-param>
+            <request-param name="POSTAL_CODE">12345</request-param>
+            <request-param name="CITY_NAME">Berlin</request-param>
+            <request-param name="COUNTRY_CODE">DE</request-param>
+            <!-- Create customer -->
+            <request-param name="USER_PASSWORD">fiftest</request-param>
+            <request-param name="MATCH_CODE_ID">1</request-param>
+            <request-param name="CUSTOMER_GROUP_RD">12</request-param>
+            <request-param name="CATEGORY_RD">RESIDENTIAL</request-param>
+            <request-param name="CLASSIFICATION_RD">E</request-param>
+            <request-param name="MASKING_DIGITS_RD">0</request-param>
+            <request-param name="BIC"><![CDATA[PBNKDEFF360]]></request-param>
+    		<request-param name="IBAN"><![CDATA[DE27360100431234512345]]></request-param>
+            <request-param name="PAYMENT_METHOD_RD">DIRECT_DEBIT</request-param>
+            <request-param name="PAYMENT_TERM_RD">14</request-param>
+            <request-param name="CYCLE_NAME">Residential_PK_Monatsmitte</request-param>
+            <!-- Create bank account -->
+            <request-param name="BANK_ACCOUNT_NUMBER">1767878</request-param>
+            <request-param name="OWNER_FULL_NAME">TFcreateFullCustomerSDC</request-param>
+            <request-param name="BANK_CLEARING_CODE">25980027</request-param>
+            <!-- Create mailing -->
+            <request-param name="MAILING_NAME">Rechnung</request-param>
+            <request-param name="CREATE_ACCESS_INFORMATION">Y</request-param>
+            <request-param name="PRINTER_DESTINATION_RD">webBill</request-param>
+            <request-param name="EMAIL_ADDRESS">dude@awesome.com</request-param>
+            <!-- Create account -->
+            <request-param name="DOC_TEMPLATE_NAME">Rechnung</request-param>
+            <request-param name="METHOD_OF_PAYMENT">DIRECT_DEBIT</request-param>
+            <request-param name="MANUAL_SUSPEND_IND">Y</request-param>
+            <request-param name="LANGUAGE_RD">ger</request-param>
+            <request-param name="CURRENCY_RD">EUR</request-param>
+            <request-param name="CYCLE_NAME">Residential_PK_Monatsmitte</request-param>
+            <request-param name="PAYMENT_TERM_RD">30</request-param>
+            <request-param name="ZERO_CHARGE_IND">N</request-param>
+            <request-param name="USAGE_LIMIT">514251</request-param>
+            <request-param name="OUTPUT_DEVICE_RD">PRINTER</request-param>
+            <request-param name="DIRECT_DEBIT_AUTHORIZ_DATE">2005.09.02 00:00:30</request-param>
+         </request-params>
+      </request>
+      <!-- Create SDC -->
+      <request>
+         <action-name>createSDC</action-name>
+         <request-params>
+            <request-param-ref transactionID="createFullCustomerSDC_createFullCustomer"
+               param-name="CUSTOMER_NUMBER"/>
+            <request-param name="transactionID">createFullCustomerSDC_createSDC</request-param>
+            <request-param name="SALES_ORG_NUM_VALUE">97000000</request-param>
+            <request-param name="SDC_DOC_TEMPLATE_NAME">Vertrag</request-param>
+            <request-param name="PRODUCT_CODE">V0002</request-param>
+            <request-param name="PRICING_STRUCTURE_CODE">V0048</request-param>
+            <request-param name="SDCPC_DOC_TEMPLATE_NAME">Produkt Bestätigung</request-param>            
+            <request-param name="OVERRIDE_SYSTEM_DATE">2005.09.03 00:00:00</request-param>
+         </request-params>
+      </request>
+      <!-- Sign SDC -->
+      <request>
+         <action-name>signSDC</action-name>
+         <request-params>
+            <request-param-ref transactionID="createFullCustomerSDC_createSDC"
+               param-name="CONTRACT_NUMBER"/>
+            <request-param name="transactionID">createFullCustomerSDC_signSDC</request-param>
+            <request-param name="BOARD_SIGN_NAME">FIF Script Signed</request-param>
+            <request-param name="BOARD_SIGN_DATE">2004.02.12 12:00:00</request-param>
+            <request-param name="PRIMARY_CUST_SIGN_NAME">FIF Script Customer</request-param>
+            <request-param name="PRIMARY_CUST_SIGN_DATE">2005.09.02 00:02:00</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">2005.09.03 00:10:00</request-param>
+         </request-params>
+      </request>
+      <!-- Sign SDCPC -->
+      <request>
+         <action-name>signSDCPC</action-name>
+         <request-params>
+            <request-param-ref transactionID="createFullCustomerSDC_createSDC"
+               param-name="PRODUCT_COMMITMENT_NUMBER"/>
+            <request-param name="transactionID">createFullCustomerSDC_signSDCPC</request-param>
+            <request-param name="BOARD_SIGN_NAME">FIF Script Signed</request-param>
+            <request-param name="BOARD_SIGN_DATE">2004.02.12 12:00:00</request-param>
+            <request-param name="PRIMARY_CUST_SIGN_NAME">FIF Script Customer</request-param>
+            <request-param name="PRIMARY_CUST_SIGN_DATE">2005.09.02 00:02:00</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">2005.09.03 00:20:00</request-param>
+         </request-params>
+      </request>
+      <!-- Add Product Subscription -->
+      <request>
+         <action-name>addProductSubscription</action-name>
+         <request-params>
+            <request-param-ref transactionID="createFullCustomerSDC_createSDC"
+               param-name="PRODUCT_COMMITMENT_NUMBER"/>
+            <request-param-ref transactionID="createFullCustomerSDC_createFullCustomer"
+               param-name="CUSTOMER_NUMBER"/>
+            <request-param name="transactionID">createFullCustomerSDC_addProductSubscription</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">2005.09.07 00:00:00</request-param>
+         </request-params>
+      </request>
+      <!-- Add Service Subscription -->
+      <request>
+         <action-name>addServiceSubscription</action-name>
+         <request-params>
+            <request-param-ref transactionID="createFullCustomerSDC_addProductSubscription"
+               param-name="PRODUCT_SUBSCRIPTION_ID"/>
+            <request-param-ref transactionID="createFullCustomerSDC_createFullCustomer"
+               param-name="ACCOUNT_NUMBER"/>
+            <request-param name="transactionID">createFullCustomerSDC_addServiceSubscription_V0010</request-param>
+            <request-param name="SERVICE_CODE">V0010</request-param>
+            <request-param-list name="CSCs">
+               <request-param-list-item>
+                  <request-param-list name="ADDRESS">
+                     <request-param-list-item>
+                        <request-param-ref transactionID="createFullCustomerSDC_createFullCustomer"
+                           param-name="ADDRESS_ID"/>
+                        <request-param name="SERVICE_CHAR_CODE">V0014</request-param>
+                        <request-param name="DATA_TYPE">ADDRESS</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param-ref transactionID="createFullCustomerSDC_createFullCustomer"
+                           param-name="ADDRESS_ID"/>
+                        <request-param name="SERVICE_CHAR_CODE">V0126</request-param>
+                        <request-param name="DATA_TYPE">ADDRESS</request-param>
+                     </request-param-list-item>
+                  </request-param-list>
+                  <request-param-list name="CONFIGURED_VALUES">
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0060</request-param>
+                        <request-param name="DATA_TYPE">STRING</request-param>
+                        <request-param name="CONFIGURED_VALUE">1</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0081</request-param>
+                        <request-param name="DATA_TYPE">STRING</request-param>
+                        <request-param name="CONFIGURED_VALUE">Arcor</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0094</request-param>
+                        <request-param name="DATA_TYPE">STRING</request-param>
+                        <request-param name="CONFIGURED_VALUE">analog</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0124</request-param>
+                        <request-param name="DATA_TYPE">STRING</request-param>
+                        <request-param name="CONFIGURED_VALUE">0123</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0127</request-param>
+                        <request-param name="DATA_TYPE">STRING</request-param>
+                        <request-param name="CONFIGURED_VALUE">Inhabername</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0131</request-param>
+                        <request-param name="DATA_TYPE">STRING</request-param>
+                        <request-param name="CONFIGURED_VALUE">N</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0132</request-param>
+                        <request-param name="DATA_TYPE">INTEGER</request-param>
+                        <request-param name="CONFIGURED_VALUE">1</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0133</request-param>
+                        <request-param name="DATA_TYPE">STRING</request-param>
+                        <request-param name="CONFIGURED_VALUE">Neuanschluss</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0935</request-param>
+                        <request-param name="DATA_TYPE">STRING</request-param>
+                        <request-param name="CONFIGURED_VALUE">sekunde</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0971</request-param>
+                        <request-param name="DATA_TYPE">STRING</request-param>
+                        <request-param name="CONFIGURED_VALUE">NoOP</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0936</request-param>
+                        <request-param name="DATA_TYPE">INTEGER</request-param>
+                        <request-param name="CONFIGURED_VALUE"/>
+                     </request-param-list-item>
+                     
+                  </request-param-list>
+                  <request-param-list name="ACCESS_NUMBERS">
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">V0002</request-param>
+                        <request-param name="DATA_TYPE">ACC_NUM_RANGE</request-param>
+                        <request-param name="MASKING_DIGITS_RD">1</request-param>
+                        <request-param name="COUNTRY_CODE">49</request-param>
+                        <request-param name="CITY_CODE">201</request-param>
+                        <request-param name="LOCAL_NUMBER">123456</request-param>
+                        <request-param name="FROM_EXT_NUM">0</request-param>
+                        <request-param name="TO_EXT_NUM">10</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">W9002</request-param>
+                        <request-param name="DATA_TYPE">ACC_NUM_RANGE</request-param>
+                        <request-param name="MASKING_DIGITS_RD">1</request-param>
+                        <request-param name="COUNTRY_CODE">49</request-param>
+                        <request-param name="CITY_CODE">201</request-param>
+                        <request-param name="LOCAL_NUMBER">123456</request-param>
+                        <request-param name="FROM_EXT_NUM">0</request-param>
+                        <request-param name="TO_EXT_NUM">10</request-param>
+                     </request-param-list-item>
+                     <request-param-list-item>
+                        <request-param name="SERVICE_CHAR_CODE">W9003</request-param>
+                        <request-param name="DATA_TYPE">ACC_NUM_RANGE</request-param>
+                        <request-param name="MASKING_DIGITS_RD">1</request-param>
+                        <request-param name="RETENTION_PERIOD_RD">80DETL</request-param>
+                        <request-param name="CITY_CODE">201</request-param>
+                        <request-param name="LOCAL_NUMBER">123456</request-param>
+                        <request-param name="FROM_EXT_NUM">0</request-param>
+                        <request-param name="TO_EXT_NUM">10</request-param>
+                     </request-param-list-item>
+                  </request-param-list>
+               </request-param-list-item>
+            </request-param-list>
+         </request-params>
+      </request>
+      <!-- Add child service -->
+      <request>
+         <action-name>addServiceSubscription</action-name>
+         <request-params>
+            <request-param name="transactionID">createFullCustomerSDC_addServiceSubscription_V0060</request-param>
+            <request-param-ref transactionID="createFullCustomerSDC_addProductSubscription"
+               param-name="PRODUCT_SUBSCRIPTION_ID"/>
+            <request-param-ref transactionID="createFullCustomerSDC_createFullCustomer"
+               param-name="ACCOUNT_NUMBER"/>
+            <request-param name="SERVICE_CODE">V0060</request-param>
+            <request-param-ref transactionID="createFullCustomerSDC_addServiceSubscription_V0010"
+               param-name="SERVICE_SUBSCRIPTION_ID" output-param-name="PARENT_SERVICE_SUBS_ID"/>
+         </request-params>
+      </request>
+      <!-- Create customer order -->
+      <request>
+         <action-name>createCustomerOrder</action-name>
+         <request-params>
+            <request-param-ref transactionID="createFullCustomerSDC_createFullCustomer"
+               param-name="CUSTOMER_NUMBER"/>
+            <request-param name="transactionID">createFullCustomerSDC_createCustomerOrder</request-param>
+            <request-param-list name="SERVICE_TICKET_POS_LIST">
+               <request-param-list-item>
+                  <request-param-ref
+                     transactionID="createFullCustomerSDC_addServiceSubscription_V0010"
+                     param-name="SERVICE_TICKET_POS_ID"/>
+               </request-param-list-item>
+               <request-param-list-item>
+                  <request-param-ref
+                     transactionID="createFullCustomerSDC_addServiceSubscription_V0060"
+                     param-name="SERVICE_TICKET_POS_ID"/>
+               </request-param-list-item>
+            </request-param-list>
+         </request-params>
+      </request>
+      <!-- Release customer order -->
+      <request>
+         <action-name>releaseCustomerOrder</action-name>
+         <request-params>
+            <request-param-ref transactionID="createFullCustomerSDC_createFullCustomer"
+               param-name="CUSTOMER_NUMBER"/>
+            <request-param-ref transactionID="createFullCustomerSDC_createCustomerOrder"
+               param-name="CUSTOMER_ORDER_ID"/>
+            <request-param name="transactionID"
+            >createFullCustomerSDC_releaseCustomerOrder</request-param>
+         </request-params>
+      </request>
+      <!-- Activate the main service-->
+      <request>
+         <action-name>simulateActivationByOp</action-name>
+         <request-params>
+            <request-param name="transactionID">createFullCustomerSDC_simulateActivationByOp</request-param>
+            <request-param-ref transactionID="createFullCustomerSDC_createCustomerOrder"
+               param-name="CUSTOMER_ORDER_ID"/>
+         </request-params>
+      </request>
+   </requests>
+</request-list>

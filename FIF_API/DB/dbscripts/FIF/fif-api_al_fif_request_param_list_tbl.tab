@@ -1,0 +1,11 @@
+--
+-- Script for adding the LIST_ITEM_NUMBER column the FIF_REQUEST_PARAM_LIST table.
+--
+-- @author Olivier Goethals
+-- @date 2004-05-18
+
+
+ALTER TABLE FIF_REQUEST_PARAM_LIST ADD (LIST_ITEM_NUMBER VARCHAR2(30) DEFAULT '1' NOT NULL);
+
+COMMENT ON COLUMN FIF_REQUEST_PARAM_LIST.LIST_ITEM_NUMBER IS
+    'Indicates in which list item the parameter should go.';

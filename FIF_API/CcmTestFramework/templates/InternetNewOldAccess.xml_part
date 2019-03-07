@@ -1,0 +1,69 @@
+<internet ID="internet" refAccessID="access-old">
+	<processingType>ADD</processingType>
+	<ccbId type="S">
+	    <configured>{internetSSID}</configured>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultInternet</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeInternet</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetInternet</configured>
+	</providerTrackingNumber>
+	<adslInternetConfiguration>
+		<pricingStructureCode>
+			<configured>{pricingStructureCodeInternet}</configured>
+		</pricingStructureCode>
+		<productCode>
+			<configured>{productCodeInternet}</configured>
+		</productCode>
+		<visTrackingPosition/>
+		<primaryCustSignName>
+			<configured>{scenarioName}</configured>
+		</primaryCustSignName>
+		<primaryCustSignDate>
+			<configured>{todayTruncated}</configured>
+		</primaryCustSignDate>
+		<minimumDurationPeriod>
+			<value>
+				<configured>24</configured>
+			</value>
+			<unit>
+				<configured>MONTH</configured>
+			</unit>
+		</minimumDurationPeriod>
+		<dialInAccountName>
+			<configured>{internetSSID}</configured>
+		</dialInAccountName>
+		<DSLBandwidth>
+			<configured>{DSLBandwidth}</configured>
+		</DSLBandwidth>
+		<allowBandwidthDowngrade>
+			<configured>true</configured>
+		</allowBandwidthDowngrade>
+		<desiredBandwidth>
+			<configured>{DSLBandwidth}</configured>
+		</desiredBandwidth>
+		<fixedIPAddressIndicator>
+			<configured>false</configured>
+		</fixedIPAddressIndicator>
+		<specialTimeWindow/>
+		<projectOrderIndicator>
+			<configured>false</configured>
+		</projectOrderIndicator>
+		<fixedOrderDateIndicator>
+			<configured>false</configured>
+		</fixedOrderDateIndicator>
+		<automaticMailingIndicator>
+			<configured>true</configured>
+		</automaticMailingIndicator>
+		{file:(productCodeInternet=I1203)templates/ConditionsConfigured.xml_part}
+		{file:(productCodeInternet=I1204)templates/ConditionsConfigured.xml_part}
+		{file:(productCodeInternet=I1208)templates/ConditionsConfigured.xml_part}		
+	</adslInternetConfiguration>
+	<processingStatus>{internetProcessingStatus}</processingStatus>
+	<completionStatusNewCcbId>{internetCompletionStatusNew}</completionStatusNewCcbId>
+	<previousCompletionStatusNewCcbId>{internetPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+</internet>

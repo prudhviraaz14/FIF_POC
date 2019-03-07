@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.vodafone.de/eai/CLDBServices.xsd" xmlns:commontypes="http://www.vodafone.de/eai/BaseTypes.xsd" xmlns:cldb="http://www.vodafone.de/eai/CLDB.xsd"  targetNamespace="http://www.vodafone.de/eai/CLDBServices.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<import namespace="http://www.vodafone.de/eai/BaseTypes.xsd" schemaLocation="BaseTypes.xsd"/>
+	<import namespace="http://www.vodafone.de/eai/CLDB.xsd" schemaLocation="CLDB.xsd"/>
+	<!-- ========================================= Service Types CLDB setLink =========================================== -->
+	<complexType name="SetLinkRequest">
+		<annotation>
+			<documentation>
+			input data for SetLint 
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="ban" type="commontypes:BANType"/>
+			<element name="arcorCustomerNumber" type="commontypes:CustomerNumber"/>
+			<element name="application" type="cldb:Application"/>
+		</sequence>
+	</complexType>
+	<complexType name="SetLinkResponse">
+		<annotation>
+			<documentation>
+			output data for SetLink
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="commontypes:ResultDetailsObject">
+				<sequence>
+					<element name="customerId" type="cldb:CustomerId" nillable="false" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- ========================================= Service Types CLDB deleteLink =========================================== -->
+	<complexType name="DeleteLinkRequest">
+		<annotation>
+			<documentation>
+			input data for DeletLink
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="ban" type="commontypes:BANType"/>
+			<element name="arcorCustomerNumber" type="commontypes:CustomerNumber"/>
+			<element name="application" type="cldb:Application"/>
+		</sequence>
+	</complexType>
+	<complexType name="DeleteLinkResponse">
+		<annotation>
+			<documentation>
+			output data for GetCustomerData from KIAS, if no result found the list customers is empty.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="commontypes:ResultDetailsObject">
+				<sequence>
+					<element name="customerId" type="cldb:CustomerId" nillable="false" maxOccurs="2"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- ========================================= Service Types CLDB getCompleteCustomerLinks =========================================== -->
+	<complexType name="GetCompleteCustomerLinksRequest">
+		<annotation>
+			<documentation>
+			input data for GetCustomerData from KIAS 
+			</documentation>
+		</annotation>
+		<choice>
+			<element name="ban" type="commontypes:BANType"/>
+			<element name="arcorCustomerNumber" type="commontypes:CustomerNumber"/>
+		</choice>
+	</complexType>
+	<complexType name="GetCompleteCustomerLinksResponse">
+		<annotation>
+			<documentation>
+			output data for GetCustomerData from KIAS, if no result found the list customers is empty.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="commontypes:ResultDetailsObject">
+				<sequence>
+					<element name="Bans" type="cldb:BanCLDB" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="ArcorCustomerNumbers" type="cldb:ArcorCustomerNumberCLDB" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="CustomerLinks" type="cldb:CustomerLinks" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="setLinkRequest" type="tns:SetLinkRequest"/>
+	<element name="setLinkResponse" type="tns:SetLinkResponse"/>
+	<element name="deleteLinkRequest" type="tns:DeleteLinkRequest"/>
+	<element name="deleteLinkResponse" type="tns:DeleteLinkResponse"/>
+	<element name="getCompleteCustomerLinksRequest" type="tns:GetCompleteCustomerLinksRequest"/>
+	<element name="getCompleteCustomerLinksResponse" type="tns:GetCompleteCustomerLinksResponse"/>
+</schema>

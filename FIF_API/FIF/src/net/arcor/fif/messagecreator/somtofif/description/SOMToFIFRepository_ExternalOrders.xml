@@ -1,0 +1,1054 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransformationRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.arcor.de/transformer/SOMToFIFTransformationSchema" xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema" xsi:schemaLocation="http://www.arcor.de/transformer/SOMToFIFTransformationSchema SOMToFIFTransformationSchema.xsd" docTypeQualifiedName="request-list" docTypeSystemId="request-list.dtd">
+    <RootTemplate>
+        <RequestListTemplate orderIdPath="//order[@orderID]">            
+            <!-- global request list parameters -->
+            <RLPMapping targetName="orderId" sourceAttrName="/order/@orderID" />
+            <RLPMapping targetName="desiredDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+            <RLPMapping targetName="orderPositionNumber" sourceAttrName="/order/*/@orderPositionNumber" />
+            
+            <RequestTemplate fif-request-name="createExternalOrder" sourceWorkingPath="/order/*[count(@orderPositionNumber) > 0]"
+                extends="externalOrder_template">
+                <TemplateConditions>
+                    <base:IsMember value="new" sourceAttrName="/*/*/transactionType" />
+                </TemplateConditions>
+                <RPMapping targetName="status" 
+                    sourceAttrName="count(previousOrderRef) > 0"
+                    decoding="'true', 'WAITING', 'NEW'" />
+            </RequestTemplate>
+            
+            <RequestTemplate fif-request-name="createExternalOrder" extends="externalOrder_template">
+                <TemplateConditions>
+                    <base:IsMember value="create" sourceAttrName="/*/*/transactionType" />
+                    <base:IsNotExisting sourceAttrName="/order/*/@orderPositionNumber" />
+                </TemplateConditions>
+                <RPMapping targetName="status" staticValue="ORDERED" />
+            </RequestTemplate>
+            
+            <RequestTemplate fif-request-name="createExternalOrder" sourceWorkingPath="/order/*[count(@orderPositionNumber) > 0]"
+                extends="externalOrder_template">
+                <TemplateConditions>
+                    <base:IsMember value="create" sourceAttrName="/*/*/transactionType" />
+                </TemplateConditions>
+                <RPMapping targetName="status" staticValue="ORDERED" />
+                                
+                <base:DataBufferWriter keyValue="hasISDN" sourceAttrName="count(/*/*/*/isdn/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasISDNP2P" sourceAttrName="count(/*/*/*/isdnP2P/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasISDNS2M" sourceAttrName="count(/*/*/*/isdnS2M/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasNGN" sourceAttrName="count(/*/*/*/ngn/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasBIT" sourceAttrName="count(/*/*/*/ipBitstream/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasLTE" sourceAttrName="count(/*/*/*/lte/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasPreselect" sourceAttrName="count(/*/*/*/preselect/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasDSLR" sourceAttrName="count(/*/*/*/dslr/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasVoIP2ndLine" sourceAttrName="count(/*/*/*/sip/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasMobile" sourceAttrName="count(/*/*/*/mobile/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasTVCenter" sourceAttrName="count(/*/*/*/tvCenter/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasBusinessDSL" sourceAttrName="count(/*/*/*/businessDSL/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasOfficeNet" sourceAttrName="count(/*/*/*/ipCentrex/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasSIPTrunk" sourceAttrName="count(/*/*/*/sipTrunk/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasONB" sourceAttrName="count(/*/*/*/oneNetBusiness/ccbId[@type='S']/existing) > 0" />
+                <base:DataBufferWriter keyValue="hasBusVoIP" sourceAttrName="count(/*/*/*/businessVoip/ccbId[@type='S']/existing) > 0" />
+
+                <base:DataBufferWriter keyValue="accessIDISDN" sourceAttrName="/*/*/*/isdn/@ID" />
+                <base:DataBufferWriter keyValue="accessIDISDNP2P" sourceAttrName="/*/*/*/isdnP2P/@ID" />
+                <base:DataBufferWriter keyValue="accessIDISDNS2M" sourceAttrName="/*/*/*/isdnS2M/@ID" />
+                <base:DataBufferWriter keyValue="accessIDNGNref" sourceAttrName="/*/*/accesses/ngn[@ID = (/*/*/*/internet/@refAccessID)]/@ID" />
+                <base:DataBufferWriter keyValue="accessIDNGNtarget" sourceAttrName="/*/*/accesses/ngn[@ID = (/*/*/*/internet/@targetAccessID)]/@ID" />
+                <base:DataBufferWriter keyValue="accessIDBIT" sourceAttrName="/*/*/*/ipBitstream/@ID" />
+                <base:DataBufferWriter keyValue="accessIDLTE" sourceAttrName="/*/*/*/lte/@ID" />
+                <base:DataBufferWriter keyValue="accessIDPreselect" sourceAttrName="/*/*/*/preselect/@ID" />
+                <base:DataBufferWriter keyValue="accessIDDSLR" sourceAttrName="/*/*/*/dslr/@ID" />
+                <base:DataBufferWriter keyValue="accessIDVoIP2ndLine" sourceAttrName="/*/*/*/sip/@ID" />
+                <base:DataBufferWriter keyValue="accessIDMobile" sourceAttrName="/*/*/*/mobile/@ID" />
+                <base:DataBufferWriter keyValue="accessIDTVCenter" sourceAttrName="/*/*/*/tvCenter/@ID" />
+                <base:DataBufferWriter keyValue="accessIDBusinessDSL" sourceAttrName="/*/*/*/businessDSL/@ID" />
+                <base:DataBufferWriter keyValue="accessIDOfficeNet" sourceAttrName="/*/*/*/ipCentrex/@ID" />
+                <base:DataBufferWriter keyValue="accessIDSIPTrunk" sourceAttrName="/*/*/*/sipTrunk/@ID" />
+                <base:DataBufferWriter keyValue="accessIDONB" sourceAttrName="/*/*/*/oneNetBusiness/@ID" />
+                <base:DataBufferWriter keyValue="accessIDBusVoIP" sourceAttrName="/*/*/*/businessVoip/@ID" />
+                
+                <base:DataBufferWriter keyValue="willHaveISDN" sourceAttrName="count(/*/*/*/voice[
+                    (@targetAccessID = '${#:accessIDISDN}'
+                    or @refAccessID = '${#:accessIDISDN}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                <base:DataBufferWriter keyValue="willHaveISDNP2P" sourceAttrName="count(/*/*/*/voice[
+                    (@targetAccessID = '${#:accessIDISDNP2P}'
+                    or @refAccessID = '${#:accessIDISDNP2P}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                <base:DataBufferWriter keyValue="willHaveISDNS2M" sourceAttrName="count(/*/*/*/voice[
+                    (@targetAccessID = '${#:accessIDISDNS2M}'
+                    or @refAccessID = '${#:accessIDISDNS2M}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                <base:DataBufferWriter keyValue="willHaveNGN" sourceAttrName="count(/*/*/*/internet[
+                    (@targetAccessID = '${#:accessIDNGNtarget}'
+                    or @refAccessID = '${#:accessIDNGNref}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                <base:DataBufferWriter keyValue="willHaveBIT" sourceAttrName="count(/*/*/*/internet[
+                    (@targetAccessID = '${#:accessIDBIT}'
+                    or @refAccessID = '${#:accessIDBIT}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                <base:DataBufferWriter keyValue="willHaveLTE" sourceAttrName="count(/*/*/*/internet[
+                    (@targetAccessID = '${#:accessIDLTE}'
+                    or @refAccessID = '${#:accessIDLTE}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                <base:DataBufferWriter keyValue="willHaveOfficeNet" sourceAttrName="count(/*/*/*/voice[
+                    (@targetAccessID = '${#:accessIDOfficeNet}'
+                    or @refAccessID = '${#:accessIDOfficeNet}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                <base:DataBufferWriter keyValue="willHaveSIPTrunk" sourceAttrName="count(/*/*/*/voice[
+                    (@targetAccessID = '${#:accessIDSIPTrunk}'
+                    or @refAccessID = '${#:accessIDSIPTrunk}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                <base:DataBufferWriter keyValue="willHaveONB" sourceAttrName="count(/*/*/*/voice[
+                    (@targetAccessID = '${#:accessIDONB}'
+                    or @refAccessID = '${#:accessIDONB}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                <base:DataBufferWriter keyValue="willHaveBusinessDSL" sourceAttrName="count(/*/*/*/internet[
+                    (@targetAccessID = '${#:accessIDBusinessDSL}'
+                    or @refAccessID = '${#:accessIDBusinessDSL}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                <base:DataBufferWriter keyValue="willHaveBusVoIP" sourceAttrName="count(/*/*/*/voice[
+                    (@targetAccessID = '${#:accessIDBusVoIP}'
+                    or @refAccessID = '${#:accessIDBusVoIP}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                <base:DataBufferWriter keyValue="willHaveTVCenter" sourceAttrName="count(/*/*/*/tvCenter[
+                    (@targetAccessID = '${#:accessIDLTE}'
+                    or @refAccessID = '${#:accessIDLTE}' and count(@targetAccessID) = 0)
+                    and processingType != 'TERM']) > 0" />
+                
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasISDN" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourceMainAccessID" sourceAttrName="#:accessIDISDN"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasISDNP2P" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourceMainAccessID" sourceAttrName="#:accessIDISDNP2P"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasISDNS2M" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourceMainAccessID" sourceAttrName="#:accessIDISDNS2M"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasNGN" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourceMainAccessID" sourceAttrName="#:accessIDNGNref"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasBIT" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourceMainAccessID" sourceAttrName="#:accessIDBIT"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasLTE" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourceMainAccessID" sourceAttrName="#:accessIDLTE"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasPreselect" />                        
+                    </TemplateConditions>                    
+                    <base:DataBufferWriter keyValue="sourceMainAccessID" sourceAttrName="#:accessIDPreselect"/>
+                </TransformationTemplate>
+                
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveISDN" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetMainAccessID" sourceAttrName="#:accessIDISDN"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveISDNP2P" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetMainAccessID" sourceAttrName="#:accessIDISDNP2P"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveISDNS2M" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetMainAccessID" sourceAttrName="#:accessIDISDNS2M"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveNGN" />                        
+                        <base:IsMember value="true" sourceAttrName="not ('${#:accessIDNGNtarget}')" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetMainAccessID" sourceAttrName="#:accessIDNGNref"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveNGN" />                        
+                        <base:IsMember value="false" sourceAttrName="not ('${#:accessIDNGNtarget}')" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetMainAccessID" sourceAttrName="#:accessIDNGNtarget"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveBIT" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetMainAccessID" sourceAttrName="#:accessIDBIT"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveLTE" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetMainAccessID" sourceAttrName="#:accessIDLTE"/>
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHavePreselect" />                        
+                    </TemplateConditions>                    
+                    <base:DataBufferWriter keyValue="targetMainAccessID" sourceAttrName="#:accessIDPreselect"/>
+                </TransformationTemplate>
+                
+                <!-- determine productType (Basis or Premium) -->
+                <base:DataBufferWriter keyValue="sourceProductType" 
+                    sourceAttrName="concat(
+                    count(/*/*/*/voice[@refAccessID = '${#:sourceMainAccessID}']/voiceBasisConfiguration/*/existing) > 0,
+                    ';', 
+                    count(/*/*/*/voice[@refAccessID = '${#:sourceMainAccessID}']/voicePremiumConfiguration/*/existing) > 0)"
+                    decoding="
+                    'true;true', 'illegal combination', 
+                    'true;false', 'Basis', 
+                    'false;true', 'Premium', 
+                    'false;false', 'none'" />                
+                <base:DataBufferWriter keyValue="targetProductType" 
+                    sourceAttrName="concat(
+                    '${#:sourceProductType}',
+                    ';', 
+                    count(/*/*/*/voice[@refAccessID = '${#:sourceMainAccessID}' or @refAccessID = '${#:targetMainAccessID}']/voiceBasisConfiguration) > 0,
+                    ';', 
+                    count(/*/*/*/voice[@refAccessID = '${#:sourceMainAccessID}' or @refAccessID = '${#:targetMainAccessID}']/voicePremiumConfiguration) > 0)"
+                    decoding="
+                    'none;false;false', 'none', 
+                    'none;true;false', 'Basis', 
+                    'none;false;true', 'Premium', 
+                    'Basis;true;true', 'Premium', 
+                    'Basis;true;false', 'Basis', 
+                    'Premium;true;true', 'Basis', 
+                    'Premium;false;true', 'Premium', 
+                    'Corrupted data'" />                
+                
+                <!-- determine NGN type (FTTx or "normal" NGN) -->
+                <base:DataBufferWriter keyValue="sourceNGNType" 
+                    sourceAttrName="concat(
+                    count(/*/*/*/internet[@refAccessID = '${#:sourceMainAccessID}' or @refAccessID = '${#:targetMainAccessID}']/adslInternetConfiguration/*/existing) > 0,
+                    ';', 
+                    count(/*/*/*/internet[@refAccessID = '${#:sourceMainAccessID}' or @refAccessID = '${#:targetMainAccessID}']/fttxInternetConfiguration/*/existing) > 0,
+                    ';', 
+                    count(/*/*/*/internet[@refAccessID = '${#:sourceMainAccessID}' or @refAccessID = '${#:targetMainAccessID}']/fibreInternetConfiguration/*/existing) > 0)"
+                    decoding="
+                    'true;true;false', 'illegal combination', 
+                    'true;true;true', 'illegal combination', 
+                    'true;false;false', 'NGN', 
+                    'true;false;true', 'illegal combination', 
+                    'false;true;false', 'FTTx', 
+                    'false;true;true', 'illegal combination', 
+                    'false;false;true', 'NGN_FIB', 
+                    'false;false;false', 'none'" />                
+                <base:DataBufferWriter keyValue="targetNGNType" 
+                    sourceAttrName="concat(
+                    '${#:sourceNGNType}',
+                    ';', 
+                    count(/*/*/*/internet[@refAccessID = '${#:sourceMainAccessID}' or @refAccessID = '${#:targetMainAccessID}']/fttxInternetConfiguration) > 0,
+                    ';',
+                    count(/*/*/*/internet[@refAccessID = '${#:sourceMainAccessID}' or @refAccessID = '${#:targetMainAccessID}']/adslInternetConfiguration) > 0,
+                    ';',
+                    count(/*/*/*/internet[@refAccessID = '${#:sourceMainAccessID}' or @refAccessID = '${#:targetMainAccessID}']/fibreInternetConfiguration) > 0)"
+                    decoding="
+                    'none;false;false;false', 'none', 
+                    'none;true;false;false', 'FTTx', 
+                    'none;false;true;false', 'NGN', 
+                    'none;false;false;true', 'NGN_FIB', 
+                    'NGN;true;true;false', 'FTTx', 
+                    'NGN;false;true;true', 'NGN_FIB', 
+                    'NGN;false;true;false', 'NGN', 
+                    'FTTx;true;true;false', 'NGN', 
+                    'FTTx;true;false;true', 'NGN_FIB', 
+                    'FTTx;true;false;false', 'FTTx', 
+                    'NGN_FIB;false;true;true', 'NGN', 
+                    'NGN_FIB;false;false;true', 'NGN_FIB', 
+                    'NGN_FIB;true;false;true', 'FTTx', 
+                    'illegal combination'" />
+                                
+                <!-- determine businessDSL type (SDSL, ADSL or VDSL) -->
+                <base:DataBufferWriter keyValue="sourceAccessTechnology" 
+                    sourceAttrName="/*/*/accesses/businessDSL/*/accessTechnology/existing |
+                    				/*/*/accesses/ipBitstream/*/accessTechnology/existing |
+                    				/*/*/accesses/ngn/*/accessTechnology/existing" />                
+                <base:DataBufferWriter keyValue="configuredAccessTechnology" 
+                    sourceAttrName="count(/*/*/accesses/businessDSL/*/accessTechnology/configured
+                    						| /*/*/accesses/ipBitstream/*/accessTechnology/configured
+                    						| /*/*/accesses/ngn/*/accessTechnology/configured) > 0" 
+                    decoding="'true', 'configured', 'false', 'existing'"/>                
+                <base:DataBufferWriter keyValue="targetAccessTechnology" 
+                    sourceAttrName="/*/*/accesses/businessDSL/*/accessTechnology/${#:configuredAccessTechnology}
+                    				| /*/*/accesses/ipBitstream/*/accessTechnology/${#:configuredAccessTechnology}
+                    				| /*/*/accesses/ngn/*/accessTechnology/${#:configuredAccessTechnology}" />
+                         
+                         <!-- 
+                <base:DataBufferWriter keyValue="sourceBusinessDSLType" 
+                    sourceAttrName="concat(
+                    count(/*/*/*/internet[@refAccessID = '${#:accessIDBusinessDSL}']/adslInternetConfiguration/*/existing) > 0,
+                    ';', 
+                    count(/*/*/*/internet[@refAccessID = '${#:accessIDBusinessDSL}']/sdslInternetConfiguration/*/existing) > 0,
+                    ';', 
+                    '${#:sourceAccessTechnology}')"
+                    decoding="
+                    'true;true;SDSL', 'Corrupted data', 
+                    'true;true;ADSL', 'Corrupted data', 
+                    'true;true;VDSL', 'Corrupted data', 
+                    'true;true;', 'Corrupted data', 
+                    'true;false;SDSL', 'Corrupted data', 
+                    'true;false;ADSL', 'ADSL', 
+                    'true;false;VDSL', 'VDSL', 
+                    'true;false;', 'ADSL', 
+                    'false;true;SDSL', 'SDSL', 
+                    'false;true;ADSL', 'Corrupted data', 
+                    'false;true;VDSL', 'Corrupted data', 
+                    'false;true;', 'SDSL', 
+                    'none'" />                
+                <base:DataBufferWriter keyValue="targetBusinessDSLType" 
+                    sourceAttrName="concat(
+                    '${#:sourceBusinessDSLType}',
+                    ';', 
+                    count(/*/*/*/internet[@refAccessID = '${#:accessIDBusinessDSL}']/sdslInternetConfiguration) > 0,
+                    ';',
+                    count(/*/*/*/internet[@refAccessID = '${#:accessIDBusinessDSL}']/adslInternetConfiguration) > 0,
+                    ';', 
+                    '${#:targetAccessTechnology}')"
+                    decoding="
+                    'none;false;false;SDSL', 'none', 
+                    'none;false;false;ADSL', 'none', 
+                    'none;false;false;VDSL', 'none', 
+                    'none;false;false;', 'none', 
+                    'none;true;false;SDSL', 'SDSL', 
+                    'none;true;false;ADSL', 'Corrupted data', 
+                    'none;true;false;VDSL', 'Corrupted data', 
+                    'none;true;false;', 'SDSL', 
+                    'none;false;true;SDSL', 'Corrupted data', 
+                    'none;false;true;ADSL', 'ADSL', 
+                    'none;false;true;VDSL', 'VDSL', 
+                    'none;false;true;', 'ADSL', 
+                    'ADSL;true;true;SDSL', 'SDSL', 
+                    'ADSL;true;true;ADSL', 'Corrupted data', 
+                    'ADSL;true;true;VDSL', 'Corrupted data', 
+                    'ADSL;true;true;', 'SDSL', 
+                    'ADSL;false;true;SDSL', 'Corrupted data', 
+                    'ADSL;false;true;ADSL', 'ADSL', 
+                    'ADSL;false;true;VDSL', 'VDSL', 
+                    'ADSL;false;true;', 'ADSL', 
+                    'SDSL;true;true;SDSL', 'Corrupted data', 
+                    'SDSL;true;true;ADSL', 'ADSL', 
+                    'SDSL;true;true;VDSL', 'VDSL', 
+                    'SDSL;true;true;', 'ADSL', 
+                    'SDSL;true;false;SDSL', 'SDSL', 
+                    'SDSL;true;false;ADSL', 'Corrupted data', 
+                    'SDSL;true;false;VDSL', 'Corrupted data', 
+                    'SDSL;true;false;', 'SDSL', 
+                    'Corrupted data'" />
+                 -->       
+                 
+                <!-- determine SIP-Trunk type (S0 or S2M) -->
+                <base:DataBufferWriter keyValue="sourceSIPTrunkType" 
+                    sourceAttrName="/*/*/*/sipTrunk/*/phoneSystemType/existing" />                
+                <base:DataBufferWriter keyValue="configuredSIPTrunkType" 
+                    sourceAttrName="count(/*/*/*/sipTrunk/*/phoneSystemType/configured) > 0" 
+                    decoding="'true', 'configured', 'false', 'existing'"/>                
+                <base:DataBufferWriter keyValue="targetSIPTrunkType" 
+                    sourceAttrName="/*/*/*/sipTrunk/*/phoneSystemType/${#:configuredSIPTrunkType}" />
+                
+                <!-- START sourcePacket -->
+                <!-- Business-DSL / OfficeNet / SIP-Trunk -->
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasBusinessDSL" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" sourceAttrName="concat(
+                        '${#:sourceAccessTechnology}',
+                        ';', 
+                        '${#:hasOfficeNet}',
+                        ';', 
+                        '${#:hasSIPTrunk}',
+                        ';', 
+                        '${#:sourceSIPTrunkType}')"
+                        decoding="
+                        'FTTH-GPON;false;false;', 'BDSL_Fibre', 
+                        'FTTH-GPON;false;true;', 'Corrupted data', 
+                        'FTTH-GPON;true;false;', 'Corrupted data',
+                        'FTTH-GPON;true;true;', 'Corrupted data',
+                        'VDSL-L2;true;false;', 'VDSL_IPCentrex', 
+                        'VDSL-L2;false;true;', 'VDSL_SIPTrunk', 
+                        'VDSL-L2;false;false;', 'VDSL_Only',
+                        'ADSL-AnnexJ;true;true;', 'Corrupted data', 
+                        'ADSL-AnnexJ;true;false;', 'ADSL_IPCentrex', 
+                        'ADSL-AnnexJ;false;true;', 'ADSL_SIPTrunk', 
+                        'ADSL-AnnexJ;false;false;', 'ADSL_Only', 
+                        'SDSL;true;true;', 'Corrupted data', 
+                        'SDSL;true;false;', 'SDSL_IPCentrex', 
+                        'SDSL;false;true;', 'SDSL_SIPTrunk', 
+                        'SDSL;false;false;', 'SDSL_Only', 
+                        'VDSL;true;true;', 'Corrupted data', 
+                        'VDSL;true;false;', 'VDSL_IPCentrex', 
+                        'VDSL;false;true;', 'VDSL_SIPTrunk', 
+                        'VDSL;false;false;', 'VDSL_Only', 
+                        'ADSL;true;true;', 'Corrupted data', 
+                        'ADSL;true;false;', 'ADSL_IPCentrex', 
+                        'ADSL;false;true;', 'ADSL_SIPTrunk', 
+                        'ADSL;false;false;', 'ADSL_Only',
+                        
+                        'VDSL-L2;true;true;S2M', 'Corrupted data', 
+                        'VDSL-L2;true;false;S2M', 'VDSL_IPCentrex', 
+                        'VDSL-L2;false;true;S2M', 'VDSL_SIPTrunk', 
+                        'VDSL-L2;false;false;S2M', 'VDSL_Only', 
+                        'ADSL-AnnexJ;true;true;S2M', 'Corrupted data', 
+                        'ADSL-AnnexJ;true;false;S2M', 'ADSL_IPCentrex', 
+                        'ADSL-AnnexJ;false;true;S2M', 'ADSL_SIPTrunk', 
+                        'ADSL-AnnexJ;false;false;S2M', 'ADSL_Only',
+                        'SDSL;true;true;S2M', 'Corrupted data', 
+                        'SDSL;true;false;S2M', 'SDSL_IPCentrex', 
+                        'SDSL;false;true;S2M', 'SDSL_SIPTrunk', 
+                        'SDSL;false;false;S2M', 'SDSL_Only', 
+                        'VDSL;true;true;S2M', 'Corrupted data', 
+                        'VDSL;true;false;S2M', 'VDSL_IPCentrex', 
+                        'VDSL;false;true;S2M', 'VDSL_SIPTrunk', 
+                        'VDSL;false;false;S2M', 'VDSL_Only', 
+                        'ADSL;true;true;S2M', 'Corrupted data', 
+                        'ADSL;true;false;S2M', 'ADSL_IPCentrex', 
+                        'ADSL;false;true;S2M', 'ADSL_SIPTrunk', 
+                        'ADSL;false;false;S2M', 'ADSL_Only',
+                        
+                        'VDSL-L2;true;true;S0-A', 'Corrupted data', 
+                        'VDSL-L2;true;false;S0-A', 'VDSL_IPCentrex', 
+                        'VDSL-L2;false;true;S0-A', 'VDSL_SIPTrunkS0', 
+                        'VDSL-L2;false;false;S0-A', 'VDSL_Only', 
+                        'ADSL-AnnexJ;true;true;S0-A', 'Corrupted data', 
+                        'ADSL-AnnexJ;true;false;S0-A', 'ADSL_IPCentrex', 
+                        'ADSL-AnnexJ;false;true;S0-A', 'ADSL_SIPTrunkS0', 
+                        'ADSL-AnnexJ;false;false;S0-A', 'ADSL_Only',
+                        'SDSL;true;true;S0-A', 'Corrupted data', 
+                        'SDSL;true;false;S0-A', 'SDSL_IPCentrex', 
+                        'SDSL;false;true;S0-A', 'SDSL_SIPTrunkS0', 
+                        'SDSL;false;false;S0-A', 'SDSL_Only', 
+                        'VDSL;true;true;S0-A', 'Corrupted data', 
+                        'VDSL;true;false;S0-A', 'VDSL_IPCentrex', 
+                        'VDSL;false;true;S0-A', 'VDSL_SIPTrunkS0', 
+                        'VDSL;false;false;S0-A', 'VDSL_Only', 
+                        'ADSL;true;true;S0-A', 'Corrupted data', 
+                        'ADSL;true;false;S0-A', 'ADSL_IPCentrex', 
+                        'ADSL;false;true;S0-A', 'ADSL_SIPTrunkS0', 
+                        'ADSL;false;false;S0-A', 'ADSL_Only'" />
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="false" sourceAttrName="#:hasBusinessDSL" />                        
+                        <base:IsMember value="true" sourceAttrName="#:hasOfficeNet" />
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" staticValue="Mobile_IPCentrex" />
+                </TransformationTemplate>
+                
+                <!-- Other products -->
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasISDN" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" 
+                        sourceAttrName="#:sourceProductType"
+                        decoding="'Basis', 'ISDN_Basis', 'Premium', 'ISDN_Premium'" />
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasNGN" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" 
+                        sourceAttrName="concat('${#:sourceProductType}', ';', '${#:sourceNGNType}') "
+                        decoding="
+                        'Basis;NGN', 'NGN_Basis', 
+                        'Premium;NGN', 'NGN_Premium',
+                        'Basis;FTTx', 'FTTx_Basis',
+                        'Premium;FTTx', 'FTTx_Premium',
+                        'Basis;NGN_FIB', 'NGNF_Basis',
+                        'Premium;NGN_FIB', 'NGNF_Premium',
+                        'illegal combination'" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasBIT" />                        
+                        <base:IsNotMember value="true" sourceAttrName="#:hasSIPTrunk" />
+                        <base:IsMember value="true" sourceAttrName="count(/*/*/*/ipBitstream/businessIpBitstreamConfiguration) > 0" />            
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" staticValue="BIR_Only" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasBIT" />                        
+                        <base:IsNotMember value="true" sourceAttrName="#:hasSIPTrunk" />
+                        <base:IsNotMember value="true" sourceAttrName="count(/*/*/*/ipBitstream/businessIpBitstreamConfiguration) > 0" />            
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" 
+                        sourceAttrName="#:sourceProductType"
+                        decoding="'Basis', 'BIT_Basis', 'Premium', 'BIT_Premium'" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasBIT" />                        
+                        <base:IsMember value="true" sourceAttrName="#:hasSIPTrunk" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" 
+                        sourceAttrName="concat('${#:sourceAccessTechnology}', ';', '${#:sourceSIPTrunkType}')"
+                        decoding="
+                        'ADSL-AnnexJ;S0-A', 'BITA_SIPTrunkS0', 
+                        'VDSL-L2;S0-A', 'BITV_SIPTrunkS0', 
+                        'ADSL;S0-A', 'BITA_SIPTrunkS0', 
+                        'VDSL;S0-A', 'BITV_SIPTrunkS0', 
+                        'illegal combination'" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasLTE" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" 
+                        sourceAttrName="concat('${#:sourceProductType}', ';', '${#:hasTVCenter}')"
+                        decoding="
+                        'Basis;false', 'LTE_Basis', 
+                        'Premium;false', 'LTE_Premium',
+                        'Basis;true', 'LTE_Bas_TV',
+                        'Premium;true', 'LTE_Prem_TV'" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasDSLR" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" 
+                        sourceAttrName="#:hasVoIP2ndLine"
+                        decoding="'true', 'DSLR_VoIP', 'false', 'DSLR_Only'" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasPreselect" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" staticValue="Preselect" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasISDNP2P" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="hasInternet"
+                        sourceAttrName="count(/*/*/*/internet[@refAccessID = '${#:accessIDISDNP2P}']/ccbId[@type = 'S']/existing) > 0" />
+                    <base:DataBufferWriter keyValue="hasCancelledS0"
+                        sourceAttrName="count(/*/*/*/extraLine/ccbId[@type = 'S']/existing) > 0
+                        and /*/*/*/extraLine/*/cancellationIndicator/existing = 'true'" />
+                    <base:DataBufferWriter keyValue="sourcePacket" 
+                        sourceAttrName="concat(
+                        '${#:hasInternet}',
+                        ';',
+                        '${#:hasCancelledS0}'"
+                        decoding="
+                        'false;false', 'ISDN_P2P', 
+                        'false;true', 'ISDN_P2P_CANCS0', 
+                        'true;false', 'ISDN_P2P_DSL', 
+                        'true;true', 'ISDN_P2P_DSL_CS0'" />
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasISDNS2M" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" staticValue="ISDN_PBX" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasONB" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" staticValue="ONB_Only" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:hasBusVoIP" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="sourcePacket" staticValue="BusVoIP" />                    
+                </TransformationTemplate>
+                <!-- END sourcePacket -->
+                
+                <!-- START targetPacket  -->
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveISDN" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" 
+                        sourceAttrName="#:targetProductType"
+                        decoding="'Basis', 'ISDN_Basis', 'Premium', 'ISDN_Premium'" />
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveNGN" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" 
+                        sourceAttrName="concat('${#:targetProductType}', ';', '${#:targetNGNType}') "
+                        decoding="
+                        'Basis;NGN', 'NGN_Basis', 
+                        'Premium;NGN', 'NGN_Premium',
+                        'Basis;FTTx', 'FTTx_Basis',
+                        'Premium;FTTx', 'FTTx_Premium',
+                        'Basis;NGN_FIB', 'NGNF_Basis',
+                        'Premium;NGN_FIB', 'NGNF_Premium',
+                        'illegal combination'" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveBIT" />     
+                        <base:IsNotMember value="true" sourceAttrName="#:willHaveSIPTrunk" />  
+                        <base:IsMember value="true" sourceAttrName="count(/*/*/*/ipBitstream/businessIpBitstreamConfiguration) > 0" />                      
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" staticValue="BIR_Only" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveBIT" />     
+                        <base:IsNotMember value="true" sourceAttrName="#:willHaveSIPTrunk" />
+                        <base:IsNotMember value="true" sourceAttrName="count(/*/*/*/ipBitstream/businessIpBitstreamConfiguration) > 0" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" 
+                        sourceAttrName="#:targetProductType"
+                        decoding="'Basis', 'BIT_Basis', 'Premium', 'BIT_Premium'" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveBIT" />     
+                        <base:IsMember value="true" sourceAttrName="#:willHaveSIPTrunk" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" 
+                        sourceAttrName="concat('${#:targetAccessTechnology}', ';', '${#:targetSIPTrunkType}')"
+                        decoding="
+                        'ADSL-AnnexJ;S0-A', 'BITA_SIPTrunkS0', 
+                        'VDSL-L2;S0-A', 'BITV_SIPTrunkS0', 
+                        'ADSL;S0-A', 'BITA_SIPTrunkS0', 
+                        'VDSL;S0-A', 'BITV_SIPTrunkS0', 
+                        'illegal combination'" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveLTE" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" 
+                        sourceAttrName="concat('${#:targetProductType}', ';', '${#:willHaveTVCenter}')"
+                        decoding="
+                        'Basis;false', 'LTE_Basis', 
+                        'Premium;false', 'LTE_Premium',
+                        'Basis;true', 'LTE_Bas_TV',
+                        'Premium;true', 'LTE_Prem_TV',
+                        'illegal combination'" />
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveDSLR" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" 
+                        sourceAttrName="#:willHaveVoIP2ndLine"
+                        decoding="'true', 'DSLR_VoIP', 'false', 'DSLR_Only'" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHavePreselect" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" staticValue="Preselect" />                    
+                </TransformationTemplate>                
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveISDNP2P" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="willHaveInternet"
+                        sourceAttrName="count(/*/*/*/internet[processingType != 'TERM']/ccbId[@type = 'S']/existing) > 0" />
+                    <base:DataBufferWriter keyValue="targetPacket" 
+                        sourceAttrName="#:willHaveInternet"
+                        decoding="
+                        'false', 'ISDN_P2P', 
+                        'true', 'ISDN_P2P_DSL'" />
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveISDNS2M" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" staticValue="ISDN_PBX" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveBusinessDSL" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" sourceAttrName="concat(
+                        '${#:targetAccessTechnology}',
+                        ';', 
+                        '${#:willHaveOfficeNet}',
+                        ';', 
+                        '${#:willHaveSIPTrunk}',
+                        ';', 
+                        '${#:targetSIPTrunkType}')"
+                        decoding="
+                        'FTTH-GPON;false;false;', 'BDSL_Fibre', 
+                        'FTTH-GPON;false;true;', 'Corrupted data', 
+                        'FTTH-GPON;true;false;', 'Corrupted data',
+                        'FTTH-GPON;true;true;', 'Corrupted data',
+                        'VDSL-L2;true;true;', 'Corrupted data', 
+                        'VDSL-L2;true;false;', 'VDSL_IPCentrex', 
+                        'VDSL-L2;false;true;', 'VDSL_SIPTrunk', 
+                        'VDSL-L2;false;false;', 'VDSL_Only',
+                        'ADSL-AnnexJ;true;true;', 'Corrupted data', 
+                        'ADSL-AnnexJ;true;false;', 'ADSL_IPCentrex', 
+                        'ADSL-AnnexJ;false;true;', 'ADSL_SIPTrunk', 
+                        'ADSL-AnnexJ;false;false;', 'ADSL_Only', 
+                        'SDSL;true;true;', 'Corrupted data', 
+                        'SDSL;true;false;', 'SDSL_IPCentrex', 
+                        'SDSL;false;true;', 'SDSL_SIPTrunk', 
+                        'SDSL;false;false;', 'SDSL_Only', 
+                        'VDSL;true;true;', 'Corrupted data', 
+                        'VDSL;true;false;', 'VDSL_IPCentrex', 
+                        'VDSL;false;true;', 'VDSL_SIPTrunk', 
+                        'VDSL;false;false;', 'VDSL_Only', 
+                        'ADSL;true;true;', 'Corrupted data', 
+                        'ADSL;true;false;', 'ADSL_IPCentrex', 
+                        'ADSL;false;true;', 'ADSL_SIPTrunk', 
+                        'ADSL;false;false;', 'ADSL_Only',
+                        
+                        'VDSL-L2;true;true;S2M', 'Corrupted data', 
+                        'VDSL-L2;true;false;S2M', 'VDSL_IPCentrex', 
+                        'VDSL-L2;false;true;S2M', 'VDSL_SIPTrunk', 
+                        'VDSL-L2;false;false;S2M', 'VDSL_Only', 
+                        'ADSL-AnnexJ;true;true;S2M', 'Corrupted data', 
+                        'ADSL-AnnexJ;true;false;S2M', 'ADSL_IPCentrex', 
+                        'ADSL-AnnexJ;false;true;S2M', 'ADSL_SIPTrunk', 
+                        'ADSL-AnnexJ;false;false;S2M', 'ADSL_Only',
+                        'SDSL;true;true;S2M', 'Corrupted data', 
+                        'SDSL;true;false;S2M', 'SDSL_IPCentrex', 
+                        'SDSL;false;true;S2M', 'SDSL_SIPTrunk', 
+                        'SDSL;false;false;S2M', 'SDSL_Only', 
+                        'VDSL;true;true;S2M', 'Corrupted data', 
+                        'VDSL;true;false;S2M', 'VDSL_IPCentrex', 
+                        'VDSL;false;true;S2M', 'VDSL_SIPTrunk', 
+                        'VDSL;false;false;S2M', 'VDSL_Only', 
+                        'ADSL;true;true;S2M', 'Corrupted data', 
+                        'ADSL;true;false;S2M', 'ADSL_IPCentrex', 
+                        'ADSL;false;true;S2M', 'ADSL_SIPTrunk', 
+                        'ADSL;false;false;S2M', 'ADSL_Only',
+                        
+                        'VDSL-L2;true;true;S0-A', 'Corrupted data', 
+                        'VDSL-L2;true;false;S0-A', 'VDSL_IPCentrex', 
+                        'VDSL-L2;false;true;S0-A', 'VDSL_SIPTrunkS0', 
+                        'VDSL-L2;false;false;S0-A', 'VDSL_Only', 
+                        'ADSL-AnnexJ;true;true;S0-A', 'Corrupted data', 
+                        'ADSL-AnnexJ;true;false;S0-A', 'ADSL_IPCentrex', 
+                        'ADSL-AnnexJ;false;true;S0-A', 'ADSL_SIPTrunkS0', 
+                        'ADSL-AnnexJ;false;false;S0-A', 'ADSL_Only',
+                        'SDSL;true;true;S0-A', 'Corrupted data', 
+                        'SDSL;true;false;S0-A', 'SDSL_IPCentrex', 
+                        'SDSL;false;true;S0-A', 'SDSL_SIPTrunkS0', 
+                        'SDSL;false;false;S0-A', 'SDSL_Only', 
+                        'VDSL;true;true;S0-A', 'Corrupted data', 
+                        'VDSL;true;false;S0-A', 'VDSL_IPCentrex', 
+                        'VDSL;false;true;S0-A', 'VDSL_SIPTrunkS0', 
+                        'VDSL;false;false;S0-A', 'VDSL_Only', 
+                        'ADSL;true;true;S0-A', 'Corrupted data', 
+                        'ADSL;true;false;S0-A', 'ADSL_IPCentrex', 
+                        'ADSL;false;true;S0-A', 'ADSL_SIPTrunkS0', 
+                        'ADSL;false;false;S0-A', 'ADSL_Only'" />
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="false" sourceAttrName="#:willHaveBusinessDSL" />
+                        <base:IsMember value="true" sourceAttrName="#:willHaveOfficeNet" />
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" staticValue="Mobile_IPCentrex" />
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveONB" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" staticValue="ONB_Only" />                    
+                </TransformationTemplate>
+                <TransformationTemplate>
+                    <TemplateConditions>
+                        <base:IsMember value="true" sourceAttrName="#:willHaveBusVoIP" />                        
+                    </TemplateConditions>
+                    <base:DataBufferWriter keyValue="targetPacket" staticValue="BusVoIP" />                    
+                </TransformationTemplate>
+                <!-- END targetPacket  -->
+                
+                <RPMapping targetName="sourcePacket" sourceAttrName="#:sourcePacket" />
+                <RPMapping targetName="targetPacket" sourceAttrName="#:targetPacket" />
+                <RPMapping targetName="previousOrderId" sourceAttrName="previousOrderRef/orderId" />
+                <RPMapping targetName="previousOrderPositionNumber" sourceAttrName="previousOrderRef/orderPositionNumber" />
+                <RPMapping targetName="previousOrderRule" sourceAttrName="previousOrderRef/continuationType" />
+
+				<RPMapping targetName="sourceMainAccessID" sourceAttrName="#:sourceMainAccessID" />             
+				<RPMapping targetName="targetMainAccessID" sourceAttrName="#:targetMainAccessID" />   
+				<RPMapping targetName="sourceProductType" sourceAttrName="#:sourceProductType" />
+				<RPMapping targetName="targetProductType" sourceAttrName="#:targetProductType" />
+				                
+            </RequestTemplate>
+            
+            <RequestTemplate fif-request-name="closeExternalOrder" sourceWorkingPath="/order/*[count(@orderPositionNumber) > 0]"
+                extends="externalOrder_template">
+                <TemplateConditions>
+                    <OrComposite>
+                        <base:IsMember value="close-cancel" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-final" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-abort" sourceAttrName="/*/*/transactionType" />
+                    </OrComposite>
+                </TemplateConditions>
+                
+                <RPMapping targetName="status" 
+                    sourceAttrName="/*/*/transactionType"
+                    decoding="'close-final', 'COMPLETED', 'CANCELED'" />
+                <RPMapping targetName="closeReason" sourceAttrName="/*/*/transactionType" />
+            </RequestTemplate>
+            
+            <RequestTemplate fif-request-name="closeExternalOrder" extends="externalOrder_template">
+                <TemplateConditions>
+                	<base:IsNotExisting sourceAttrName="/order/*/@orderPositionNumber" />
+                    <OrComposite>
+                        <base:IsMember value="close-cancel" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-final" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-abort" sourceAttrName="/*/*/transactionType" />
+                    </OrComposite>
+                </TemplateConditions>
+                <RPMapping targetName="status" 
+                    sourceAttrName="/*/*/transactionType"
+                    decoding="'close-final', 'COMPLETED', 'CANCELED'" />
+                <RPMapping targetName="closeReason" sourceAttrName="/*/*/transactionType" />
+            </RequestTemplate>
+            
+            <RequestTemplate fif-request-name="modifyBundle"
+                sourceWorkingPath="
+                /*/*/functions/internet | 
+                /*/*/functions/voice |
+                /*/*/functions/tvCenter | 
+                /*/*/functions/safetyPackage | 
+                /*/*/functions/seat">
+                <TemplateConditions>
+                    <OrComposite>
+                        <base:IsMember value="close-cancel" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-abort" sourceAttrName="/*/*/transactionType" />
+                        <AndComposite>
+                            <base:IsMember value="close-final" sourceAttrName="/*/*/transactionType" />
+                            <base:IsMember value="true" sourceAttrName="
+                                completionStatusNewCcbId = 'cancelledCCM' or 
+                                completionStatusNewCcbId = 'cancelledOPM' or 
+                                completionStatusOldCcbId = 'cancelledCCM' or 
+                                completionStatusOldCcbId = 'cancelledOPM' or 
+                                previousCompletionStatusNewCcbId = 'cancelledCCM' or 
+                                previousCompletionStatusNewCcbId = 'cancelledOPM' or 
+                                previousCompletionStatusOldCcbId = 'cancelledCCM' or 
+                                previousCompletionStatusOldCcbId = 'cancelledOPM'" />                                  
+                        </AndComposite>
+                    </OrComposite>
+                    <base:IsExisting sourceAttrName="ccbId[@type = 'S']/existing" />
+                </TemplateConditions>
+                <RPMapping targetName="serviceSubscriptionId" sourceAttrName="ccbId[@type = 'S']/existing" />
+                <RPMapping targetName="bundleFutureIndicator" staticValue="N" />
+            </RequestTemplate>      
+            
+            <!-- if there's an empty bundle left over, deactivate it -->                        
+            <RequestTemplate fif-request-name="bundleCleanup"
+                sourceWorkingPath="/*/*/ccbId[@type = 'B']/existing | /*/*/ccbId[@type = 'B']/configured">
+                <TemplateConditions>
+                    <OrComposite>
+                        <base:IsMember value="close-cancel" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-final" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-abort" sourceAttrName="/*/*/transactionType" />
+                    </OrComposite>
+                </TemplateConditions>
+                <RPMapping targetName="bundleId" sourceAttrName="." />
+            </RequestTemplate>
+            
+            <!-- 
+                one for lineChange, lineCreation, relocation etc.
+                
+                customerNodeRefID
+                
+                two for contractPartnerChange
+                input: main access (termination: bundleID)
+               -->                        
+            <RequestTemplate fif-request-name="consolidateSubscriptionData"
+                sourceWorkingPath="/*/termination">
+                <TemplateConditions>
+                    <OrComposite>
+                        <base:IsMember value="close-cancel" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-final" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-abort" sourceAttrName="/*/*/transactionType" />
+                    </OrComposite>
+                    <base:IsExisting sourceAttrName="ccbId[@type = 'B']/existing" />
+                </TemplateConditions>
+                <RPMapping targetName="customerNumber" 
+                    sourceAttrName="/*/*/customer[@ID='${beneficiary/customerNodeRefID}']/ccbId[@type='C']" 
+                    method="configuredExisting"/>                
+                <RPMapping targetName="bundleId" sourceAttrName="ccbId[@type = 'B']/existing" />
+                <RPMapping targetName="customerIntention" sourceAttrName="customerIntention" />
+            </RequestTemplate>
+            
+            <RequestTemplate fif-request-name="consolidateSubscriptionData"
+                sourceWorkingPath="/*/lineCreation | /*/lineChange | /*/relocation">
+                <TemplateConditions>
+                    <OrComposite>
+                        <base:IsMember value="close-cancel" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-final" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-abort" sourceAttrName="/*/*/transactionType" />
+                    </OrComposite>
+                    <base:IsExisting sourceAttrName="ccbId[@type = 'B']" />
+                </TemplateConditions>
+                <RPMapping targetName="customerNumber" 
+                    sourceAttrName="/*/*/customer[@ID='${beneficiary/customerNodeRefID}']/ccbId[@type='C']" 
+                    method="configuredExisting"/>
+                <RPMapping targetName="bundleId" 
+                    sourceAttrName="ccbId[@type = 'B']"
+                    method="configuredExisting"/>
+                <RPMapping targetName="customerIntention" sourceAttrName="customerIntention" />
+            </RequestTemplate>
+            
+            <RequestTemplate fif-request-name="consolidateSubscriptionData"
+                sourceWorkingPath="/*/contractPartnerChange">
+                <TemplateConditions>
+                    <OrComposite>
+                        <base:IsMember value="close-cancel" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-final" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-abort" sourceAttrName="/*/*/transactionType" />
+                    </OrComposite>
+                    <base:IsExisting sourceAttrName="ccbId[@type = 'B']/existing" />
+                </TemplateConditions>
+                <RPMapping targetName="customerNumber" 
+                    sourceAttrName="/*/*/customer[@ID='${beneficiary/customerNodeRefID}']/ccbId[@type='C']" 
+                    method="configuredExisting"/>
+                <RPMapping targetName="bundleId" sourceAttrName="ccbId[@type = 'B']/existing" />
+                <RPMapping targetName="customerIntention" sourceAttrName="customerIntention" />
+            </RequestTemplate>
+            
+            <RequestTemplate fif-request-name="consolidateSubscriptionData"
+                sourceWorkingPath="/*/contractPartnerChange">
+                <TemplateConditions>
+                    <OrComposite>
+                        <base:IsMember value="close-cancel" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-final" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-abort" sourceAttrName="/*/*/transactionType" />
+                    </OrComposite>
+                    <base:IsExisting sourceAttrName="ccbId[@type = 'B']/configured" />
+                </TemplateConditions>
+                <RPMapping targetName="customerNumber" 
+                    sourceAttrName="/*/*/customer[@ID='${beneficiary/targetCustomerNodeRefID}']/ccbId[@type='C']" 
+                    method="configuredExisting"/>
+                <RPMapping targetName="bundleId" sourceAttrName="ccbId[@type = 'B']/configured" />
+                <RPMapping targetName="customerIntention" sourceAttrName="customerIntention" />
+            </RequestTemplate>
+            
+			<RequestTemplate fif-request-name="rollbackTariffChange"
+                sourceWorkingPath="/*/lineChange/functions/* | /*/relocation/functions/safetyPackage">
+                <TemplateConditions>
+                    <OrComposite>
+                        <base:IsMember value="close-cancel" sourceAttrName="/*/*/transactionType" />
+                        <base:IsMember value="close-abort" sourceAttrName="/*/*/transactionType" />
+                    </OrComposite>
+                    <base:IsNotExisting sourceAttrName="ccbId[@type = 'S']/configured" />
+					<base:IsMember value="true" sourceAttrName="
+            			*/pricingStructureCode/existing != */pricingStructureCode/configured and */pricingStructureCode/configured != ''
+			            or */minimumDurationPeriod/value/existing != */minimumDurationPeriod/value/configured and */minimumDurationPeriod/value/configured != ''
+			            or */minimumDurationPeriod/unit/existing != */minimumDurationPeriod/unit/configured and */minimumDurationPeriod/unit/configured != ''
+			            or */minimumDurationPeriod/startDate/existing != */minimumDurationPeriod/startDate/configured and */minimumDurationPeriod/startDate/configured != ''
+			            or */resetContractStartDateIndicator/configured = 'true'
+			            or */autoExtension/value/existing != */autoExtension/value/configured and */autoExtension/value/configured != ''
+			            or */autoExtension/unit/existing != */autoExtension/unit/configured and */autoExtension/unit/configured != ''
+			            or */autoExtension/autoExtensionIndicator/existing != */autoExtension/autoExtensionIndicator/configured and */autoExtension/autoExtensionIndicator/configured != ''
+			            or */noticePeriod/value/existing != */noticePeriod/value/configured and */noticePeriod/value/configured != ''
+			            or */noticePeriod/unit/existing != */noticePeriod/unit/configured and */noticePeriod/unit/configured != ''
+			            or */noticePeriod/noticeRestriction/existing != */noticePeriod/noticeRestriction/configured and */noticePeriod/noticeRestriction/configured != ''
+			            or */specialTerminationRight/existing != */specialTerminationRight/configured and */specialTerminationRight/configured != ''" />
+                </TemplateConditions>
+                <RPMapping targetName="serviceSubscriptionId" 
+                    sourceAttrName="ccbId[@type = 'S']" 
+                    method="configuredExisting"/>
+			    <base:DataBufferWriter keyValue="orderIdPath" sourceAttrName="count(/*/barcode) > 0"
+        			decoding="'true', '/*/barcode', '/order/@orderID'"/>
+      			<RPMapping targetName="OMTSOrderID" sourceAttrName="${#:orderIdPath}"/>               
+            </RequestTemplate>
+            
+        </RequestListTemplate>
+    </RootTemplate>
+    
+    <BaseTemplates>
+        <AbstractTransformationTemplate ID="externalOrder_template">
+            <TemplateConditions>
+                <base:IsExisting sourceAttrName="/*/customerData/customer/ccbId[@type = 'C']" />
+            </TemplateConditions>
+            <TransformationTemplate>
+                <TemplateConditions>
+                    <base:IsExisting sourceAttrName="beneficiary[@role='default']/ccbId[@type='C']" />
+                </TemplateConditions>
+                <RPMapping targetName="customerNumber" sourceAttrName="beneficiary[@role='default']/ccbId[@type='C']" />
+            </TransformationTemplate>
+            <TransformationTemplate>
+                <TemplateConditions>
+                    <base:IsNotExisting sourceAttrName="beneficiary[@role='default']/ccbId[@type='C']" />
+                    <base:IsExisting sourceAttrName="beneficiary[@role='target']/ccbId[@type='C']" />
+                </TemplateConditions>
+                <RPMapping targetName="customerNumber" sourceAttrName="beneficiary[@role='target']/ccbId[@type='C']" />
+            </TransformationTemplate>
+            <TransformationTemplate>
+                <TemplateConditions>
+                    <base:IsNotExisting sourceAttrName="beneficiary[@role='default']/ccbId[@type='C']" />
+                    <base:IsNotExisting sourceAttrName="beneficiary[@role='target']/ccbId[@type='C']" />
+                    <base:IsExisting sourceAttrName="beneficiary" />
+                </TemplateConditions>
+                <RPMapping targetName="customerNumber" 
+                    sourceAttrName="/*/*/customer[@ID='${beneficiary/customerNodeRefID}']/ccbId[@type='C']" 
+                    method="configuredExisting"/>
+            </TransformationTemplate>
+            <TransformationTemplate>
+                <TemplateConditions>
+                    <base:IsNotExisting sourceAttrName="beneficiary" />
+                </TemplateConditions>
+                <RPMapping targetName="customerNumber" 
+                    sourceAttrName="/*/*/customer/ccbId[@type='C']" 
+                    method="configuredExisting"/>
+            </TransformationTemplate>
+            <RPMapping targetName="customerIntention" sourceAttrName="customerIntention" />
+            <RPMapping targetName="orderPositionNumber" sourceAttrName="@orderPositionNumber" />
+            <RPMapping targetName="orderPositionType" sourceAttrName="name(.)" />
+            <RPMapping targetName="barcode" sourceAttrName="/*/barcode" />
+            <RPMapping targetName="workflowType" 
+                sourceAttrName="
+                count(accesses/sipTrunk) > 0 or
+                count(accesses/ipCentrex) > 0 or
+                count(accesses/isdnP2P) > 0 or
+                count(accesses/isdn) > 0 or
+                count(accesses/ngn) > 0 or
+                count(accesses/ipBitstream) > 0 or
+                count(accesses/businessDSL) > 0 or
+                count(accesses/lte) > 0 or
+                count(functions/internet/fttxInternetConfiguration) > 0 or
+                count(functions/*/processingStatus) > 0 or
+                count(processingHints/hint[key = 'witaUsage' and value = 'WITA4.0']) > 0"
+                decoding="'true', 'COM-OPM-FIF', 'false', 'FIF-OP-OPM'" />
+            
+            <RPListTemplate listName="serviceSubscriptionIdList">
+                <RPListItemTemplate sourceWorkingPath="functions/*/ccbId[@type='S']/*">
+                    <TransformationTemplate>
+                        <TemplateConditions>
+                            <OrComposite>
+                                <base:IsNotMember value="IGNORE" sourceAttrName="../../processingType" />
+                                <base:IsExisting sourceAttrName="../configured" />
+                            </OrComposite>
+                        </TemplateConditions>
+                        <RPMapping sourceAttrName="." targetName="serviceSubscriptionId" />
+                    </TransformationTemplate>
+                </RPListItemTemplate>
+            </RPListTemplate>
+            <RPMapping targetName="orderEnvelopeId" sourceAttrName="/order/superCustomerTrackingId" />
+        </AbstractTransformationTemplate>
+
+  </BaseTemplates>
+
+</TransformationRepository>

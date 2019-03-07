@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+History of Changes:
+Vers.    Date              Author             Comment
+====    =========  ===========  ===================================================
+1.0		08.06.2017	Reto Renner		WSDL based on template from 18.08.2011
+-->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsoap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapjms="http://www.w3.org/2008/07/soap/bindings/JMS/" xmlns:wsdlbase="http://www.vodafone.de/ESB/Service/Base/BaseAbstract-001.wsdl" xmlns:fp="http://www.vodafone.de/ESB/Service/SBUS/FIF/FIF-001" xmlns:tns="http://www.vodafone.de/ESB/Service/SBUS/FIF/FIF-001.wsdl" xmlns:ns="http://www.vodafone.de/ESB/Schema/Common/BaseTypes-ESB-001" targetNamespace="http://www.vodafone.de/ESB/Service/SBUS/FIF/FIF-001.wsdl">
+	<wsdl:import namespace="http://www.vodafone.de/ESB/Service/Base/BaseAbstract-001.wsdl" location="../../Base/BaseAbstract-001.wsdl"/>
+	<wsdl:types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://www.vodafone.de/ESB/Service/SBUS/FIF/FIF-001" schemaLocation="FIF-001.xsd"/>
+		</schema>
+	</wsdl:types>
+	<wsdl:message name="UpdateEmailStatusRequest">
+		<wsdl:part name="UpdateEmailStatusRequest" element="fp:UpdateEmailStatusRequest"/>
+	</wsdl:message>
+	<wsdl:message name="UpdateEmailStatusResponse">
+		<wsdl:part name="UpdateEmailStatusResponse" element="fp:UpdateEmailStatusResponse"/>
+	</wsdl:message>
+	<wsdl:message name="CreateTerminateWebTicketContractRequest">
+		<wsdl:part name="CreateTerminateWebTicketContractRequest" element="fp:CreateTerminateWebTicketContractRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CreateTerminateWebTicketContractResponse">
+		<wsdl:part name="CreateTerminateWebTicketContractResponse" element="fp:CreateTerminateWebTicketContractResponse"/>
+	</wsdl:message>
+	<wsdl:message name="ActivateCustomerOrderRequest">
+		<wsdl:part name="ActivateCustomerOrderRequest" element="fp:ActivateCustomerOrderRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ActivateCustomerOrderResponse">
+		<wsdl:part name="ActivateCustomerOrderResponse" element="fp:ActivateCustomerOrderResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="FIFPortType">
+		<wsdl:operation name="UpdateEmailStatus">
+			<wsdl:input name="UpdateEmailStatusRequest" message="tns:UpdateEmailStatusRequest"/>
+			<wsdl:output name="UpdateEmailStatusResponse" message="tns:UpdateEmailStatusResponse"/>
+			<wsdl:fault name="functionalESBException" message="wsdlbase:functionalESBException"/>
+			<wsdl:fault name="technicalESBException" message="wsdlbase:technicalESBException"/>
+		</wsdl:operation>
+		<wsdl:operation name="CreateTerminateWebTicketContract">
+			<wsdl:input name="CreateTerminateWebTicketContractRequest" message="tns:CreateTerminateWebTicketContractRequest"/>
+			<wsdl:output name="CreateTerminateWebTicketContractResponse" message="tns:CreateTerminateWebTicketContractResponse"/>
+			<wsdl:fault name="functionalESBException" message="wsdlbase:functionalESBException"/>
+			<wsdl:fault name="technicalESBException" message="wsdlbase:technicalESBException"/>
+		</wsdl:operation>
+		<wsdl:operation name="ActivateCustomerOrder">
+			<wsdl:input name="ActivateCustomerOrderRequest" message="tns:ActivateCustomerOrderRequest"/>
+			<wsdl:output name="ActivateCustomerOrderResponse" message="tns:ActivateCustomerOrderResponse"/>
+			<wsdl:fault name="functionalESBException" message="wsdlbase:functionalESBException"/>
+			<wsdl:fault name="technicalESBException" message="wsdlbase:technicalESBException"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="FIFJMSBinding" type="tns:FIFPortType">
+		<wsoap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<!--<wsoap12:binding style="document" transport="http://www.w3.org/2008/07/soap/bindings/JMS/"/>-->
+		<wsdl:operation name="UpdateEmailStatus">
+			<wsoap12:operation soapAction="/FIF-001/UpdateEmailStatus" soapActionRequired="true" style="document"/>
+			<soapjms:targetService>FIF</soapjms:targetService>
+			<wsdl:input>
+				<wsoap12:body parts="UpdateEmailStatusRequest" use="literal"/>
+				<wsoap12:header message="wsdlbase:appMonDetailsHeader" part="AppMonDetails" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsoap12:body parts="UpdateEmailStatusResponse" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="functionalESBException">
+				<wsoap12:fault name="functionalESBException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="technicalESBException">
+				<wsoap12:fault name="technicalESBException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="CreateTerminateWebTicketContract">
+			<wsoap12:operation soapAction="/FIF-001/CreateTerminateWebTicketContract" soapActionRequired="true" style="document"/>
+			<soapjms:targetService>FIF</soapjms:targetService>
+			<wsdl:input>
+				<wsoap12:body parts="CreateTerminateWebTicketContractRequest" use="literal"/>
+				<wsoap12:header message="wsdlbase:appMonDetailsHeader" part="AppMonDetails" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsoap12:body parts="CreateTerminateWebTicketContractResponse" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="functionalESBException">
+				<wsoap12:fault name="functionalESBException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="technicalESBException">
+				<wsoap12:fault name="technicalESBException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="ActivateCustomerOrder">
+			<wsoap12:operation soapAction="/FIF-001/ActivateCustomerOrder" soapActionRequired="true" style="document"/>
+			<soapjms:targetService>FIF</soapjms:targetService>
+			<wsdl:input>
+				<wsoap12:body parts="ActivateCustomerOrderRequest" use="literal"/>
+				<wsoap12:header message="wsdlbase:appMonDetailsHeader" part="AppMonDetails" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsoap12:body parts="ActivateCustomerOrderResponse" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="functionalESBException">
+				<wsoap12:fault name="functionalESBException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="technicalESBException">
+				<wsoap12:fault name="technicalESBException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="FIFService">
+		<wsdl:port name="FIFServiceJMSEndpoint" binding="tns:FIFJMSBinding">
+			<wsoap12:address location="jms:queue:endpointQeue"/>
+			<!-- optional: replaces "wsoap12:address": -->
+			<!--
+            <jms:address
+                destinationStyle="queue"
+                jndiDestinationName="endpointQeue"
+                jndiConnectionFactoryName="jmsFactory">
+            </jms:address>
+            -->
+		</wsdl:port>
+	</wsdl:service>
+	<!-- xmlns:jms="http://cxf.apache.org/transports/jms" -->
+</wsdl:definitions>

@@ -1,0 +1,1078 @@
+# START HEADER
+#  File:                $Workfile:   SLSFIFDatabaseClient.properties.template  $
+#  Author:              $Author:   lejam  $
+#  Revision:            $Revision:   1.38  $
+#  Purpose:             Configuration file for the SLS-FIF DatabaseClient application
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Feb 15 2019 12:09:04  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/SLSFIFDatabaseClient.properties.template-arc  $
+#
+#   Rev 1.38   Feb 15 2019 12:09:04   lejam
+#IT-k-34229 FIF-DB-Clients: Reading input parameters from results of dependent
+#transactions
+#
+#   Rev 1.37   Feb 02 2018 11:53:06   lejam
+#RMS170925-PPM316021_324656_Fixednet_For_GK_(GigaKombi)_Adjustment SLS terminateTariffOptionAsync
+#
+#   Rev 1.36   Oct 31 2017 15:50:04   naveen.k
+#Fixed SPN-FIF-000134335 added SERVICE_SUBS to the supportedobjecttype validations
+#
+#   Rev 1.35   Jul 31 2016 19:42:40   schwarje
+#SPN-FIF-000132573: limit SUPPORTED_OBJECT_TYPE_RD to possible values to avoid parsing error
+#
+#   Rev 1.34   Dec 21 2015 11:20:34   schwarje
+#PPM-100281: corrected sorting of list items
+#
+#   Rev 1.33   Jun 19 2015 14:01:14   lejam
+#SPN-FIF-130442 Added terminateServiceByAccountWinrun to FailedRequestNotifications:ActionNames
+#
+#   Rev 1.32   Aug 21 2014 06:19:52   schwarje
+#PPM-143282: added regular expressions for parameter validations
+#
+#   Rev 1.31   Apr 17 2013 13:57:58   schwarje
+#made BlockActions configurable in config template
+#
+#   Rev 1.30   Mar 14 2013 09:49:16   schwarje
+#IT-30423: trigger handleFailedFifRequest on modifyAccountMigration failures
+#
+#   Rev 1.29   Nov 29 2012 15:49:06   lejam
+#Added request reprocessing functionality IT-k-32482
+#
+#   Rev 1.28   Apr 12 2011 13:59:58   schwarje
+#SPN-FIF-000111254: hardcoded SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion in FIF config templates
+#
+#   Rev 1.27   Nov 23 2010 14:37:56   wlazlow
+#IT-k-29265
+#
+#   Rev 1.26   Nov 17 2010 16:22:12   schwarje
+#SPN-FIF-000104048: parametrized RequestHandler.SelectInterval and SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion
+#
+#   Rev 1.25   Nov 05 2010 14:55:54   lejam
+#Modified ORDER BY in SQL clause for retrieval records from FIF_REQUEST_PARAM_LIST SPN-FIF-106301
+#
+#   Rev 1.24   Oct 13 2010 14:25:28   schwarje
+#SPN-FIF-000105218: added "order by" to request param list statements (IVR, SLS, CCM and ERP clients)
+#
+#   Rev 1.23   Sep 14 2010 16:30:56   schwarje
+#fixed statement for failed request notification
+#
+#   Rev 1.22   Jul 08 2010 18:41:24   banania
+# IT-k-000028417: terminateServiceByAccountViaSOM added.
+#
+#   Rev 1.21   Jun 30 2010 18:21:26   schwarje
+#changed parameters for logging request files
+#
+#   Rev 1.20   Jun 25 2010 16:42:04   schwarje
+#SPN-FIF-000101037: fixed configuration templates
+#
+#   Rev 1.19   Jun 14 2010 19:58:06   schwarje
+#IT-26029: fixed wrong statement in configuration
+#
+#   Rev 1.18   Jun 09 2010 18:02:58   schwarje
+#IT-26029: changed selectInterval
+#
+#   Rev 1.17   Jun 08 2010 17:52:20   schwarje
+#IT-26029: updated selectInterval
+#
+#   Rev 1.16   Jun 08 2010 15:56:14   schwarje
+#IT-26029: config changes
+#
+#   Rev 1.15   Nov 25 2009 13:24:06   lejam
+#Modified FIF database clients templates for property files SPN-CCB-88372,SPN-CCB-93658
+#
+#   Rev 1.14   Jan 27 2009 17:46:16   lejam
+#Added request locking functionality to FIF-API database client to allow multiple running instances of the application SPN-FIF-82246
+#
+#   Rev 1.13   Dec 23 2008 07:41:52   schwarje
+#SPN-FIF-000063298: changed statement for selecting requests for database client
+#
+#   Rev 1.12   Aug 21 2008 18:58:36   banania
+#SPN-FIF-000075213: SLSFIFDatabaseClient.properties.template updated..
+#
+#   Rev 1.9   Feb 07 2008 11:26:22   schwarje
+#SPN-FIF-000065717: removed Console logging
+#
+#   Rev 1.8   Aug 20 2007 12:52:18   schwarje
+#IT-19036: added parameters for populating OMTSOrderId
+#
+#   Rev 1.7   Apr 25 2007 14:25:36   schwarje
+#IT-19232: support for transaction lists
+#
+#   Rev 1.6   Dec 20 2006 17:50:16   banania
+# IT-k-000018054
+#
+#   Rev 1.5   Oct 06 2005 17:16:06   banania
+#SPN-AAW-000035868-O.
+#Changes:
+#databaseclient.WriteSentMessages=${databaseclient.WriteSentMessages}
+#
+#databaseclient.WriteReplyMessages=${databaseclient.WriteReplyMessages}
+#
+#   Rev 1.4   Oct 20 2004 14:00:34   goethalo
+#SPN-FIF-000026136: Made metadata filename a template parameter.
+#
+#   Rev 1.3   Oct 15 2004 11:29:20   goethalo
+#SPN-FIF-000026136: Made the target client a templated parameter.
+#
+#   Rev 1.2   May 18 2004 16:58:56   goethalo
+#IT-8410: Improved list support for database clients.
+#
+#   Rev 1.1   Apr 02 2004 10:44:18   schwarje
+#SPN-FIF-000020694: 
+#Added insert statements for return values
+#
+#   Rev 1.0   Jan 27 2004 17:03:06   goethalo
+#Initial revision.
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.SynchronousFifClient.NumberOfRequestReceivers
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      1
+#RecomnendedVal.:   1
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       number of request receivers (threads waiting for requests from the front end)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         slsfif.SynchronousFifClient.NumberOfRequestHandlers
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      8
+#RecomnendedVal.:   8
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       number of regular request handlers (threads processing FifTransactions in the back end)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         slsfif.SynchronousFifClient.NumberOfRecycleHandlers
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   2
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       number of recycling request handlers (threads processing FifTransactions in recycling)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         slsfif.SynchronousFifClient.ClientType
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       -
+#DefaultValue:      -
+#ExampleValue:      SLS
+#RecomnendedVal.:   SLS
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the target client to insert requests for (e.g. SLS, WRF)
+#Description:       client type (all instances of a certain type (eg KBA-FIF) share the clientType)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         slsfif.SynchronousFifClient.ClientId
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      SLS1
+#RecomnendedVal.:   SLS1
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       client ID (unique identifier (for each instance) of a client of a certain type)
+#Description:       different client IDs are needed, if e.g. two SLS-FIF clients are run in seperate packages
+#Description:       Then one client would have SLS1, the other one SLS2
+#END PARAMETER
+
+SynchronousFifClient.NumberOfRequestReceivers=${slsfif.SynchronousFifClient.NumberOfRequestReceivers}
+SynchronousFifClient.NumberOfRequestHandlers=${slsfif.SynchronousFifClient.NumberOfRequestHandlers}
+SynchronousFifClient.NumberOfRecycleHandlers=${slsfif.SynchronousFifClient.NumberOfRecycleHandlers}
+SynchronousFifClient.ClientType=${slsfif.SynchronousFifClient.ClientType}
+SynchronousFifClient.ClientId=${slsfif.SynchronousFifClient.ClientId}
+
+#START PARAMETER
+#Parameter:         slsfif.SynchronousFifClient.FilePath
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./WORK
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The path to the directory where all FIF related messages are stored.
+#Description:       The messages are actually stored in child directories like sent.
+#END PARAMETER
+
+SynchronousFifClient.SentOutputDir=${slsfif.SynchronousFifClient.FilePath}/SLSFIFDatabaseClient/sent
+SynchronousFifClient.ReplyOutputDir=${slsfif.SynchronousFifClient.FilePath}/SLSFIFDatabaseClient/reply
+SynchronousFifClient.InvalidReplyOutputDir=${slsfif.SynchronousFifClient.FilePath}/SLSFIFDatabaseClient/invalid-reply
+
+# Indicates whether the sent messages should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteSentMessages=${databaseclient.WriteSentMessages}
+
+# Indicates whether the reply messages should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteReplyMessages=${databaseclient.WriteReplyMessages}
+
+
+
+#START PARAMETER
+#Parameter:         slsfif.SynchronousFifClient.BlockActionNames
+#ValidFrom:         FIF-API-45
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       true | false
+#DefaultValue:      -
+#ExampleValue:      false
+#RecomnendedVal.:   false
+#Optional:          N
+#Last_Modified:     17.04.13
+#Last_Modified_By   schwarje
+#Description:       indicates, if certain actions are blocked (and postponed) by this client.
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         slsfif.SynchronousFifClient.BlockActionNames.ActionNames
+#ValidFrom:         FIF-API-45
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       FIF actionNames separated by comma ","
+#DefaultValue:      -
+#ExampleValue:      modifyContract, consolidateSubscriptionData
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     17.04.13
+#Last_Modified_By   schwarje
+#Description:       list of blocked action names (comma seperated)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         slsfif.SynchronousFifClient.BlockActionNames.Delay
+#ValidFrom:         FIF-API-45
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Integer
+#DefaultValue:      -
+#ExampleValue:      1440
+#RecomnendedVal.:   1440
+#Optional:          N
+#Last_Modified:     17.04.13
+#Last_Modified_By   schwarje
+#Description:       postponement delay (in minutes) for blocked actions
+#END PARAMETER
+
+SynchronousFifClient.BlockActionNames=${slsfif.SynchronousFifClient.BlockActionNames}
+SynchronousFifClient.BlockActionNames.ActionNames=${slsfif.SynchronousFifClient.BlockActionNames.ActionNames}
+SynchronousFifClient.BlockActionNames.Delay=${slsfif.SynchronousFifClient.BlockActionNames.Delay}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+
+# database alias for processing FifTransactions
+SynchronousFifClient.FifTransaction.DBAlias=requestdb
+
+# indicates, if notifications are created (CCM-FIF handleFailedFifRequest) after a request failed in the back end
+SynchronousFifClient.FailedRequestNotification=true
+# list of action names (comma seperated), for which notifications are created
+SynchronousFifClient.FailedRequestNotification.ActionNames=terminateServiceByAccountViaSOM,modifyAccountMigration,terminateServiceByAccountWinrun
+# database alias for notifications for failed requests
+SynchronousFifClient.FailedRequestNotification.DBAlias=requestdb
+
+# indicates, if all FifTransactions are deleted from the database after processing
+SynchronousFifClient.DeleteAfterCompletion=false
+# list of action names (comma seperated), for which FifTransactions are deleted from the database after processing
+# (only used, if SynchronousFifClient.DeleteAfterCompletion is set to 'false')
+SynchronousFifClient.DeleteAfterCompletion.ActionNames=
+
+# indicates, if failed responses (transactions completed in the backend, but errors while sending the 
+# responses back to the front end) are taken care of
+SynchronousFifClient.FailedResponseHandling=true
+# maxmimum number of retries for resending responses
+SynchronousFifClient.FailedResponseHandling.MaxRetries=10
+# batch size for retrieving failed responses
+SynchronousFifClient.FailedResponseHandling.BatchSize=100
+# waiting time (in minutes) between two batches
+SynchronousFifClient.FailedResponseHandling.SleepTime=60
+# delay time (in minutes) after which a retry is done
+SynchronousFifClient.FailedResponseHandling.ResendDelay=720
+
+# indicates, if hanging requests (requests which still seem to be in progress in FIF after a certain time) 
+# are reset on startup of the FIF client
+SynchronousFifClient.HangingRequestHandling=true
+# batch size for retrieving hanging requests
+SynchronousFifClient.HangingRequestHandling.BatchSize=100
+# minimum age (in minutes) for hanging requests to be reset
+SynchronousFifClient.HangingRequestHandling.RequestAge=60
+
+#########################################
+# Settings specific to database clients #
+#########################################
+
+# strings for the FIF states in the database table
+SynchronousDatabaseClient.RequestStatusNotStarted=NOT_STARTED
+SynchronousDatabaseClient.RequestStatusReprocess=REPROCESS
+SynchronousDatabaseClient.RequestStatusInProgress=IN_PROGRESS
+SynchronousDatabaseClient.RequestStatusCompleted=COMPLETED
+SynchronousDatabaseClient.RequestStatusFailed=FAILED
+SynchronousDatabaseClient.RequestStatusNotExecuted=NOT_EXECUTED
+SynchronousDatabaseClient.RequestStatusCanceled=CANCELED
+
+# data type of the status field (VARCHAR / NUMBER)
+SynchronousDatabaseClient.RequestStatusDataType=VARCHAR
+
+# The maximum size (in characters) of the error message field
+SynchronousDatabaseClient.MaxErrorLength=4000
+
+# database alias for retrieving requests from the front end
+SynchronousDatabaseClient.DatabaseAlias=requestdb
+# waiting time (in minutes) after retrieving a batch of requests without success
+SynchronousDatabaseClient.RequestSleepTime=1
+# number of requests retrieved with each batch
+SynchronousDatabaseClient.BatchSize=100
+# indicates, if this client supports dependent transactions
+SynchronousDatabaseClient.EnableDependentTransactions=true
+# indicates, if this client supports transaction lists, ie more than one request within one transaction
+SynchronousDatabaseClient.EnableTransactionLists=true
+# indicates, if this client supports transaction results, ie if results are written back to the front end DB
+SynchronousDatabaseClient.EnableTransactionResults=true
+# indicates, if this client supports FIF parameter lists
+SynchronousDatabaseClient.EnableParameterLists=true
+
+# indicates, if all single requests are wrapped in a transaction list
+SynchronousDatabaseClient.WrapRequestInTransactionList=true
+# the name of the transaction list for wrapped requests
+SynchronousDatabaseClient.ArtificialListName=artificial-list
+# indicates, if the OMTS orderID is populated on the wrapped request
+SynchronousDatabaseClient.PopulateOmtsOrderId=true
+# default parameter name of OMTSOrderID for wrapped requests
+SynchronousDatabaseClient.DefaultOmtsOrderIdParameterName=OMTS_ORDER_ID
+
+###########################
+# Backend Server Settings #
+###########################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.ServerHandler.ServerProcessName
+#ValidFrom:         FIF-API-26
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       process names
+#DefaultValue:      -
+#ExampleValue:      CcmFifInterface_std
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the CcmFifInterface process
+#END PARAMETER
+ServerHandler.ServerProcessName=${slsfif.ServerHandler.ServerProcessName}
+
+#START PARAMETER
+#Parameter:         slsfif.ServerHandler.ServerInstanceBase
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       instance name base
+#DefaultValue:      -
+#ExampleValue:      fifie_SLS_
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The base for name of the instance of the CcmFifInterface
+#Description:       The actual name of the instance is craeted by concatinating 
+#Description:       the thread number to the instance base
+#END PARAMETER
+ServerHandler.ServerInstanceBase=${slsfif.ServerHandler.ServerInstanceBase}
+
+#START PARAMETER
+#Parameter:         slsfif.ServerHandler.ServerArguments
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#DefaultValue:      -
+#ExampleValue:      
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       arguments the CcmFifInterface is called with
+#END PARAMETER
+ServerHandler.ServerArguments=${slsfif.ServerHandler.ServerArguments}
+
+SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion=false
+
+#START PARAMETER
+#Parameter:         slsfif.RequestHandler.SelectInterval
+#ValidFrom:         FIF-API-37.01.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF queue client)
+#ParameterType:     INTEGER
+#ValidValues:       -
+#DefaultValue:      -
+#ExampleValue:      ./WORK
+#RecomnendedVal.:   300000
+#Optional:          N
+#Last_Modified:     17.11.10
+#Last_Modified_By   schwarje
+#Description:       waiting time (in milliseconds) after retrieving FifTransactions without success
+#END PARAMETER
+RequestHandler.SelectInterval=${slsfif.RequestHandler.SelectInterval}
+
+
+###########################
+# RequestHandler Settings #
+###########################
+
+# batch size for retrieving FifTransactions
+RequestHandler.BatchSize=100
+
+######################
+# Recycling Settings #
+######################
+
+#START PARAMETER
+#Parameter:         slsfif.RequestHandler.EnableRecycling
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       true/false
+#DefaultValue:      -
+#ExampleValue:      true
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       enables/disables recycling.
+#END PARAMETER
+RequestHandler.EnableRecycling=${slsfif.RequestHandler.EnableRecycling}
+
+#START PARAMETER
+#Parameter:         slsfif.RequestHandler.MaxRecycleStage
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      4
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The maximum number of recycling stages.
+#Description:       You have to declare RequestHandler.RecycleDelay.StageX variables 
+#Description:       up to the value of MaxRecycleStage
+#END PARAMETER
+RequestHandler.MaxRecycleStage=${slsfif.RequestHandler.MaxRecycleStage}
+
+#START PARAMETER
+#Parameter:         slsfif.RequestHandler.RecycleDelay.Stage1
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for first stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage1=${slsfif.RequestHandler.RecycleDelay.Stage1}
+#START PARAMETER
+#Parameter:         slsfif.RequestHandler.RecycleDelay.Stage2
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for second stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage2=${slsfif.RequestHandler.RecycleDelay.Stage2}
+#START PARAMETER
+#Parameter:         slsfif.RequestHandler.RecycleDelay.Stage3
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for third stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage3=${slsfif.RequestHandler.RecycleDelay.Stage3}
+#START PARAMETER
+#Parameter:         slsfif.RequestHandler.RecycleDelay.Stage4
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for fourth stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage4=${slsfif.RequestHandler.RecycleDelay.Stage4}
+
+# db alias for retrieving recycled errors
+RequestHandler.RecycledErrorsDBAlias=requestdb
+# database statement for retrieving recycled errors
+RequestHandler.RetrieveRecycledErrorStmt=select value from general_code_item where group_code = 'ERR_REF'
+
+#############################
+# MESSAGE CREATION SETTINGS #
+#############################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.messagecreator.MetaDataDir
+#ValidFrom:         FIF-API-03.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./etc
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the metadata file is located.
+#END PARAMETER
+messagecreator.MetaDataDir=${slsfif.messagecreator.MetaDataDir}
+
+#START PARAMETER
+#Parameter:         slsfif.messagecreator.OutputDir
+#ValidFrom:         FIF-API-03.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./output
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The directory to store the output XML files in.
+#Description:       (Not used if messagecreator.WriteOutputFiles is set to false).
+#END PARAMETER
+messagecreator.OutputDir=${slsfif.messagecreator.OutputDir}
+
+#START PARAMETER
+#Parameter:         slsfif.messagecreator.XSQL.Directory
+#ValidFrom:         FIF-API-03.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./xsql
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the XSQL files are located.
+#END PARAMETER
+messagecreator.XSQL.Directory=${slsfif.messagecreator.XSQL.Directory}
+
+#START PARAMETER
+#Parameter:         slsfif.messagecreator.XSLT.Directory
+#ValidFrom:         FIF-API-03.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./xslt
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the XSLT files are located.
+#END PARAMETER
+messagecreator.XSLT.Directory=${slsfif.messagecreator.XSLT.Directory}
+
+#START PARAMETER
+#Parameter:         slsfif.messagecreator.XSLT.IntermediateDir
+#ValidFrom:         FIF-API-03.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./intermediate
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the intermediate XML files should be written to.
+#Description:       (Not used if messagecreator.XSLT.WriteIntermediateFiles is set to false).
+#END PARAMETER
+messagecreator.XSLT.IntermediateDir=${slsfif.messagecreator.XSLT.IntermediateDir}
+
+#START PARAMETER
+#Parameter:         slsfif.messagecreator.MetaDataFile
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       file name
+#DefaultValue:      -
+#ExampleValue:      sls-fif-databaseclient-metadata.xml
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     20.10.04
+#Last_Modified_By   goethalo
+#Description:       The name of the XML metadata file
+#END PARAMETER
+messagecreator.MetaDataFile=${slsfif.messagecreator.MetaDataFile}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#--- GENERAL MESSAGECREATOR SETTINGS --#
+
+# Indicates whether the produced XML messages should also be written
+# as a file in the output directory
+messagecreator.WriteOutputFiles=false
+
+# Indicates whether the use of reference data should be supported by the client.
+messagecreator.EnableReferenceDataSupport=true
+
+# The name of the database alias to use for retrieving reference data
+messagecreator.ReferenceDataDBAlias=requestdb
+
+# regular expressions for parameter validations
+messagecreator.ParameterValidator.customerNumber=[0-9]{12}
+messagecreator.ParameterValidator.CUSTOMER_NUMBER=[0-9]{12}
+messagecreator.ParameterValidator.PARENT_CUSTOMER_NUMBER=[0-9]{12}
+messagecreator.ParameterValidator.contractNumber=[0-9]{12}
+messagecreator.ParameterValidator.PRODUCT_COMMITMENT_NUMBER=[0-9]{12}    	
+messagecreator.ParameterValidator.skeletonContractNumber=[0-9]{12}
+messagecreator.ParameterValidator.SERVICE_SUBSCRIPTION_ID=.{16}
+messagecreator.ParameterValidator.PARENT_SERVICE_SUBS_ID=.{16}
+messagecreator.ParameterValidator.PRODUCT_SUBSCRIPTION_ID=.{16}
+messagecreator.ParameterValidator.ACCOUNT_NUMBER=[0-9]{10}
+messagecreator.ParameterValidator.contactRoleEntityId=.{16}
+messagecreator.ParameterValidator.entityId=.{16}
+messagecreator.ParameterValidator.PRICE_PLAN_SUBSCRIPTION_ID=.{16}
+messagecreator.ParameterValidator.salesOrganisationNumber=[0-9]{8}
+messagecreator.ParameterValidator.SERVICE_CODE=.{5}
+messagecreator.ParameterValidator.PRICE_PLAN_CODE=.{5}
+messagecreator.ParameterValidator.productCode=.{5}
+messagecreator.ParameterValidator.pricingStructureCode=.{5}
+messagecreator.ParameterValidator.contractType=O|S|K
+messagecreator.ParameterValidator.minPeriodDurationUnit=DAY|MONTH|YEAR
+messagecreator.ParameterValidator.autoExtentPeriodUnit=DAY|MONTH|YEAR
+messagecreator.ParameterValidator.noticePeriodDurationUnit=DAY|MONTH|YEAR
+messagecreator.ParameterValidator.SUPPORTED_OBJECT_TYPE_RD=CUSTOMER|ACCOUNT|PRODUCT_SUBSC|SERVICE_SUBSC|SERVICE_SUBS|PROD_GROUP
+messagecreator.ParameterValidator.supportedObjectType=CUSTOMER|ACCOUNT|SERVDLVRY|SKELCNTR|ONE_GROUP|SERVICE_SUBSC|SERVICE_SUBS
+messagecreator.ParameterValidator.action=ADD|REMOVE
+messagecreator.ParameterValidator.contactRoleReferenceAction=ADD|REMOVE
+messagecreator.ParameterValidator.minPeriodDurationValue=[0-9]+
+messagecreator.ParameterValidator.autoExtentPeriodValue=[0-9]+
+messagecreator.ParameterValidator.noticePeriodDurationValue=[0-9]+
+messagecreator.ParameterValidator.OMTS_ORDER_ID=ARC[0-9]{10}
+
+#--- XSLT SETTINGS ---#
+
+# Indicates whether the XML representation of a request should be
+# written as a file.
+messagecreator.XSLT.WriteIntermediateFiles=false
+
+
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.log4j.appender.File.File
+#ValidFrom:         FIF-API-03.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/SLSFIFDatabaseClient.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The name (including relative of absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=10MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+
+
+#####################
+# DATABASE SETTINGS #
+#####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.db.requestdb.Driver
+#ValidFrom:         FIF-API-03.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Class name
+#DefaultValue:      -
+#ExampleValue:      oracle.jdbc.driver.OracleDriver
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The name of the JDBC database driver to use.
+#END PARAMETER
+db.requestdb.Driver=${slsfif.db.requestdb.Driver}
+
+#START PARAMETER
+#Parameter:         slsfif.db.requestdb.ConnectString
+#ValidFrom:         FIF-API-03.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Fully qualified URL for JDBC
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:ccmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The connection string to use to connect to the database containing the SLS FIF_REQUEST table.
+#Description:       (Format: jdbc:oracle:thin:@hostname:port:dbname)
+#END PARAMETER
+db.requestdb.ConnectString=${slsfif.db.requestdb.ConnectString}
+
+#START PARAMETER
+#Parameter:         slsfif.db.requestdb.User
+#ValidFrom:         FIF-API-03.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       All users of database.
+#DefaultValue:      -
+#ExampleValue:      ccm_user
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The user name to use to connect to the database containing the SLS FIF_REQUEST table.
+#END PARAMETER
+db.requestdb.User=${slsfif.db.requestdb.User}
+
+#START PARAMETER
+#Parameter:         slsfif.db.requestdb.Password
+#ValidFrom:         FIF-API-03.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Valid password.
+#DefaultValue:      -
+#ExampleValue:      ernirnlihlrieppg
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The ecnrypted password to use to connect to the database (encrypted in CCB format).
+#END PARAMETER
+db.requestdb.Password=${slsfif.db.requestdb.Password}
+
+#START PARAMETER
+#Parameter:         slsfif.db.requestdb.EncryptionKey
+#ValidFrom:         FIF-API-03.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Encryption key used to encrypt the password.
+#DefaultValue:      -
+#ExampleValue:      pshsodoehseffjlhsohedqfpnpfssmpleggfqpprnlhjhess
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The encryption key that was used to encrypt the database password.
+#END PARAMETER
+db.requestdb.EncryptionKey=${slsfif.db.requestdb.EncryptionKey}
+
+#START PARAMETER
+#Parameter:         slsfif.db.requestdb.MaximumConnectionCount
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       -
+#DefaultValue:      -
+#ExampleValue:      30
+#RecomnendedVal.:   30
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The maximum number of open connections in the pool
+#Description:       The number has to be high enough for all request handler, recycle handlers, 
+#Description:       for failed response handling and for failed request handling
+#END PARAMETER
+db.requestdb.MaximumConnectionCount=${slsfif.db.requestdb.MaximumConnectionCount}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of database aliases that are being used by the application
+# An alias maps to a specific set of database configuration settings
+# The DatabaseClient only needs one database alias and this alias should
+# be called requestdb
+db.aliases=requestdb
+
+# The maximum number of minutes that a connection can remain active (in minutes)
+db.requestdb.MaximumConnectionLifeTime=240
+
+# The minimum number of open connections in the pool
+db.requestdb.MinimumConnectionCount=0
+
+# The number of minutes to wait between connection cleanup runs
+db.requestdb.HouseKeepingSleepTime=1
+
+#######################
+# Database statements #
+#######################
+
+# statement for retrieving a FifRequest from the front end by transactionID
+SynchronousDatabaseClient.FifRequest.FetchFifRequestById=\
+SELECT TRANSACTION_ID, STATUS, TRANSACTION_LIST_ID, TRANSACTION_LIST_STATUS, DEPENDENT_TRANSACTION_ID, \
+DUE_DATE, START_DATE, END_DATE, ACTION_NAME FROM FIF_REQUEST \
+WHERE TARGET_CLIENT = '${slsfif.SynchronousFifClient.ClientType}' AND TRANSACTION_ID = ?
+
+# statement for retrieving a FifRequestList from the front end by transactionListID
+SynchronousDatabaseClient.FifRequest.FetchFifRequestListById=\
+SELECT TRANSACTION_ID FROM FIF_REQUEST \
+WHERE TARGET_CLIENT = '${slsfif.SynchronousFifClient.ClientType}' AND TRANSACTION_LIST_ID = ?
+
+# statement for retrieving the parameters for a FifRequest
+SynchronousDatabaseClient.FifRequest.FetchFifRequestParam=\
+SELECT PARAM, VALUE FROM FIF_REQUEST_PARAM \
+WHERE TRANSACTION_ID = ?
+
+# statement for retrieving the parameter lists for a FifRequest
+SynchronousDatabaseClient.FifRequest.FetchFifRequestParamList=\
+SELECT PARAM_LIST, LIST_ITEM_NUMBER, PARAM, VALUE FROM FIF_REQUEST_PARAM_LIST \
+WHERE TRANSACTION_ID = ? \
+ORDER BY PARAM_LIST, TO_NUMBER(LIST_ITEM_NUMBER)
+
+# statement for retrieving a batch of pending FifRequests
+SynchronousDatabaseClient.FifRequest.FetchPendingFifRequests=\
+SELECT TRANSACTION_ID FROM FIF_REQUEST SLS1 \
+WHERE TARGET_CLIENT = '${slsfif.SynchronousFifClient.ClientType}' \
+AND STATUS = ? \
+AND ( \
+  TRANSACTION_LIST_ID IS NOT NULL \
+  AND TRANSACTION_LIST_STATUS='NOT_STARTED' \
+  AND NOT EXISTS ( \
+    SELECT 1 FROM FIF_REQUEST SLS2 \
+	WHERE SLS1.TRANSACTION_LIST_ID = SLS2.TRANSACTION_LIST_ID \
+	AND (TRANSACTION_LIST_STATUS != 'NOT_STARTED' OR STATUS != 'NOT_STARTED')) \
+  OR \
+  TRANSACTION_LIST_ID IS NULL) \
+AND SYSDATE >= DUE_DATE \
+AND ROWNUM <= ? \
+ORDER BY PRIORITY DESC, TRANSACTION_ID ASC
+
+# statement for locking a FifRequest
+SynchronousDatabaseClient.FifRequest.LockFifRequest=\
+SELECT 1 FROM FIF_REQUEST WHERE TRANSACTION_ID = ? \
+AND STATUS=? FOR UPDATE
+
+# statement for updating a FifRequest
+SynchronousDatabaseClient.FifRequest.UpdateFifRequest=\
+UPDATE FIF_REQUEST SET \
+DUE_DATE = ?, START_DATE = ?, END_DATE = ?, STATUS = ?, \
+ERROR_TEXT = ?, TRANSACTION_LIST_STATUS = ? \
+WHERE TRANSACTION_ID = ?
+
+# statement for populating the results of a FifRequest on the front end
+SynchronousDatabaseClient.FifRequest.InsertFifRequestResult=\
+INSERT INTO FIF_REQUEST_RESULT (TRANSACTION_ID, RETURN_PARAM, RETURN_VALUE) \
+VALUES (?, ?, ?)
+
+# statement for retrieving the result of a FifRequest on the front end
+SynchronousDatabaseClient.FifRequest.FetchFifRequestResult=\
+SELECT RETURN_VALUE FROM FIF_REQUEST_RESULT \
+WHERE TRANSACTION_ID = ? AND RETURN_PARAM = ?
+
+#### Database statements for FifTransaction logging ####
+
+# The select statement recycle transaction by ID 
+SynchronousFifClient.FifTransaction.RetrieveFifTransactionsById= \
+select * from fif_transaction where transaction_id = ? and client_type = ?
+
+# The select statement to retrieve pending transactions
+SynchronousFifClient.FifTransaction.RetrievePendingFifTransactions= \
+select * from fif_transaction \
+where status = ? and client_id = ? \
+and due_date <= sysdate \
+and rownum <= ?
+
+# The select statement to retrieve completed requests with failed responses
+SynchronousFifClient.FifTransaction.RetrieveFailedResponses= \
+select * from fif_transaction \
+where status = ? \
+and client_id = ? \
+and audit_update_date_time <= ? \
+and response_retry_count < ? \
+and rownum <= ?
+
+# The delete statement recycle transaction
+SynchronousFifClient.FifTransaction.DeleteFifTransaction= \
+delete from fif_transaction where transaction_id = ? and client_type = ?
+
+
+# The update statement recycle transaction
+SynchronousFifClient.FifTransaction.UpdateFifTransaction= \
+update fif_transaction set \
+due_date = ?, end_date = ?, status = ?, recycle_stage = ?, client_response = ?, \
+customer_number = ?, audit_update_user_id = ?, audit_update_date_time = sysdate, response_retry_count = ?, jms_correlation_id = ?, jms_reply_to = ? \
+where transaction_id = ? and client_type = ?
+
+# The insert statement recycle transaction
+SynchronousFifClient.FifTransaction.InsertFifTransaction= \
+insert into fif_transaction \
+(transaction_id, client_type, client_id, client_request, client_response, due_date, entry_date, \
+status, recycle_stage, customer_number, audit_update_user_id, response_retry_count, jms_correlation_id, jms_reply_to, audit_update_date_time) \
+values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate)
+
+
+
+
+#### Database statements for creation of notifications for failed requests ####
+
+# parameters for creating notifications for failed fif requests   
+SynchronousFifClient.FailedRequestNotification.GetTransactionID.Statement=\
+select 'FR-'||lpad(fif_transaction_id_seq.nextval, 15, '0') from dual
+
+SynchronousFifClient.FailedRequestNotification.InsertRequest.Statement=\
+insert into ccm_fif_request (transaction_id, target_client, status, action_name, \
+   due_date, priority, creation_date, audit_update_user_id, external_system_id) \
+values (?, 'CCM', 'NOT_STARTED', 'handleFailedFifRequest', sysdate, 0, sysdate, 'SLS-FIF', ?)
+
+SynchronousFifClient.FailedRequestNotification.InsertRequestParam.Statement=\
+insert into ccm_fif_request_param (transaction_id, param, value) \
+values (?, ?, ?)   
+
+SynchronousFifClient.FailedRequestNotification.InsertRequestParamList.Statement=\
+insert into ccm_fif_request_param_list (transaction_id, param_list, list_item_number, param, value) \
+values (?, ?, ?, ?, ?)   
+
+
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request SYSTEM "request.dtd">
+<request>
+  <action-name>changeDSLBandwidth</action-name>
+  <request-params>
+    <request-param name="transactionID"><![CDATA[WOE_TEST_BW_1]]></request-param>
+    <request-param name="accessNumber"><![CDATA[49;2159;114477]]></request-param>
+    <request-param name="contractNumber"><![CDATA[000000156263]]></request-param>
+    <request-param name="customerNumber"><![CDATA[000000086639]]></request-param>
+    <request-param name="desiredDate"><![CDATA[2005.12.01 00:00:00]]></request-param>
+    <request-param name="newDSLBandwidth"><![CDATA[DSL 1000]]></request-param>
+	<request-param name="oldDSLBandwidth"><![CDATA[DSL 1000]]></request-param>
+    <request-param name="newUpstreamBandwidth"><![CDATA[Standard]]></request-param>
+    <request-param name="oldUpstreamBandwidth"><![CDATA[256]]></request-param>
+    <request-param name="OMTSOrderID"><![CDATA[ARC001010101]]></request-param>
+	<request-param name="rollenBezeichnung"><![CDATA[RB]]></request-param>
+  </request-params>
+</request>

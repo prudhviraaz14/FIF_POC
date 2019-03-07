@@ -1,0 +1,9 @@
+<serviceDeliveryContract ID="serviceDeliveryContract" ownerNodeRefID="customer">						
+	<ccbId type="D">
+		<existing>{serviceDeliveryContractNumber}</existing>
+	</ccbId>
+	<changeType>IGNORE</changeType>        
+	<contractName>		
+		<existing>SDC {scenarioName}</existing>
+	</contractName>	
+</serviceDeliveryContract>

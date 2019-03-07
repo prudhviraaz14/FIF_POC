@@ -1,0 +1,9 @@
+            <fixedIPAddressChangeType>
+              <configured>Add</configured>
+            </fixedIPAddressChangeType>
+            <dialInAccountNameStatic>
+              <configured>ar{accountNumber}-static</configured>
+            </dialInAccountNameStatic>
+            <fixedIPAddress>
+              <configured>;255.255.255.0;213.23.71.186</configured>
+            </fixedIPAddress>

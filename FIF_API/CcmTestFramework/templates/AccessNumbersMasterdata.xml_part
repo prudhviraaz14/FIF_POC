@@ -1,0 +1,12 @@
+                  <request-param-ref transactionID="masterdata_0" param-name="customerNumber" />
+                  <request-param-ref transactionID="masterdata_1" param-name="accountNumber" />
+                  <request-param-ref transactionID="masterdata_3" param-name="contactRoleEntityId" output-param-name="contactRoleEntityId"/>
+                  <request-param-ref transactionID="generateNumbers" param-name="NUMBER1" output-param-name="accessNumber1"/>
+                  <request-param-ref transactionID="generateNumbers" param-name="NUMBER2" output-param-name="accessNumber2"/>
+                  <request-param-ref transactionID="generateNumbers" param-name="NUMBER3" output-param-name="accessNumber3"/>
+                  <request-param-ref transactionID="generateNumbers" param-name="NUMBER4" output-param-name="accessNumber4"/>
+                  <request-param-ref transactionID="generateNumbers" param-name="NUMBER5" output-param-name="mobileAccessNumber"/>
+                  <request-param-ref transactionID="findBundle" param-name="BUNDLE_ID" output-param-name="bundleId"/>
+                  <request-param-ref transactionID="getScenarioData" param-name="oneNetID"/>
+                  <request-param-ref transactionID="getScenarioData" param-name="siteID"/>
+                  

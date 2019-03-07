@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}_B" xmlns="http://www.arcor.net/orderSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+    <processingHints>
+        <hint>
+            <key>witaUsage</key>
+            <value>WITA4.0</value>
+        </hint>
+    </processingHints>
+    <barcode>{orderID}</barcode>
+    <sendingSystem>{sendingSystem}</sendingSystem>
+    <entryUser>FIF</entryUser>
+    <entryRole>FIF</entryRole>
+    <entrySystem>{entrySystem}</entrySystem>
+    <entryDateTime>{today}</entryDateTime>
+    <customerContactPoint>{sendingSystem}</customerContactPoint>
+    <salesOrganisation>
+        <salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+        <salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+        <eShopCode>123</eShopCode>
+    </salesOrganisation>
+    <superCustomerTrackingId>superCustomerTrackingId</superCustomerTrackingId>
+    <scanDate>{todayTruncated}</scanDate>
+    <!-- include file: SimpleMasterDataCreation.xml -->
+    {file:scenario/SOM/SimpleMasterDataCreation.xml} <lineCreation orderPositionNumber="1">
+        <customerIntention>LineCreation</customerIntention>
+        <desiredDate>{desiredDate}</desiredDate>
+        <orderReceivedDate>{today}</orderReceivedDate>
+        <orderVariant>orderVariant</orderVariant>
+        <providerCode>
+            <configured>VFAI</configured>
+        </providerCode>
+        <salesPacketName>
+            <configured>All Inclusive Paket</configured>
+        </salesPacketName>
+        <beneficiary ID="beneficiary" role="new">
+            <customerNodeRefID>customer</customerNodeRefID>
+        </beneficiary>
+        <payerAllCharges ID="payer-001">
+            <billingAccountNodeRefID>account</billingAccountNodeRefID>
+        </payerAllCharges>
+        <accesses>
+            <lte ID="LTE-001">
+                <ccbId type="S">
+                    <configured>{internetSSID}</configured>
+                </ccbId>
+                <lteConfiguration>
+                    <locationAddress>
+                        <configured>
+                            <city><![CDATA[Dortmund]]></city>
+                            <postalCode><![CDATA[44145]]></postalCode>
+                            <street><![CDATA[Lahnstr.]]></street>
+                            <streetNumber><![CDATA[13]]></streetNumber>
+                            <streetNumberSuffix/>
+                            <postOfficeBox/>
+                            <country><![CDATA[DE]]></country>
+                        </configured>
+                    </locationAddress>
+                    <salesSegment>
+                        <configured><![CDATA[GK]]></configured>
+                    </salesSegment>
+                    <asb>
+                        <configured><![CDATA[31]]></configured>
+                    </asb>
+                    <localAreaCode>
+                        <configured><![CDATA[0231]]></configured>
+                    </localAreaCode>
+                    <carrier>
+                        <configured><![CDATA[Arcor]]></configured>
+                    </carrier>
+                    <serviceProvider>
+                        <configured><![CDATA[Arcor]]></configured>
+                    </serviceProvider>
+                    <oldAccess>
+                        <configured><![CDATA[NEW]]></configured>
+                    </oldAccess>
+                    <vdslEnabledIndicator>
+                        <configured><![CDATA[false]]></configured>
+                    </vdslEnabledIndicator>
+                    <mobileAccessNumber>
+                        <countryCode>
+                            <countryCode>49</countryCode>
+                            <localAreaCode>173</localAreaCode>
+                            <pilotNumber>{mobileAccessNumber}</pilotNumber>
+                        </countryCode>
+                    </mobileAccessNumber>
+                    <imsi>
+                        <configured>262200300400500</configured>
+                    </imsi>
+                    <simPin>
+                        <configured>{internetSSID}</configured>
+                    </simPin>
+                    <simSerialNumber>
+                        <configured>{internetSSID}</configured>
+                    </simSerialNumber>
+                    <DTAGContractNumber>{internetSSID}</DTAGContractNumber>
+                    <DTAGCompletionDate>{today}</DTAGCompletionDate>
+                    <DTAGPaymentDate>{today}</DTAGPaymentDate>
+                    <DTAGOrderNumber>{orderID}</DTAGOrderNumber>
+                    <witaUsage>WITA4.0</witaUsage>
+                </lteConfiguration>
+                <processingStatus>completedOPM</processingStatus>
+            </lte>
+        </accesses>
+        <functions>
+            <internet ID="FUNCI-001" refAccessID="LTE-001">
+                <processingType><![CDATA[ADD]]></processingType>
+                <ccbId type="S">
+                    <configured>{internetSSID}</configured>
+                </ccbId>
+                <providerTrackingNumber type="default">
+                    <configured>001</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <configured>002</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <configured>003</configured>
+                </providerTrackingNumber>
+                <adslInternetConfiguration>
+                    <pricingStructureCode>
+                        <configured><![CDATA[YI002]]></configured>
+                    </pricingStructureCode>
+                    <visTrackingPosition/>
+                    <primaryCustSignName>
+                        <configured><![CDATA[{forename} {name}]]></configured>
+                    </primaryCustSignName>
+                    <primaryCustSignDate>
+                        <configured><![CDATA[{today}]]></configured>
+                    </primaryCustSignDate>
+                    <minimumDurationPeriod>
+                        <value>
+                            <configured><![CDATA[24]]></configured>
+                        </value>
+                        <unit>
+                            <configured><![CDATA[MONTH]]></configured>
+                        </unit>
+                    </minimumDurationPeriod>
+                    <DSLBandwidth>
+                        <configured><![CDATA[V017J]]></configured>
+                    </DSLBandwidth>
+                    <allowBandwidthDowngrade>
+                        <configured><![CDATA[true]]></configured>
+                    </allowBandwidthDowngrade>
+                    <desiredBandwidth>
+                        <configured><![CDATA[V017J]]></configured>
+                    </desiredBandwidth>
+                    <fixedIPAddressIndicator>
+                        <configured><![CDATA[false]]></configured>
+                    </fixedIPAddressIndicator>
+                    <specialTimeWindow/>
+                    <projectOrderIndicator>
+                        <configured><![CDATA[false]]></configured>
+                    </projectOrderIndicator>
+                    <fixedOrderDateIndicator>
+                        <configured><![CDATA[false]]></configured>
+                    </fixedOrderDateIndicator>
+                    <automaticMailingIndicator>
+                        <configured><![CDATA[true]]></configured>
+                    </automaticMailingIndicator>
+                </adslInternetConfiguration>
+                <processingStatus>{internetProcessingStatus}</processingStatus>
+                <completionStatusNewCcbId>{internetCompletionStatusNew}</completionStatusNewCcbId>
+                <previousCompletionStatusNewCcbId>{internetPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+            </internet>
+            <voice ID="FUNCV-001" refAccessID="LTE-001">
+                <processingType><![CDATA[ADD]]></processingType>
+                <ccbId type="S">
+                    <configured>{voiceSSID}</configured>
+                </ccbId>
+                <providerTrackingNumber type="default">
+                    <configured>001v</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <configured>002v</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <configured>003v</configured>
+                </providerTrackingNumber>
+                <voicePremiumConfiguration>
+                    <pricingStructureCode>
+                        <configured><![CDATA[YK007]]></configured>
+                    </pricingStructureCode>
+                    <visTrackingPosition/>
+                    <primaryCustSignName>
+                        <configured><![CDATA[{forename} {name}]]></configured>
+                    </primaryCustSignName>
+                    <primaryCustSignDate>
+                        <configured><![CDATA[{today}]]></configured>
+                    </primaryCustSignDate>
+                    <minimumDurationPeriod>
+                        <value>
+                            <configured><![CDATA[24]]></configured>
+                        </value>
+                        <unit>
+                            <configured><![CDATA[MONTH]]></configured>
+                        </unit>
+                    </minimumDurationPeriod>
+                    <automaticMailingIndicator>
+                        <configured><![CDATA[true]]></configured>
+                    </automaticMailingIndicator>
+                    <projectOrderIndicator>
+                        <configured><![CDATA[false]]></configured>
+                    </projectOrderIndicator>
+                    <activationType>
+                        <configured><![CDATA[Neuanschluss]]></configured>
+                    </activationType>
+                    <portingAccessNumbers>
+                        <portingMode>
+                            <configured><![CDATA[None]]></configured>
+                        </portingMode>
+                        <fixedOrderDateIndicator>
+                            <configured><![CDATA[false]]></configured>
+                        </fixedOrderDateIndicator>
+                        <numberOfNewAccessNumbers>
+                            <configured><![CDATA[3]]></configured>
+                        </numberOfNewAccessNumbers>
+                        <oldLocalExchangeCarrier>
+                            <configured><![CDATA[D0056]]></configured>
+                        </oldLocalExchangeCarrier>
+                        <maskingDigits>
+                            <configured><![CDATA[0]]></configured>
+                        </maskingDigits>
+                        <storageMaskingDigits>
+                            <configured><![CDATA[-1]]></configured>
+                        </storageMaskingDigits>
+                        <accessNumber1>
+                            <configured>
+                                <countryCode>49</countryCode>
+                                <localAreaCode>231</localAreaCode>
+                                <pilotNumber>{accessNumber1}</pilotNumber>
+                            </configured>
+                        </accessNumber1>
+                        <ownerAccessNumber1>
+                            <configured>D001</configured>
+                        </ownerAccessNumber1>
+                        <voipAccount1>
+                            <configured>492311700123@vodafone.de</configured>
+                        </voipAccount1>
+                        <accessNumber2>
+                            <configured>
+                                <countryCode>49</countryCode>
+                                <localAreaCode>231</localAreaCode>
+                                <pilotNumber>{accessNumber2}</pilotNumber>
+                            </configured>
+                        </accessNumber2>
+                        <ownerAccessNumber2>
+                            <configured>D001</configured>
+                        </ownerAccessNumber2>
+                        <accessNumber3>
+                            <configured>
+                                <countryCode>49</countryCode>
+                                <localAreaCode>231</localAreaCode>
+                                <pilotNumber>{accessNumber3}</pilotNumber>
+                            </configured>
+                        </accessNumber3>
+                        <ownerAccessNumber3>
+                            <configured>D001</configured>
+                        </ownerAccessNumber3>
+                        <lineOwner1>
+                            <configured>
+                                <firstName><![CDATA[Lotte]]></firstName>
+                                <name><![CDATA[Lettermann]]></name>
+                            </configured>
+                        </lineOwner1>
+                        <lineOwnerAddress>
+                            <configured>
+                                <city><![CDATA[Dortmund]]></city>
+                                <postalCode><![CDATA[44145]]></postalCode>
+                                <street><![CDATA[Lahnstr.]]></street>
+                                <streetNumber><![CDATA[11]]></streetNumber>
+                                <streetNumberSuffix>a</streetNumberSuffix>
+                                <postOfficeBox/>
+                                <country><![CDATA[DE]]></country>
+                            </configured>
+                        </lineOwnerAddress>
+                    </portingAccessNumbers>
+                    <remarks>
+                        <configured><![CDATA[GK-Vertrieb B3, IMP, Betreute Schaltung nein, Privatkunde / Telefonbucheintrag / ]]></configured>
+                    </remarks>
+                    <blockingList>
+                        <configured>
+                            <blockingServiceCode>V0323</blockingServiceCode>
+                        </configured>
+                    </blockingList>
+                    <desiredCountriesList>
+                        <configured>
+                            <desiredCountryServiceCode>V2101</desiredCountryServiceCode>
+                            <desiredCountryServiceCode>V2107</desiredCountryServiceCode>
+                        </configured>
+                    </desiredCountriesList>
+                   <tariffOptionsList>
+                        <configured>
+                            <tariffOption>
+                                <serviceCode>V0300</serviceCode>
+                            </tariffOption>
+                            <tariffOption>
+                                <serviceCode>V0301</serviceCode>
+                            </tariffOption>
+                        </configured>
+                    </tariffOptionsList>
+                </voicePremiumConfiguration>
+                <processingStatus>{voiceProcessingStatus}</processingStatus>
+                <completionStatusNewCcbId>{voiceCompletionStatusNew}</completionStatusNewCcbId>
+                <previousCompletionStatusNewCcbId>{voicePreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+            </voice>
+            <directoryEntry ID="DIR-FUNCV-002-1">
+                <processingType><![CDATA[ADD]]></processingType>
+                <ccbId type="S">
+                    <configured>{directoryEntrySSID}</configured>
+                </ccbId>
+                <providerTrackingNumber type="default">
+                    <configured>001t</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <configured>002t</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <configured>003t</configured>
+                </providerTrackingNumber>
+                <refFunctionID>
+                    <configured><![CDATA[FUNCV-001]]></configured>
+                </refFunctionID>
+                <directoryEntryConfiguration>
+                    <directoryEntryType>
+                        <configured>Einzeleintrag</configured>
+                    </directoryEntryType>
+                    <inverseSearchIndicator>
+                        <configured>false</configured>
+                    </inverseSearchIndicator>
+                    <titleDescription>
+                        <configured><![CDATA[Dr.]]></configured>
+                    </titleDescription>
+                    <forename>
+                        <configured><![CDATA[Millie]]></configured>
+                    </forename>
+                    <nobilityPrefixDescription>
+                        <configured><![CDATA[Baron]]></configured>
+                    </nobilityPrefixDescription>
+                    <surnamePrefix>
+                        <configured><![CDATA[de]]></configured>
+                    </surnamePrefix>
+                    <name>
+                        <configured><![CDATA[Malteser]]></configured>
+                    </name>
+                    <profession>
+                        <configured><![CDATA[Künstler]]></configured>
+                    </profession>
+                    <industrialSectorRd>
+                        <configured><![CDATA[121]]></configured>
+                    </industrialSectorRd>
+                    <listedAddress>
+                        <configured>
+                            <city><![CDATA[Düsseldorf]]></city>
+                            <postalCode><![CDATA[40215]]></postalCode>
+                            <street><![CDATA[Morsestr.]]></street>
+                            <streetNumber><![CDATA[11]]></streetNumber>
+                            <streetNumberSuffix>a</streetNumberSuffix>
+                            <postOfficeBox/>
+                            <country><![CDATA[DE]]></country>
+                        </configured>
+                    </listedAddress>
+                    <listedPhoneNumber>
+                        <configured>
+                            <countryCode>49</countryCode>
+                            <localAreaCode>231</localAreaCode>
+                            <pilotNumber>{accessNumber1}</pilotNumber>
+                        </configured>
+                    </listedPhoneNumber>
+                </directoryEntryConfiguration>
+                <processingStatus>{directoryEntryProcessingStatus}</processingStatus>
+                <completionStatusNewCcbId>{directoryEntryCompletionStatusNew}</completionStatusNewCcbId>
+                <previousCompletionStatusNewCcbId>{directoryEntryPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+            </directoryEntry>
+            <hardware ID="HW-FUNCI-001-1">
+                <processingType><![CDATA[ADD]]></processingType>
+                <ccbId type="S">
+                    <configured>{hardware1SSID}</configured>
+                </ccbId>
+                <refFunctionID>
+                    <configured><![CDATA[FUNCI-001]]></configured>
+                </refFunctionID>
+                <providerTrackingNumber type="default">
+                    <configured>001</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <configured>002</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <configured>003</configured>
+                </providerTrackingNumber>
+                <hardwareConfiguration>
+                    <!-- Following elements are already supplied in the Input-SOM -->
+                    <hardwareServiceCode>
+                        <configured><![CDATA[V0330]]></configured>
+                    </hardwareServiceCode>
+                    <orderReason>
+                        <configured><![CDATA[Neuauftrag]]></configured>
+                    </orderReason>
+                    <subventionIndicator>
+                        <configured><![CDATA[1]]></configured>
+                    </subventionIndicator>
+                    <zeroChargeIndicator/>
+                    <shippingCosts>
+                        <configured><![CDATA[RG]]></configured>
+                    </shippingCosts>
+                    <hardwareRecipient>
+                        <configured>
+                            <salutationDescription>{salutation}</salutationDescription>
+                            <forename>{{forename}</forename>
+                            <name>{name}</name>
+                        </configured>
+                    </hardwareRecipient>
+                    <hardwareMailingAddress>
+                        <configured>
+                            <city><![CDATA[Dortmund]]></city>
+                            <postalCode><![CDATA[44145]]></postalCode>
+                            <street><![CDATA[Morsestr.]]></street>
+                            <streetNumber><![CDATA[11]]></streetNumber>
+                            <streetNumberSuffix>a</streetNumberSuffix>
+                            <postOfficeBox/>
+                            <country><![CDATA[DE]]></country>
+                        </configured>
+                    </hardwareMailingAddress>
+                    <!-- Following elements are enriched by OPM -->
+                    <articleNumber>
+                        <configured><![CDATA[20080549]]></configured>
+                    </articleNumber>
+                    <articleName>
+                        <configured><![CDATA[DSL-EasyBox 803]]></configured>
+                    </articleName>
+                    <serialNumber>
+                        <configured>{internetSSID}</configured>
+                    </serialNumber>
+                    <conditionsList>
+                        <configured>
+                            <conditionService>
+                                <conditionServiceType>HW</conditionServiceType>
+                                <conditionServiceName>Monatsprei
+                                    Einmalpreisbefreiung</conditionServiceName>
+                                <conditionServiceCode>V0850</conditionServiceCode>
+                            </conditionService>
+                        </configured>
+                    </conditionsList>
+                </hardwareConfiguration>
+                <processingStatus>{hardware1ProcessingStatus}</processingStatus>
+                <completionStatusNewCcbId>{hardware1CompletionStatusNew}</completionStatusNewCcbId>
+                <previousCompletionStatusNewCcbId>{hardware1PreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+            </hardware>
+            <hardware ID="HW-FUNCI-001-2">
+                <processingType><![CDATA[ADD]]></processingType>
+                <ccbId type="S">
+                    <configured>{hardware2SSID}</configured>
+                </ccbId>
+                <refFunctionID>
+                    <configured><![CDATA[FUNCI-001]]></configured>
+                </refFunctionID>
+                <providerTrackingNumber type="default">
+                    <configured>001</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <configured>002</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <configured>003</configured>
+                </providerTrackingNumber>
+                <hardwareConfiguration>
+                    <!-- Following elements are already supplied in the Input-SOM -->
+                    <hardwareServiceCode>
+                        <configured><![CDATA[I1295]]></configured>
+                    </hardwareServiceCode>
+                    <orderReason>
+                        <configured><![CDATA[Neuauftrag]]></configured>
+                    </orderReason>
+                    <subventionIndicator>
+                        <configured><![CDATA[1]]></configured>
+                    </subventionIndicator>
+                    <zeroChargeIndicator/>
+                    <shippingCosts>
+                        <configured><![CDATA[RG]]></configured>
+                    </shippingCosts>
+                    <hardwareRecipient>
+                        <configured>
+                            <salutationDescription>{salutation}</salutationDescription>
+                            <forename>{{forename}</forename>
+                            <name>{name}</name>
+                        </configured>
+                    </hardwareRecipient>
+                    <hardwareMailingAddress>
+                        <configured>
+                            <city><![CDATA[Dortmund]]></city>
+                            <postalCode><![CDATA[44145]]></postalCode>
+                            <street><![CDATA[Morsestr.]]></street>
+                            <streetNumber><![CDATA[11]]></streetNumber>
+                            <streetNumberSuffix>a</streetNumberSuffix>
+                            <postOfficeBox/>
+                            <country><![CDATA[DE]]></country>
+                        </configured>
+                    </hardwareMailingAddress>
+                    <!-- Following elements are enriched by OPM -->
+                    <articleNumber>
+                        <configured><![CDATA[84361497]]></configured>
+                    </articleNumber>
+                    <articleName>
+                        <configured><![CDATA[LTE Vorschaltmodem]]></configured>
+                    </articleName>
+                    <serialNumber>
+                        <configured>{internetSSID}</configured>
+                    </serialNumber>
+                </hardwareConfiguration>
+                <processingStatus>{hardware2ProcessingStatus}</processingStatus>
+                <completionStatusNewCcbId>{hardware2CompletionStatusNew}</completionStatusNewCcbId>
+                <previousCompletionStatusNewCcbId>{hardware2PreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+            </hardware>
+            <hardware ID="HW-FUNCI-001-3">
+                <processingType><![CDATA[ADD]]></processingType>
+                <ccbId type="S">
+                    <configured>{hardware3SSID}</configured>
+                </ccbId>
+                <refFunctionID>
+                    <configured><![CDATA[FUNCI-001]]></configured>
+                </refFunctionID>
+                <providerTrackingNumber type="default">
+                    <configured>001</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <configured>002</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <configured>003</configured>
+                </providerTrackingNumber>
+                <hardwareConfiguration>
+                    <!-- Following elements are already supplied in the Input-SOM -->
+                    <hardwareServiceCode>
+                        <configured><![CDATA[V011A]]></configured>
+                    </hardwareServiceCode>
+                    <orderReason>
+                        <configured><![CDATA[Neuauftrag]]></configured>
+                    </orderReason>
+                    <subventionIndicator>
+                        <configured><![CDATA[1]]></configured>
+                    </subventionIndicator>
+                    <zeroChargeIndicator/>
+                    <shippingCosts>
+                        <configured><![CDATA[RG]]></configured>
+                    </shippingCosts>
+                    <hardwareRecipient>
+                        <configured>
+                            <salutationDescription>{salutation}</salutationDescription>
+                            <forename>{{forename}</forename>
+                            <name>{name}</name>
+                        </configured>
+                    </hardwareRecipient>
+                    <hardwareMailingAddress>
+                        <configured>
+                            <city><![CDATA[Dortmund]]></city>
+                            <postalCode><![CDATA[44145]]></postalCode>
+                            <street><![CDATA[Morsestr.]]></street>
+                            <streetNumber><![CDATA[11]]></streetNumber>
+                            <streetNumberSuffix>a</streetNumberSuffix>
+                            <postOfficeBox/>
+                            <country><![CDATA[DE]]></country>
+                        </configured>
+                    </hardwareMailingAddress>
+                    <!-- Following elements are enriched by OPM -->
+                    <articleNumber>
+                        <configured><![CDATA[54123789]]></configured>
+                    </articleNumber>
+                    <articleName>
+                        <configured><![CDATA[SIM-Karte für LTE]]></configured>
+                    </articleName>
+                    <serialNumber>
+                        <configured>{hardware3SSID}</configured>
+                    </serialNumber>
+                    <simSerialNumber>
+                        <configured>{hardware3SSID}</configured>
+                    </simSerialNumber>
+                </hardwareConfiguration>
+				<processingStatus>{hardware3ProcessingStatus}</processingStatus>
+				<completionStatusNewCcbId>{hardware3CompletionStatusNew}</completionStatusNewCcbId>
+				<previousCompletionStatusNewCcbId>{hardware3PreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+            </hardware>
+            <installationSvc ID="INST-FUNCI-001-1">
+                <processingType>ADD</processingType>
+                <ccbId type="S">
+                    <configured>{installationSvcSSID}</configured>
+                </ccbId>
+                <providerTrackingNumber type="default">
+                    <configured>001is</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <configured>002is</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <configured>003is</configured>
+                </providerTrackingNumber>
+                <refFunctionID>
+                    <configured>FUNCI-001</configured>
+                </refFunctionID>
+                <installationSvcConfiguration>
+                    <installationPackage>
+                        <configured>ATA</configured>
+                    </installationPackage>
+                    <quantity>
+                        <configured>1</configured>
+                    </quantity>
+                    <signatureRequiredIndicator>
+                        <configured>false</configured>
+                    </signatureRequiredIndicator>
+                    <desiredDate>
+                        <configured>{today}</configured>
+                    </desiredDate>
+                    <contactPhoneNumber>
+                        <configured>49;173;1602601</configured>
+                    </contactPhoneNumber>
+                    <sundayServiceIndicator>
+                        <configured>false</configured>
+                    </sundayServiceIndicator>
+                </installationSvcConfiguration>
+				<processingStatus>{installationSvcProcessingStatus}</processingStatus>
+				<completionStatusNewCcbId>{installationSvcCompletionStatusNew}</completionStatusNewCcbId>
+				<previousCompletionStatusNewCcbId>{installationSvcPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+            </installationSvc>
+            <safetyPackage ID="SP-FUNCI-001-1">
+                <processingType>ADD</processingType>
+                <ccbId type="S">
+                    <configured>{safetyPackageSSID}</configured>
+                </ccbId>
+                <providerTrackingNumber type="default">
+                    <configured>001f</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <configured>002f</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <configured>003f</configured>
+                </providerTrackingNumber>
+                <safetyPackageConfiguration>
+                    <!-- Following elements are already supplied in the Input-SOM -->
+                    <pricingStructureCode>
+                        <configured><![CDATA[YI412]]></configured>
+                    </pricingStructureCode>
+                    <visTrackingPosition/>
+                    <primaryCustSignName>
+                        <configured><![CDATA[{forename} {name}]]></configured>
+                    </primaryCustSignName>
+                    <primaryCustSignDate>
+                        <configured><![CDATA[{today}]]></configured>
+                    </primaryCustSignDate>
+                    <minimumDurationPeriod>
+                        <value>
+                            <configured><![CDATA[24]]></configured>
+                        </value>
+                        <unit>
+                            <configured><![CDATA[MONTH]]></configured>
+                        </unit>
+                    </minimumDurationPeriod>
+                    <conditionsList>
+                        <configured>
+                            <conditionService>
+                                <conditionServiceType>CM</conditionServiceType>
+                                <conditionServiceName>Startguthaben 10Eu mtl</conditionServiceName>
+                                <conditionServiceID>1234567890</conditionServiceID>
+                                <conditionServiceCode>V0046</conditionServiceCode>
+                            </conditionService>
+                        </configured>
+                    </conditionsList>
+                    <!-- Following elements are enriched by BKS -->
+                    <productCode>
+                        <configured>I1410</configured>
+                    </productCode>
+                    <productVersionCode>
+                        <configured>1</configured>
+                    </productVersionCode>
+                    <productBillingName>
+                        <configured>Arcor-Sicherheitspaket</configured>
+                    </productBillingName>
+                    <mainAccessServiceCode>
+                        <configured>I1410</configured>
+                    </mainAccessServiceCode>
+                    <pricingStructureBillingName>
+                        <configured>.</configured>
+                    </pricingStructureBillingName>
+                    <!-- Following element is enriched by OPM -->
+                    <activationKey>
+                        <configured>1234567890</configured>
+                    </activationKey>
+                </safetyPackageConfiguration>
+				<processingStatus>{safetyPackageProcessingStatus}</processingStatus>
+				<completionStatusNewCcbId>{safetyPackageCompletionStatusNew}</completionStatusNewCcbId>
+				<previousCompletionStatusNewCcbId>{safetyPackagePreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+            </safetyPackage>
+        </functions>
+    </lineCreation>
+</order>

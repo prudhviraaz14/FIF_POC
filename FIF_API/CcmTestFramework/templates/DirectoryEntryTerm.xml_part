@@ -1,0 +1,66 @@
+				<directoryEntry ID="directoryEntry">
+					<processingType>TERM</processingType>
+					<ccbId type="S">
+						<existing>{directoryEntrySSID}</existing>
+					</ccbId>
+					<refFunctionID>
+						<existing>voice</existing>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultTBE</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeTBE</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetTBE</configured>
+					</providerTrackingNumber>
+					<directoryEntryConfiguration>									
+						<dtagId>
+							<existing>{dtagId}</existing>
+						</dtagId>
+						<directoryEntryText>{directoryEntryText}</directoryEntryText>
+						<directoryEntryType>
+							<existing>Einzeleintrag</existing>
+						</directoryEntryType>
+						<inverseSearchIndicator>
+							<existing>false</existing>
+						</inverseSearchIndicator>
+						<titleDescription>
+							<existing>Dr.</existing>
+						</titleDescription>
+						<forename>
+							<existing>COM</existing>
+						</forename>
+						<nobilityPrefixDescription>
+							<existing>Baron</existing>
+						</nobilityPrefixDescription>
+						<surnamePrefix>
+							<existing>de</existing>
+						</surnamePrefix>
+						<name>
+							<existing>{scenarioName}</existing>
+						</name>
+						<profession>
+							<existing>Künstler</existing>
+						</profession>
+						<industrialSectorRd>
+							<existing>121</existing>
+						</industrialSectorRd>
+						<listedAddress>
+							<existing>
+								{file:templates/Address1.xml_part}
+							</existing>
+						</listedAddress>
+						<listedPhoneNumber>
+							<existing>
+								<countryCode>49</countryCode>
+								<localAreaCode>211</localAreaCode>
+								<pilotNumber>{accessNumber1}</pilotNumber>
+							</existing>
+						</listedPhoneNumber>
+					</directoryEntryConfiguration>
+					<processingStatus>{directoryEntryProcessingStatus}</processingStatus>
+					<completionStatusOldCcbId>{directoryEntryCompletionStatusOld}</completionStatusOldCcbId>
+					<previousCompletionStatusOldCcbId>{directoryEntryPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+				</directoryEntry>

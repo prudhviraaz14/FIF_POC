@@ -1,0 +1,13 @@
+<bit ID="{ID}">
+    <ccbId type="S">
+        <existing>{serviceSubscriptionId}</existing>
+    </ccbId>
+    <bitConfiguration>
+        <connectionType>
+            <configured>{connectionType}</configured>
+        </connectionType>
+        <ACSIndicator>
+            <configured>{ACSIndicator}</configured>
+        </ACSIndicator>
+    </bitConfiguration>
+</bit>

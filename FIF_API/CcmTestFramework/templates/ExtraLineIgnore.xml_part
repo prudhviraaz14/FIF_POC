@@ -1,0 +1,33 @@
+<extraLine ID="extraLine" refAccessID="access-old">
+	<processingType>IGNORE</processingType>
+	<ccbId type="S">
+		<existing>{extraLineSSID}</existing>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultEL</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeEL</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetEL</configured>
+	</providerTrackingNumber>
+	  <extraS0LineConfiguration>
+        <lineID>
+          <existing>L{accountNumber}</existing>
+        </lineID>
+        <cancellationIndicator>
+          <existing>true</existing>
+        </cancellationIndicator>
+        <provisioningDiscount>
+          <existing>0 %</existing>
+        </provisioningDiscount>
+		<DTAGContractNumber>CNEL{orderID}</DTAGContractNumber>
+		<DTAGCompletionDate>{desiredDate}</DTAGCompletionDate>
+		<DTAGPaymentDate>{desiredDate}</DTAGPaymentDate>
+		<DTAGOrderNumber>ONEL{orderID}</DTAGOrderNumber>
+	  </extraS0LineConfiguration>
+	<processingStatus>{extraLineProcessingStatus}</processingStatus>
+	<completionStatusOldCcbId>{extraLineCompletionStatusOld}</completionStatusOldCcbId>
+	<previousCompletionStatusOldCcbId>{extraLinePreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+</extraLine>

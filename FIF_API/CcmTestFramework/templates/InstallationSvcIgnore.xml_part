@@ -1,0 +1,42 @@
+				<installationSvc ID="inst">
+					<processingType>IGNORE</processingType>
+					<ccbId type="S">
+					    <existing>{installationSvcSSID}</existing>
+					</ccbId>
+					<refFunctionID>
+						<existing>{conditional:(productCodeVoice=V0002)voice}{conditional:(productCodeVoice=VI202)internet}{conditional:(productCodeVoice=VI203)internet}{conditional:(productCodeVoice=VI208)internet}{conditional:(productCodeVoice=VI211)voice}</existing>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<existing>ptnDefaultInst</existing>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<existing>ptnChangeInst</existing>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<existing>ptnTargetInst</existing>
+					</providerTrackingNumber>
+					<installationSvcConfiguration>
+						<installationPackage>
+							<existing>{installationPackage}</existing>
+						</installationPackage>
+						<signatureRequiredIndicator>
+							<existing>true</existing>
+						</signatureRequiredIndicator>
+						<desiredDate>
+							<existing>{desiredDate}</existing>
+						</desiredDate>
+						<contactPhoneNumber>
+							<existing>
+								<countryCode>49</countryCode>
+								<localAreaCode>211</localAreaCode>
+								<pilotNumber>{accessNumber1}</pilotNumber>
+							</existing>
+						</contactPhoneNumber>
+						<sundayServiceIndicator>
+						<existing>true</existing>
+						</sundayServiceIndicator>
+					</installationSvcConfiguration>
+					<previousCompletionStatusNewCcbId>{installationSvcPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+					<completionStatusNewCcbId>{installationSvcCompletionStatusNew}</completionStatusNewCcbId>
+					<processingStatus>{installationSvcProcessingStatus}</processingStatus>
+				</installationSvc>

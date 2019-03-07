@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>PPM108364-SC14-SAPSync</request-list-name>
+   <request-list-id>PPM108364-SC14-SAPSync</request-list-id>
+  
+  <!-- Scenario 14: SAP with synchronization:
+  	1) create customer with same email addresses for
+  		- customer <= validation triggered
+  		- account <= validation reused
+  		- contactRole <= no validation
+ 	2) SAP updateEmailAddress with synchronization
+   -->
+  
+   <requests>
+  
+     {file:templates/GenerateStep.xml}
+
+      <trx-builder-request>
+         <transaction-id>PPM108364-SC14-SAPSync-create</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-96:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/PPM108364-Create.xml">            
+              <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">PPM108364-SC14-SAPSync</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-96:hour</request-param>
+                  <request-param name="desiredDate">datetime:-96:hour</request-param>
+                  <request-param name="todayTruncated">date:-96:hour</request-param>
+                  <request-param name="customerEmailAddress">oneemail@vodafone.com</request-param>                  
+                  <request-param name="accountEmailAddress">oneemail@vodafone.com</request-param>                  
+                  <request-param name="contactRoleEmailAddress">oneemail@vodafone.com</request-param>                  
+              </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <!-- get validationIDs -->
+      <sql-request>
+         <transaction-id>validationID1</transaction-id>
+         <statement>
+            select EMAIL_VALIDATION_ID, EMAIL_ADDRESS from EMAIL_VALIDATION ev 
+            where customer_number = 'customerNumber'
+            and email_address = 'oneemail@vodafone.com'            
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="PPM108364-SC14-SAPSync-create_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="EMAIL_VALIDATION_ID"/>
+            <request-param name="EMAIL_ADDRESS"/>
+         </sql-request-output-params>
+      </sql-request>
+      
+      <request>
+         <action-name>ValidateEmail</action-name>
+         <request-params>
+            <request-param name="transactionID">PPM108364-SC14-SAPSync-response1</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">datetime:-95:hour</request-param>
+            <request-param name="originalRequestResult">true</request-param>
+            <request-param-ref transactionID="validationID1" param-name="EMAIL_VALIDATION_ID" output-param-name="ValidationId"/>
+            <request-param-ref transactionID="validationID1" param-name="EMAIL_ADDRESS" output-param-name="Email"/>
+         </request-params>
+      </request>
+      
+      <sql-request>
+         <transaction-id>checkEmailValidation</transaction-id>
+         <statement>
+            select count(1) numberOfValidations 
+            from EMAIL_VALIDATION ev 
+            where customer_number = 'customerNumber'                        
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="PPM108364-SC14-SAPSync-create_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-result-params>
+         	<request-param name="numberOfValidations">2</request-param>
+         </sql-request-result-params>         
+      </sql-request>
+      
+      <request>
+         <action-name>updateEmailAddress</action-name>
+         <request-params>
+            <request-param name="transactionID">PPM108364-SC14-SAPSync-SAPUpdate</request-param>
+            <request-param name="emailAddress">accountNew@vodafone.com</request-param>
+            <request-param name="synchronizePrimaryContact">Y</request-param>
+            <request-param-ref transactionID="PPM108364-SC14-SAPSync-create_1" param-name="accountNumber" output-param-name="accountNumber"/>
+         </request-params>
+      </request>
+
+      <sql-request>
+         <transaction-id>checkEmailValidation</transaction-id>
+         <statement>
+            select count(1) numberOfValidations 
+            from EMAIL_VALIDATION ev 
+            where customer_number = 'customerNumber'                        
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="PPM108364-SC14-SAPSync-create_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-result-params>
+         	<request-param name="numberOfValidations">4</request-param>
+         </sql-request-result-params>         
+      </sql-request>
+      
+   </requests>
+</request-list>

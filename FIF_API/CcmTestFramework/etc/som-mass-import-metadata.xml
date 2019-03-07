@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE messagecreator-metadata SYSTEM "messagecreator-metadata.dtd"[
+<!ENTITY som_migrateBitstreamAnnexJ SYSTEM "som_migrateBitstreamAnnexJ.xml">
+<!ENTITY som_migrateBitstreamVDSLL2 SYSTEM "som_migrateBitstreamVDSLL2.xml">
+<!ENTITY som_orderSimpleHardware SYSTEM "som_orderSimpleHardware.xml">
+<!ENTITY som_genericAccessMigration SYSTEM "som_genericAccessMigration.xml">
+<!ENTITY som_OnbMigration SYSTEM "som_OnbMigration.xml">
+<!ENTITY som_migrationIpv6variant SYSTEM "som_migrationIpv6variant.xml">
+<!ENTITY som_voicePrioServiceMigration SYSTEM "som_voicePrioServiceMigration.xml">
+<!ENTITY som_handleChangeNumOfVoiceChannels SYSTEM "som_handleChangeNumOfVoiceChannels.xml">
+<!ENTITY som_migrateISDNAAToAAPlus SYSTEM "som_migrateISDNAAToAAPlus.xml">
+<!ENTITY som_createOneGroup SYSTEM "som_createOneGroup.xml">
+]>
+<!--
+    This document contains the message metadata for the SLS-FIF DatabaseClient.
+    It contains information about the supported request, message, and message
+    creator types.  It also contains the action mappings that specify which
+    actions are supported.
+-->
+
+<messagecreator-metadata>
+
+    <!-- Request definitions -->
+    <request-definitions>
+        <request-definition>
+            <request-type>FIF</request-type>
+            <request-class>net.arcor.fif.messagecreator.FIFRequest</request-class>
+        </request-definition>
+    </request-definitions>
+
+    <!-- Message definitions -->
+    <message-definitions>
+        <message-definition>
+            <message-type>FIF</message-type>
+            <message-class>net.arcor.fif.messagecreator.FIFMessage</message-class>
+        </message-definition>
+    </message-definitions>
+
+    <!-- Message Creator definitions -->
+    <message-creator-definitions>
+        <message-creator-definition>
+            <creator-type>xsql</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSQLMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+        <message-creator-definition>
+            <creator-type>xslt</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSLTMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+    </message-creator-definitions>
+
+    <!-- Action Mappings-->
+    <action-mappings>
+        &som_migrateBitstreamAnnexJ;
+        &som_migrateBitstreamVDSLL2;
+        &som_orderSimpleHardware;
+        &som_genericAccessMigration;
+        &som_OnbMigration;
+        &som_migrationIpv6variant;
+        &som_voicePrioServiceMigration;
+        &som_handleChangeNumOfVoiceChannels;
+        &som_migrateISDNAAToAAPlus;
+        &som_createOneGroup;
+    </action-mappings>
+</messagecreator-metadata>
+

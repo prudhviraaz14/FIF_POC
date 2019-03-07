@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}_B" xmlns="http://www.arcor.net/orderSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+    <processingHints>
+        <hint>
+            <key>witaUsage</key>
+            <value>WITA4.0</value>
+        </hint>
+    </processingHints>
+    <barcode>{orderID}</barcode>
+    <sendingSystem>{sendingSystem}</sendingSystem>
+    <entryUser>FIF</entryUser>
+    <entryRole>FIF</entryRole>
+    <entrySystem>{entrySystem}</entrySystem>
+    <entryDateTime>{today}</entryDateTime>
+    <customerContactPoint>{sendingSystem}</customerContactPoint>
+    <salesOrganisation>
+        <salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+        <salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+        <eShopCode>123</eShopCode>
+    </salesOrganisation>
+    <superCustomerTrackingId>superCustomerTrackingId</superCustomerTrackingId>
+    <scanDate>{todayTruncated}</scanDate>
+    <!-- include file: SimpleMasterDataCreation.xml -->
+    {file:scenario/SOM/SimpleMasterDataCreation.xml} <lineChange orderPositionNumber="1">
+        <customerIntention>LineCreation</customerIntention>
+        <desiredDate>{desiredDate}</desiredDate>
+        <orderReceivedDate>{today}</orderReceivedDate>
+        <orderVariant>orderVariant</orderVariant>
+        <providerCode>
+            <existing>VFAI</existing>
+        </providerCode>
+        <salesPacketName>
+            <existing>All Inclusive Paket</existing>
+        </salesPacketName>
+        <beneficiary ID="beneficiary" role="new">
+            <customerNodeRefID>customer</customerNodeRefID>
+        </beneficiary>
+        <payerAllCharges ID="payer-001">
+            <billingAccountNodeRefID>account</billingAccountNodeRefID>
+        </payerAllCharges>
+        <accesses>
+            <ngn ID="NGN-001">
+                <ccbId type="S">
+                    <existing>{internetSSID}</existing>
+                </ccbId>
+                <ngnConfiguration>
+                    <locationAddress>
+                        <existing>
+                            <city><![CDATA[Dortmund]]></city>
+                            <postalCode><![CDATA[44145]]></postalCode>
+                            <street><![CDATA[Lahnstr.]]></street>
+                            <streetNumber><![CDATA[13]]></streetNumber>
+                            <streetNumberSuffix/>
+                            <postOfficeBox/>
+                            <country><![CDATA[DE]]></country>
+                        </existing>
+                    </locationAddress>
+                    <salesSegment>
+                        <existing><![CDATA[GK]]></existing>
+                    </salesSegment>
+                    <asb>
+                        <existing><![CDATA[31]]></existing>
+                    </asb>
+                    <localAreaCode>
+                        <existing><![CDATA[0231]]></existing>
+                    </localAreaCode>
+                    <carrier>
+                        <existing><![CDATA[Arcor]]></existing>
+                    </carrier>
+                    <serviceProvider>
+                        <existing><![CDATA[Arcor]]></existing>
+                    </serviceProvider>
+                    <oldAccess>
+                        <existing><![CDATA[NEW]]></existing>
+                    </oldAccess>
+                    <DTAGContractNumber>{internetSSID}</DTAGContractNumber>
+                    <DTAGCompletionDate>{today}</DTAGCompletionDate>
+                    <DTAGPaymentDate>{today}</DTAGPaymentDate>
+                    <DTAGOrderNumber>{orderID}</DTAGOrderNumber>
+                    <witaUsage>WITA4.0</witaUsage>
+                </ngnConfiguration>
+                <processingStatus>completedOPM</processingStatus>
+            </ngn>
+        </accesses>
+        <functions>
+            <internet ID="FUNCI-001" refAccessID="NGN-001">
+                <processingType><![CDATA[CHANGE]]></processingType>
+                <ccbId type="S">
+                    <existing>{internetSSID}</existing>
+                </ccbId>
+                <providerTrackingNumber type="default">
+                    <existing>001</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <existing>002</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <existing>003</existing>
+                </providerTrackingNumber>
+                <fttxInternetConfiguration>
+                    <pricingStructureCode>
+                        <existing><![CDATA[YI020]]></existing>
+                         <configured>YI021</configured>
+                    </pricingStructureCode>
+                    <visTrackingPosition/>
+                    <primaryCustSignName>
+                        <existing><![CDATA[{forename} {name}]]></existing>
+                    </primaryCustSignName>
+                    <primaryCustSignDate>
+                        <existing><![CDATA[{today}]]></existing>
+                    </primaryCustSignDate>
+                    <minimumDurationPeriod>
+                        <value>
+                            <existing><![CDATA[24]]></existing>
+                        </value>
+                        <unit>
+                            <existing><![CDATA[MONTH]]></existing>
+                        </unit>
+                    </minimumDurationPeriod>
+		    <DSLBandwidth>
+		    	<existing>V018N</existing>
+		    	<configured>V018C</configured>
+		     </DSLBandwidth>
+		     <desiredBandwidth>
+		   	 <existing>V018C</existing>
+		    </desiredBandwidth>
+                    <allowBandwidthDowngrade>
+                        <existing><![CDATA[true]]></existing>
+                    </allowBandwidthDowngrade>
+                    <desiredBandwidth>
+                        <existing><![CDATA[V018N]]></existing>
+                    </desiredBandwidth>
+                    <fixedIPAddressIndicator>
+                        <existing><![CDATA[false]]></existing>
+                    </fixedIPAddressIndicator>
+                    <specialTimeWindow/>
+                    <projectOrderIndicator>
+                        <existing><![CDATA[false]]></existing>
+                    </projectOrderIndicator>
+                    <fixedOrderDateIndicator>
+                        <existing><![CDATA[false]]></existing>
+                    </fixedOrderDateIndicator>
+                    <automaticMailingIndicator>
+                        <existing><![CDATA[true]]></existing>
+                    </automaticMailingIndicator>
+                </fttxInternetConfiguration>
+                <processingStatus>{internetProcessingStatus}</processingStatus>
+                <completionStatusOldCcbId>{internetCompletionStatusOld}</completionStatusOldCcbId>
+                <previousCompletionStatusOldCcbId>{internetPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+            </internet>
+            <voice ID="FUNCV-001" refAccessID="NGN-001">
+                <processingType><![CDATA[CHANGE]]></processingType>
+                <ccbId type="S">
+                    <existing>{voiceSSID}</existing>
+                </ccbId>
+                <providerTrackingNumber type="default">
+                    <existing>001v</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <existing>002v</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <existing>003v</existing>
+                </providerTrackingNumber>
+                <voicePremiumConfiguration>
+                    <pricingStructureCode>
+                        <existing><![CDATA[VK005]]></existing>
+                        <configured>VK001</configured>
+                    </pricingStructureCode>
+                    <visTrackingPosition/>
+                    <primaryCustSignName>
+                        <existing><![CDATA[{forename} {name}]]></existing>
+                    </primaryCustSignName>
+                    <primaryCustSignDate>
+                        <existing><![CDATA[{today}]]></existing>
+                    </primaryCustSignDate>
+                    <minimumDurationPeriod>
+                        <value>
+                            <existing><![CDATA[24]]></existing>
+                        </value>
+                        <unit>
+                            <existing><![CDATA[MONTH]]></existing>
+                        </unit>
+                    </minimumDurationPeriod>
+                    <automaticMailingIndicator>
+                        <existing><![CDATA[true]]></existing>
+                    </automaticMailingIndicator>
+                    <projectOrderIndicator>
+                        <existing><![CDATA[false]]></existing>
+                    </projectOrderIndicator>
+                    <activationType>
+                        <existing><![CDATA[Neuanschluss]]></existing>
+                    </activationType>
+                    <portingAccessNumbers>
+                        <portingMode>
+                            <existing><![CDATA[None]]></existing>
+                        </portingMode>
+                        <fixedOrderDateIndicator>
+                            <existing><![CDATA[false]]></existing>
+                        </fixedOrderDateIndicator>
+                        <numberOfNewAccessNumbers>
+                            <existing><![CDATA[3]]></existing>
+                        </numberOfNewAccessNumbers>
+                        <oldLocalExchangeCarrier>
+                            <existing><![CDATA[DTAG]]></existing>
+                        </oldLocalExchangeCarrier>
+                        <maskingDigits>
+                            <existing><![CDATA[0]]></existing>
+                        </maskingDigits>
+                        <storageMaskingDigits>
+                            <existing><![CDATA[-1]]></existing>
+                        </storageMaskingDigits>
+                        <accessNumber1>
+                            <existing>
+                                <countryCode>49</countryCode>
+                                <localAreaCode>231</localAreaCode>
+                                <pilotNumber>{accessNumber1}</pilotNumber>
+                            </existing>
+                        </accessNumber1>
+                        <ownerAccessNumber1>
+                            <existing>D001</existing>
+                        </ownerAccessNumber1>
+                        <voipAccount1>
+                            <existing>492311700123@vodafone.de</existing>
+                        </voipAccount1>
+                        <accessNumber2>
+                            <existing>
+                                <countryCode>49</countryCode>
+                                <localAreaCode>231</localAreaCode>
+                                <pilotNumber>{accessNumber2}</pilotNumber>
+                            </existing>
+                        </accessNumber2>
+                        <ownerAccessNumber2>
+                            <existing>D001</existing>
+                        </ownerAccessNumber2>
+                        <accessNumber3>
+                            <existing>
+                                <countryCode>49</countryCode>
+                                <localAreaCode>231</localAreaCode>
+                                <pilotNumber>{accessNumber3}</pilotNumber>
+                            </existing>
+                        </accessNumber3>
+                        <ownerAccessNumber3>
+                            <existing>D001</existing>
+                        </ownerAccessNumber3>
+                        <lineOwner1>
+                            <existing>
+                                <firstName><![CDATA[Lotte]]></firstName>
+                                <name><![CDATA[Lettermann]]></name>
+                            </existing>
+                        </lineOwner1>
+                        <lineOwnerAddress>
+                            <existing>
+                                <city><![CDATA[Dortmund]]></city>
+                                <postalCode><![CDATA[44145]]></postalCode>
+                                <street><![CDATA[Lahnstr.]]></street>
+                                <streetNumber><![CDATA[11]]></streetNumber>
+                                <streetNumberSuffix>a</streetNumberSuffix>
+                                <postOfficeBox/>
+                                <country><![CDATA[DE]]></country>
+                            </existing>
+                        </lineOwnerAddress>
+                    </portingAccessNumbers>
+                    <remarks>
+                        <existing><![CDATA[GK-Vertrieb B3, IMP, Betreute Schaltung nein, Privatkunde / Telefonbucheintrag / ]]></existing>
+                    </remarks>
+                    <blockingList>
+                        <existing>
+                            <blockingServiceCode>V0026</blockingServiceCode>
+                            <blockingServiceCode>V0027</blockingServiceCode>
+                        </existing>
+                    </blockingList>
+                    <desiredCountriesList>
+                        <existing>
+                            <desiredCountryServiceCode>V2101</desiredCountryServiceCode>
+                            <desiredCountryServiceCode>V2107</desiredCountryServiceCode>
+                        </existing>
+                    </desiredCountriesList>
+                <!--   <tariffOptionsList>
+                        <existing>
+                            <tariffOption>
+                                <serviceCode>V0236</serviceCode>
+                            </tariffOption>
+                        </existing>
+                    </tariffOptionsList>-->
+                </voicePremiumConfiguration>
+                <processingStatus>{voiceProcessingStatus}</processingStatus>
+                <completionStatusOldCcbId>{voiceCompletionStatusOld}</completionStatusOldCcbId>
+                <previousCompletionStatusOldCcbId>{voicePreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+            </voice>
+            <directoryEntry ID="DIR-FUNCV-002-1">
+                <processingType><![CDATA[IGNORE]]></processingType>
+                <ccbId type="S">
+                    <existing>{directoryEntrySSID}</existing>
+                </ccbId>
+                <providerTrackingNumber type="default">
+                    <existing>001t</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <existing>002t</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <existing>003t</existing>
+                </providerTrackingNumber>
+                <refFunctionID>
+                    <existing><![CDATA[FUNCV-001]]></existing>
+                </refFunctionID>
+                <directoryEntryConfiguration>
+                    <directoryEntryType>
+                        <existing>Einzeleintrag</existing>
+                    </directoryEntryType>
+                    <inverseSearchIndicator>
+                        <existing>false</existing>
+                    </inverseSearchIndicator>
+                    <titleDescription>
+                        <existing><![CDATA[Dr.]]></existing>
+                    </titleDescription>
+                    <forename>
+                        <existing><![CDATA[Millie]]></existing>
+                    </forename>
+                    <nobilityPrefixDescription>
+                        <existing><![CDATA[Baron]]></existing>
+                    </nobilityPrefixDescription>
+                    <surnamePrefix>
+                        <existing><![CDATA[de]]></existing>
+                    </surnamePrefix>
+                    <name>
+                        <existing><![CDATA[Malteser]]></existing>
+                    </name>
+                    <profession>
+                        <existing><![CDATA[Kunstler]]></existing>
+                    </profession>
+                    <industrialSectorRd>
+                        <existing><![CDATA[121]]></existing>
+                    </industrialSectorRd>
+                    <listedAddress>
+                        <existing>
+                            <city><![CDATA[Dusseldorf]]></city>
+                            <postalCode><![CDATA[40215]]></postalCode>
+                            <street><![CDATA[Morsestr.]]></street>
+                            <streetNumber><![CDATA[11]]></streetNumber>
+                            <streetNumberSuffix>a</streetNumberSuffix>
+                            <postOfficeBox/>
+                            <country><![CDATA[DE]]></country>
+                        </existing>
+                    </listedAddress>
+                    <listedPhoneNumber>
+                        <existing>
+                            <countryCode>49</countryCode>
+                            <localAreaCode>231</localAreaCode>
+                            <pilotNumber>{accessNumber1}</pilotNumber>
+                        </existing>
+                    </listedPhoneNumber>
+                </directoryEntryConfiguration>
+                <processingStatus>{directoryEntryProcessingStatus}</processingStatus>
+                <completionStatusOldCcbId>{directoryEntryCompletionStatusOld}</completionStatusOldCcbId>
+                <previousCompletionStatusOldCcbId>{directoryEntryPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+            </directoryEntry>
+            <hardware ID="HW-FUNCI-001-1">
+                <processingType><![CDATA[CHANGE]]></processingType>
+                <ccbId type="S">
+                    <existing>{hardware1SSID}</existing>
+                </ccbId>
+                <refFunctionID>
+                    <existing><![CDATA[FUNCI-001]]></existing>
+                </refFunctionID>
+                <providerTrackingNumber type="default">
+                    <existing>001h</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <existing>002h</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <existing>003h</existing>
+                </providerTrackingNumber>
+                 <hardwareConfiguration>
+					<hardwareServiceCode>
+					  <existing>V0330</existing>
+					  <configured>V0328</configured>
+					</hardwareServiceCode>
+					<hardwareType>
+					  <existing>IAD</existing>
+					  <configured>EG</configured>
+					</hardwareType>
+					<articleNumber>
+					  <existing>20090017</existing>
+					  <configured>20090017</configured>
+					</articleNumber>
+					<articleName>
+					  <existing>Vodafone DSL EasyBox 803</existing>
+					  <configured>Vodafone DSL EasyBox 803</configured>
+					</articleName>
+					<subventionCode>
+					  <existing>1</existing>
+					  <configured>1</configured>
+					</subventionCode>
+					<orderReason>
+					  <existing>Doku - Kein Versand</existing>
+					</orderReason>
+					<zeroChargeIndicator>
+					  <existing>false</existing>
+					</zeroChargeIndicator>
+					<shippingCosts>
+					  <existing>RG</existing>
+					</shippingCosts>
+					<salutationDescription>
+					  <existing>Herr</existing>
+					</salutationDescription>
+					<forename>
+					  <existing>Mateo</existing>
+					</forename>
+					<name>
+					  <existing>Adam-E2E</existing>
+					</name>
+					<hardwareRecipient>
+					  <existing>
+						<salutationDescription>Herr</salutationDescription>
+						<forename>Mateo</forename>
+						<name>Adam-E2E</name>
+					  </existing>
+					</hardwareRecipient>
+					<hardwareMailingAddress>
+					  <existing>
+						<city>Derben</city>
+						<postalCode>39317</postalCode>
+						<street>Steinstr.</street>
+						<streetNumber>2</streetNumber>
+						<country>DE</country>
+					  </existing>
+					</hardwareMailingAddress>
+					<deliveryNoteNumber>
+					  <existing>9900006375</existing>
+					  <configured>9900006375</configured>
+					</deliveryNoteNumber>
+					<deliveryDate>
+					  <existing>2012-01-04</existing>
+					  <configured>2012-01-04</configured>
+					</deliveryDate>
+       		   </hardwareConfiguration>
+                <processingStatus>{hardware1ProcessingStatus}</processingStatus>
+                <completionStatusOldCcbId>{hardware1CompletionStatusOld}</completionStatusOldCcbId>
+                <previousCompletionStatusOldCcbId>{hardware1PreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+            </hardware>
+            <hardware ID="HW-FUNCI-002-1">
+                <processingType><![CDATA[IGNORE]]></processingType>
+                <ccbId type="S">
+                    <existing>{hardware2SSID}</existing>
+                </ccbId>
+                <refFunctionID>
+                    <existing><![CDATA[FUNCV-001]]></existing>
+                </refFunctionID>
+                <providerTrackingNumber type="default">
+                    <existing>001</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <existing>002</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <existing>003</existing>
+                </providerTrackingNumber>
+                <hardwareConfiguration>
+                    <!-- Following elements are already supplied in the Input-SOM -->
+                    <hardwareServiceCode>
+                        <existing><![CDATA[V011A]]></existing>
+                    </hardwareServiceCode>
+                    <orderReason>
+                        <existing><![CDATA[Neuauftrag]]></existing>
+                    </orderReason>
+                    <subventionIndicator>
+                        <existing><![CDATA[1]]></existing>
+                    </subventionIndicator>
+                    <zeroChargeIndicator/>
+                    <shippingCosts>
+                        <existing><![CDATA[RG]]></existing>
+                    </shippingCosts>
+                    <hardwareRecipient>
+                        <existing>
+                            <salutationDescription>{salutation}</salutationDescription>
+                            <forename>{forename}</forename>
+                            <name>{name}</name>
+                        </existing>
+                    </hardwareRecipient>
+                    <hardwareMailingAddress>
+                        <existing>
+                            <city><![CDATA[Dortmund]]></city>
+                            <postalCode><![CDATA[44145]]></postalCode>
+                            <street><![CDATA[Morsestr.]]></street>
+                            <streetNumber><![CDATA[11]]></streetNumber>
+                            <streetNumberSuffix>a</streetNumberSuffix>
+                            <postOfficeBox/>
+                            <country><![CDATA[DE]]></country>
+                        </existing>
+                    </hardwareMailingAddress>
+                    <!-- Following elements are enriched by OPM -->
+                    <articleNumber>
+                        <existing><![CDATA[20082559]]></existing>
+                    </articleNumber>
+                    <articleName>
+                        <existing><![CDATA[EasyBox A 401 (T) (0,-)]]></existing>
+                    </articleName>
+                </hardwareConfiguration>
+				<processingStatus>{hardware2ProcessingStatus}</processingStatus>
+				<completionStatusOldCcbId>{hardware2CompletionStatusOld}</completionStatusOldCcbId>
+				<previousCompletionStatusOldCcbId>{hardware2PreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+            </hardware>
+            <installationSvc ID="INST-FUNCI-001-1">
+                <processingType>IGNORE</processingType>
+                <ccbId type="S">
+                    <existing>{installationSvcSSID}</existing>
+                </ccbId>
+                <providerTrackingNumber type="default">
+                    <existing>001is</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <existing>002is</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <existing>003is</existing>
+                </providerTrackingNumber>
+                <refFunctionID>
+                    <existing>FUNCI-001</existing>
+                </refFunctionID>
+                <installationSvcConfiguration>
+                    <installationPackage>
+                        <existing>kein Paket</existing>
+                    </installationPackage>
+                    <quantity>
+                        <existing>1</existing>
+                    </quantity>
+                    <signatureRequiredIndicator>
+                        <existing>false</existing>
+                    </signatureRequiredIndicator>
+                    <desiredDate>
+                        <existing>{today}</existing>
+                    </desiredDate>
+                    <contactPhoneNumber>
+                        <existing>49;173;1602601</existing>
+                    </contactPhoneNumber>
+                    <sundayServiceIndicator>
+                        <existing>false</existing>
+                    </sundayServiceIndicator>
+                </installationSvcConfiguration>
+ 				<processingStatus>{installationSvcProcessingStatus}</processingStatus>
+ 				<completionStatusOldCcbId>{installationSvcCompletionStatusOld}</completionStatusOldCcbId>
+				<previousCompletionStatusOldCcbId>{installationSvcPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+            </installationSvc>
+            <safetyPackage ID="SP-FUNCI-001-1">
+                <processingType>IGNORE</processingType>
+                <ccbId type="S">
+                    <existing>{safetyPackageSSID}</existing>
+                </ccbId>
+                <providerTrackingNumber type="default">
+                    <existing>001f</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="change">
+                    <existing>002f</existing>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="target">
+                    <existing>003f</existing>
+                </providerTrackingNumber>
+                <safetyPackageConfiguration>
+                    <!-- Following elements are already supplied in the Input-SOM -->
+                    <pricingStructureCode>
+                        <existing><![CDATA[YI412]]></existing>
+                    </pricingStructureCode>
+                    <visTrackingPosition/>
+                    <primaryCustSignName>
+                        <existing><![CDATA[{forename} {name}]]></existing>
+                    </primaryCustSignName>
+                    <primaryCustSignDate>
+                        <existing><![CDATA[{today}]]></existing>
+                    </primaryCustSignDate>
+                    <minimumDurationPeriod>
+                        <value>
+                            <existing><![CDATA[24]]></existing>
+                        </value>
+                        <unit>
+                            <existing><![CDATA[MONTH]]></existing>
+                        </unit>
+                    </minimumDurationPeriod>
+                    <conditionsList>
+                        <existing>
+                            <conditionService>
+                                <conditionServiceType>CM</conditionServiceType>
+                                <conditionServiceName>Startguthaben 10Eu mtl</conditionServiceName>
+                                <conditionServiceID>1234567890</conditionServiceID>
+                                <conditionServiceCode>V0046</conditionServiceCode>
+                            </conditionService>
+                        </existing>
+                    </conditionsList>
+                    <!-- Following elements are enriched by BKS -->
+                    <productCode>
+                        <existing>I1410</existing>
+                    </productCode>
+                    <productVersionCode>
+                        <existing>1</existing>
+                    </productVersionCode>
+                    <productBillingName>
+                        <existing>Arcor-Sicherheitspaket</existing>
+                    </productBillingName>
+                    <mainAccessServiceCode>
+                        <existing>I1410</existing>
+                    </mainAccessServiceCode>
+                    <pricingStructureBillingName>
+                        <existing>.</existing>
+                    </pricingStructureBillingName>
+                    <!-- Following element is enriched by OPM -->
+                    <activationKey>
+                        <existing>1234567890</existing>
+                    </activationKey>
+                </safetyPackageConfiguration>
+				<processingStatus>{safetyPackageProcessingStatus}</processingStatus>
+				<completionStatusOldCcbId>{safetyPackageCompletionStatusOld}</completionStatusOldCcbId>
+				<previousCompletionStatusOldCcbId>{safetyPackagePreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+            </safetyPackage>
+        </functions>
+    </lineChange>
+</order>

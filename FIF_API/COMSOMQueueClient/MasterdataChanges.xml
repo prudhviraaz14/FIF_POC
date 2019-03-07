@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<baseInclusion:TransformationIncludeRepository
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.arcor.de/transformer/SOMToFIFTransformationSchema"
+  xmlns:baseInclusion="http://www.arcor.de/transformer/BaseInclusionSchema"
+  xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema"
+
+  xsi:schemaLocation="http://www.arcor.de/transformer/BaseInclusionSchema BaseInclusionSchema.xsd
+  http://www.arcor.de/transformer/SOMToFIFTransformationSchema SOMToFIFTransformationSchema.xsd">
+    
+    <baseInclusion:Part id="masterdataChanges">
+        <RequestTemplate fif-request-name="modifyCustomer" 
+             sourceWorkingPath="/*/*/customer[@ID='${/*/*/beneficiary/customerNodeRefID}'] | /*/*/customer[@ID='${/*/*/beneficiary/targetCustomerNodeRefID}']">
+            <TemplateConditions>
+                <base:IsMember value="CHANGE" sourceAttrName="changeType" />
+                <OrComposite>
+                    <base:IsExisting sourceAttrName="classification/configured" />
+                    <base:IsExisting sourceAttrName="userPassword/configured" />
+                    <base:IsExisting sourceAttrName="matchCodeId/configured" />
+                    <base:IsExisting sourceAttrName="customerGroup/configured" />
+                    <base:IsExisting sourceAttrName="riskCategory/configured" />
+                    <base:IsExisting sourceAttrName="marketingPhoneIndicator/configured" />
+                    <base:IsExisting sourceAttrName="marketingMailIndicator/configured" />
+                    <base:IsExisting sourceAttrName="marketingFaxIndicator/configured" />
+                    <base:IsExisting sourceAttrName="marketingUseDataIndicator/configured" />
+                    <base:IsExisting sourceAttrName="postIdentIndicator/configured" />
+                    <base:IsExisting sourceAttrName="championID/configured" />
+                </OrComposite>
+            </TemplateConditions>
+            
+            <RPMapping targetName="customerNumber" sourceAttrName="ccbId[@type='C']/existing" />
+            <RPMapping targetName="riskCategory" sourceAttrName="riskCategory/configured" />
+            <RPMapping targetName="userPassword" sourceAttrName="userPassword/configured" />
+            <RPMapping targetName="matchCodeId" sourceAttrName="matchCodeId/configured" />
+            <RPMapping targetName="customerGroup" sourceAttrName="customerGroup/configured" />
+            <RPMapping targetName="customerInternalRefNumber" sourceAttrName="customerInternalRefNumber/configured" />
+            <RPMapping targetName="marketingPhoneIndicator" sourceAttrName="marketingPhoneIndicator/configured" decoding="'true','Y','false','N'" />
+            <RPMapping targetName="marketingMailIndicator" sourceAttrName="marketingMailIndicator/configured" decoding="'true','Y','false','N'" />
+            <RPMapping targetName="marketingFaxIndicator" sourceAttrName="marketingFaxIndicator/configured" decoding="'true','Y','false','N'" />
+            <RPMapping targetName="marketingUseDataIndicator" sourceAttrName="marketingUseDataIndicator/configured" decoding="'true','Y','false','N'" />
+            <RPMapping targetName="postIdentIndicator" sourceAttrName="postIdentIndicator/configured" decoding="'true','Y','false','N'" />
+            <RPMapping targetName="billingAccountNumber" sourceAttrName="kiasReference/billingAccountNumber/configured" />
+            <RPMapping targetName="cdrEgnFormat" sourceAttrName="cdrEgnFormat/configured" />
+            <RPMapping targetName="marketingAuthorizationDate" sourceAttrName="marketingAuthorizationDate/configured" formatter="SOMToCCBDateFormatter" />
+            <RPMapping targetName="championId" sourceAttrName="championID/configured" />
+            <RPMapping targetName="minimumDesiredDate" 
+                sourceAttrName="count(/*/customerChange) > 0"
+                decoding="'true', 'tomorrow', 'false', 'today'" />        
+        </RequestTemplate>
+        
+        <!-- change access information and address in case of a relocation -->
+        <RequestTemplate fif-request-name="modifyEntity" 
+            sourceWorkingPath="/*/*/customer[@ID='${/*/*/beneficiary/customerNodeRefID}']"         
+            extends="entityChange_template">
+            <TemplateConditions>
+                <base:IsNotMember value="ADD" sourceAttrName="changeType" />
+                <base:IsNotMember value="TERM" sourceAttrName="changeType" />
+                <base:IsMember value="CHANGE" sourceAttrName="individual/changeType | organization/changeType" />
+                <base:IsMember value="true" 
+                    sourceAttrName="count(individual/*/configured | organization/*/configured) > 0" />          
+            </TemplateConditions>
+            <RPMapping targetName="entityChangeType" 
+                sourceAttrName="count(
+                individual/*[name(.) != 'address' and name(.) != 'accessInformation']/configured | 
+                organization/*[name(.) != 'address' and name(.) != 'accessInformation']/configured) > 0" 
+                decoding="'true', 'CHANGE', 'IGNORE'" />
+            <RPMapping targetName="addressChangeType" 
+                sourceAttrName="count(*/address/configured) > 0" 
+                decoding="'true', 'CHANGE', 'IGNORE'" />
+            <RPMapping targetName="accessInformationChangeType" 
+                sourceAttrName="count(*/accessInformation/configured) > 0" 
+                decoding="'true', 'CHANGE', 'IGNORE'" />
+            <RPMapping targetName="relatedObjectId" sourceAttrName="ccbId[@type='C']/existing" />
+            <RPMapping targetName="relatedObjectType" staticValue="CUSTOMER" />
+            <RPMapping targetName="minimumDesiredDate" 
+                sourceAttrName="count(/*/customerChange) > 0"
+                decoding="'true', 'tomorrow', 'false', 'today'" />
+            <RPMapping targetName="deleteFutureDatedEntries" 
+                sourceAttrName="count(/*/relocation) > 0"
+                decoding="'true', 'Y', 'N'" />            
+        </RequestTemplate>      
+        
+        <!-- change access information and address for the "PRIMARY" contact role -->
+        <RequestTemplate fif-request-name="modifyEntity" 
+            sourceWorkingPath="/*/*/contactRole[@ID = 'PRIMARY']"         
+            extends="entityChange_template">
+            <TemplateConditions>
+                <base:IsMember value="CHANGE" sourceAttrName="individual/changeType | organization/changeType" />
+                <base:IsMember value="true" 
+                    sourceAttrName="count(individual/*/configured | organization/*/configured) > 0" />          
+            </TemplateConditions>
+            <RPMapping targetName="entityChangeType" 
+                sourceAttrName="count(
+                individual/*[name(.) != 'address' and name(.) != 'accessInformation']/configured | 
+                organization/*[name(.) != 'address' and name(.) != 'accessInformation']/configured) > 0" 
+                decoding="'true', 'CHANGE', 'IGNORE'" />
+            <RPMapping targetName="addressChangeType" 
+                sourceAttrName="count(*/address/configured) > 0" 
+                decoding="'true', 'CHANGE', 'IGNORE'" />
+            <RPMapping targetName="accessInformationChangeType" 
+                sourceAttrName="count(*/accessInformation/configured) > 0" 
+                decoding="'true', 'CHANGE', 'IGNORE'" />
+            <RPMapping targetName="relatedObjectId" sourceAttrName="../customer/ccbId[@type='C']/existing" />
+            <RPMapping targetName="relatedObjectType" staticValue="CUSTOMER" />
+            <RPMapping targetName="deleteFutureDatedEntries" 
+                sourceAttrName="count(/*/relocation) > 0"
+                decoding="'true', 'Y', 'N'" />            
+        </RequestTemplate>
+        
+        <!-- KBA-FIF-Trx invalidateAddress and validateAddress -->
+        <RequestTemplate fif-request-name="modifyEntity" 
+            sourceWorkingPath="/*/*/billingAccount[@ID='${/*/*/payerAllCharges/billingAccountNodeRefID}']" 
+            extends="entityChange_template">
+            <TemplateConditions>
+                <base:IsNotMember value="ADD" sourceAttrName="changeType" />
+                <base:IsNotMember value="TERM" sourceAttrName="changeType" />
+                <base:IsMember value="CHANGE" sourceAttrName="individual/changeType | organization/changeType" />
+                <base:IsMember value="true" sourceAttrName="
+                    count(*/address/existing/invalidAddressIndicator) = 0 or
+                    */address/existing/invalidAddressIndicator != */address/configured/invalidAddressIndicator" />
+                <base:IsExisting sourceAttrName="*/address/configured/invalidAddressIndicator" />
+            </TemplateConditions>
+            <RPMapping targetName="entityChangeType" staticValue="IGNORE" /> 
+            <RPMapping targetName="accessInformationChangeType" staticValue="IGNORE" /> 
+            <RPMapping targetName="addressChangeType" 
+                sourceAttrName="*/address/configured/invalidAddressIndicator" 
+                decoding="'true', 'INVALIDATE', 'false', 'VALIDATE'" />
+            <RPMapping targetName="relatedObjectId" sourceAttrName="ccbId[@type='A']/existing" />
+            <RPMapping targetName="relatedObjectType" staticValue="ACCOUNT" />
+        </RequestTemplate>      
+        
+        <!-- change billing address -->
+        <RequestTemplate fif-request-name="modifyEntity" 
+            sourceWorkingPath="/*/*/billingAccount[@ID='${/*/*/payerAllCharges/billingAccountNodeRefID}']" 
+            extends="entityChange_template">
+            <TemplateConditions>
+                <base:IsNotMember value="ADD" sourceAttrName="changeType" />
+                <base:IsNotMember value="TERM" sourceAttrName="changeType" />
+                <OrComposite>
+                    <base:IsMember value="ADD" sourceAttrName="individual/changeType | organization/changeType" />
+                    <AndComposite>
+                        <base:IsMember value="CHANGE" sourceAttrName="individual/changeType | organization/changeType" />
+                        <OrComposite>
+                            <base:IsNotMember value="true" sourceAttrName="
+                                count(*/address/existing/invalidAddressIndicator) = 0 or
+                                */address/existing/invalidAddressIndicator != */address/configured/invalidAddressIndicator" />
+                            <base:IsNotExisting sourceAttrName="*/address/configured/invalidAddressIndicator" />
+                        </OrComposite>
+                    </AndComposite>            
+                </OrComposite>
+            </TemplateConditions>
+            <RPMapping targetName="entityChangeType" 
+                sourceAttrName="individual/changeType | organization/changeType" />
+            <RPMapping targetName="addressChangeType" 
+                sourceAttrName="individual/changeType | organization/changeType" />
+            <RPMapping targetName="accessInformationChangeType" 
+                sourceAttrName="individual/changeType | organization/changeType" />
+            <RPMapping targetName="relatedObjectId" sourceAttrName="ccbId[@type='A']/existing" />
+            <RPMapping targetName="relatedObjectType" staticValue="ACCOUNT" />
+            <RPMapping targetName="minimumDesiredDate" 
+                sourceAttrName="count(/*/customerChange) > 0"
+                decoding="'true', 'tomorrow', 'false', 'today'" />
+            <RPMapping targetName="deleteFutureDatedEntries" 
+                sourceAttrName="count(/*/relocation) > 0"
+                decoding="'true', 'Y', 'N'" />            
+        </RequestTemplate>
+        
+        <RequestTemplate fif-request-name="modifyMethodOfPayment" 
+            sourceWorkingPath="/*/*/billingAccount[@ID='${/*/*/payerAllCharges/billingAccountNodeRefID}']/methodOfPayment">
+            <TemplateConditions>
+                <base:IsMember value="CHANGE" sourceAttrName="../changeType" />
+                <base:IsExisting sourceAttrName="*/configured" />
+            </TemplateConditions>
+            <RPMapping targetName="accountNumber" 
+                sourceAttrName="#:accountNumber" />
+            <RPMapping targetName="customerNumber" 
+                sourceAttrName="#:customerNumber" />
+            <RPMapping targetName="validFrom" 
+                sourceAttrName="/order/customerChange/desiredDate" 
+                formatter="SOMToCCBDateFormatter" />                
+            <RPMapping targetName="paymentTermRd" 
+                sourceAttrName="paymentTerm" 
+                method="configuredExisting"/>
+            <RPMapping targetName="paymentMethod" 
+                sourceAttrName="paymentMethod" 
+                method="configuredExisting" decoding ="'MANUAL_FEE','MANUAL'"/>
+            <RPMapping targetName="bankCode" 
+                sourceAttrName="bankCode" 
+                method="configuredExisting"/>
+            <RPMapping targetName="bankAccountNumber" 
+                sourceAttrName="bankAccountNumber" 
+                method="configuredExisting"/>
+            <RPMapping targetName="owner" 
+                sourceAttrName="owner"
+                method="configuredExisting" />
+            <RPMapping targetName="directDebitAuthorizDate" 
+                sourceAttrName="directDebitAuthorizationDate"
+                method="configuredExisting" 
+                formatter="SOMToCCBDateFormatter" />
+            <RPMapping targetName="bankAccountNumber" 
+                sourceAttrName="bankAccountNumber" 
+                method="configuredExisting"/>
+            <RPMapping targetName="iban" 
+                sourceAttrName="sepaBankAccountData/iban" 
+                method="configuredExisting"/>
+            <RPMapping targetName="bic" 
+                sourceAttrName="sepaBankAccountData/bic" 
+                method="configuredExisting"/>
+            <RPMapping targetName="signatureDate" 
+                sourceAttrName="mandate/configured/signatureDate" formatter="SOMToCCBDateFormatter" >                
+            </RPMapping>
+        </RequestTemplate>        
+        
+        <!-- setInvoiceDeliveryType, WEBBILL trx -->
+        <RequestTemplate fif-request-name="setInvoiceDeliveryType" 
+            sourceWorkingPath="/*/*/billingAccount[@ID='${/*/*/payerAllCharges/billingAccountNodeRefID}']/invoiceDelivery" >
+            <TemplateConditions>
+                <base:IsMember value="CHANGE" sourceAttrName="../changeType" />
+                <base:IsExisting sourceAttrName="*/configured" />
+            </TemplateConditions>
+            <RPMapping targetName="accountNumber" 
+                sourceAttrName="#:accountNumber" />
+            <RPMapping targetName="deliveryType" 
+                sourceAttrName="invoiceDeliveryType" 
+                method="configuredExisting" />
+            <RPMapping targetName="invoiceTemplateName" 
+                sourceAttrName="specialInvoiceTemplateName" 
+                method="configuredExisting" />
+            <RPMapping targetName="enableEgn" 
+                sourceAttrName="enableItemizedBill"
+                method="configuredExisting" />
+            <RPMapping targetName="enableStorage" 
+                sourceAttrName="enableStorage"
+                method="configuredExisting"  
+                decoding="'true','Y','N'" />
+            <RPMapping targetName="maskingDigits" 
+                sourceAttrName="maskingDigits" 
+                method="configuredExisting" />
+            <RPMapping targetName="storageMaskingDigits" 
+                sourceAttrName="storageDigits"
+                method="configuredExisting"  />
+            <RPMapping targetName="updateAccessNumbers" 
+                sourceAttrName="updateAccessNumbersIndicator/configured"
+                decoding="'true','Y','false','N'"/>        
+            <RPMapping targetName="useBillCycleDate" staticValue="N" />
+        </RequestTemplate>
+        
+        <!-- change contact role data -->
+        <RequestTemplate fif-request-name="modifyEntity" 
+            sourceWorkingPath="/*/*/contactRole[@ID != 'PRIMARY']" 
+            extends="entityChange_template">
+            <TemplateConditions>
+                <base:IsNotMember value="ADD" sourceAttrName="changeType" />
+                <base:IsNotMember value="TERM" sourceAttrName="changeType" />
+                <OrComposite>
+                    <base:IsMember value="CHANGE" sourceAttrName="individual/changeType | organization/changeType" />
+                    <base:IsMember value="ADD" sourceAttrName="individual/changeType | organization/changeType" />
+                </OrComposite>
+            </TemplateConditions>
+            
+            <RPMapping targetName="entityChangeType" 
+                sourceAttrName="individual/changeType | organization/changeType" />
+            <RPMapping targetName="addressChangeType" 
+                sourceAttrName="individual/changeType | organization/changeType" />
+            <RPMapping targetName="accessInformationChangeType" 
+                sourceAttrName="individual/changeType | organization/changeType" />
+            <RPMapping targetName="relatedObjectId" sourceAttrName="ccbId[@type='R']/existing" />
+            <RPMapping targetName="relatedObjectType" staticValue="CONTACT_ROLE" />
+        </RequestTemplate>
+        
+        <!-- terminate a contact role entity with all its contact roles -->
+        <RequestTemplate fif-request-name="terminateContactRole" 
+            sourceWorkingPath="/*/*/contactRole">
+            <TemplateConditions>
+                <base:IsMember value="TERM" sourceAttrName="changeType" />
+            </TemplateConditions>        
+            <RPMapping targetName="contactRoleEntityId" sourceAttrName="ccbId[@type='R']/existing" />
+        </RequestTemplate>
+        
+        <!-- correct location address ('Dienstleisterclearing') -->
+        <RequestTemplate fif-request-name="modifyEntity" 
+            sourceWorkingPath="/*/customerChange/accesses/* | /*/lineChange/accesses/*">
+            <TemplateConditions>
+                <base:IsExisting sourceAttrName="*/locationAddress/configured" />
+                <base:IsNotMember value="masterdata" sourceAttrName="/order/*/transactionType" />
+            </TemplateConditions>
+            <RPMapping targetName="entityChangeType" staticValue="IGNORE" />
+            <RPMapping targetName="addressChangeType" staticValue="CHANGE" />
+            <RPMapping targetName="accessInformationChangeType" staticValue="IGNORE" />
+            <RPMapping targetName="relatedObjectId" sourceAttrName="ccbId[@type='S']/existing" />
+            <RPMapping targetName="relatedObjectType" staticValue="ACCESS" />
+            
+            <RPMapping targetName="streetName" sourceAttrName="*/locationAddress/configured/street" />
+            <RPMapping targetName="streetNumber" sourceAttrName="*/locationAddress/configured/streetNumber" />
+            <RPMapping targetName="postalCode" sourceAttrName="*/locationAddress/configured/postalCode" />
+            <RPMapping targetName="cityName" sourceAttrName="*/locationAddress/configured/city" />
+            <RPMapping targetName="citySuffix" sourceAttrName="*/locationAddress/configured/citySuffix" />
+            <RPMapping targetName="additionalText" sourceAttrName="*/locationAddress/configured/additionalAddressDescription" />
+            <RPMapping targetName="numberSuffix" sourceAttrName="*/locationAddress/configured/streetNumberSuffix" />
+            <TransformationTemplate>
+                <TemplateConditions>
+                    <base:IsExisting sourceAttrName="*/locationAddress/configured/country" />
+                </TemplateConditions>
+                <RPMapping targetName="countryCode" sourceAttrName="*/locationAddress/configured/country" />    
+            </TransformationTemplate>
+            <TransformationTemplate>
+                <TemplateConditions>
+                    <base:IsNotExisting sourceAttrName="*/locationAddress/configured/country" />
+                </TemplateConditions>
+                <RPMapping targetName="countryCode" staticValue="DE" />    
+            </TransformationTemplate>
+        </RequestTemplate>        
+    </baseInclusion:Part>
+    
+</baseInclusion:TransformationIncludeRepository>

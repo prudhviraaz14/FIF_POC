@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE CcmFifTransactionList SYSTEM "fif_transaction_list.dtd">
+<CcmFifTransactionList>
+<transaction_list_id>VALID_1</transaction_list_id>
+<transaction_list_name>Valid_Fif_Reply_1</transaction_list_name>
+<transaction_list_state>ROLLED_BACK</transaction_list_state>
+<transaction_list>
+<CcmFifCommandList>
+  <transaction_id><![CDATA[16889_Valid1]]></transaction_id>
+  <action_name><![CDATA[modifyAdviceOfCharge]]></action_name>
+  <processing_start_date><![CDATA[2004.03.05 12:04:12]]></processing_start_date>
+  <processing_end_date><![CDATA[2004.03.05 12:04:14]]></processing_end_date>
+  <processing_duration><![CDATA[2]]></processing_duration>
+  <transaction_state><![CDATA[ROLLED_BACK]]></transaction_state>
+  <Command_List>
+    <CcmFifFindServiceSubsCmd>
+      <command_id><![CDATA[find_service_1]]></command_id>
+      <execution_state><![CDATA[SUCCESS]]></execution_state>
+      <command_duration><![CDATA[940]]></command_duration>
+    </CcmFifFindServiceSubsCmd>
+    <CcmFifValidateServiceSubsStateCmd>
+      <command_id><![CDATA[validate_ss_state_1]]></command_id>
+      <execution_state><![CDATA[SUCCESS]]></execution_state>
+      <command_duration><![CDATA[140]]></command_duration>
+    </CcmFifValidateServiceSubsStateCmd>
+    <CcmFifValidateNoUncompleteStpCmd>
+      <command_id><![CDATA[validate_no_uncomplete_stp_1]]></command_id>
+      <execution_state><![CDATA[FAILED]]></execution_state>
+      <command_duration><![CDATA[80]]></command_duration>
+      <CcmFifValidateNoUncompleteStpErr>
+        <error_list>
+          <error_element>
+            <error_type><![CDATA[146034]]></error_type>
+            <error_description><![CDATA[CCM6034 Uncompleted service ticket positions exist for service subscriptions dependent on the following service subscription (0000000034839173)]]></error_description>
+          </error_element>
+        </error_list>
+        <CcmFifValidateNoUncompleteStpInCont>
+          <service_subscription_ref>
+            <command_id>find_service_1</command_id>
+            <field_name>service_subscription_id</field_name>
+          </service_subscription_ref>
+        </CcmFifValidateNoUncompleteStpInCont>
+      </CcmFifValidateNoUncompleteStpErr>
+    </CcmFifValidateNoUncompleteStpCmd>
+    <CcmFifTerminateChildServiceSubsCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifTerminateChildServiceSubsCmd>
+    <CcmFifReconfigServiceCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifReconfigServiceCmd>
+    <CcmFifAddServiceSubsCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifAddServiceSubsCmd>
+    <CcmFifCreateCustOrderCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifCreateCustOrderCmd>
+    <CcmFifReleaseCustOrderCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifReleaseCustOrderCmd>
+    <CcmFifCreateContactCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifCreateContactCmd>
+  </Command_List>
+</CcmFifCommandList>
+<CcmFifCommandList>
+  <transaction_id><![CDATA[16889_Valid2]]></transaction_id>
+  <action_name><![CDATA[modifyAdviceOfCharge]]></action_name>
+  <processing_start_date><![CDATA[2004.03.05 12:04:12]]></processing_start_date>
+  <processing_end_date><![CDATA[2004.03.05 12:04:14]]></processing_end_date>
+  <processing_duration><![CDATA[2]]></processing_duration>
+  <transaction_state><![CDATA[ROLLED_BACK]]></transaction_state>
+  <Command_List>
+    <CcmFifFindServiceSubsCmd>
+      <command_id><![CDATA[find_service_1]]></command_id>
+      <execution_state><![CDATA[SUCCESS]]></execution_state>
+      <command_duration><![CDATA[940]]></command_duration>
+    </CcmFifFindServiceSubsCmd>
+    <CcmFifValidateServiceSubsStateCmd>
+      <command_id><![CDATA[validate_ss_state_1]]></command_id>
+      <execution_state><![CDATA[SUCCESS]]></execution_state>
+      <command_duration><![CDATA[140]]></command_duration>
+    </CcmFifValidateServiceSubsStateCmd>
+    <CcmFifValidateNoUncompleteStpCmd>
+      <command_id><![CDATA[validate_no_uncomplete_stp_1]]></command_id>
+      <execution_state><![CDATA[FAILED]]></execution_state>
+      <command_duration><![CDATA[80]]></command_duration>
+      <CcmFifValidateNoUncompleteStpErr>
+        <error_list>
+          <error_element>
+            <error_type><![CDATA[146034]]></error_type>
+            <error_description><![CDATA[CCM6034 Uncompleted service ticket positions exist for service subscriptions dependent on the following service subscription (0000000034839173)]]></error_description>
+          </error_element>
+        </error_list>
+        <CcmFifValidateNoUncompleteStpInCont>
+          <service_subscription_ref>
+            <command_id>find_service_1</command_id>
+            <field_name>service_subscription_id</field_name>
+          </service_subscription_ref>
+        </CcmFifValidateNoUncompleteStpInCont>
+      </CcmFifValidateNoUncompleteStpErr>
+    </CcmFifValidateNoUncompleteStpCmd>
+    <CcmFifTerminateChildServiceSubsCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifTerminateChildServiceSubsCmd>
+    <CcmFifReconfigServiceCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifReconfigServiceCmd>
+    <CcmFifAddServiceSubsCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifAddServiceSubsCmd>
+    <CcmFifCreateCustOrderCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifCreateCustOrderCmd>
+    <CcmFifReleaseCustOrderCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifReleaseCustOrderCmd>
+    <CcmFifCreateContactCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifCreateContactCmd>
+  </Command_List>
+</CcmFifCommandList>
+<CcmFifCommandList>
+  <transaction_id><![CDATA[16889_Valid3]]></transaction_id>
+  <action_name><![CDATA[modifyAdviceOfCharge]]></action_name>
+  <processing_start_date><![CDATA[2004.03.05 12:04:12]]></processing_start_date>
+  <processing_end_date><![CDATA[2004.03.05 12:04:14]]></processing_end_date>
+  <processing_duration><![CDATA[2]]></processing_duration>
+  <transaction_state><![CDATA[ROLLED_BACK]]></transaction_state>
+  <Command_List>
+    <CcmFifFindServiceSubsCmd>
+      <command_id><![CDATA[find_service_1]]></command_id>
+      <execution_state><![CDATA[SUCCESS]]></execution_state>
+      <command_duration><![CDATA[940]]></command_duration>
+    </CcmFifFindServiceSubsCmd>
+    <CcmFifValidateServiceSubsStateCmd>
+      <command_id><![CDATA[validate_ss_state_1]]></command_id>
+      <execution_state><![CDATA[SUCCESS]]></execution_state>
+      <command_duration><![CDATA[140]]></command_duration>
+    </CcmFifValidateServiceSubsStateCmd>
+    <CcmFifValidateNoUncompleteStpCmd>
+      <command_id><![CDATA[validate_no_uncomplete_stp_1]]></command_id>
+      <execution_state><![CDATA[FAILED]]></execution_state>
+      <command_duration><![CDATA[80]]></command_duration>
+      <CcmFifValidateNoUncompleteStpErr>
+        <error_list>
+          <error_element>
+            <error_type><![CDATA[146034]]></error_type>
+            <error_description><![CDATA[CCM6034 Uncompleted service ticket positions exist for service subscriptions dependent on the following service subscription (0000000034839173)]]></error_description>
+          </error_element>
+        </error_list>
+        <CcmFifValidateNoUncompleteStpInCont>
+          <service_subscription_ref>
+            <command_id>find_service_1</command_id>
+            <field_name>service_subscription_id</field_name>
+          </service_subscription_ref>
+        </CcmFifValidateNoUncompleteStpInCont>
+      </CcmFifValidateNoUncompleteStpErr>
+    </CcmFifValidateNoUncompleteStpCmd>
+    <CcmFifTerminateChildServiceSubsCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifTerminateChildServiceSubsCmd>
+    <CcmFifReconfigServiceCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifReconfigServiceCmd>
+    <CcmFifAddServiceSubsCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifAddServiceSubsCmd>
+    <CcmFifCreateCustOrderCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifCreateCustOrderCmd>
+    <CcmFifReleaseCustOrderCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifReleaseCustOrderCmd>
+    <CcmFifCreateContactCmd>
+      <execution_state><![CDATA[NOT_EXECUTED]]></execution_state>
+    </CcmFifCreateContactCmd>
+  </Command_List>
+</CcmFifCommandList>
+</transaction_list>
+</CcmFifTransactionList>

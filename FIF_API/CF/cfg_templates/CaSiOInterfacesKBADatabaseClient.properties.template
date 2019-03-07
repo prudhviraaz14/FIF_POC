@@ -1,0 +1,421 @@
+# START HEADER
+#  File:                $Workfile:   CaSiOInterfacesKBADatabaseClient.properties.template  $
+#  Author:              $Author:   lejam  $
+#  Revision:            $Revision:   1.4  $
+#  Purpose:             Configuration file for the CaSiOInterfaces-KBA DatabaseClient application
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Nov 25 2009 13:23:58  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/CaSiOInterfacesKBADatabaseClient.properties.template-arc  $
+REM
+REM   Rev 1.4   Nov 25 2009 13:23:58   lejam
+REMModified FIF database clients templates for property files SPN-CCB-88372,SPN-CCB-93658
+REM
+REM   Rev 1.3   Jan 27 2009 17:46:10   lejam
+REMAdded request locking functionality to FIF-API database client to allow multiple running instances of the application SPN-FIF-82246
+REM
+REM   Rev 1.2   Feb 07 2008 11:26:24   schwarje
+REMSPN-FIF-000065717: removed Console logging
+REM
+REM   Rev 1.1   Apr 25 2007 14:25:36   schwarje
+REMIT-19232: support for transaction lists
+#
+#   Rev 1.0   Jan 27 2004 17:02:42   goethalo
+#Initial revision.
+#
+# END HEADER
+
+
+####################
+# GENERAL SETTINGS #
+####################
+
+# Indicates whether the sender should be started (true/false)
+databaseclient.StartSender=true
+
+# The number of requests to retrieve from the database and process in one run
+databaseclient.RequestBatchSize=500
+
+# The time (in milliseconds) to sleep between each request retrieval run
+databaseclient.RequestSleepTime=10000
+
+# Indicates whether the sent messages should be written to an output file
+# (true/false)
+databaseclient.WriteSentMessages=true
+
+# The directory to store the sent messages in (only used if WriteSentMessages
+# is set to true)
+databaseclient.SentOutputDir=${CCB_PKG_WORK}/CaSiOInterfacesKBADatabaseClient/sent
+
+# Indicates whether the receiver should be started (true/false)
+databaseclient.StartReceiver=false
+
+# Indicates whether this database client supports transaction lists (true/false)
+databaseclient.TransactionListSupported=false
+
+# strings for the FIF states in the database table
+databaseclient.RequestStatusNotStarted=100
+databaseclient.RequestStatusInProgress=999
+databaseclient.RequestStatusCompleted=104
+databaseclient.RequestStatusFailed=253
+databaseclient.RequestStatusNotExecuted=NOT_RELEVANT
+databaseclient.RequestStatusCanceled=NOT_RELEVANT
+
+# data type of the status field (VARCHAR / NUMBER)
+databaseclient.RequestStatusDataType=NUMBER
+
+# The maximum size (in characters) of the error message field
+databaseclient.MaxErrorMessageSize=4000
+
+
+##################
+# SQL STATEMENTS #
+##################
+
+# The SQL statement for retrieving the requests from the database
+databaseclient.RetrieveRequestsStatement=SELECT EXT_SYS_WO_ID, ACTION_NAME FROM XML_REQUEST WHERE EXT_SYS_ID='KBA' AND WO_STATUS=100
+
+# The name of the table field representing the transaction Id of the request
+databaseclient.RetrieveRequestsStatement.TransactionIDFieldName=EXT_SYS_WO_ID
+
+# The name of the table field representing the action the request is for
+databaseclient.RetrieveRequestsStatement.ActionFieldName=ACTION_NAME
+
+
+# The SQL statement for retrieving the request parameters from the database
+databaseclient.RetrieveParamsStatement=SELECT * FROM XML_REQUEST_VALUE WHERE EXT_SYS_WO_ID=?
+
+# The name of the database field representing the parameter name for a request
+databaseclient.RetrieveParamsStatement.ParamNameFieldName=PARAM
+
+# The name of the database field representing the parameter value for a request
+databaseclient.RetrieveParamsStatement.ParamValueFieldName=VALUE
+
+
+# The SQL statement for locking the request for update to 'In Progress'
+databaseclient.RetrieveStateNotStartedForUpdateStatement=SELECT 1 FROM XML_REQUEST WHERE EXT_SYS_WO_ID=? AND WO_STATUS=100 FOR UPDATE
+
+# The SQL statement for updating the request state to 'In Progress'
+# Since the OPM-KBA database client is only sending a message to KBA and
+# not waiting for an answer, we set the status to 999 (meaning closed).
+databaseclient.UpdateStateInProgressStatement=UPDATE XML_REQUEST SET WO_STATUS=999, ERROR_TEXT='', INTERFACE_START_DATE=SYSDATE WHERE EXT_SYS_WO_ID=?
+
+
+# The SQL statement for updating the finished request state
+databaseclient.UpdateFinishedRequestStatement=UPDATE XML_REQUEST SET WO_STATUS=?, ERROR_TEXT=?, INTERFACE_END_DATE=SYSDATE WHERE EXT_SYS_WO_ID=?
+
+# The index of the database field for storing the status
+databaseclient.UpdateFinishedRequestStatement.StatusIndex=1
+
+# The index of the database field for storing the error message
+databaseclient.UpdateFinishedRequestStatement.ErrorMessageIndex=2
+
+# The index of the table field representing the transaction Id of the request
+databaseclient.UpdateFinishedRequestStatement.TransactionIDIndex=3
+
+
+
+#############################
+# MESSAGE CREATION SETTINGS #
+#############################
+
+#--- GENERAL MESSAGECREATOR SETTINGS --#
+
+# The directory where the metadata file is stored
+messagecreator.MetaDataDir=${CCB_PKG_ETC}
+
+# The name of the XML metadata file
+messagecreator.MetaDataFile=casio-interfaces-kba-databaseclient-metadata.xml
+
+# Indicates whether the produced XML messages should also be written
+# as a file in the output directory
+messagecreator.WriteOutputFiles=false
+
+# The directory to store the output XML files in
+#messagecreator.OutputDir=./output
+messagecreator.OutputDir="nicht gesetzt, da messagecreator.WriteOutputFiles=false"
+
+
+#--- XSQL SETTINGS ---#
+
+# The directory where the XSQL files are located
+#messagecreator.XSQL.Directory=./xsql
+messagecreator.XSQL.Directory=${CCB_PKG_ETC}
+
+
+#--- XSLT SETTINGS ---#
+
+# The directory where the XSQL files are located
+#messagecreator.XSLT.Directory=./xslt
+messagecreator.XSLT.Directory=${CCB_PKG_ETC}
+
+# Indicates whether the XML representation of a request should be
+# written as a file.
+messagecreator.XSLT.WriteIntermediateFiles=false
+
+# The directory where the intermediate XML files should be written
+#messagecreator.XSLT.IntermediateDir=./intermediate
+messagecreator.XSLT.IntermediateDir="nicht gesetzt, da messagecreator.XSLT.WriteIntermediateFiles=false"
+
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+#log4j.appender.File.File=./log/CaSiOInterfacesKBADatabaseClient.log
+log4j.appender.File.File=${CCB_PKG_LOG}/CASIO/CaSiOInterfacesKBADatabaseClient.log
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+
+
+#####################
+# DATABASE SETTINGS #
+#####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         opmfif.casio.db.requestdb.ConnectString
+#ValidFrom:         FIF-API-01.00.00
+#ValidTo:           open
+#Components:        FIF-API (OPM-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Fully qualified URL for JDBC
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:ccmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The connection string to use to connect to the database containing the CaSiO interface scripts.
+#Description:       (Format: jdbc:oracle:thin:@hostname:port:dbname)
+#END PARAMETER
+db.requestdb.ConnectString=${opmfif.casio.db.requestdb.ConnectString}
+
+#START PARAMETER
+#Parameter:         opmfif.casio.db.requestdb.User
+#ValidFrom:         FIF-API-01.00.00
+#ValidTo:           open
+#Components:        FIF-API (CaSiOInterfaces-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       All users of database.
+#DefaultValue:      -
+#ExampleValue:      ccm_user
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The user name to use to connect to the database containing the CaSiO interface scripts.
+#END PARAMETER
+db.requestdb.User=${opmfif.casio.db.requestdb.User}
+
+#START PARAMETER
+#Parameter:         opmfif.casio.db.requestdb.Password
+#ValidFrom:         FIF-API-01.00.00
+#ValidTo:           open
+#Components:        FIF-API (CaSiOInterfaces-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       Valid password.
+#DefaultValue:      -
+#ExampleValue:      ernirnlihlrieppg
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The encrypted password to use to connect to the database containing the CaSiO interface scripts.
+#END PARAMETER
+db.requestdb.Password=${opmfif.casio.db.requestdb.Password}
+
+#START PARAMETER
+#Parameter:         opmfif.casio.db.requestdb.EncryptionKey
+#ValidFrom:         FIF-API-01.00.00
+#ValidTo:           open
+#Components:        FIF-API (CaSiOInterfaces-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       Encryption key used to encrypt the password.
+#DefaultValue:      -
+#ExampleValue:      pshsodoehseffjlhsohedqfpnpfssmpleggfqpprnlhjhess
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The encryption key that was used to encrypt the database password.
+#END PARAMETER
+db.requestdb.EncryptionKey=${opmfif.casio.db.requestdb.EncryptionKey}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of database aliases that are being used by the application
+# An alias maps to a specific set of database configuration settings
+# The DatabaseClient only needs one database alias and this alias should
+# be called requestdb
+db.aliases=requestdb
+
+# The name of the database driver to use
+db.requestdb.Driver=oracle.jdbc.driver.OracleDriver
+
+# The maximum number of minutes that a connection can remain active (in minutes)
+db.requestdb.MaximumConnectionLifeTime=240
+
+# The minimum number of open connections in the pool
+db.requestdb.MinimumConnectionCount=0
+
+# The maximum number of open connections in the pool
+db.requestdb.MaximumConnectionCount=15
+
+# The number of minutes to wait between connection cleanup runs
+db.requestdb.HouseKeepingSleepTime=1
+
+
+
+
+##################
+# QUEUE SETTINGS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#--- SENDQUEUE SETTINGS ---#
+
+#START PARAMETER
+#Parameter:         opmfif.casio.transport.sendqueue.QueueName
+#ValidFrom:         FIF-API-01.00.00
+#ValidTo:           open
+#Components:        FIF-API (CaSiOInterfaces-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue name
+#DefaultValue:      -
+#ExampleValue:      CASIO.KBA.REQUEST
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The name of the queue to connect to for sending clearing messages to KBA.
+#END PARAMETER
+transport.sendqueue.QueueName=${opmfif.casio.transport.sendqueue.QueueName}
+
+#START PARAMETER
+#Parameter:         opmfif.transport.sendqueue.QueueManagerName
+#ValidFrom:         FIF-API-01.00.00
+#ValidTo:           open
+#Components:        FIF-API (CaSiOInterfaces-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager name
+#DefaultValue:      -
+#ExampleValue:      CCBSVR2E
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The name of the queue manager to connect to for sending clearing messages to KBA.
+#END PARAMETER
+transport.sendqueue.QueueManagerName=${opmfif.transport.sendqueue.QueueManagerName}
+
+#START PARAMETER
+#Parameter:         opmfif.sendqueue.QueueManagerHostName
+#ValidFrom:         FIF-API-01.00.00
+#ValidTo:           open
+#Components:        FIF-API (CaSiOInterfaces-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager host name
+#DefaultValue:      -
+#ExampleValue:      hp64d01
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The host name of the queue manager to connect to for sending clearing messages to KBA.
+#END PARAMETER
+transport.sendqueue.QueueManagerHostName=${opmfif.sendqueue.QueueManagerHostName}
+
+#START PARAMETER
+#Parameter:         opmfif.transport.sendqueue.QueueManagerPort
+#ValidFrom:         FIF-API-01.00.00
+#ValidTo:           open
+#Components:        FIF-API (CaSiOInterfaces-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager port number
+#DefaultValue:      -
+#ExampleValue:      5012
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The port number of the queue manager to connect to for sending clearing messages to KBA.
+#END PARAMETER
+transport.sendqueue.QueueManagerPortNumber=${opmfif.transport.sendqueue.QueueManagerPort}
+
+#START PARAMETER
+#Parameter:         opmfif.transport.sendqueue.QueueManagerChannelName
+#ValidFrom:         FIF-API-01.00.00
+#ValidTo:           open
+#Components:        FIF-API (CaSiOInterfaces-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager channel name
+#DefaultValue:      -
+#ExampleValue:      5012
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The channel name of the queue manager to connect to for sending clearing messages to KBA.
+#END PARAMETER
+transport.sendqueue.QueueManagerChannelName=${opmfif.transport.sendqueue.QueueManagerChannelName}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of queue aliases that are being used by the application
+# An alias maps to a specific set of queue configuration settings
+transport.aliases=sendqueue
+
+
+#--- SENDQUEUE SETTINGS ---#
+
+# The type of queue to use (JMS: Java Messaging Service; MQ: MQSeries)
+transport.sendqueue.QueueType=MQ
+
+# The message acknowledge mode to use for the queue session
+transport.sendqueue.AcknowledgeMode=AUTO_ACKNOWLEDGE
+
+# The transport type of the queue manager
+transport.sendqueue.QueueManagerTransportType=TCPIP
+
+# The character encoding to use for encoding and decoding the messages that are
+# sent and received over the queue
+transport.sendqueue.Encoding=ISO-8859-1
+
+
+

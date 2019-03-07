@@ -1,0 +1,2028 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransformationRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.arcor.de/transformer/SOMToFIFTransformationSchema" xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema" xsi:schemaLocation="http://www.arcor.de/transformer/SOMToFIFTransformationSchema SOMToFIFTransformationSchema.xsd" docTypeQualifiedName="request-list" docTypeSystemId="request-list.dtd">
+  <RootTemplate>
+
+    <RequestListTemplate orderIdPath="//order[@orderID]">
+
+      <!-- global request list parameters -->
+      <RLPMapping targetName="sourceSystem" sourceAttrName="/order/customerContactPoint" />
+      <RLPMapping targetName="userName" sourceAttrName="/order/entryUser" />
+      <RLPMapping targetName="rollenBezeichnung" sourceAttrName="/order/entryRole" />
+      <RLPMapping targetName="somDate" sourceAttrName="/order/entryDateTime" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="orderId" sourceAttrName="/order/@orderID" />
+      <RLPMapping targetName="OMTSOrderID" sourceAttrName="/order/@orderID" />
+      <RLPMapping targetName="salesOrganisationNumber" sourceAttrName="/order/salesOrganisation/salesOrganisationNumber[@type='A']" />
+      <RLPMapping targetName="salesOrganisationNumberVF" sourceAttrName="/order/salesOrganisation/salesOrganisationNumber[@type='V']" />
+      <RLPMapping targetName="desiredDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="orderPositionNumber" sourceAttrName="/order/*/@orderPositionNumber" />
+      <RLPMapping targetName="scanDate" sourceAttrName="/order/scanDate" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="superCustomerTrackingId" sourceAttrName="/order/superCustomerTrackingId" />
+      <RLPMapping targetName="reason" sourceAttrName="/order/*/reason" />
+
+      <RequestTemplate fif-request-name="createExternalOrder" sourceWorkingPath="/order/*">
+        <TemplateConditions>
+          <base:IsMember value="create" sourceAttrName="transactionType" />
+        </TemplateConditions>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="beneficiary[@role='default']/ccbId[@type='C']" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="beneficiary[@role='default']/ccbId[@type='C']" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="beneficiary[@role='default']/ccbId[@type='C']" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="beneficiary/ccbId[@type='C']" />
+        </TransformationTemplate>
+        <RPMapping targetName="customerIntention" sourceAttrName="customerIntention" />
+
+        <RPListTemplate listName="serviceSubscriptionIdList">
+          <RPListItemTemplate sourceWorkingPath="functions/*/ccbId[@type='S']">
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsNotMember value="IGNORE" sourceAttrName="../processingType" />
+                <base:IsExisting sourceAttrName="configured" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured" targetName="serviceSubscriptionId" />
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsNotMember value="IGNORE" sourceAttrName="../processingType" />
+                <base:IsNotExisting sourceAttrName="configured" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing" targetName="serviceSubscriptionId" />
+            </TransformationTemplate>
+          </RPListItemTemplate>
+        </RPListTemplate>        
+      </RequestTemplate>
+      <RequestTemplate fif-request-name="closeExternalOrder" sourceWorkingPath="/order/*">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="close-cancel" sourceAttrName="transactionType" />
+            <base:IsMember value="close-final" sourceAttrName="transactionType" />
+            <base:IsMember value="close-abort" sourceAttrName="transactionType" />
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping targetName="closeReason" sourceAttrName="transactionType" />
+      </RequestTemplate>
+
+      <!-- ****************************************************************************************************** -->
+      <!-- lineCreation -->
+      
+      <!-- createCustomer -->
+      <RequestTemplate fif-request-name="createCustomer" 
+        sourceWorkingPath="/order/customerData/customer"
+        extends="entityCreation_template">
+        <RPMapping targetName="parentCustomerNumber" sourceAttrName="ownerCcbId/*" />
+        <RPMapping targetName="riskCategory" sourceAttrName="riskCategory/configured" />
+        <RPMapping targetName="userPassword" sourceAttrName="userPassword/configured" />
+        <RPMapping targetName="matchCodeId" sourceAttrName="matchCodeId/configured" />
+        <RPMapping targetName="customerGroup" sourceAttrName="customerGroup/configured" />
+        <RPMapping targetName="customerCategory" sourceAttrName="customerCategory/configured" />
+        <RPMapping targetName="customerClassification" sourceAttrName="classification/configured" />
+        <RPMapping targetName="customerInternalRefNumber" sourceAttrName="customerInternalRefNumber/configured" />
+        <RPMapping targetName="marketingPhoneIndicator" sourceAttrName="marketingPhoneIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingMailIndicator" sourceAttrName="marketingMailIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingFaxIndicator" sourceAttrName="marketingFaxIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingUseDataIndicator" sourceAttrName="marketingUseDataIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="postIdentIndicator" sourceAttrName="postIdentIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="billingAccountNumber" sourceAttrName="billingAccountNumber/configured" />
+        <RPMapping targetName="cdrEgnFormat" sourceAttrName="cdrEgnFormat/configured" />
+        <RPMapping targetName="allocatedCustomerNumber" sourceAttrName="ccbId[@type='C']/configured" />
+        <RPMapping targetName="marketingAuthorizationDate" sourceAttrName="marketingAuthorizationDate/configured" formatter="SOMToCCBDateFormatter" />
+        <RPListTemplate listName="affinityGroupList">
+          <RPListItemTemplate sourceWorkingPath="affinityGroupList/configured/affinityGroup">
+            <RPMapping sourceAttrName="." targetName="affinityGroup" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="createBillingAccount" 
+        sourceWorkingPath="/order/customerData/billingAccount"
+        extends="entityCreation_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>
+                
+        <!-- customer number either from ownerCcbId -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="ownerCcbId/configured" />
+        </TransformationTemplate>
+        <!-- or from ownerNodeRefID -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+        </TransformationTemplate>
+        
+        <RPMapping targetName="bankAccountNumber" sourceAttrName="methodOfPayment/bankAccountNumber/configured" />
+        <RPMapping targetName="ownerFullName" sourceAttrName="methodOfPayment/owner/configured" />
+        <RPMapping targetName="bankClearingCode" sourceAttrName="methodOfPayment/bankCode/configured" />
+        <RPMapping targetName="directDebitAuthorizDate" sourceAttrName="methodOfPayment/directDebitAuthorizationDate/configured" formatter="SOMToCCBDateFormatter" />
+        <RPMapping targetName="paymentMethod" sourceAttrName="methodOfPayment/paymentMethod/configured" />
+        <RPMapping targetName="paymentTerm" sourceAttrName="methodOfPayment/paymentTerm/configured" />
+        
+        <RPMapping targetName="mailingPrinterDestination" sourceAttrName="mailing/mailingPrinterDestination/configured" />
+        <RPMapping targetName="mailingName" sourceAttrName="mailing/mailingName/configured" />
+        <RPMapping targetName="mailingDocumentType" sourceAttrName="mailing/mailingDocumentType/configured" />
+        <RPMapping targetName="docTemplateName" 
+          sourceAttrName="/order/customerData/customer/classification/configured" 
+          decoding="'VE', 'Vodafone PK-Rechnung', 'VC', 'VF Rechnung', 
+          'D', 'Privatkunden Rechnung', 'E', 'Privatkunden Rechnung', 'Rechnung'"/>
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="setInvoiceDeliveryType" 
+        sourceWorkingPath="/order/customerData/billingAccount"
+        extends="masterdata_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping targetName="deliveryType" sourceAttrName="invoiceDelivery/invoiceDeliveryType/configured" />
+        <RPMapping targetName="maskingDigits" sourceAttrName="invoiceDelivery/maskingDigits/configured" />
+        <RPMapping targetName="enableEgn" sourceAttrName="invoiceDelivery/enableItemizedBill/configured" />
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="createSkeletonContract" 
+        sourceWorkingPath="/order/customerData/skeletonContract"
+        extends="masterdata_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>
+        
+        <RPMapping targetName="name" sourceAttrName="contractName/configured" />
+        
+        <!-- customer number either from ownerCcbId -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="ownerCcbId/configured" />
+        </TransformationTemplate>
+        <!-- or from ownerNodeRefID -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+        </TransformationTemplate>
+        
+        <RPListTemplate listName="productCodeList">
+          <RPListItemTemplate sourceWorkingPath="skeletonContractItem/tariffCodeList/configured/tariffCode">
+            <RPMapping sourceAttrName="." targetName="pricingStructureCode" />
+            <RPMapping sourceAttrName="concat(../../../accessName, ../../../functionName)" 
+              targetName="productCode" 
+              decoding="'businessDSLinternet', 'I1207', 'safetyPackage', 'I1410',
+              'ipCentrexvoice', 'VI204','ipCentrexseat', 'VI205'"/>
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="createServiceDeliveryContract" 
+        sourceWorkingPath="/order/customerData/serviceDeliveryContract"
+        extends="masterdata_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>        
+        
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="/*/customerData/skeletonContract[@ID='${@skeletonContractNodeRefID}']" />
+            <base:IsNotExisting sourceAttrName="skeletonContractCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="useSkeletonContract" staticValue="Y" />
+          <RPMapping targetName="assocSkeletonContNum" sourceAttrName="../skeletonContract[@ID='${@skeletonContractNodeRefID}']/ccbId[@type='K']/existing" />          
+        </TransformationTemplate>
+        
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="skeletonContractCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="useSkeletonContract" staticValue="Y" />
+          <RPMapping targetName="assocSkeletonContNum" sourceAttrName="skeletonContractCcbId/configured" />          
+        </TransformationTemplate>
+        
+        <!-- customer number either from ownerCcbId -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="ownerCcbId/configured" />
+        </TransformationTemplate>
+        <!-- or from ownerNodeRefID -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+        </TransformationTemplate>
+        
+        <RPMapping targetName="parentSomElementID" sourceAttrName="@skeletonContractNodeRefID" />
+        <RPMapping targetName="name" sourceAttrName="contractName/*" />
+        <RPMapping targetName="languageRd" sourceAttrName="language/*" />
+        <RPMapping targetName="loiIndicator" sourceAttrName="letterOfIntentIndicator/*" decoding="'true', 'Y', 'N'"/>
+        <RPMapping sourceAttrName="primaryCustSignDate/configured" 
+          targetName="primaryCustSignDate" 
+          formatter="SOMToCCBDateFormatter"/>
+        <RPMapping sourceAttrName="primaryCustSignName/configured" targetName="primaryCustSignName" />
+        <RPMapping sourceAttrName="boardSignDate/configured" 
+          targetName="boardSignDate" 
+          formatter="SOMToCCBDateFormatter"/>
+        <RPMapping sourceAttrName="boardSignName/configured" targetName="boardSignName" />        
+      </RequestTemplate>
+      
+      <!-- creation of contact roles -->
+      <RequestTemplate fif-request-name="createContactRole" 
+        sourceWorkingPath="/order/customerData/contactRole"
+        extends="entityCreation_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>
+        
+        <!-- customer number either from ownerCcbId -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="ownerCcbId/configured" />
+        </TransformationTemplate>
+        <!-- or from ownerNodeRefID -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+        </TransformationTemplate>
+                
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="/*/customerData/skeletonContract[@ID='${@skeletonContractNodeRefID}']" />
+          </TemplateConditions>
+          <RPMapping targetName="supportedObjectTypeRd" staticValue="SKELCNTR" />
+          <RPMapping targetName="supportedObjectId" sourceAttrName="../skeletonContract[@ID='${@skeletonContractNodeRefID}']/ccbId[@type='K']/existing" />
+          <RPMapping targetName="parentSomElementID" sourceAttrName="@skeletonContractNodeRefID" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="/*/customerData/serviceDeliveryContract[@ID='${@serviceDeliveryContractNodeRefID}']" />
+          </TemplateConditions>
+          <RPMapping targetName="supportedObjectTypeRd" staticValue="SERVDLVRY" />
+          <RPMapping targetName="supportedObjectId" sourceAttrName="../serviceDeliveryContract[@ID='${@serviceDeliveryContractNodeRefID}']/ccbId[@type='D']/existing" />
+          <RPMapping targetName="parentSomElementID" sourceAttrName="@serviceDeliveryContractNodeRefID" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="/*/customerData/skeletonContract[@ID='${@skeletonContractNodeRefID}']" />
+            <base:IsNotExisting sourceAttrName="/*/customerData/serviceDeliveryContract[@ID='${@serviceDeliveryContractNodeRefID}']" />
+          </TemplateConditions>
+          <RPMapping targetName="supportedObjectTypeRd" staticValue="CUSTOMER" />
+          <RPMapping targetName="supportedObjectId" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+        </TransformationTemplate>
+        
+        <RPMapping targetName="contactRoleTypeRd" sourceAttrName="contactRoleTypeRd/configured" />
+        <RPMapping targetName="contactRolePositionName" sourceAttrName="contactRolePositionName/configured" />
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="*/address" />
+          </TemplateConditions>
+          <RPMapping staticValue="Y" targetName="createAddress" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="*/accessInformation" />
+          </TemplateConditions>
+          <RPMapping staticValue="Y" targetName="createAccessInformation" />
+        </TransformationTemplate>
+      </RequestTemplate>
+      
+      <!--  Allocate step  -->
+      
+      <!-- allocate for lineChanges
+        1. processingType ADD always generates a new CCB id
+        2. processingType CHANGE only generates a new CCB id, if the change will lead to new main access service
+      -->
+      <RequestTemplate fif-request-name="allocateCcbId" sourceWorkingPath="/*/lineChange/functions/* | /*/lineCreation/functions/*">
+        <TemplateConditions>
+          <base:IsMember value="allocate" sourceAttrName="/order/*/transactionType" />
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />
+            <AndComposite>
+              <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+              <OrComposite>
+                <base:IsMember value="2" sourceAttrName="count(mobileSeatConfiguration|fixedSeatConfiguration|convergedSeatConfiguration)" />
+                <base:IsMember value="2" sourceAttrName="count(adslInternetConfiguration|sdslInternetConfiguration)" />
+              </OrComposite>
+            </AndComposite>
+          </OrComposite>          
+        </TemplateConditions>
+        
+        <RPMapping staticValue="SERVSUB" targetName="type" />
+        <RPMapping targetName="functionID" sourceAttrName="@ID" />
+        <RPMapping targetName="systemID" sourceAttrName="/order/@orderID" />
+        <RPMapping staticValue="COM" targetName="systemType" />
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="allocateProviderTrackingNumber" 
+        sourceWorkingPath="/*/lineChange/functions | /*/termination/functions">
+        <TemplateConditions>
+          <base:IsNotMember value="POS" sourceAttrName="/order/entrySystem" />
+          <base:IsMember value="allocate" sourceAttrName="/order/*/transactionType" />
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="internet/processingType" />
+            <base:IsMember value="ADD" sourceAttrName="voice/processingType" />
+            <base:IsMember value="ADD" sourceAttrName="seat/processingType" />
+            <base:IsMember value="ADD" sourceAttrName="directoryEntry/processingType" />
+            <base:IsMember value="ADD" sourceAttrName="safetyPackage/processingType" />
+            <base:IsMember value="CHANGE" sourceAttrName="internet/processingType" />
+            <base:IsMember value="CHANGE" sourceAttrName="voice/processingType" />
+            <base:IsMember value="CHANGE" sourceAttrName="seat/processingType" />
+            <base:IsMember value="CHANGE" sourceAttrName="directoryEntry/processingType" />
+            <base:IsMember value="CHANGE" sourceAttrName="safetyPackage/processingType" />
+            <base:IsMember value="TERM" sourceAttrName="internet/processingType" />
+            <base:IsMember value="TERM" sourceAttrName="voice/processingType" />
+            <base:IsMember value="TERM" sourceAttrName="seat/processingType" />
+            <base:IsMember value="TERM" sourceAttrName="directoryEntry/processingType" />
+            <base:IsMember value="TERM" sourceAttrName="safetyPackage/processingType" />
+          </OrComposite>
+        </TemplateConditions>        
+        
+        <RPListTemplate listName="functionList">
+          <RPListItemTemplate sourceWorkingPath="internet | voice | directoryEntry | safetyPackage | seat">
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsNotMember value="IGNORE" sourceAttrName="processingType" />
+              </TemplateConditions>
+              <RPMapping targetName="functionID" sourceAttrName="@ID" />
+              <RPMapping targetName="functionName" sourceAttrName="name(.)" />              
+              <RPMapping targetName="parentFunctionID" sourceAttrName="refFunctionID" />              
+            </TransformationTemplate>
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="readExternalNotification" sourceWorkingPath="/*/lineChange/functions/*">
+        <TemplateConditions>
+          <base:IsMember value="allocate" sourceAttrName="/order/*/transactionType" />
+          <base:IsNotMember value="IGNORE" sourceAttrName="processingType" />
+        </TemplateConditions>                
+        <RPMapping targetName="functionID" sourceAttrName="@ID" />
+        <RPMapping targetName="parameterName" staticValue="_PROVIDER_TRACKING_NUMBER" />
+      </RequestTemplate>
+      
+      <!-- exeute step, which creates all the contracts and services in CCM -->
+      <RequestTemplate fif-request-name="findBundle" 
+        sourceWorkingPath="/order/lineCreation | /order/lineChange">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="functions/*/processingType" />            
+            <base:IsMember value="CHANGE" sourceAttrName="functions/*/processingType" />            
+          </OrComposite>
+          <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        </TemplateConditions>                
+        <RPMapping targetName="customerNumber" sourceAttrName="beneficiary/ccbId[@type='C']/*" />        
+        <RPListTemplate listName="serviceList">
+          <RPListItemTemplate sourceWorkingPath="functions/*/ccbId[@type='S']/existing">
+            <RPMapping sourceAttrName="." targetName="serviceSubscriptionId" />
+          </RPListItemTemplate>
+        </RPListTemplate>              
+      </RequestTemplate>
+      
+      <!-- exeute step, which creates all the contracts and services in CCM -->
+      <RequestTemplate fif-request-name="createBusinessDSLContract" 
+        sourceWorkingPath="/order/lineCreation/functions/internet"
+        extends="BusinessDSLCreation_template">
+      </RequestTemplate>
+      
+      <!-- fixed IP address, if desired -->
+      <RequestTemplate fif-request-name="addChildService" 
+        sourceWorkingPath="/order/lineCreation/functions/internet"
+        extends="childService_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />            
+            <base:IsMember value="CHANGE" sourceAttrName="processingType" />            
+          </OrComposite>
+          <base:IsMember value="true" sourceAttrName="*/fixedIPAddressIndicator/configured" />          
+        </TemplateConditions>                
+        <RPMapping staticValue="I1222" targetName="serviceCode" />
+        
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate sourceWorkingPath="*/*">
+            <TransformationTemplate>
+              <TemplateConditions>
+                <OrComposite>
+                  <base:IsMember 
+                    value="fixedIPAddress" 
+                    sourceAttrName="name(.)" />
+                  <base:IsMember 
+                    value="dialInAccountNameStatic" 
+                    sourceAttrName="name(.)" />
+                </OrComposite>
+              </TemplateConditions>
+              <RPMapping sourceAttrName="name(.)" targetName="parameterName" />
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured" />
+                  <base:IsNotExisting sourceAttrName="configured/*" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured" targetName="configuredValue" />
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing" />
+                  <base:IsNotExisting sourceAttrName="existing/*" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing" targetName="existingValue" />              
+              </TransformationTemplate>              
+            </TransformationTemplate>            
+          </RPListItemTemplate>
+        </RPListTemplate>              
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="createIPCentrexSiteContract" 
+        sourceWorkingPath="/order/lineCreation/functions/voice"
+        extends="IPCentrexSiteCreation_template">        
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="createIPCentrexSeatContract" 
+        sourceWorkingPath="/order/lineCreation/functions/seat"
+        extends="IPCentrexSeatCreation_template">
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="addExtraNumberService" 
+        sourceWorkingPath="/*/lineCreation/*/extraNumbers"
+        extends="dependentFunctionCreation_template">
+        
+        <RPMapping staticValue="Y" targetName="is133" />
+        <RPMapping targetName="isRange" 
+          sourceAttrName="count(numberRangeConfiguration)"
+          decoding="'1', 'Y', 'N'" />
+        <RPMapping targetName="createCustomerOrder" staticValue="Y" />
+
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate sourceWorkingPath="singleNumberConfiguration/* | numberRangeConfiguration/*">
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsNotMember value="boardSignName" sourceAttrName="name(.)" />
+                <base:IsNotMember value="boardSignDate" sourceAttrName="name(.)" />
+                <base:IsNotMember value="primaryCustSignName" sourceAttrName="name(.)" />
+                <base:IsNotMember value="primaryCustSignDate" sourceAttrName="name(.)" />
+                <base:IsNotMember value="pricingStructureCode" sourceAttrName="name(.)" />
+                <base:IsNotMember value="minimumDurationPeriod" sourceAttrName="name(.)" />
+                <base:IsNotMember value="autoExtension" sourceAttrName="name(.)" />
+                <base:IsNotMember value="noticePeriod" sourceAttrName="name(.)" />
+                <base:IsNotMember value="specialTerminationRight" sourceAttrName="name(.)" />
+                <base:IsNotMember value="conditionsList" sourceAttrName="name(.)" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="name(.)" targetName="parameterName" />
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured" />
+                  <base:IsNotExisting sourceAttrName="configured/*" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured" targetName="configuredValue" />
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing" />
+                  <base:IsNotExisting sourceAttrName="existing/*" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing" targetName="existingValue" />              
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured/name" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured/name" targetName="configuredName" />
+                <RPMapping sourceAttrName="configured/firstName" targetName="configuredFirstName" />
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing/name" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing/name" targetName="existingName" />
+                <RPMapping sourceAttrName="existing/firstName" targetName="existingFirstName" />
+              </TransformationTemplate>
+              <!-- parameters for configured access numbers -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured/countryCode" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured/countryCode" targetName="configuredCountryCode" />
+                <RPMapping sourceAttrName="configured/localAreaCode" targetName="configuredAreaCode" />
+                <RPMapping sourceAttrName="configured/pilotNumber" targetName="configuredLocalNumber" />
+              </TransformationTemplate>
+              <!-- additional parameters ranges -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured/startNumber" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured/startNumber" targetName="configuredStartNumber" />
+                <RPMapping sourceAttrName="configured/endNumber" targetName="configuredEndNumber" />
+              </TransformationTemplate>
+              <!-- parameters for existing access numbers -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing/countryCode" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing/countryCode" targetName="existingCountryCode" />
+                <RPMapping sourceAttrName="existing/localAreaCode" targetName="existingAreaCode" />
+                <RPMapping sourceAttrName="existing/pilotNumber" targetName="existingLocalNumber" />
+              </TransformationTemplate>
+              <!-- additional parameters ranges -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing/startNumber" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing/startNumber" targetName="existingStartNumber" />
+                <RPMapping sourceAttrName="existing/endNumber" targetName="existingEndNumber" />
+              </TransformationTemplate>
+              <!-- addresses -->              
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured/street" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured/street" targetName="configuredStreet" />
+                <RPMapping sourceAttrName="configured/streetNumber" targetName="configuredStreetNumber" />
+                <RPMapping sourceAttrName="configured/streetNumberSuffix" targetName="configuredStreetNumberSuffix" />
+                <RPMapping sourceAttrName="configured/postalCode" targetName="configuredPostalCode" />
+                <RPMapping sourceAttrName="configured/city" targetName="configuredCity" />
+                <RPMapping sourceAttrName="configured/citySuffix" targetName="configuredCitySuffix" />
+                <RPMapping sourceAttrName="configured/additionalAddressDescription" targetName="configuredAdditionalAddressDescription" />
+                <RPMapping sourceAttrName="configured/country" targetName="configuredCountry" />                
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing/street" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing/street" targetName="existingStreet" />
+                <RPMapping sourceAttrName="existing/streetNumber" targetName="existingStreetNumber" />
+                <RPMapping sourceAttrName="existing/streetNumberSuffix" targetName="existingStreetNumberSuffix" />
+                <RPMapping sourceAttrName="existing/postalCode" targetName="existingPostalCode" />
+                <RPMapping sourceAttrName="existing/city" targetName="existingCity" />
+                <RPMapping sourceAttrName="existing/citySuffix" targetName="existingCitySuffix" />
+                <RPMapping sourceAttrName="existing/additionalAddressDescription" targetName="existingAdditionalAddressDescription" />
+                <RPMapping sourceAttrName="existing/country" targetName="existingCountry" />                
+              </TransformationTemplate>
+              
+            </TransformationTemplate>            
+          </RPListItemTemplate>
+        </RPListTemplate>      
+                
+      </RequestTemplate>
+
+      <!-- charges and credits, features -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/lineCreation/*/voice | /*/lineCreation/*/internet | /*/lineCreation/*/seat"
+        extends="modifyFeaturesWithoutCI_template"/>
+      
+      <!-- desired countries, tariff options -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/lineCreation/*/voice | /*/lineCreation/*/internet | /*/lineCreation/*/seat"
+        extends="modifyFeaturesWithCI_template"/>
+      
+      <!-- conditions -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/lineCreation/*/voice | /*/lineCreation/*/internet | /*/lineCreation/*/seat"
+        extends="modifyFeaturesConditions_template"/>      
+      
+      <!-- safety package -->
+      <RequestTemplate fif-request-name="createSafetyPackage" 
+        sourceWorkingPath="/*/lineCreation/*/safetyPackage"
+        extends="standaloneContractFunctionCreation_template"/>      
+
+      <!-- installation service -->
+      <RequestTemplate fif-request-name="addInstallationService" 
+        sourceWorkingPath="/*/lineCreation/*/installationSvc"
+        extends="installationService_template"/>
+
+      <!-- hardware service -->
+      <RequestTemplate fif-request-name="addHardwareService" 
+        sourceWorkingPath="/*/lineCreation/*/hardware"
+        extends="hardwareService_template"/>
+
+      <!-- activate the services without OP -->
+      <RequestTemplate fif-request-name="activateCustomerOrder" 
+        sourceWorkingPath="/*/lineCreation/*/voice |
+        /*/lineCreation/*/internet |
+        /*/lineCreation/*/extraNumbers |
+        /*/lineCreation/*/seat |
+        /*/lineCreation/*/hardware |
+        /*/lineCreation/*/installationSvc |
+        /*/lineCreation/*/safetyPackage">
+        <TemplateConditions>
+          <base:IsMember value="ADD" sourceAttrName="processingType" />
+          <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+          <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        </TemplateConditions>
+        
+          <RPMapping sourceAttrName="@ID" targetName="functionID" />
+      </RequestTemplate>
+
+      <!-- directory entry -->      
+      <RequestTemplate fif-request-name="createDirectoryEntry" 
+        sourceWorkingPath="/*/lineCreation/*/directoryEntry" 
+        extends="directoryEntry_template"/>      
+      
+      <!-- *********************** LINE CHANGE *********************** -->
+      
+      <!-- create new PS, if needed -->
+      <RequestTemplate fif-request-name="createBusinessDSLContract" 
+        sourceWorkingPath="/order/lineChange/functions/internet"
+        extends="BusinessDSLCreation_template">
+      </RequestTemplate>      
+      
+      <RequestTemplate fif-request-name="createIPCentrexSeatContract" 
+        sourceWorkingPath="/order/lineChange/functions/seat"
+        extends="IPCentrexSeatCreation_template"/>
+                  
+      <!-- contract change, will be called, if any contract parameter is changed -->
+      <RequestTemplate fif-request-name="modifyContract" 
+        sourceWorkingPath="/*/lineChange/*/voice | /*/lineChange/*/internet | /*/lineChange/*/seat">        
+        <TemplateConditions>
+          <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+          <OrComposite>
+            <AndComposite>
+              <base:IsExisting sourceAttrName="*/pricingStructureCode/configured" />
+              <OrComposite>
+                <base:IsMember value="false" sourceAttrName="contains(*/pricingStructureCode/configured, */pricingStructureCode/existing)" />
+                <base:IsMember value="false" sourceAttrName="contains(*/pricingStructureCode/existing, */pricingStructureCode/configured)" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <base:IsExisting sourceAttrName="*/minimumDurationPeriod/value/configured" />
+              <OrComposite>
+                <base:IsMember value="false" sourceAttrName="contains(*/minimumDurationPeriod/value/configured, */minimumDurationPeriod/value/existing)" />
+                <base:IsMember value="false" sourceAttrName="contains(*/minimumDurationPeriod/value/existing, */minimumDurationPeriod/value/configured)" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <base:IsExisting sourceAttrName="*/minimumDurationPeriod/unit/configured" />
+              <OrComposite>
+                <base:IsMember value="false" sourceAttrName="contains(*/minimumDurationPeriod/unit/configured, */minimumDurationPeriod/unit/existing)" />
+                <base:IsMember value="false" sourceAttrName="contains(*/minimumDurationPeriod/unit/existing, */minimumDurationPeriod/unit/configured)" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <base:IsExisting sourceAttrName="*/minimumDurationPeriod/startDate/configured" />
+              <OrComposite>
+                <base:IsMember value="false" sourceAttrName="contains(*/minimumDurationPeriod/startDate/configured, */minimumDurationPeriod/startDate/existing)" />
+                <base:IsMember value="false" sourceAttrName="contains(*/minimumDurationPeriod/startDate/existing, */minimumDurationPeriod/startDate/configured)" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <base:IsExisting sourceAttrName="*/autoExtension/value/configured" />
+              <OrComposite>
+                <base:IsMember value="false" sourceAttrName="contains(*/autoExtension/value/configured, */autoExtension/value/existing)" />
+                <base:IsMember value="false" sourceAttrName="contains(*/autoExtension/value/existing, */autoExtension/value/configured)" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <base:IsExisting sourceAttrName="*/autoExtension/unit/configured" />
+              <OrComposite>
+                <base:IsMember value="false" sourceAttrName="contains(*/autoExtension/unit/configured, */autoExtension/unit/existing)" />
+                <base:IsMember value="false" sourceAttrName="contains(*/autoExtension/unit/existing, */autoExtension/unit/configured)" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <base:IsExisting sourceAttrName="*/autoExtension/autoExtensionIndicator/configured" />
+              <OrComposite>
+                <base:IsMember value="false" sourceAttrName="contains(*/autoExtension/autoExtensionIndicator/configured, */autoExtension/autoExtensionIndicator/existing)" />
+                <base:IsMember value="false" sourceAttrName="contains(*/autoExtension/autoExtensionIndicator/existing, */autoExtension/autoExtensionIndicator/configured)" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <base:IsExisting sourceAttrName="*/noticePeriod/value/configured" />
+              <OrComposite>
+                <base:IsMember value="false" sourceAttrName="contains(*/noticePeriod/value/configured, */noticePeriod/value/existing)" />
+                <base:IsMember value="false" sourceAttrName="contains(*/noticePeriod/value/existing, */noticePeriod/value/configured)" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <base:IsExisting sourceAttrName="*/noticePeriod/unit/configured" />
+              <OrComposite>
+                <base:IsMember value="false" sourceAttrName="contains(*/noticePeriod/unit/configured, */noticePeriod/unit/existing)" />
+                <base:IsMember value="false" sourceAttrName="contains(*/noticePeriod/unit/existing, */noticePeriod/unit/configured)" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <base:IsExisting sourceAttrName="*/noticePeriod/noticeRestriction/configured" />
+              <OrComposite>
+                <base:IsMember value="false" sourceAttrName="contains(*/noticePeriod/noticeRestriction/configured, */noticePeriod/noticeRestriction/existing)" />
+                <base:IsMember value="false" sourceAttrName="contains(*/noticePeriod/noticeRestriction/existing, */noticePeriod/noticeRestriction/configured)" />
+              </OrComposite>
+            </AndComposite>
+            <AndComposite>
+              <base:IsExisting sourceAttrName="*/specialTerminationRight/configured" />
+              <OrComposite>
+                <base:IsMember value="false" sourceAttrName="contains(*/specialTerminationRight/configured, */specialTerminationRight/existing)" />
+                <base:IsMember value="false" sourceAttrName="contains(*/specialTerminationRight/existing, */specialTerminationRight/configured)" />
+              </OrComposite>
+            </AndComposite>
+          </OrComposite>
+        </TemplateConditions>
+        
+        <RPMapping sourceAttrName="*/productCode/existing" targetName="productCode" />
+        <RPMapping sourceAttrName="*/pricingStructureCode/configured" targetName="newPricingStructureCode" />
+        <RPMapping sourceAttrName="*/pricingStructureCode/existing" targetName="oldPricingStructureCode" />
+        <RPMapping sourceAttrName="*/minimumDurationPeriod/value/configured" targetName="newMinPeriodDurationValue" />
+        <RPMapping sourceAttrName="*/minimumDurationPeriod/unit/configured" targetName="newMinPeriodDurationUnit" />
+        <RPMapping sourceAttrName="*/autoExtension/value/configured" targetName="newAutoExtentPeriodValue" />
+        <RPMapping sourceAttrName="*/autoExtension/unit/configured" targetName="newAutoExtentPeriodUnit" />
+        <RPMapping sourceAttrName="*/autoExtension/autoExtensionIndicator/configured" targetName="newAutoExtensionInd" decoding="'true', 'Y', 'N'" />
+        <RPMapping sourceAttrName="*/specialTerminationRight/configured" targetName="specialTerminationRight" />
+        <RPMapping sourceAttrName="*/primaryCustSignDate/configured" 
+          targetName="primaryCustSignDate" 
+          formatter="SOMToCCBDateFormatter"/>
+        <RPMapping sourceAttrName="*/primaryCustSignName/configured" targetName="primaryCustSignName" />
+        <RPMapping sourceAttrName="*/boardSignDate/configured" 
+          targetName="boardSignDate" 
+          formatter="SOMToCCBDateFormatter"/>
+        <RPMapping sourceAttrName="*/boardSignName/configured" targetName="boardSignName" />
+        <RPMapping sourceAttrName="*/minimumDurationPeriod/startDate/configured" 
+          targetName="desiredDate" 
+          formatter="SOMToCCBDateFormatter"/>
+        
+        <RPMapping sourceAttrName="ccbId[@type='S']/existing" targetName="serviceSubscriptionId" />        
+      </RequestTemplate>
+           
+      <!-- reconfiguration of voice function -->
+      <RequestTemplate fif-request-name="reconfigureFunction" 
+        sourceWorkingPath="/*/lineChange/*/voice"
+        extends="reconfigureFunction_template">        
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate sourceWorkingPath="/*/*/*/ipCentrex/ipCentrexConfiguration/* 
+            | /*/*/*/voice/ipCentrexSiteConfiguration/*
+            | /*/*/*/voice/ipCentrexSiteConfiguration/portingAccessNumbers/*
+            | /*/*/*/voice/ipCentrexSiteConfiguration/portingAccessNumberRanges/*">
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsNotMember value="boardSignName" sourceAttrName="name(.)" />
+                <base:IsNotMember value="boardSignDate" sourceAttrName="name(.)" />
+                <base:IsNotMember value="primaryCustSignName" sourceAttrName="name(.)" />
+                <base:IsNotMember value="primaryCustSignDate" sourceAttrName="name(.)" />
+                <base:IsNotMember value="pricingStructureCode" sourceAttrName="name(.)" />
+                <base:IsNotMember value="minimumDurationPeriod" sourceAttrName="name(.)" />
+                <base:IsNotMember value="autoExtension" sourceAttrName="name(.)" />
+                <base:IsNotMember value="noticePeriod" sourceAttrName="name(.)" />
+                <base:IsNotMember value="specialTerminationRight" sourceAttrName="name(.)" />
+                <base:IsNotMember value="conditionsList" sourceAttrName="name(.)" />
+                <base:IsNotMember value="locationAddress" sourceAttrName="name(.)" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="name(.)" targetName="parameterName" />
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured" />
+                  <base:IsNotExisting sourceAttrName="configured/*" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured" targetName="configuredValue" />
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing" />
+                  <base:IsNotExisting sourceAttrName="existing/*" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing" targetName="existingValue" />              
+              </TransformationTemplate>
+              <!-- parameters for configured access numbers -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured/countryCode" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured/countryCode" targetName="configuredCountryCode" />
+                <RPMapping sourceAttrName="configured/localAreaCode" targetName="configuredAreaCode" />
+                <RPMapping sourceAttrName="configured/pilotNumber" targetName="configuredLocalNumber" />
+              </TransformationTemplate>
+              <!-- additional parameters ranges -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured/startNumber" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured/startNumber" targetName="configuredStartNumber" />
+                <RPMapping sourceAttrName="configured/endNumber" targetName="configuredEndNumber" />
+              </TransformationTemplate>
+              <!-- parameters for existing access numbers -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing/countryCode" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing/countryCode" targetName="existingCountryCode" />
+                <RPMapping sourceAttrName="existing/localAreaCode" targetName="existingAreaCode" />
+                <RPMapping sourceAttrName="existing/pilotNumber" targetName="existingLocalNumber" />
+              </TransformationTemplate>
+              <!-- additional parameters ranges -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing/startNumber" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing/startNumber" targetName="existingStartNumber" />
+                <RPMapping sourceAttrName="existing/endNumber" targetName="existingEndNumber" />
+              </TransformationTemplate>
+              <!-- service location parameters -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <OrComposite>
+                    <base:IsExisting sourceAttrName="configured/floor" />
+                    <base:IsExisting sourceAttrName="configured/room" />
+                    <base:IsExisting sourceAttrName="configured/jackLocation" />
+                    <base:IsExisting sourceAttrName="configured/desk" />
+                    <base:IsExisting sourceAttrName="configured/additionalInformation" />
+                  </OrComposite>
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured/floor" targetName="configuredFloor" />
+                <RPMapping sourceAttrName="configured/room" targetName="configuredRoomNumber" />
+                <RPMapping sourceAttrName="configured/jackLocation" targetName="configuredJackLocation" />
+                <RPMapping sourceAttrName="configured/desk" targetName="configuredDeskNumber" />
+                <RPMapping sourceAttrName="configured/additionalInformation" targetName="configuredAdditionalLocationInfo" />
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing/floor" />
+                  <base:IsExisting sourceAttrName="existing/room" />
+                  <base:IsExisting sourceAttrName="existing/jackLocation" />
+                  <base:IsExisting sourceAttrName="existing/desk" />
+                  <base:IsExisting sourceAttrName="existing/additionalInformation" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing/floor" targetName="existingFloor" />
+                <RPMapping sourceAttrName="existing/room" targetName="existingRoomNumber" />
+                <RPMapping sourceAttrName="existing/jackLocation" targetName="existingJackLocation" />
+                <RPMapping sourceAttrName="existing/desk" targetName="existingDeskNumber" />
+                <RPMapping sourceAttrName="existing/additionalInformation" targetName="existingAdditionalLocationInfo" />
+              </TransformationTemplate>
+              <!-- addresses -->              
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured/street" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured/street" targetName="configuredStreet" />
+                <RPMapping sourceAttrName="configured/streetNumber" targetName="configuredStreetNumber" />
+                <RPMapping sourceAttrName="configured/streetNumberSuffix" targetName="configuredStreetNumberSuffix" />
+                <RPMapping sourceAttrName="configured/postalCode" targetName="configuredPostalCode" />
+                <RPMapping sourceAttrName="configured/city" targetName="configuredCity" />
+                <RPMapping sourceAttrName="configured/citySuffix" targetName="configuredCitySuffix" />
+                <RPMapping sourceAttrName="configured/additionalAddressDescription" targetName="configuredAdditionalAddressDescription" />
+                <RPMapping sourceAttrName="configured/country" targetName="configuredCountry" />                
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing/street" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing/street" targetName="existingStreet" />
+                <RPMapping sourceAttrName="existing/streetNumber" targetName="existingStreetNumber" />
+                <RPMapping sourceAttrName="existing/streetNumberSuffix" targetName="existingStreetNumberSuffix" />
+                <RPMapping sourceAttrName="existing/postalCode" targetName="existingPostalCode" />
+                <RPMapping sourceAttrName="existing/city" targetName="existingCity" />
+                <RPMapping sourceAttrName="existing/citySuffix" targetName="existingCitySuffix" />
+                <RPMapping sourceAttrName="existing/additionalAddressDescription" targetName="existingAdditionalAddressDescription" />
+                <RPMapping sourceAttrName="existing/country" targetName="existingCountry" />                
+              </TransformationTemplate>
+            </TransformationTemplate>
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+      
+      <!-- reconfiguration of internet function -->
+      <RequestTemplate fif-request-name="reconfigureFunction" 
+        sourceWorkingPath="/*/lineChange/*/internet"
+        extends="reconfigureFunction_template">
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate sourceWorkingPath="
+            /*/*/*/businessDSL/businessDSLConfiguration/* | adslInternetConfiguration/* | sdslInternetConfiguration/*">
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsNotMember value="boardSignName" sourceAttrName="name(.)" />
+                <base:IsNotMember value="boardSignDate" sourceAttrName="name(.)" />
+                <base:IsNotMember value="primaryCustSignName" sourceAttrName="name(.)" />
+                <base:IsNotMember value="primaryCustSignDate" sourceAttrName="name(.)" />
+                <base:IsNotMember value="pricingStructureCode" sourceAttrName="name(.)" />
+                <base:IsNotMember value="minimumDurationPeriod" sourceAttrName="name(.)" />
+                <base:IsNotMember value="autoExtension" sourceAttrName="name(.)" />
+                <base:IsNotMember value="noticePeriod" sourceAttrName="name(.)" />
+                <base:IsNotMember value="specialTerminationRight" sourceAttrName="name(.)" />
+                <base:IsNotMember value="conditionsList" sourceAttrName="name(.)" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="name(.)" targetName="parameterName" />
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured" />
+                  <base:IsNotExisting sourceAttrName="configured/*" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured" targetName="configuredValue" />
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing" />
+                  <base:IsNotExisting sourceAttrName="existing/*" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing" targetName="existingValue" />              
+              </TransformationTemplate>
+              <!-- service location parameters -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <OrComposite>
+                    <base:IsExisting sourceAttrName="configured/floor" />
+                    <base:IsExisting sourceAttrName="configured/room" />
+                    <base:IsExisting sourceAttrName="configured/jackLocation" />
+                    <base:IsExisting sourceAttrName="configured/desk" />
+                    <base:IsExisting sourceAttrName="configured/additionalInformation" />
+                  </OrComposite>
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured/floor" targetName="configuredFloor" />
+                <RPMapping sourceAttrName="configured/room" targetName="configuredRoomNumber" />
+                <RPMapping sourceAttrName="configured/jackLocation" targetName="configuredJackLocation" />
+                <RPMapping sourceAttrName="configured/desk" targetName="configuredDeskNumber" />
+                <RPMapping sourceAttrName="configured/additionalInformation" targetName="configuredAdditionalLocationInfo" />
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing/floor" />
+                  <base:IsExisting sourceAttrName="existing/room" />
+                  <base:IsExisting sourceAttrName="existing/jackLocation" />
+                  <base:IsExisting sourceAttrName="existing/desk" />
+                  <base:IsExisting sourceAttrName="existing/additionalInformation" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing/floor" targetName="existingFloor" />
+                <RPMapping sourceAttrName="existing/room" targetName="existingRoomNumber" />
+                <RPMapping sourceAttrName="existing/jackLocation" targetName="existingJackLocation" />
+                <RPMapping sourceAttrName="existing/desk" targetName="existingDeskNumber" />
+                <RPMapping sourceAttrName="existing/additionalInformation" targetName="existingAdditionalLocationInfo" />
+              </TransformationTemplate>
+            </TransformationTemplate>
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+      
+      <!-- reconfiguration of seat function -->
+      <RequestTemplate fif-request-name="reconfigureFunction" 
+        sourceWorkingPath="/*/lineChange/*/seat"
+        extends="reconfigureFunction_template">
+        <RPListTemplate listName="parameterList">
+          <RPListItemTemplate sourceWorkingPath="mobileSeatConfiguration/* | fixedSeatConfiguration/* | convergedSeatConfiguration/*">
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsNotMember value="boardSignName" sourceAttrName="name(.)" />
+                <base:IsNotMember value="boardSignDate" sourceAttrName="name(.)" />
+                <base:IsNotMember value="primaryCustSignName" sourceAttrName="name(.)" />
+                <base:IsNotMember value="primaryCustSignDate" sourceAttrName="name(.)" />
+                <base:IsNotMember value="pricingStructureCode" sourceAttrName="name(.)" />
+                <base:IsNotMember value="minimumDurationPeriod" sourceAttrName="name(.)" />
+                <base:IsNotMember value="autoExtension" sourceAttrName="name(.)" />
+                <base:IsNotMember value="noticePeriod" sourceAttrName="name(.)" />
+                <base:IsNotMember value="specialTerminationRight" sourceAttrName="name(.)" />
+                <base:IsNotMember value="conditionsList" sourceAttrName="name(.)" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="name(.)" targetName="parameterName" />
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured" />
+                  <base:IsNotExisting sourceAttrName="configured/*" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured" targetName="configuredValue" />
+              </TransformationTemplate>
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing" />
+                  <base:IsNotExisting sourceAttrName="existing/*" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing" targetName="existingValue" />              
+              </TransformationTemplate>
+              <!-- parameters for configured access numbers -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured/countryCode" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured/countryCode" targetName="configuredCountryCode" />
+                <RPMapping sourceAttrName="configured/localAreaCode" targetName="configuredAreaCode" />
+                <RPMapping sourceAttrName="configured/pilotNumber" targetName="configuredLocalNumber" />
+              </TransformationTemplate>
+              <!-- additional parameters ranges -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="configured/startNumber" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="configured/startNumber" targetName="configuredStartNumber" />
+                <RPMapping sourceAttrName="configured/endNumber" targetName="configuredEndNumber" />
+              </TransformationTemplate>
+              <!-- parameters for existing access numbers -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing/countryCode" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing/countryCode" targetName="existingCountryCode" />
+                <RPMapping sourceAttrName="existing/localAreaCode" targetName="existingAreaCode" />
+                <RPMapping sourceAttrName="existing/pilotNumber" targetName="existingLocalNumber" />
+              </TransformationTemplate>
+              <!-- additional parameters ranges -->
+              <TransformationTemplate>
+                <TemplateConditions>
+                  <base:IsExisting sourceAttrName="existing/startNumber" />
+                </TemplateConditions>
+                <RPMapping sourceAttrName="existing/startNumber" targetName="existingStartNumber" />
+                <RPMapping sourceAttrName="existing/endNumber" targetName="existingEndNumber" />
+              </TransformationTemplate>
+            </TransformationTemplate>
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+            
+      <!-- implicit termination, order position = lineChange -->
+      <RequestTemplate fif-request-name="terminateFunction" 
+        sourceWorkingPath="/*/lineChange/*/internet | /*/lineChange/*/voice | /*/lineChange/*/seat | /*/lineChange/*/safetyPackage"
+        extends="terminateFunction_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="TERM" sourceAttrName="processingType" />
+            <AndComposite>
+              <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+              <OrComposite>
+                <base:IsMember value="2" sourceAttrName="count(mobileSeatConfiguration|fixedSeatConfiguration|convergedSeatConfiguration)" />
+                <base:IsMember value="2" sourceAttrName="count(adslInternetConfiguration|sdslInternetConfiguration)" />
+              </OrComposite>
+            </AndComposite>
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping staticValue="CCM" targetName="terminationReason" />
+      </RequestTemplate>
+      
+      <!-- new objects from ADD -->
+      
+      <!-- safetyPackage -->
+      <RequestTemplate fif-request-name="createSafetyPackage" 
+        sourceWorkingPath="/*/lineChange/*/safetyPackage"
+        extends="standaloneContractFunctionCreation_template"/>      
+      
+      <!-- installation service -->
+      <RequestTemplate fif-request-name="addInstallationService" 
+        sourceWorkingPath="/*/lineChange/*/installationSvc"
+        extends="installationService_template"/>      
+      
+      <!-- hardware service -->
+      <RequestTemplate fif-request-name="addHardwareService" 
+        sourceWorkingPath="/*/lineChange/*/hardware"
+        extends="hardwareService_template"/>
+      
+      <!-- charges and credits, features -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/lineChange/*/voice | /*/lineChange/*/internet | /*/lineChange/*/seat"
+        extends="modifyFeaturesWithoutCI_template">
+      </RequestTemplate>
+      
+      <!-- desired countries, tariff options -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/lineChange/*/voice | /*/lineChange/*/internet | /*/lineChange/*/seat"
+        extends="modifyFeaturesWithCI_template">
+      </RequestTemplate>
+      
+      <!-- conditions -->
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/lineChange/*/voice | /*/lineChange/*/internet | /*/lineChange/*/seat"
+        extends="modifyFeaturesConditions_template"/>      
+      
+      <!-- DSL bandwidth -->      
+      <RequestTemplate fif-request-name="modifyFeatureServices" 
+        sourceWorkingPath="/*/lineChange/*/internet"
+        extends="modifyFeatures_template">        
+        <TemplateConditions>
+          <base:IsNotMember value="1" sourceAttrName="compare(*/DSLBandwidth/existing, */DSLBandwidth/configured)" />
+          <base:IsNotMember value="-1" sourceAttrName="compare(*/DSLBandwidth/existing, */DSLBandwidth/configured)" />
+        </TemplateConditions>
+        <RPMapping staticValue="COM_BW_CHANGE" targetName="reason" />
+        <RPListTemplate listName="existingServiceList">
+          <RPListItemTemplate sourceWorkingPath="*/DSLBandwidth/existing">
+            <RPMapping sourceAttrName="." targetName="serviceCode" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+        <RPListTemplate listName="configuredServiceList">
+          <RPListItemTemplate sourceWorkingPath="*/DSLBandwidth/configured">
+            <RPMapping sourceAttrName="." targetName="serviceCode" />
+          </RPListItemTemplate>
+        </RPListTemplate>        
+      </RequestTemplate>
+      
+      <!-- activations -->
+      <RequestTemplate fif-request-name="activateCustomerOrder" 
+        sourceWorkingPath="/*/lineChange/*/voice | /*/lineChange/*/internet | /*/lineChange/*/seat">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="processingType" />  
+            <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+          </OrComposite>          
+          <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+          <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        </TemplateConditions>
+        <RPMapping sourceAttrName="@ID" targetName="functionID" />
+      </RequestTemplate>
+      
+      <!-- activation of termination of a function within a line change -->
+      <RequestTemplate fif-request-name="activateCustomerOrder" 
+        sourceWorkingPath="/*/lineChange/*/internet | /*/lineChange/*/voice | /*/lineChange/*/seat | /*/lineChange/*/safetyPackage">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="TERM" sourceAttrName="processingType" />
+            <AndComposite>
+              <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+              <OrComposite>
+                <base:IsMember value="2" sourceAttrName="count(mobileSeatConfiguration|fixedSeatConfiguration|convergedSeatConfiguration)" />
+                <base:IsMember value="2" sourceAttrName="count(adslInternetConfiguration|sdslInternetConfiguration)" />
+              </OrComposite>
+            </AndComposite>
+          </OrComposite>
+          <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+          <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        </TemplateConditions>
+        <RPMapping sourceAttrName="@ID" targetName="functionID" />        
+      </RequestTemplate>
+      
+      <!-- directory entry -->      
+      <RequestTemplate fif-request-name="createDirectoryEntry" 
+        sourceWorkingPath="/*/lineChange/*/directoryEntry" 
+        extends="directoryEntry_template"/>      
+      
+      <!-- LINE CHANGE END ********************************************************************************************** -->
+      
+      <!-- TERMINATIONS START -->
+      
+      <!-- real termination, order position = termination -->
+      <RequestTemplate fif-request-name="terminateFunction" 
+        sourceWorkingPath="/*/termination/*/internet | /*/termination/*/voice | /*/termination/*/seat | /*/termination/*/safetyPackage"
+        extends="terminateFunction_template">
+        <TemplateConditions>
+          <base:IsMember value="TERM" sourceAttrName="processingType" />
+        </TemplateConditions>
+        <RPMapping targetName="terminationReason" sourceAttrName="/order/termination/terminationReasonCode" />               
+      </RequestTemplate>
+      
+      <!-- activation of termination of a function -->
+      <RequestTemplate fif-request-name="activateCustomerOrder" 
+        sourceWorkingPath="/*/termination/*/internet | /*/termination/*/voice | /*/termination/*/seat | /*/termination/*/safetyPackage">
+        <TemplateConditions>
+          <base:IsMember value="TERM" sourceAttrName="processingType" />
+          <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+          <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        </TemplateConditions>
+        <RPMapping sourceAttrName="@ID" targetName="functionID" />        
+      </RequestTemplate>
+      
+      <!-- TERMINATIONS END -->
+      
+    </RequestListTemplate>
+  </RootTemplate>
+  
+  <BaseTemplates>
+
+    <AbstractTransformationTemplate
+      ID="terminateFunction_template">
+      <TemplateConditions>
+        <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+        <OrComposite>
+          <base:IsMember value="VI204" sourceAttrName="*/productCode/* | productCode/*" />
+          <base:IsMember value="VI205" sourceAttrName="*/productCode/* | productCode/*" />
+          <base:IsMember value="I1207" sourceAttrName="*/productCode/* | productCode/*" />
+        </OrComposite>
+      </TemplateConditions>
+      
+      <RPMapping sourceAttrName="ccbId[@type='S']/existing" targetName="serviceSubscriptionId" />
+      <RPMapping sourceAttrName="processingType" targetName="processingType" />
+      <RPMapping sourceAttrName="processingStatus" targetName="processingStatus" />
+      <RPMapping sourceAttrName="@ID" targetName="functionID" />
+      <RPMapping sourceAttrName="current-date()" 
+        targetName="terminationDate" 
+        formatter="SOMToCCBDateFormatter"/>
+      <RPMapping sourceAttrName="/order/*/orderReceivedDate" 
+        targetName="noticePeriodStartDate" 
+        formatter="SOMToCCBDateFormatter"/>
+      <RPMapping targetName="providerTrackingNumber" sourceAttrName="providerTrackingNumber/configured" />
+      <!-- TODO terminationFee -->              
+    </AbstractTransformationTemplate>    
+    
+
+    <AbstractTransformationTemplate
+      ID="reconfigureFunction_template">      
+      <TemplateConditions>
+        <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+        <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+        <base:IsMember value="1" sourceAttrName="count(
+          mobileSeatConfiguration | fixedSeatConfiguration | convergedSeatConfiguration |
+          adslInternetConfiguration | sdslInternetConfiguration | ipCentrexSiteConfiguration)"/>
+      </TemplateConditions>
+      
+      <RPMapping sourceAttrName="ccbId[@type='S']/existing" targetName="serviceSubscriptionId" />
+      <RPMapping sourceAttrName="processingStatus" targetName="processingStatus" />
+      <RPMapping targetName="customerNumber" sourceAttrName="../../beneficiary/ccbId[@type='C']/*" />
+      <RPMapping sourceAttrName="@ID" targetName="functionID" />
+      <RPMapping targetName="activationDate" sourceAttrName="resultDate" formatter="SOMToCCBDateFormatter"/>
+      <RPMapping targetName="providerTrackingNumber" sourceAttrName="providerTrackingNumber/configured" />
+      <RPMapping targetName="productCode" sourceAttrName="*/productCode/*" />
+    </AbstractTransformationTemplate>        
+        
+    <AbstractTransformationTemplate
+      ID="modifyFeaturesConditions_template"
+      extends="modifyFeatures_template">
+      <TemplateConditions>
+        <base:IsExisting sourceAttrName="*/conditionsList" />
+      </TemplateConditions>
+      <RPListTemplate listName="configuredServiceList">
+        <RPListItemTemplate sourceWorkingPath="*/conditionsList/configured/*">
+          <RPMapping targetName="serviceCode" 
+            sourceAttrName="conditionServiceType" 
+            decoding="'CO', 'V0045', 'CM', 'V0046'" />
+          <RPMapping targetName="conditionName" sourceAttrName="conditionServiceName" />
+          <RPMapping targetName="conditionId" sourceAttrName="conditionServiceID" />
+        </RPListItemTemplate>
+      </RPListTemplate>      
+    </AbstractTransformationTemplate>
+    
+    <AbstractTransformationTemplate
+      ID="modifyFeaturesWithoutCI_template"
+      extends="modifyFeatures_template">
+      <TemplateConditions>
+        <base:IsExisting sourceAttrName="*/featuresList | */chargesAndCreditsList" />
+      </TemplateConditions>
+      <RPListTemplate listName="existingServiceList">
+        <RPListItemTemplate sourceWorkingPath="*/featuresList/existing/* | */chargesAndCreditsList/existing/*">
+          <RPMapping sourceAttrName="." targetName="serviceCode" />
+        </RPListItemTemplate>
+      </RPListTemplate>      
+      <RPListTemplate listName="configuredServiceList">
+        <RPListItemTemplate sourceWorkingPath="*/featuresList/configured/* | */chargesAndCreditsList/configured/*">
+          <RPMapping sourceAttrName="." targetName="serviceCode" />
+        </RPListItemTemplate>
+      </RPListTemplate>      
+    </AbstractTransformationTemplate>
+
+    <AbstractTransformationTemplate
+      ID="modifyFeaturesWithCI_template"
+      extends="modifyFeatures_template">
+      <TemplateConditions>
+        <base:IsExisting sourceAttrName="*/tariffOptionsList | */desiredCountriesList" />
+      </TemplateConditions>
+      <RPListTemplate listName="existingServiceList">
+        <RPListItemTemplate sourceWorkingPath="*/tariffOptionsList/existing/tariffOption/serviceCode | */desiredCountriesList/existing/*">
+          <RPMapping sourceAttrName="." targetName="serviceCode" />
+        </RPListItemTemplate>
+      </RPListTemplate>      
+      <RPListTemplate listName="configuredServiceList">
+        <RPListItemTemplate sourceWorkingPath="*/tariffOptionsList/configured/tariffOption/serviceCode | */desiredCountriesList/configured/*">
+          <RPMapping sourceAttrName="." targetName="serviceCode" />
+          <RPMapping staticValue="Y" targetName="createContributingItem" />
+        </RPListItemTemplate>
+      </RPListTemplate>
+    </AbstractTransformationTemplate>
+    
+    <AbstractTransformationTemplate
+      ID="modifyFeatures_template">
+      <TemplateConditions>
+        <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+        <OrComposite>
+          <base:IsMember value="ADD" sourceAttrName="processingType" />
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />  
+        </OrComposite>          
+      </TemplateConditions>
+      
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="ccbId[@type='S']/configured" />
+        </TemplateConditions>
+        <RPMapping sourceAttrName="ccbId[@type='S']/configured" targetName="serviceSubscriptionId" />
+      </TransformationTemplate>        
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="ccbId[@type='S']/configured" />
+        </TemplateConditions>
+        <RPMapping sourceAttrName="ccbId[@type='S']/existing" targetName="serviceSubscriptionId" />
+      </TransformationTemplate>        
+      
+      <RPMapping sourceAttrName="processingStatus" targetName="processingStatus" />
+      <RPMapping sourceAttrName="@ID" targetName="functionID" />
+      <RPMapping targetName="providerTrackingNumber" sourceAttrName="providerTrackingNumber/configured" />
+    </AbstractTransformationTemplate>
+    
+    <!-- template for entity creation START -->
+    <AbstractTransformationTemplate ID="entityCreation_template"
+      extends="masterdata_template">
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="organization" />
+        </TemplateConditions>
+        <RPMapping targetName="salutationDescription" sourceAttrName="organization/salutation/configured" />
+        <RPMapping targetName="name" sourceAttrName="organization/name/configured" />
+        <RPMapping targetName="organizationType" sourceAttrName="organization/organizationType/configured" />
+        <RPMapping targetName="organizationSuffixName" sourceAttrName="organization/organizationSuffixName/configured" />
+        <RPMapping targetName="incorporationNumber" sourceAttrName="organization/incorporationNumber/configured" />
+        <RPMapping targetName="incorporationType" sourceAttrName="organization/incorporationType/configured" />
+        <RPMapping targetName="incorporationCityName" sourceAttrName="organization/incorporationCityName/configured" />
+      </TransformationTemplate>          
+      
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="individual" />
+        </TemplateConditions>
+        <RPMapping targetName="salutationDescription" sourceAttrName="individual/salutation/configured" />
+        <RPMapping targetName="name" sourceAttrName="individual/name/configured" />
+        <RPMapping targetName="forename" sourceAttrName="individual/forename/configured" />
+        <RPMapping targetName="titleDescription" sourceAttrName="individual/titleDescription/configured" />
+        <RPMapping targetName="nobilityPrefixDescription" sourceAttrName="individual/nobilityPrefixDescription/configured" />
+        <RPMapping targetName="surnamePrefix" sourceAttrName="individual/surnamePrefix/configured" />
+        <RPMapping targetName="birthDate" sourceAttrName="individual/birthDate/configured" formatter="SOMToCCBDateFormatter" />
+      </TransformationTemplate>          
+      
+      <RPMapping targetName="phoneNumber" sourceAttrName="*/accessInformation/configured/phoneNumber" />
+      <RPMapping targetName="contactName" sourceAttrName="*/accessInformation/configured/contactName" />
+      <RPMapping targetName="mobileNumber" sourceAttrName="*/accessInformation/configured/mobileNumber" />
+      <RPMapping targetName="faxNumber" sourceAttrName="*/accessInformation/configured/faxNumber" />
+      <RPMapping targetName="emailAddress" sourceAttrName="*/accessInformation/configured/emailAddress" />
+      <RPMapping targetName="electronicContactIndicator" 
+        sourceAttrName="*/accessInformation/configured/electronicContactIndicator" 
+        decoding="'true','Y','N'"/>
+      <RPMapping targetName="accessInformationTyp" sourceAttrName="*/accessInformation/configured/accessInformationType" />
+      
+      <RPMapping targetName="streetName" sourceAttrName="*/address/configured/street" />
+      <RPMapping targetName="streetNumber" sourceAttrName="*/address/configured/streetNumber" />
+      <RPMapping targetName="postalCode" sourceAttrName="*/address/configured/postalCode" />
+      <RPMapping targetName="cityName" sourceAttrName="*/address/configured/city" />
+      <RPMapping targetName="citySuffix" sourceAttrName="*/address/configured/citySuffix" />
+      <RPMapping targetName="additionalText" sourceAttrName="*/address/configured/additionalAddressDescription" />
+      <RPMapping targetName="numberSuffix" sourceAttrName="*/address/configured/streetNumberSuffix" />      
+      <RPMapping targetName="countryCode" sourceAttrName="*/address/configured/country" />      
+    </AbstractTransformationTemplate>    
+    <!-- template for entity creation END -->
+    
+    <!-- ****************************************************************** -->
+    
+    <!-- standalone functions (functions with an own contract) START -->
+    <AbstractTransformationTemplate ID="standaloneContractFunctionCreation_template"
+      extends="baseFunctionCreation_template">
+
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="serviceDeliveryContractCcbId/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="serviceDeliveryContractNumber" sourceAttrName="serviceDeliveryContractCcbId/configured"/>                   
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="serviceDeliveryContractCcbId/configured" />
+          <base:IsExisting sourceAttrName="serviceDeliveryContractCcbId/existing" />
+        </TemplateConditions>
+        <RPMapping targetName="serviceDeliveryContractNumber" sourceAttrName="serviceDeliveryContractCcbId/existing"/>                   
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="serviceDeliveryContractCcbId" />
+        </TemplateConditions>
+        <RPMapping targetName="serviceDeliveryContractNumber"           
+          sourceAttrName="/*/customerData/serviceDeliveryContract[@ID='${serviceDeliveryContractNodeRefID}']/ccbId[@type='D']/*"/>                   
+      </TransformationTemplate>
+      
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="skeletonContractCcbId/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="assocSkeletonContNum" sourceAttrName="skeletonContractCcbId/configured"/>                   
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="skeletonContractCcbId/configured" />
+          <base:IsExisting sourceAttrName="skeletonContractCcbId/existing" />
+        </TemplateConditions>
+        <RPMapping targetName="assocSkeletonContNum" sourceAttrName="skeletonContractCcbId/existing"/>                   
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="skeletonContractCcbId" />
+        </TemplateConditions>
+        <RPMapping targetName="assocSkeletonContNum"           
+          sourceAttrName="/*/customerData/skeletonContract[@ID='${skeletonContractNodeRefID}']/ccbId[@type='K']/*"/>                   
+      </TransformationTemplate>
+      
+      <RPMapping targetName="tariff" sourceAttrName="*/pricingStructureCode/configured" />
+      <RPMapping targetName="primaryCustSignName" sourceAttrName="*/primaryCustSignName/configured" />
+      <RPMapping targetName="primaryCustSignDate" sourceAttrName="*/primaryCustSignDate/configured" formatter="SOMToCCBDateFormatter" />
+      <RPMapping targetName="minPeriodDurationValue" sourceAttrName="*/minimumDurationPeriod/value/configured" />
+      <RPMapping targetName="minPeriodDurationUnit" sourceAttrName="*/minimumDurationPeriod/unit/configured" />
+      <RPMapping targetName="termStartDate" sourceAttrName="*/minimumDurationPeriod/startDate/configured" formatter="SOMToCCBDateFormatter" />        
+      <RPMapping targetName="autoExtentPeriodValue" sourceAttrName="*/autoExtension/value/configured" />
+      <RPMapping targetName="autoExtentPeriodUnit" sourceAttrName="*/autoExtension/unit/configured" />
+      <RPMapping targetName="autoExtensionInd" sourceAttrName="*/autoExtension/autoExtensionIndicator/configured" decoding="'true', 'Y', 'N'" />
+      <RPMapping targetName="specialTerminationRight" sourceAttrName="*/specialTerminationRight/configured" decoding="'true', 'Y', 'N'" />        
+      <RPMapping targetName="noticePeriodDurationValue" sourceAttrName="*/noticePeriod/value/configured" />
+      <RPMapping targetName="noticePeriodDurationUnit" sourceAttrName="*/noticePeriod/unit/configured" />
+      <RPMapping targetName="terminationRestriction" sourceAttrName="*/noticePeriod/noticeRestriction/configured" />
+      
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="*/visTrackingPosition/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="VISTrackingPosition" sourceAttrName="*/visTrackingPosition/configured"/>                   
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="*/visTrackingPosition/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="VISTrackingPosition" sourceAttrName="*/visTrackingPosition/existing"/>                   
+      </TransformationTemplate>
+    </AbstractTransformationTemplate>    
+    <!-- standalone functions (functions with an own contract) END -->
+    
+    <!-- ****************************************************************** -->
+    
+    <!-- IPCentrexSeat creation START -->
+    <AbstractTransformationTemplate ID="IPCentrexSeatCreation_template"
+      extends="standaloneContractFunctionCreation_template">    
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="*/subsidizedHardwareIndicator/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="isHardwareSubsidized" 
+          sourceAttrName="*/subsidizedHardwareIndicator/configured" 
+          decoding="'true', 'Y', 'N'"/>                   
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="*/subsidizedHardwareIndicator/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="isHardwareSubsidized" 
+          sourceAttrName="*/subsidizedHardwareIndicator/existing" 
+          decoding="'true', 'Y', 'N'"/>                   
+      </TransformationTemplate>
+      
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="mobileSeatConfiguration/*/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="seatType" staticValue="mobile" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="convergedSeatConfiguration/*/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="seatType" staticValue="converged" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="fixedSeatConfiguration/*/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="seatType" staticValue="fixed" />
+      </TransformationTemplate>
+      
+      <!-- characteristics for seats -->
+      <RPListTemplate listName="parameterList">
+        <RPListItemTemplate sourceWorkingPath="mobileSeatConfiguration/* | fixedSeatConfiguration/* | convergedSeatConfiguration/*">
+          <TransformationTemplate>
+            <TemplateConditions>
+              <base:IsNotMember value="boardSignName" sourceAttrName="name(.)" />
+              <base:IsNotMember value="boardSignDate" sourceAttrName="name(.)" />
+              <base:IsNotMember value="primaryCustSignName" sourceAttrName="name(.)" />
+              <base:IsNotMember value="primaryCustSignDate" sourceAttrName="name(.)" />
+              <base:IsNotMember value="pricingStructureCode" sourceAttrName="name(.)" />
+              <base:IsNotMember value="minimumDurationPeriod" sourceAttrName="name(.)" />
+              <base:IsNotMember value="autoExtension" sourceAttrName="name(.)" />
+              <base:IsNotMember value="noticePeriod" sourceAttrName="name(.)" />
+              <base:IsNotMember value="specialTerminationRight" sourceAttrName="name(.)" />
+              <base:IsNotMember value="conditionsList" sourceAttrName="name(.)" />
+            </TemplateConditions>
+            <RPMapping sourceAttrName="name(.)" targetName="parameterName" />
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="configured" />
+                <base:IsNotExisting sourceAttrName="configured/*" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured" targetName="configuredValue" />
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing" />
+                <base:IsNotExisting sourceAttrName="existing/*" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing" targetName="existingValue" />              
+            </TransformationTemplate>
+            <!-- parameters for configured access numbers -->
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="configured/countryCode" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured/countryCode" targetName="configuredCountryCode" />
+              <RPMapping sourceAttrName="configured/localAreaCode" targetName="configuredAreaCode" />
+              <RPMapping sourceAttrName="configured/pilotNumber" targetName="configuredLocalNumber" />
+            </TransformationTemplate>
+            <!-- additional parameters ranges -->
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="configured/startNumber" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured/startNumber" targetName="configuredStartNumber" />
+              <RPMapping sourceAttrName="configured/endNumber" targetName="configuredEndNumber" />
+            </TransformationTemplate>
+            <!-- parameters for existing access numbers -->
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing/countryCode" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing/countryCode" targetName="existingCountryCode" />
+              <RPMapping sourceAttrName="existing/localAreaCode" targetName="existingAreaCode" />
+              <RPMapping sourceAttrName="existing/pilotNumber" targetName="existingLocalNumber" />
+            </TransformationTemplate>
+            <!-- additional parameters ranges -->
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing/startNumber" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing/startNumber" targetName="existingStartNumber" />
+              <RPMapping sourceAttrName="existing/endNumber" targetName="existingEndNumber" />
+            </TransformationTemplate>
+          </TransformationTemplate>
+        </RPListItemTemplate>
+      </RPListTemplate>      
+      
+    </AbstractTransformationTemplate>    
+    <!-- IPCentrexSeat creation END -->
+
+    <!-- IPCentrexSite creation START -->
+    <AbstractTransformationTemplate ID="IPCentrexSiteCreation_template"
+      extends="standaloneContractFunctionCreation_template">    
+      <TemplateConditions>
+        <base:IsExisting sourceAttrName="ipCentrexSiteConfiguration" />
+      </TemplateConditions>
+      
+      <RPMapping staticValue="Y" targetName="is133" />
+      
+      <RPListTemplate listName="parameterList">
+        <RPListItemTemplate sourceWorkingPath="/*/*/*/ipCentrex/ipCentrexConfiguration/* 
+          | /*/*/*/voice/ipCentrexSiteConfiguration/*
+          | /*/*/*/voice/ipCentrexSiteConfiguration/portingAccessNumbers/*
+          | /*/*/*/voice/ipCentrexSiteConfiguration/portingAccessNumberRanges/*">
+          <TransformationTemplate>
+            <TemplateConditions>
+              <base:IsNotMember value="boardSignName" sourceAttrName="name(.)" />
+              <base:IsNotMember value="boardSignDate" sourceAttrName="name(.)" />
+              <base:IsNotMember value="primaryCustSignName" sourceAttrName="name(.)" />
+              <base:IsNotMember value="primaryCustSignDate" sourceAttrName="name(.)" />
+              <base:IsNotMember value="pricingStructureCode" sourceAttrName="name(.)" />
+              <base:IsNotMember value="minimumDurationPeriod" sourceAttrName="name(.)" />
+              <base:IsNotMember value="autoExtension" sourceAttrName="name(.)" />
+              <base:IsNotMember value="noticePeriod" sourceAttrName="name(.)" />
+              <base:IsNotMember value="specialTerminationRight" sourceAttrName="name(.)" />
+              <base:IsNotMember value="conditionsList" sourceAttrName="name(.)" />
+            </TemplateConditions>
+            <RPMapping sourceAttrName="name(.)" targetName="parameterName" />
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="configured" />
+                <base:IsNotExisting sourceAttrName="configured/*" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured" targetName="configuredValue" />
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing" />
+                <base:IsNotExisting sourceAttrName="existing/*" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing" targetName="existingValue" />              
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="configured/name" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured/name" targetName="configuredName" />
+              <RPMapping sourceAttrName="configured/firstName" targetName="configuredFirstName" />
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing/name" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing/name" targetName="existingName" />
+              <RPMapping sourceAttrName="existing/firstName" targetName="existingFirstName" />
+            </TransformationTemplate>
+            <!-- parameters for configured access numbers -->
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="configured/countryCode" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured/countryCode" targetName="configuredCountryCode" />
+              <RPMapping sourceAttrName="configured/localAreaCode" targetName="configuredAreaCode" />
+              <RPMapping sourceAttrName="configured/pilotNumber" targetName="configuredLocalNumber" />
+            </TransformationTemplate>
+            <!-- additional parameters ranges -->
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="configured/startNumber" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured/startNumber" targetName="configuredStartNumber" />
+              <RPMapping sourceAttrName="configured/endNumber" targetName="configuredEndNumber" />
+            </TransformationTemplate>
+            <!-- parameters for existing access numbers -->
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing/countryCode" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing/countryCode" targetName="existingCountryCode" />
+              <RPMapping sourceAttrName="existing/localAreaCode" targetName="existingAreaCode" />
+              <RPMapping sourceAttrName="existing/pilotNumber" targetName="existingLocalNumber" />
+            </TransformationTemplate>
+            <!-- additional parameters ranges -->
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing/startNumber" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing/startNumber" targetName="existingStartNumber" />
+              <RPMapping sourceAttrName="existing/endNumber" targetName="existingEndNumber" />
+            </TransformationTemplate>
+            <!-- service location parameters -->
+            <TransformationTemplate>
+              <TemplateConditions>
+                <OrComposite>
+                  <base:IsExisting sourceAttrName="configured/floor" />
+                  <base:IsExisting sourceAttrName="configured/room" />
+                  <base:IsExisting sourceAttrName="configured/jackLocation" />
+                  <base:IsExisting sourceAttrName="configured/desk" />
+                  <base:IsExisting sourceAttrName="configured/additionalInformation" />
+                </OrComposite>
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured/floor" targetName="configuredFloor" />
+              <RPMapping sourceAttrName="configured/room" targetName="configuredRoomNumber" />
+              <RPMapping sourceAttrName="configured/jackLocation" targetName="configuredJackLocation" />
+              <RPMapping sourceAttrName="configured/desk" targetName="configuredDeskNumber" />
+              <RPMapping sourceAttrName="configured/additionalInformation" targetName="configuredAdditionalLocationInfo" />
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing/floor" />
+                <base:IsExisting sourceAttrName="existing/room" />
+                <base:IsExisting sourceAttrName="existing/jackLocation" />
+                <base:IsExisting sourceAttrName="existing/desk" />
+                <base:IsExisting sourceAttrName="existing/additionalInformation" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing/floor" targetName="existingFloor" />
+              <RPMapping sourceAttrName="existing/room" targetName="existingRoomNumber" />
+              <RPMapping sourceAttrName="existing/jackLocation" targetName="existingJackLocation" />
+              <RPMapping sourceAttrName="existing/desk" targetName="existingDeskNumber" />
+              <RPMapping sourceAttrName="existing/additionalInformation" targetName="existingAdditionalLocationInfo" />
+            </TransformationTemplate>
+            <!-- addresses -->              
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="configured/street" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured/street" targetName="configuredStreet" />
+              <RPMapping sourceAttrName="configured/streetNumber" targetName="configuredStreetNumber" />
+              <RPMapping sourceAttrName="configured/streetNumberSuffix" targetName="configuredStreetNumberSuffix" />
+              <RPMapping sourceAttrName="configured/postalCode" targetName="configuredPostalCode" />
+              <RPMapping sourceAttrName="configured/city" targetName="configuredCity" />
+              <RPMapping sourceAttrName="configured/citySuffix" targetName="configuredCitySuffix" />
+              <RPMapping sourceAttrName="configured/additionalAddressDescription" targetName="configuredAdditionalAddressDescription" />
+              <RPMapping sourceAttrName="configured/country" targetName="configuredCountry" />                
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing/street" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing/street" targetName="existingStreet" />
+              <RPMapping sourceAttrName="existing/streetNumber" targetName="existingStreetNumber" />
+              <RPMapping sourceAttrName="existing/streetNumberSuffix" targetName="existingStreetNumberSuffix" />
+              <RPMapping sourceAttrName="existing/postalCode" targetName="existingPostalCode" />
+              <RPMapping sourceAttrName="existing/city" targetName="existingCity" />
+              <RPMapping sourceAttrName="existing/citySuffix" targetName="existingCitySuffix" />
+              <RPMapping sourceAttrName="existing/additionalAddressDescription" targetName="existingAdditionalAddressDescription" />
+              <RPMapping sourceAttrName="existing/country" targetName="existingCountry" />                
+            </TransformationTemplate>
+          </TransformationTemplate>
+        </RPListItemTemplate>
+      </RPListTemplate>      
+      
+    </AbstractTransformationTemplate>    
+    <!-- IPCentrexSite creation END -->
+    
+    <!-- BusinessDSL creation START -->
+    <AbstractTransformationTemplate ID="BusinessDSLCreation_template"
+      extends="standaloneContractFunctionCreation_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember value="ADD" sourceAttrName="processingType" />
+          <AndComposite>
+            <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+            <base:IsMember value="2" sourceAttrName="count(adslInternetConfiguration|sdslInternetConfiguration)" />
+          </AndComposite>
+        </OrComposite>
+      </TemplateConditions>
+      
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="adslInternetConfiguration/*/configured" />
+        </TemplateConditions>
+        <RPMapping staticValue="ADSL" targetName="businessDslType" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="sdslInternetConfiguration/*/configured" />
+        </TemplateConditions>
+        <RPMapping staticValue="SDSL" targetName="businessDslType" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="*/DSLBandwidth/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="dslBandwidth" sourceAttrName="*/DSLBandwidth/configured" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="*/DSLBandwidth/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="dslBandwidth" sourceAttrName="*/DSLBandwidth/existing" />
+      </TransformationTemplate>
+      
+      <RPListTemplate listName="parameterList">
+        <RPListItemTemplate sourceWorkingPath="
+          /*/*/*/businessDSL/businessDSLConfiguration/* | /*/*/*/businessDSL/businessDSLConfiguration/* | 
+          /*/*/*/internet/adslInternetConfiguration/* | /*/*/*/internet/sdslInternetConfiguration/*">
+          <TransformationTemplate>
+            <TemplateConditions>
+              <base:IsNotMember value="boardSignName" sourceAttrName="name(.)" />
+              <base:IsNotMember value="boardSignDate" sourceAttrName="name(.)" />
+              <base:IsNotMember value="primaryCustSignName" sourceAttrName="name(.)" />
+              <base:IsNotMember value="primaryCustSignDate" sourceAttrName="name(.)" />
+              <base:IsNotMember value="pricingStructureCode" sourceAttrName="name(.)" />
+              <base:IsNotMember value="minimumDurationPeriod" sourceAttrName="name(.)" />
+              <base:IsNotMember value="autoExtension" sourceAttrName="name(.)" />
+              <base:IsNotMember value="noticePeriod" sourceAttrName="name(.)" />
+              <base:IsNotMember value="specialTerminationRight" sourceAttrName="name(.)" />
+              <base:IsNotMember value="conditionsList" sourceAttrName="name(.)" />
+            </TemplateConditions>
+            <RPMapping sourceAttrName="name(.)" targetName="parameterName" />
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="configured" />
+                <base:IsNotExisting sourceAttrName="configured/*" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured" targetName="configuredValue" />
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing" />
+                <base:IsNotExisting sourceAttrName="existing/*" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing" targetName="existingValue" />              
+            </TransformationTemplate>
+            <!-- service location parameters -->
+            <TransformationTemplate>
+              <TemplateConditions>
+                <OrComposite>
+                  <base:IsExisting sourceAttrName="configured/floor" />
+                  <base:IsExisting sourceAttrName="configured/room" />
+                  <base:IsExisting sourceAttrName="configured/jackLocation" />
+                  <base:IsExisting sourceAttrName="configured/desk" />
+                  <base:IsExisting sourceAttrName="configured/additionalInformation" />
+                </OrComposite>
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured/floor" targetName="configuredFloor" />
+              <RPMapping sourceAttrName="configured/room" targetName="configuredRoomNumber" />
+              <RPMapping sourceAttrName="configured/jackLocation" targetName="configuredJackLocation" />
+              <RPMapping sourceAttrName="configured/desk" targetName="configuredDeskNumber" />
+              <RPMapping sourceAttrName="configured/additionalInformation" targetName="configuredAdditionalLocationInfo" />
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing/floor" />
+                <base:IsExisting sourceAttrName="existing/room" />
+                <base:IsExisting sourceAttrName="existing/jackLocation" />
+                <base:IsExisting sourceAttrName="existing/desk" />
+                <base:IsExisting sourceAttrName="existing/additionalInformation" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing/floor" targetName="existingFloor" />
+              <RPMapping sourceAttrName="existing/room" targetName="existingRoomNumber" />
+              <RPMapping sourceAttrName="existing/jackLocation" targetName="existingJackLocation" />
+              <RPMapping sourceAttrName="existing/desk" targetName="existingDeskNumber" />
+              <RPMapping sourceAttrName="existing/additionalInformation" targetName="existingAdditionalLocationInfo" />
+            </TransformationTemplate>
+            <!-- addresses -->              
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="configured/street" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="configured/street" targetName="configuredStreet" />
+              <RPMapping sourceAttrName="configured/streetNumber" targetName="configuredStreetNumber" />
+              <RPMapping sourceAttrName="configured/streetNumberSuffix" targetName="configuredStreetNumberSuffix" />
+              <RPMapping sourceAttrName="configured/postalCode" targetName="configuredPostalCode" />
+              <RPMapping sourceAttrName="configured/city" targetName="configuredCity" />
+              <RPMapping sourceAttrName="configured/citySuffix" targetName="configuredCitySuffix" />
+              <RPMapping sourceAttrName="configured/additionalAddressDescription" targetName="configuredAdditionalAddressDescription" />
+              <RPMapping sourceAttrName="configured/country" targetName="configuredCountry" />                
+            </TransformationTemplate>
+            <TransformationTemplate>
+              <TemplateConditions>
+                <base:IsExisting sourceAttrName="existing/street" />
+              </TemplateConditions>
+              <RPMapping sourceAttrName="existing/street" targetName="existingStreet" />
+              <RPMapping sourceAttrName="existing/streetNumber" targetName="existingStreetNumber" />
+              <RPMapping sourceAttrName="existing/streetNumberSuffix" targetName="existingStreetNumberSuffix" />
+              <RPMapping sourceAttrName="existing/postalCode" targetName="existingPostalCode" />
+              <RPMapping sourceAttrName="existing/city" targetName="existingCity" />
+              <RPMapping sourceAttrName="existing/citySuffix" targetName="existingCitySuffix" />
+              <RPMapping sourceAttrName="existing/additionalAddressDescription" targetName="existingAdditionalAddressDescription" />
+              <RPMapping sourceAttrName="existing/country" targetName="existingCountry" />                
+            </TransformationTemplate>
+          </TransformationTemplate>
+        </RPListItemTemplate>
+      </RPListTemplate>
+    </AbstractTransformationTemplate>    
+    <!-- BusinessDSL creation END -->
+    
+    <!-- base template for dependent functions like TBE, installation service and hardware -->
+    <AbstractTransformationTemplate ID="dependentFunctionCreation_template"
+      extends="baseFunctionCreation_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember value="completedOPM" 
+            sourceAttrName="/*/*/functions/*[@ID='${refFunctionID/*}']/processingStatus" />
+          <base:IsMember value="completedCCM" 
+            sourceAttrName="/*/*/functions/*[@ID='${refFunctionID/*}']/processingStatus" />
+          <base:IsMember value="noactionOPM" 
+            sourceAttrName="/*/*/functions/*[@ID='${refFunctionID/*}']/processingStatus" />
+          <base:IsMember value="IGNORE" 
+            sourceAttrName="/*/*/functions/*[@ID='${refFunctionID/*}']/processingType" />
+        </OrComposite>
+      </TemplateConditions>
+      <!-- ID of parent function, either existing one -->
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="/*/*/functions/*[@ID='${refFunctionID/*}']/ccbId[@type='S']/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="serviceSubscriptionId" sourceAttrName="/*/*/functions/*[@ID='${refFunctionID/*}']/ccbId[@type='S']/configured"/>
+      </TransformationTemplate>
+      <!-- ID of parent function, or the configured, but already created one -->
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="/*/*/functions/*[@ID='${refFunctionID/*}']/ccbId[@type='S']/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="serviceSubscriptionId" sourceAttrName="/*/*/functions/*[@ID='${refFunctionID/*}']/ccbId[@type='S']/existing"/>
+      </TransformationTemplate>
+      <RPMapping targetName="type" sourceAttrName="refFunctionID/*" />
+    </AbstractTransformationTemplate>    
+    
+    <!-- base template for all kind of functions, contract and dependent functions -->
+    <AbstractTransformationTemplate ID="baseFunctionCreation_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember value="ADD" sourceAttrName="processingType" />
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+        </OrComposite>
+        <base:IsExisting sourceAttrName="ccbId[@type='S']/configured"/>
+        <OrComposite>
+          <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+          <base:IsMember value="noactionOPM" sourceAttrName="processingStatus" />
+        </OrComposite>
+        <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+      </TemplateConditions>
+      
+      <!-- take the payer either directly or via reference -->
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="../../payerAllCharges/billingAccountNodeRefID" />
+        </TemplateConditions>
+        <RPMapping targetName="accountNumber" sourceAttrName="/*/customerData/billingAccount[@ID='${../../payerAllCharges/billingAccountNodeRefID}']/ccbId[@type='A']/*"/>
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="../../payerAllCharges/billingAccountNodeRefID" />
+        </TemplateConditions>
+        <RPMapping targetName="accountNumber" sourceAttrName="../../payerAllCharges/ccbId[@type='A']/*"/>
+      </TransformationTemplate>
+      
+      <!-- take the customer either directly from beneficiary or via reference -->
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="../../beneficiary/customerNodeRefID" />
+        </TemplateConditions>
+        <RPMapping targetName="customerNumber" sourceAttrName="/*/customerData/customer[@ID='${../../beneficiary/customerNodeRefID}']/ccbId[@type='C']/*"/>
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="../../beneficiary/customerNodeRefID" />
+        </TemplateConditions>
+        <RPMapping targetName="customerNumber" sourceAttrName="../../beneficiary/ccbId[@type='C']/*"/>
+      </TransformationTemplate>
+      
+      <RPMapping targetName="existingServiceSubscriptionId" sourceAttrName="ccbId[@type='S']/existing" />
+      <RPMapping targetName="allocatedServiceSubscriptionId" sourceAttrName="ccbId[@type='S']/configured" />
+      <RPMapping targetName="customerNumber" sourceAttrName="../../beneficiary/ccbId[@type='C']/*" />
+      <RPMapping targetName="functionID" sourceAttrName="@ID" />
+      <RPMapping targetName="processingStatus" sourceAttrName="processingStatus" />
+      <RPMapping targetName="activationDate" sourceAttrName="resultDate" formatter="SOMToCCBDateFormatter"/>
+      <RPMapping targetName="providerTrackingNumber" sourceAttrName="providerTrackingNumber/configured" />      
+    </AbstractTransformationTemplate>    
+    
+    <AbstractTransformationTemplate ID="installationService_template"
+      extends="dependentFunctionCreation_template">      
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="*/desiredDate/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="desiredDate" 
+          sourceAttrName="*/desiredDate/configured" 
+          formatter="SOMToCCBDateFormatter" />
+      </TransformationTemplate>
+
+      <RPMapping targetName="installationServiceCode" 
+        sourceAttrName="/*/*/functions/*[@ID='${refFunctionID/*}']/*/productCode/*" 
+        decoding="'VI204', 'VI060', 'VI205', 'VI060', 'V0277'"/>
+      <RPMapping targetName="installationPackage" sourceAttrName="*/installationPackage/configured" />
+      <RPMapping targetName="signatureRequiredIndicator" sourceAttrName="*/signatureRequiredIndicator/configured" decoding="'true', 'Y', 'N'" />
+      <RPMapping targetName="contactPhoneNumber" sourceAttrName="*/contactPhoneNumber/configured" />
+      <RPMapping targetName="sundayService" sourceAttrName="*/sundayServiceIndicator/configured" decoding="'true', 'Y', 'N'" />
+      <RPMapping targetName="quantity" sourceAttrName="*/quantity/configured" />      
+    </AbstractTransformationTemplate>
+    
+    <AbstractTransformationTemplate ID="hardwareService_template"
+      extends="dependentFunctionCreation_template">      
+      <RPMapping targetName="isDependentService" 
+        sourceAttrName="hardwareConfiguration/hardwareServiceCode" 
+        decoding="'V0114', 'N', 'I1350', 'N', 'Y'"/>
+      <RPMapping targetName="articleNumber" sourceAttrName="hardwareConfiguration/articleNumber" />
+      <RPMapping targetName="articleName" sourceAttrName="hardwareConfiguration/articleName" />
+      <RPMapping targetName="serialNumber" sourceAttrName="hardwareConfiguration/serialNumber" />
+      <RPMapping targetName="remarks" sourceAttrName="hardwareConfiguration/remarks" />
+      <RPMapping targetName="subventionIndicator" sourceAttrName="hardwareConfiguration/subventionIndicator"/>
+      <RPMapping targetName="hardwareServiceCode" sourceAttrName="hardwareConfiguration/hardwareServiceCode" />
+      <RPMapping targetName="hardwareDeliverySalutation" sourceAttrName="hardwareConfiguration/salutationDescription" />
+      <RPMapping targetName="hardwareDeliveryForename" sourceAttrName="hardwareConfiguration/forename" />
+      <RPMapping targetName="hardwareDeliverySurname" sourceAttrName="hardwareConfiguration/name" />
+      <RPMapping targetName="hardwareDeliveryStreet" sourceAttrName="hardwareConfiguration/hardwareMailingAddress/configured/street" />
+      <RPMapping targetName="hardwareDeliveryNumber" sourceAttrName="hardwareConfiguration/hardwareMailingAddress/configured/streetNumber" />
+      <RPMapping targetName="hardwareDeliveryNumberSuffix" sourceAttrName="hardwareConfiguration/hardwareMailingAddress/configured/streetNumberSuffix" />
+      <RPMapping targetName="hardwareDeliveryPostalCode" sourceAttrName="hardwareConfiguration/hardwareMailingAddress/configured/postalCode" />
+      <RPMapping targetName="hardwareDeliveryCity" sourceAttrName="hardwareConfiguration/hardwareMailingAddress/configured/city" />
+      <RPMapping targetName="hardwareDeliveryCitySuffix" sourceAttrName="hardwareConfiguration/hardwareMailingAddress/configured/citySuffix" />
+    </AbstractTransformationTemplate>
+        
+    <AbstractTransformationTemplate ID="childService_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember value="ADD" sourceAttrName="processingType" />
+          <base:IsMember value="CHANGE" sourceAttrName="processingType" />
+        </OrComposite>
+        <base:IsMember value="completedOPM" sourceAttrName="processingStatus" />
+        <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        <!-- nur wenn Status = OPM schon fertig -->
+      </TemplateConditions>
+      <RPMapping targetName="serviceSubscriptionId" sourceAttrName="ccbId[@type='S']/*" />
+      <RPMapping targetName="functionID" sourceAttrName="@ID" />
+      <RPMapping targetName="processingStatus" sourceAttrName="processingStatus" />
+      <RPMapping targetName="activationDate" sourceAttrName="resultDate" formatter="SOMToCCBDateFormatter"/>
+      <RPMapping targetName="providerTrackingNumber" sourceAttrName="providerTrackingNumber/configured" />            
+    </AbstractTransformationTemplate>
+    
+    <AbstractTransformationTemplate ID="directoryEntry_template"
+      extends="dependentFunctionCreation_template">      
+      <RPMapping targetName="name" sourceAttrName="*/name/*" />
+      <RPMapping targetName="forename" sourceAttrName="*/forename/*" />
+      <RPMapping targetName="nobilityPrefixDescription" sourceAttrName="*/nobilityPrefixDescription/*" />
+      <RPMapping targetName="titleDescription" sourceAttrName="*/titleDescription/*" />
+      <RPMapping targetName="surnamePrefix" sourceAttrName="*/surnamePrefix/*" />
+      <RPMapping targetName="profession" sourceAttrName="*/profession/*" />
+      <RPMapping targetName="industrialSectorRd" sourceAttrName="*/industrialSectorRd/*" />
+      <RPMapping targetName="additionalText" sourceAttrName="*/listedAddress/*/additionalAddressDescription" />
+      <RPMapping targetName="streetName" sourceAttrName="*/listedAddress/*/street" />
+      <RPMapping targetName="streetNumber" sourceAttrName="*/listedAddress/*/streetNumber" />
+      <RPMapping targetName="numberSuffix" sourceAttrName="*/listedAddress/*/streetNumberSuffix" />
+      <RPMapping targetName="postalCode" sourceAttrName="*/listedAddress/*/postalCode" />
+      <RPMapping targetName="city" sourceAttrName="*/listedAddress/*/city" />
+      <RPMapping targetName="directoryEntryType" sourceAttrName="*/directoryEntryType/*" />
+      <RPMapping targetName="inverseSearchIndicator" sourceAttrName="*/inverseSearchIndicator/*" decoding="'true','J','N'" />
+      <RPMapping targetName="countryCode" sourceAttrName="*/listedPhoneNumber/*/countryCode" />
+      <RPMapping targetName="areaCode" sourceAttrName="*/listedPhoneNumber/*/localAreaCode" />
+      <RPMapping targetName="localNumber" sourceAttrName="*/listedPhoneNumber/*/pilotNumber" />
+    </AbstractTransformationTemplate>      
+
+    <AbstractTransformationTemplate ID="masterdata_template">      
+      <TemplateConditions>
+        <base:IsMember value="ADD" sourceAttrName="changeType" />
+        <base:IsMember value="masterdata" sourceAttrName="/order/*/transactionType" />
+      </TemplateConditions>        
+      <RPMapping targetName="somElementID" sourceAttrName="@ID" />
+    </AbstractTransformationTemplate>
+          
+  </BaseTemplates>
+</TransformationRepository>

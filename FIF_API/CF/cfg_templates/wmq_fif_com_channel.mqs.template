@@ -1,0 +1,87 @@
+* START HEADER
+*
+*        Project: COM
+*      Component: scripts
+*          Autor:
+*      $Revision:   1.1  $
+*        $Author:   schwarje  $
+*          $Date:   Oct 26 2011 15:11:22  $
+*
+*       Function: COM Client channel in FIF Queuemanager anlegen
+*
+*       Copyright (C) 2011 Vodafone
+*
+*=======================================================
+*
+* END HEADER
+
+* START PARAMETER
+* Parameter:            FIF.QUEUEMANAGER.NAME
+* ValidFrom:            COB-FEA 1-40-01
+* ValidTo:              open
+* Components:           COM
+* ParameterType:        STRING
+* ValidValues:          -
+* DefaultValue:         -
+* ExampleValue:         FIFMQM
+* RecomnendedVal.:      -
+* Optional:             N
+* Last_Modified:        05-10-2011
+* Last_Modified_By      COM
+* Description:          Name des FIF Queuemanagers, der mit diesem Skript
+* Description:          konfiguriert werden soll.
+* END PARAMETER
+
+* START PARAMETER
+* Parameter:            FIF.QUEUEMANAGER.HOST
+* ValidFrom:            COB-FEA 1-40-01
+* ValidTo:              open
+* Components:           COM
+* ParameterType:        STRING
+* ValidValues:          -
+* DefaultValue:         -
+* ExampleValue:         ks07t03
+* RecomnendedVal.:      -
+* Optional:             N
+* Last_Modified:        05-10-2011
+* Last_Modified_By      COM
+* Description:          Hostname auf dem der FIF Queuemanager läuft.
+* END PARAMETER
+
+* START PARAMETER
+* Parameter:            COM.ENDPOINT.NAME
+* ValidFrom:            COB-FEA 1-40-01
+* ValidTo:              open
+* Components:           COM
+* ParameterType:        STRING
+* ValidValues:          -
+* DefaultValue:         -
+* ExampleValue:         COM
+* RecomnendedVal.:      COM
+* Optional:             N
+* Last_Modified:        05-10-2011
+* Last_Modified_By      COM
+* Description:          COM Endpoint Name
+* END PARAMETER
+
+***   Einloggen als user mqm oder als user mit mqm Gruppenzugehoerigkeit
+*** $ pwd
+*** /home/mqm
+*** $ runmqsc ${FIF.QUEUEMANAGER.NAME} < sbus_wmq_fif_com_channel.mqs 
+
+**** Queuemanager MAXMSGL wird auf 100 MB gesetzt, Default Groesse beim erstellen von Queuemanager ist 4 MB
+ALTER QMGR MAXMSGL(104857600)
+
+*** Connection channel erstellen, zwei Typen Server und Client mit jeweils dem gleichen Namen
+
+DEFINE CHANNEL(CLIENT.${COM.ENDPOINT.NAME}.${FIF.QUEUEMANAGER.NAME}) CHLTYPE(SVRCONN) REPLACE +
+       MCAUSER('mqm') +
+       MAXMSGL(104857600) TRPTYPE(TCP)
+
+DEFINE CHANNEL(CLIENT.${COM.ENDPOINT.NAME}.${FIF.QUEUEMANAGER.NAME}) CHLTYPE(CLNTCONN) REPLACE +
+       MAXMSGL(104857600) TRPTYPE(TCP) +
+       CONNAME(${FIF.QUEUEMANAGER.HOST}) QMNAME(${FIF.QUEUEMANAGER.NAME})
+
+
+end
+

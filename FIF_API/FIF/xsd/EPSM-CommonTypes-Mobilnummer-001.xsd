@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+		xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+		xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" 
+		xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001" 
+		xmlns:ape="http://www.arcor.net/EPSM-CommonTypes-APE-001"
+		xmlns:mobilnummer="http://www.arcor.net/EPSM-CommonTypes-Mobilnummer-001"
+		targetNamespace="http://www.arcor.net/EPSM-CommonTypes-Mobilnummer-001" 
+		elementFormDefault="qualified" 
+		attributeFormDefault="unqualified">
+<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+
+		<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+
+		<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-APE-001" schemaLocation="EPSM-CommonTypes-APE-001.xsd"/>
+<xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="EPSM_Mobilnummer_Dokument_Information ">
+	<xs:annotation>
+		<xs:documentation>Diese Schemata wurde aus dem Adonis-XML-Export generiert. Timestamp des Adonis-Exports: 07.08.2007  09:57</xs:documentation>
+	</xs:annotation>
+</xs:element>
+<xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Mobilvorwahl">
+	<xs:annotation>
+		<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) MOBIL.VORWAHL]
+Mobilfunkvorwahl, unter der der Kunde kontaktiert werden kann (nur Vorwahl)</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="6"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Mobilfunkrufnummer">
+	<xs:annotation>
+		<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) MOBIL.NUMMER]
+Mobilfunknummer, unter der der Kunde kontaktiert werden kann (Rufnummer)</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="15"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Mobilnummer">
+	<xs:annotation>
+		<xs:documentation>Mobilfunknummer</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="ape:AuftragsPositionsElement">
+			<xs:sequence>
+				<xs:element name="mobilvorwahl" type="mobilnummer:Mobilvorwahl" minOccurs="0"/>
+				<xs:element name="mobilfunkrufnummer" type="mobilnummer:Mobilfunkrufnummer" minOccurs="0"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+</xs:schema>

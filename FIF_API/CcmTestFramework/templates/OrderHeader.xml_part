@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<order orderID="{orderID}_B" xmlns="http://www.arcor.net/orderSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+	<barcode>{orderID}</barcode>
+	<entryUser>FIFTF</entryUser>
+	<entryRole>FIFTF</entryRole>
+	<entrySystem>{entrySystem}</entrySystem>
+	<entryDateTime>{today}</entryDateTime>
+	<orderAcceptedDate>{today}</orderAcceptedDate>
+	<customerContactPoint>KBA</customerContactPoint>
+	<salesOrganisation>
+		<salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+		<salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+		<eShopCode>123</eShopCode>
+	</salesOrganisation>
+	<superCustomerTrackingId>{orderID}_Envelope</superCustomerTrackingId>
+	<scanDate>{todayTruncated}</scanDate>

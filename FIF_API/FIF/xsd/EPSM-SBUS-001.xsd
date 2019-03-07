@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by Reto Renner (Arcor AG & Co. KG) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns="http://www.arcor.net/SBUS/EPSM-SBUS-001" targetNamespace="http://www.arcor.net/SBUS/EPSM-SBUS-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:element name="_EPSM_SBUS_Dokument_Information">
+		<xs:annotation>
+			<xs:documentation>Version 1.3	  XML schema definition for SBUS Services
+			
+Änderungshistorie
+		1.3 2007-04-16 Reto Renner: SBusProzessStatusEvent zugefügt
+        1.2 2007-04-02 El Mahdi El Hilali Targetnamespace auf http://www.arcor.net/SBUS/EPSM-SBus-001 geändert
+		1.1 2007-03-19 Reto Renner:  Anpassung nach Review der CTs: (1) Anpassung Documentation von Element "fatalServiceResponse", (2) Anpassung targetNamespace, (3) Zufügen des Services prozessPingService
+		1.0 2007-03-08 Peter Herwig: FatalServiceResponse aus BaseType in eigenene XSD verlagert
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!--================================================ SimpleTypes ============================================ -->
+	<xs:simpleType name="SBusProzessId">
+		<xs:annotation>
+			<xs:documentation>Eindeutige SBus-ID des Prozesses</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="Zeitstempel">
+		<xs:annotation>
+			<xs:documentation>Zeitstmpel im XML-Format: JJJJ-MM-TT HH:MM:SS</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<xs:simpleType name="MonitorStatus">
+		<xs:annotation>
+			<xs:documentation> Folgende Werte sind zugelassen:	0 ... Unbekannt, 1 ... Aktiv, 2 ... Beendet, 3 ... Warnung, 4 ... Alarm</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<!--============================================ FatalServiceResponse ======================================== -->
+	<xs:complexType name="FatalServiceResponse">
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="FatalServiceResponseOutput" type="FatalServiceResponseOutput">
+						<xs:annotation>
+							<xs:documentation>
+							Rückmeldung an den Aufrufer wenn Nachricht nicht geparsed werden kann, bzw. keine ServiceResponse erstellt werden kann.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FatalServiceResponseOutput">
+		<xs:annotation>
+			<xs:documentation>Outputdaten für FatalServiceResponse</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element name="textFatalService" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+							Fehlerbeschreibung inklusive Text der nicht lesbaren XML-Nachricht!
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="fatalServiceResponse" type="FatalServiceResponse">
+		<xs:annotation>
+			<xs:documentation>
+Dieser Nachrichtentyp wird immer dann verwendet, wenn eine Nachricht nicht vom Service-Bus geparsed werden kann, bzw. keine ServiceResponse erstellt werden kann.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!--=========================================== sBusProzessStatusEvent ======================================= -->
+	<xs:complexType name="SBusProzessStatusEvent">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:sequence>
+					<xs:element name="sBusProzessStatusEventpInput" type="SBusProzessStatusEventInput"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SBusProzessStatusEventInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="sBusProzessId" type="SBusProzessId"/>
+					<xs:element name="zeitstempel" type="Zeitstempel"/>
+					<xs:element name="monitorStatus" type="MonitorStatus"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="sBusProzessStatusEvent" type="SBusProzessStatusEvent">
+		<xs:annotation>
+			<xs:documentation>
+Dieser Event teilt dem Monitor seinen Status mit, d.h. dass ein Service gestartet wurde (active) oder sich beendet (stop).
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!--============================================== sBusAliveService ========================================== -->
+	<xs:complexType name="SBusAliveService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="sBusAliveServiceInput" type="SBusAliveServiceInput"/>
+					<xs:element name="sBusAliveServiceOutput" type="SBusAliveServiceOutput"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SBusAliveServiceInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="sBusProzessId" type="SBusProzessId"/>
+					<xs:element name="zeitstempel" type="Zeitstempel"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SBusAliveServiceOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element name="sBusProzessId" type="SBusProzessId"/>
+					<xs:element name="zeitstempel" type="Zeitstempel"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="sBusAliveService" type="SBusAliveService">
+		<xs:annotation>
+			<xs:documentation>
+Dieser Service wird vom Endpunkt zur Verfügung gestellt und vom SBus-Monitor aufgerufen, um eine "Lebendmeldung" vom Endpunkt zurückzubekommen.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

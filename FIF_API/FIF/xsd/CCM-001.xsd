@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 bearbeitet (http://www.altova.com) von Servicebus (Arcor AG & Co. KG) -->
+<!-- Mit XMLSpy v2007 bearbeitet (http://www.altova.com) von Servicebus (Arcor AG & Co. KG) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://www.vodafone.de/ESB/Schema/Common/CommonTypes-ESB-001" xmlns:sbuscommon="http://www.arcor.net/EPSM-CommonTypes-001" xmlns:ccm="http://www.vodafone.de/ESB/Service/SBUS/CCM/CCM-001" xmlns:fifcommon="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001" targetNamespace="http://www.vodafone.de/ESB/Service/SBUS/CCM/CCM-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<import namespace="http://www.vodafone.de/ESB/Schema/Common/CommonTypes-ESB-001" schemaLocation="CommonTypes-ESB-001.xsd"/>
+	<import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+	<import namespace="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001" schemaLocation="EPSM-FIF-CommonTypes-001.xsd"/>	
+	<annotation>
+		<documentation>XML schema definition for endpoint CCM
+History of Changes:
+Vers.	Date					Author					Comment
+====	==========		===========	===================================================
+0.1 		2010-09-16			Thomas Schneider		Initial draft version
+			</documentation>
+	</annotation>
+	<!-- ================ Endpoint Specific Operations =====================================-->
+	<element name="SetFNPAoFlagRequest">
+		<annotation>
+			<documentation>
+				service SetFNPAoFlag
+				Service to set or unset the AO Flag.
+				The AO Flag is the indicator whether a product is mastered by Amdocs Ordering.
+				Products that are modeled in the AO Product catalogue (EPC) and that are stored in the AO installed base are mastered by AO.
+				For CPCOM phase 2 there are products mastered by AO but by adding a new product or changing part of the original bundle the hole product can no longer be handled by AO.
+				In these cases the AO mastered flag in the legacy installed base (CCB/CCM) needs to be unset.
+				As soon as a product is modelled and migrated to AO the AO mastered flag can be set again.
+			</documentation>
+			<documentation>Description of input document</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="aoMastered" type="boolean">
+					<annotation>
+						<documentation><![CDATA[
+Purpose: Indicates that the product is known to the AO installed base
+Used by: FIF, COM to decide if AO has to be informed about changes in according product
+true AO mastered (means flag is set)
+false not mastered by AO (means flag is not set
+]]></documentation>
+					</annotation>
+				</element>
+				<element name="orderId" type="common:OrderId" minOccurs="0">
+					<annotation>
+						<documentation>The enterprise wide unique order id aka barcode. It is expected to follow the following format: 'ARC'+10 digits, e. g. ARC9001818424</documentation>
+					</annotation>
+				</element>
+				<choice>
+					<annotation>
+						<documentation>within this choice the object or level on which the AO mastered flag is set or unset is defined</documentation>
+					</annotation>
+					<element name="customerNumber" type="sbuscommon:Kundennummer">
+						<annotation>
+							<documentation>CCM customer number</documentation>
+						</annotation>
+					</element>
+					<element name="serviceSubscriptionID">
+						<annotation>
+							<documentation>CCB service subscription</documentation>
+						</annotation>
+						<simpleType>
+							<restriction base="string">
+								<minLength value="16"/>
+								<maxLength value="16"/>
+							</restriction>
+						</simpleType>
+					</element>
+					<element name="bundleId" type="string">
+						<annotation>
+							<documentation>CCB / CCM bundle id that is equal to the serial number of the top product offering occurrance</documentation>
+						</annotation>
+					</element>
+				</choice>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SetFNPAoFlagResponse">
+		<annotation>
+			<documentation>Only Status is used as results object</documentation>
+		</annotation>
+		<complexType>
+			<complexContent>
+				<extension base="common:ResultDetailsObject"/>
+			</complexContent>
+		</complexType>
+	</element>
+	<!-- ==================== GenerateOrderEnvelopeNumber ====================== -->
+	<element name="GenerateOrderEnvelopeNumberRequest">
+		<annotation>
+			<documentation>
+				service GenerateOrderEnvelopeNumber
+				Service to get a newly generated Order Envelope Number (Auftragsklammernummer).
+				The Order Envelope Number is used to group separate orders that belong to one
+				customer request. It is a logical entity that groups barcodes, which in turn
+				are used to group CCB customer orders. Order Envelope Number corresponds to
+				super_customer_tracking_id of CCB's customer order, whereas barcode to customer
+				tracking_id. 
+			</documentation>
+			<documentation>Input data for GenerateOrderEnvelopeNumber service</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="systemID" type="fifcommon:SystemID"/>
+				<element name="systemType" type="fifcommon:SystemType" default="POS"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GenerateOrderEnvelopeNumberResponse">
+		<annotation>
+			<documentation>Output data for GenerateOrderEnvelopeNumber service</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="orderEnvelopeNumber" type="fifcommon:orderEnvelopeNumber" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

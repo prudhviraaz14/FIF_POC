@@ -1,0 +1,9 @@
+		<conditionsList>
+			<configured>
+				<conditionService>
+					<conditionServiceType>CM</conditionServiceType>
+					<conditionServiceName>{conditional:(DSLBandwidth=V018H)GS_DSL_0215_BB50_12x20E[br]}{conditional:(DSLBandwidth=V018C)GS_DSL_0215_BB16_24x10E[br]}</conditionServiceName>
+					<conditionServiceID>P-0229-06-03</conditionServiceID>
+				</conditionService>
+			</configured>
+		</conditionsList>		

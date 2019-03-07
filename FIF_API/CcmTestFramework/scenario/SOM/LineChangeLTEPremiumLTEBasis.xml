@@ -1,0 +1,16 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<lineChange orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/LTEAccessOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetIgnore.xml_part}
+			{file:templates/VoicePremiumBasis.xml_part}
+			{file:templates/DirectoryEntryIgnore.xml_part}
+			{file:templates/HardwareLTEIgnore.xml_part}
+			{file:templates/SafetyPackageIgnore.xml_part}
+		</functions>
+	</lineChange>
+</order>

@@ -1,0 +1,8 @@
+		<beneficiary ID="{ID}" role="{role}">
+			<ccbId type="C">
+				<existing>{customerNumber}</existing>
+			</ccbId>
+            <classification>
+                <configured>{classification}</configured>
+            </classification>
+		</beneficiary>

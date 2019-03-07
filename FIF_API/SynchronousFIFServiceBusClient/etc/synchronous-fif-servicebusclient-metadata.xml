@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE messagecreator-metadata SYSTEM "messagecreator-metadata.dtd"[
+<!ENTITY bus_AktiviereMobilfunkVertrag SYSTEM "bus_AktiviereMobilfunkVertrag.xml">
+<!ENTITY bus_ErstelleMobilfunkVertrag SYSTEM "bus_ErstelleMobilfunkVertrag.xml">
+<!ENTITY bus_MeldeTarifwechsel SYSTEM "bus_MeldeTarifwechsel.xml">
+<!ENTITY bus_ModifyEueCustomerData SYSTEM "bus_ModifyEueCustomerData.xml">
+<!ENTITY bus_ModifiziereMarketingeinwilligung SYSTEM "bus_ModifiziereMarketingeinwilligung.xml">
+<!ENTITY bus_MeldeStarteEingehendeRufnummerPortierung SYSTEM "bus_MeldeStarteEingehendeRufnummerPortierung.xml">
+<!ENTITY bus_ReserviereKundenNummer SYSTEM "bus_ReserviereKundenNummer.xml">
+<!ENTITY bus_SpeichereVTP SYSTEM "bus_SpeichereVTP.xml">
+<!ENTITY bus_SetFNPAoFlag SYSTEM "bus_SetFNPAoFlag.xml">
+<!ENTITY bus_GenerateOrderEnvelopeNumber SYSTEM "bus_GenerateOrderEnvelopeNumber.xml">
+<!ENTITY bus_UpdateEmailStatus SYSTEM "bus_UpdateEmailStatus.xml">
+<!ENTITY bus_CreateTerminateWebTicketContract SYSTEM "bus_CreateTerminateWebTicketContract.xml">
+<!ENTITY bus_CompleteCustomerOrder SYSTEM "bus_CompleteCustomerOrder.xml">
+]>
+
+<!--
+    This document contains the message metadata for the OPM DatabaseClient.
+    It contains information about the supported request, message, and message
+    creator types.  It also contains the action mappings that specify which
+    actions are supported.
+-->
+<messagecreator-metadata>
+    <!-- Request definitions -->
+    <request-definitions>
+        <request-definition>
+            <request-type>FIF</request-type>
+            <request-class>net.arcor.fif.messagecreator.FIFRequest</request-class>
+        </request-definition>
+    </request-definitions>
+    <!-- Message definitions -->
+    <message-definitions>
+        <message-definition>
+            <message-type>FIF</message-type>
+            <message-class>net.arcor.fif.messagecreator.FIFMessage</message-class>
+        </message-definition>
+    </message-definitions>
+    <!-- Message Creator definitions -->
+    <message-creator-definitions>
+        <message-creator-definition>
+            <creator-type>xsql</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSQLMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+        <message-creator-definition>
+            <creator-type>xslt</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSLTMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+    </message-creator-definitions>
+    <!-- Action Mappings-->
+    <action-mappings>
+        &bus_AktiviereMobilfunkVertrag;
+        &bus_ErstelleMobilfunkVertrag;
+        &bus_MeldeTarifwechsel;
+        &bus_ModifyEueCustomerData;
+        &bus_ModifiziereMarketingeinwilligung;
+        &bus_MeldeStarteEingehendeRufnummerPortierung;
+        &bus_ReserviereKundenNummer; 
+        &bus_SpeichereVTP;       
+        &bus_SetFNPAoFlag;       
+        &bus_GenerateOrderEnvelopeNumber;       
+		&bus_UpdateEmailStatus;
+      &bus_CreateTerminateWebTicketContract;
+      &bus_CompleteCustomerOrder;
+    </action-mappings>
+</messagecreator-metadata>

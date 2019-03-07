@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+	Example XML for a response list
+	
+    File name : $Workfile:$
+    Header    : $Header:$
+    Revision  : $Revision:$
+    
+    History:
+    $Log:$	
+-->
+	
+<!DOCTYPE response-list SYSTEM "response-list.dtd">
+<response-list>
+	<request-list-id><![CDATA[ExampleIDForTheRequestList]]></request-list-id>
+	<request-list-name><![CDATA[ExampleRequestList]]></request-list-name>
+	<request-list-result><![CDATA[SUCCESS]]></request-list-result>
+	<responses>
+		<response>
+			<action-name><![CDATA[actionName1]]></action-name>
+			<transaction-id><![CDATA[action1TransactionID]]></transaction-id>
+		    <transaction-result><![CDATA[SUCCESS]]></transaction-result>
+		</response>
+		<response>
+			<action-name><![CDATA[actionName2]]></action-name>
+			<transaction-id><![CDATA[action2TransactionID]]></transaction-id>
+		    <transaction-result><![CDATA[SUCCESS]]></transaction-result>
+		</response>		
+	</responses>
+</response-list>

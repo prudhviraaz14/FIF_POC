@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF109-LineCreationCancel</request-list-name>
+   <request-list-id>FIF109-LineCreationCancel-1</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+  
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-97:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF109-LineCreationCancel</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-96:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:-96:hour</request-param>
+                  <request-param name="productCodeVoice">VI203</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="accessTechnology">VDSL</request-param>
+                  <request-param name="maxTechnicalBandwidth">100000</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>LineCreation-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-96:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-96:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:-96:hour</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI203</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="pricingStructureCodeInternet">YI016</request-param>
+                  <request-param name="pricingStructureCodeVoice">YK028</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V018N</request-param>
+                  <request-param name="accessTechnology">VDSL</request-param>
+                  <request-param name="maxTechnicalBandwidth">100000</request-param>
+                  <request-param name="scenarioName">FIF109-LineCreationCancel</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      {file:templates/FindBundle.xml}
+      
+      <trx-builder-request>
+         <transaction-id>LineCreation-create</transaction-id>
+         <transaction-type>create</transaction-type>
+         <override-system-date>datetime:-25:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-96:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:-96:hour</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI203</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="pricingStructureCodeInternet">YI016</request-param>
+                  <request-param name="pricingStructureCodeVoice">YK028</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V018N</request-param>
+                  <request-param name="accessTechnology">VDSL</request-param>
+                  <request-param name="maxTechnicalBandwidth">100000</request-param>
+                  <request-param name="scenarioName">FIF109-LineCreationCancel</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      
+      <trx-builder-request>
+         <transaction-id>LineCreation-execute1</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-24:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-96:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:-96:hour</request-param>
+                  <request-param name="internetProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="hardware1ProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardware1CompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardware1PreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">completedOPM</request-param>
+                  <request-param name="safetyPackageCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="safetyPackagePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI203</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="pricingStructureCodeInternet">YI016</request-param>
+                  <request-param name="pricingStructureCodeVoice">YK028</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V018N</request-param>
+                  <request-param name="accessTechnology">VDSL</request-param>
+                  <request-param name="maxTechnicalBandwidth">100000</request-param>                  
+                  <request-param name="scenarioName">FIF109-LineCreationCancel</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>LineCreation-execute2</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:0:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="internetProcessingStatus">cancelledOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">cancelledOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedCCM</request-param>
+                  <request-param name="voiceProcessingStatus">cancelledOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">cancelledOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedCCM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">precompletedCCM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">precompletedCCM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="hardware1ProcessingStatus">completedCCM</request-param>
+                  <request-param name="hardware1CompletionStatusNew">completedCCM</request-param>
+                  <request-param name="hardware1PreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">completedCCM</request-param>
+                  <request-param name="safetyPackageCompletionStatusNew">completedCCM</request-param>
+                  <request-param name="safetyPackagePreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>                  
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI203</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="pricingStructureCodeInternet">YI016</request-param>
+                  <request-param name="pricingStructureCodeVoice">YK028</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V018N</request-param>
+                  <request-param name="accessTechnology">VDSL</request-param>
+                  <request-param name="maxTechnicalBandwidth">100000</request-param>                  
+                  <request-param name="scenarioName">FIF109-LineCreationCancel</request-param>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="dtagId"/>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+   </requests>
+</request-list>

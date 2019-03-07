@@ -1,0 +1,47 @@
+<action-mapping>
+	<action-name>migrationIpv6variant</action-name>
+	<message-creation>
+		<creator-type>xslt</creator-type>
+		<creator-params>
+			<creator-param>
+				<param-name>filename</param-name>
+				<param-value>AddContact.xsl</param-value>
+			</creator-param>
+		</creator-params>
+	</message-creation>
+	<message-parameters>
+		<message-param>
+			<param-name>migrationID</param-name>
+			<param-mandatory>true</param-mandatory>
+		</message-param>
+		<message-param>
+			<param-name>bundleID</param-name>
+			<param-mandatory>true</param-mandatory>
+		</message-param>
+		<message-param>
+			<param-name>desiredDate</param-name>
+			<param-mandatory>false</param-mandatory>
+		</message-param>
+		<message-param>
+			<param-name>salesOrganisationNumber</param-name>
+			<param-mandatory>false</param-mandatory>
+			<param-default-value>97000015</param-default-value>
+		</message-param>
+		<message-param>
+			<param-name>salesOrganisationNumberVF</param-name>
+			<param-mandatory>false</param-mandatory>
+		</message-param>
+		<message-param>
+			<param-name>currentAccessType</param-name>
+			<param-mandatory>true</param-mandatory>
+		</message-param>
+		<message-param>
+			<param-name>ipv6Variant</param-name>
+			<param-mandatory>true</param-mandatory>
+		</message-param>
+	</message-parameters>
+	<response-handling>
+		<return-warnings>false</return-warnings>
+		<output-parameters />
+	</response-handling>
+</action-mapping>

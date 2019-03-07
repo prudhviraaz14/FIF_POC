@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	NOTE: All objects, service and event types are defined with regards to the latest available     
+	issue of the corresponding AAW-xyz document. Since this document is not final, changes 
+	become necessary for the schema with new versions of the document. 
+	Based on XXX ENTER_NAME V ENTER_VERSION_NUMBER
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:taw="http://www.arcor.net/AIP/EPSM-AIP-Tarifwechsel-001" xmlns:aes="http://www.arcor.net/AIP/EPSM-AIP-AktiviereSimKarte-001" xmlns:dsk="http://www.arcor.net/AIP/EPSM-AIP-DeaktiviereSimKarte-001" xmlns:sep="http://www.arcor.net/AIP/EPSM-AIP-StarteEingehendePortierung-001" xmlns:serp="http://www.arcor.net/AIP/EPSM-AIP-StarteEingehendeRufnummerPortierung-001" xmlns="http://www.arcor.net/AIP/EPSM_AIP_001" targetNamespace="http://www.arcor.net/AIP/EPSM_AIP_001" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.1">
+	<!-- Import all common types -->
+	<xs:import namespace="http://www.arcor.net/AIP/EPSM-AIP-DeaktiviereSimKarte-001" schemaLocation="EPSM-AIP-DeaktiviereSimKarte-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/AIP/EPSM-AIP-AktiviereSimKarte-001" schemaLocation="EPSM-AIP-AktiviereSimKarte-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/AIP/EPSM-AIP-Tarifwechsel-001" schemaLocation="EPSM-AIP-Tarifwechsel-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/AIP/EPSM-AIP-StarteEingehendePortierung-001" schemaLocation="EPSM-AIP-StarteEingehendePortierung-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/AIP/EPSM-AIP-StarteEingehendeRufnummerPortierung-001" schemaLocation="EPSM-AIP-StarteEingehendeRufnummerPortierung-001.xsd"/>
+	<!-- ======================== Endpunkt Dokument Information ============================= -->
+	<xs:element name="AIPInportingServiceEndpoint_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>
+				XML Schema Definition für AIP Services
+
+				Version: 0.5
+
+				Status des Dokuments: Draft
+
+				Aenderungshistorie:
+				Version 0.5 28.02.2008 Robert Suschnik - meldeAktiviereSimKarteEvent hinzu
+				Version 0.4 20.02.2008 Robert Suschnik - annotations hinzugefügt
+				Version 0.3 22.01.2008 Reto Renner - aktiviereSimKarteService und tarifwechselService zugefuegt
+				Version 0.2 16.07.2007 Reto Renner - Überarbeitung
+				Version 0.1 04.07.2007 Falk Nickenig - Initialversion
+
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>
+							Dieses Dokument basiert auf und referenziert
+							folgende Dokumente: n.a.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>
+							Diese Schnittstelle wird durch AIP
+							Onlineportal realisiert.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ========================= Endpunkt specifische 'complex types' ===================== -->
+	<!-- ========================= Event Definitionen Diensterbringer ======================= -->
+	<!-- ========================= Elemente Diensterbringer ================================= -->
+
+	<xs:element name="starteEingehendePortierungService" type="sep:StarteEingehendePortierungService">
+		<xs:annotation>
+			<xs:documentation>
+				Startet einen eingehenden Portierungsprozess für eine Mobilrufnummer.
+				Kundenbetreuer gibt Daten über eine Maske ein, mit Eintreffen des requests
+				wird die (hoch) asynchrone X.400 Kommunikation mit dem abgebenden Diensteanbieter
+				gestartet.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="deaktiviereSimKarteService" type="dsk:DeaktiviereSimKarteService">
+		<xs:annotation>
+			<xs:documentation>
+				Kündigt eine Rufnummer bei der Vodafone und vermerkt diesen Status
+				im crm.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="aktiviereSimKarteService" type="aes:AktiviereSimKarteService">
+		<xs:annotation>
+			<xs:documentation>
+				Aktiviert eine deaktiviert ausgelieferte Sim Karte bei der VF.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="meldeAktiviereSimKarteEvent" type="aes:MeldeAktiviereSimKarteEvent">
+		<xs:annotation>
+			<xs:documentation>Meldet das Ergebnis an den Aufrufer. Der Aufrufer muß einen service handler für das event implementieren</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="tarifwechselService" type="taw:TarifwechselService">
+		<xs:annotation>
+			<xs:documentation>
+				Führt einen Tarifwechsel auf der Sim Karte bei der VF durch.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="meldeTarifwechselEvent" type="taw:MeldeTarifwechselEvent">
+		<xs:annotation>
+			<xs:documentation>Meldet das Ergebnis an den Aufrufer. Der Aufrufer muß einen service handler für das event implementieren</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	
+	
+
+	
+	<xs:element name="starteEingehendeRufnummerPortierungService" type="serp:StarteEingehendeRufnummerPortierungService">
+		<xs:annotation>
+			<xs:documentation>
+				Startet einen eingehenden Portierungsprozess für eine Mobilrufnummer.
+				Wichtig! Mit 1.28 der einzige Weg, um eine Portierung zu starten. Die alte Schnittstelle
+				'starteEingehendePortierungService' wird nur mehr für die Langläufer aufrechterhalten
+				und in ca.einem Jahr entfernt werden.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="meldeStarteEingehendeRufnummerPortierungEvent" type="serp:MeldeStarteEingehendeRufnummerPortierungEvent">
+		<xs:annotation>
+			<xs:documentation>
+				Meldet das Ergebnis von 'starteEingehendeRufnummerPortierungService' an den Aufrufer.
+				Der Aufrufer muß einen service handler für das event implementieren
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	
+	
+	
+	
+	
+	
+	<!-- ============================== Wurzel Element ====================================== -->
+	<xs:element name="_Endpunkt_Diensterbringer_AIP">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="starteEingehendePortierungService"/>
+				<xs:element ref="deaktiviereSimKarteService"/>
+				<xs:element ref="aktiviereSimKarteService"/>
+				<xs:element ref="meldeAktiviereSimKarteEvent"/>
+				<xs:element ref="tarifwechselService"/>
+				<xs:element ref="meldeTarifwechselEvent"/>
+				<xs:element ref="starteEingehendeRufnummerPortierungService"/>
+				<xs:element ref="meldeStarteEingehendeRufnummerPortierungEvent"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

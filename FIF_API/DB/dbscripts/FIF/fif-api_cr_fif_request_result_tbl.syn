@@ -1,0 +1,7 @@
+--
+-- Synonym script for the FIF_REQUEST_RESULT table.
+--
+-- @author Olivier Goethals
+-- @date 2003-10-01
+
+CREATE PUBLIC SYNONYM FIF_REQUEST_RESULT FOR FIF_REQUEST_RESULT;

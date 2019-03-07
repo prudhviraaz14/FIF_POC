@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by Arcor AG & Co. KG (Arcor AG & Co. KG) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:primitivebasetypes="http://www.vodafone.de/ESB/Schema/Common/PrimitiveBaseTypes-ESB-001" xmlns:ns1="http://www.vodafone.de/ESB/Service/EAI/Customer/CustomerInteraction-002" xmlns:ns0="http://www.vodafone.de/ESB/Schema/Common/CommonTypes-ESB-001" targetNamespace="http://www.vodafone.de/ESB/Service/EAI/Customer/CustomerInteraction-002" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<annotation>
+		<documentation>
+      XML schema definition for endpoint Customer
+      History of Changes:
+      Vers.	Date			   Author					   Comment
+      ====	==========	 ===========		   ===================================================
+      0.1   2015-04-18   Preyas Nandedkar Initial version
+    </documentation>
+	</annotation>
+	<import namespace="http://www.vodafone.de/ESB/Schema/Common/PrimitiveBaseTypes-ESB-001" schemaLocation="PrimitiveBaseTypes-ESB-001.xsd"/>
+	<import namespace="http://www.vodafone.de/ESB/Schema/Common/CommonTypes-ESB-001" schemaLocation="CommonTypes-ESB-001.xsd"/>
+	<element name="SetMarketingPermissionsRequest">
+		<complexType>
+			<sequence>
+				<choice>
+					<element name="subscriberDetails" type="ns1:subscriberDetailsType"/>
+					<element name="customerNumber" type="ns0:Customernumber"/>
+				</choice>
+				<element name="sourceSystemId" type="primitivebasetypes:StringMax8"/>
+				<element name="VOID" type="primitivebasetypes:StringMax16" minOccurs="0"/>
+				<element name="campaignID" type="primitivebasetypes:StringMax32" minOccurs="0"/>
+				<element name="effectiveTime" type="dateTime"/>
+				<element name="permissionDetailsList">
+					<complexType>
+						<sequence>
+							<element name="permissionDetails" maxOccurs="unbounded">
+								<complexType>
+									<sequence>
+										<element name="permissionId" type="primitivebasetypes:StringMax3"/>
+										<element name="serviceId" type="primitivebasetypes:StringMax4"/>
+										<element name="bewVersion" type="primitivebasetypes:IntMax3" minOccurs="0"/>
+										<element name="newPermissionValue" type="primitivebasetypes:String1"/>
+									</sequence>
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+				<element name="GUID" type="primitivebasetypes:StringMax80"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SetMarketingPermissionsResponse">
+		<complexType/>
+	</element>
+	<element name="GetMarketingPermissionsRequest">
+		<complexType>
+			<sequence>
+				<choice>
+					<element name="subscriberDetails" type="ns1:subscriberDetailsType"/>
+					<element name="customerNumber" type="ns0:Customernumber"/>
+				</choice>
+				<element name="sourceSystemId" type="primitivebasetypes:StringMax8"/>
+				<element name="checkInitialStatusIndicator" type="primitivebasetypes:String1" minOccurs="0"/>
+				<element name="returnPermissionIndicator" type="primitivebasetypes:String1" minOccurs="0"/>
+				<element name="frontendGroup" type="primitivebasetypes:StringMax10" minOccurs="0"/>
+				<element name="referenceDataIndicator" type="primitivebasetypes:String1" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<complexType name="subscriberDetailsType">
+		<sequence>
+			<element name="ban" type="primitivebasetypes:StringIntMax9" minOccurs="0"/>
+			<element name="subscriberNumber" type="primitivebasetypes:StringMax20"/>
+			<element name="marketCode" type="primitivebasetypes:StringMax3" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<element name="GetMarketingPermissionsResponse">
+		<complexType>
+			<sequence>
+				<element name="permissionStatus" type="primitivebasetypes:String1" minOccurs="0"/>
+				<element name="permissionDetailsList">
+					<complexType>
+						<sequence>
+							<element name="permissionDetails" minOccurs="0" maxOccurs="unbounded">
+								<complexType>
+									<sequence>
+										<element name="permissionId" type="primitivebasetypes:StringMax3" minOccurs="0"/>
+										<element name="serviceId" type="primitivebasetypes:StringMax4" minOccurs="0"/>
+										<element name="effectiveTime" type="dateTime" minOccurs="0"/>
+										<element name="permissionValue" type="primitivebasetypes:String1" minOccurs="0"/>
+										<element name="sourceSystemId" type="primitivebasetypes:StringMax8" minOccurs="0"/>
+										<element name="bewVersionNumber" type="primitivebasetypes:IntMax3" minOccurs="0"/>
+									</sequence>
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+				<element name="permissionReferenceDetailsList">
+					<complexType>
+						<sequence>
+							<element name="permissionReferenceDetails" minOccurs="0" maxOccurs="unbounded">
+								<complexType>
+									<sequence>
+										<element name="permissionId" type="primitivebasetypes:StringMax3" minOccurs="0"/>
+										<element name="serviceId" type="primitivebasetypes:StringMax4" minOccurs="0"/>
+										<element name="bewVersionNumber" type="primitivebasetypes:IntMax3" minOccurs="0"/>
+										<element name="effectiveDate" type="date" minOccurs="0"/>
+										<element name="permissionPreferenceType" type="primitivebasetypes:String1" minOccurs="0"/>
+										<element name="setRoleList" type="primitivebasetypes:StringMax50" minOccurs="0"/>
+										<element name="getRoleList" type="primitivebasetypes:StringMax50" minOccurs="0"/>
+										<element name="defaultValue" type="primitivebasetypes:String1" minOccurs="0"/>
+										<element name="positiveValueList" type="primitivebasetypes:StringMax20" minOccurs="0"/>
+										<element name="negativeValueList" type="primitivebasetypes:StringMax20" minOccurs="0"/>
+										<element name="mmcRelevantIndicator" type="primitivebasetypes:String1" minOccurs="0"/>
+										<element name="mmoRelevantIndicator" type="primitivebasetypes:String1" minOccurs="0"/>
+										<element name="guiObjectType" type="primitivebasetypes:StringMax10" minOccurs="0"/>
+										<element name="frontendGrp" type="primitivebasetypes:StringMax10" minOccurs="0"/>
+										<element name="guiOrderNumber" type="primitivebasetypes:IntMax4" minOccurs="0"/>
+										<element name="specialPurposeIndicator" type="primitivebasetypes:String1" minOccurs="0"/>
+										<element name="shortDescriptionDE" type="primitivebasetypes:StringMax50" minOccurs="0"/>
+										<element name="shortDescriptionEN" type="primitivebasetypes:StringMax50" minOccurs="0"/>
+										<element name="longDescriptionDE" type="primitivebasetypes:StringMax1000" minOccurs="0"/>
+										<element name="longDescriptionEN" type="primitivebasetypes:StringMax1000" minOccurs="0"/>
+										<element name="expirationDate" type="date" minOccurs="0"/>
+									</sequence>
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+				<element name="permissionBEWReferenceDetailsList">
+					<complexType>
+						<sequence>
+							<element name="permissionBEWReferenceDetails" minOccurs="0" maxOccurs="unbounded">
+								<complexType>
+									<sequence>
+										<element name="permissionId" type="primitivebasetypes:StringMax3" minOccurs="0"/>
+										<element name="serviceId" type="primitivebasetypes:StringMax4" minOccurs="0"/>
+										<element name="bewVersionNumber" type="primitivebasetypes:IntMax3" minOccurs="0"/>
+										<element name="effectiveDate" type="date" minOccurs="0"/>
+										<element name="bewText" type="primitivebasetypes:StringMax4000" minOccurs="0"/>
+										<element name="expirationDate" type="date" minOccurs="0"/>
+									</sequence>
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

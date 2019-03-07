@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request SYSTEM "request.dtd">
+<request>
+  <action-name>modifyContract</action-name>
+  <request-params>
+    <request-param name="transactionID"><![CDATA[WOE_TEST_MC_1]]></request-param>
+    <request-param name="contractNumber"><![CDATA[000000156263]]></request-param>
+	<request-param name="customerNumber"><![CDATA[000000156263]]></request-param>
+    <request-param name="desiredDate"><![CDATA[2005.12.01 00:00:00]]></request-param>
+    <request-param name="changeTariff"><![CDATA[Y]]></request-param>	
+    <request-param name="newPricingStructureCode"><![CDATA[I1010]]></request-param>
+	<request-param name="changeMinimumDuration"><![CDATA[Y]]></request-param>
+    <request-param name="newMinPeriodDurationValue"><![CDATA[12]]></request-param>
+  </request-params>
+</request>

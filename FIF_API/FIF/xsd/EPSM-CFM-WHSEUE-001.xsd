@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by Reto Renner (Arcor AG & Co. KG) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arcor.net/cfm/EPSM-CFM-WHSEUE-001" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:types="http://www.arcor.net/billwg/EPSM-BillWG-WHSEUETypes-001" targetNamespace="http://www.arcor.net/cfm/EPSM-CFM-WHSEUE-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/billwg/EPSM-BillWG-WHSEUETypes-001" schemaLocation="EPSM-BillWG-WHSEUETypes-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="EPSM_CFM-WHSEUE_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>
+Aenderungshistorie:
+Version 0.1 - 21.05.2008 - Reto Renner	- initiale Version
+</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>
+Dieses Dokument basiert auf und referenziert folgende Dokumente:
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ================================endpoint specific services=====================-->
+	<xs:complexType name="AktualisiereEueKundendatenService">
+		<xs:annotation>
+			<xs:documentation>Typdefinition Dienst AktualisiereServiceProviderStammdatenService</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="AktualisiereEueKundendatenInput" type="AktualisiereEueKundendatenInput"/>
+					<xs:element name="AktualisiereEueKundendatenOutput" type="AktualisiereEueKundendatenOutput">
+						<xs:annotation>
+							<xs:documentation> 
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AktualisiereEueKundendatenInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="getExternalIDByPhonenumber" type="types:GetExternalIDByPhonenumber"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AktualisiereEueKundendatenOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element name="contractID" type="types:ContractIDImpl" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ================================= Services and Events ============================== -->
+	<xs:element name="aktualisiereEueKundendatenService" type="AktualisiereEueKundendatenService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<!-- =================================root Element============================ -->
+	<xs:element name="_CompoundService_Diensterbringer_WHSEUE">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="aktualisiereEueKundendatenService"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

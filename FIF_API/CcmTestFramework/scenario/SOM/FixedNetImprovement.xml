@@ -1,0 +1,130 @@
+<order orderID="{orderID}" xmlns="http://www.arcor.net/orderSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+  <sendingSystem>KBA</sendingSystem>
+  <entryUser>FIF</entryUser>
+  <entryRole>FIF</entryRole>
+  <entrySystem>KBA</entrySystem>
+  <entryDateTime>{today}</entryDateTime>
+  <customerContactPoint>KBA</customerContactPoint>
+  <salesOrganisation>
+    <salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+    <salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+    <eShopCode>BERAT</eShopCode>
+  </salesOrganisation>
+  <superCustomerTrackingId>superCustomerTrackingId</superCustomerTrackingId>
+  <scanDate>{todayTruncated}</scanDate>
+  <customerData>
+    <customer ID="customer" >
+        <ccbId type="C">
+            <existing>{customerNumber}</existing>
+        </ccbId>
+    </customer>
+  </customerData>
+  <lineChange orderPositionNumber="1">
+    <customerIntention>ChgAccessNumbers</customerIntention>
+    <desiredDate>{desiredDate}</desiredDate>
+      <orderReceivedDate>{today}</orderReceivedDate>
+    <providerCode>
+      <existing>VFAI</existing>
+    </providerCode>
+    <salesPackageName>
+      <existing>none</existing>
+    </salesPackageName>
+    <salesPacketCode>
+      <existing>none</existing>
+    </salesPacketCode>
+    <beneficiary ID="bene-001-1">
+      <customerNodeRefID>customer</customerNodeRefID>
+    </beneficiary>
+    <accesses>
+      <otherAccess ID="access-other">
+				<ccbId type="S">
+					<existing>{voiceServiceSubscriptionId}</existing>
+				</ccbId>
+				<otherAccessConfiguration>
+				</otherAccessConfiguration>
+				<contactRoleRefList>
+					<contactRoleRef>
+						<existing>contactRole</existing>
+					</contactRoleRef>
+				</contactRoleRefList>
+			</otherAccess>
+    </accesses>
+    <functions>
+      
+      <otherFunction ID="voice-001-1" refAccessID="access-other" >
+        <processingType>CHANGE</processingType>
+        <ccbId type="S">
+          <existing>{voiceServiceSubscriptionId}</existing>
+        </ccbId>
+        <contractNumber>{voiceContractNumber}</contractNumber>
+        <otherFunctionConfiguration>
+					<activationDate>
+						<configured>{desiredDate}</configured>
+					</activationDate>
+					<productCode>
+						<existing>{PRODUCT_CODE}</existing>
+					</productCode>
+					<mainAccessServiceCode>
+						<existing>{SERVICE_CODE}</existing>
+					</mainAccessServiceCode>
+					<pricingStructureCode>
+						<existing>{PRICING_CODE}</existing>
+					</pricingStructureCode>
+					<activationType>
+						<existing>Neuanschluss</existing>
+					</activationType>
+					<portingAccessNumberRanges>
+						<remarks>
+							<configured>10</configured>
+						</remarks>
+						<ccbProcessingType>
+							<configured>CHANGE</configured>
+						</ccbProcessingType>
+						<numberOfNewAccessNumbers>
+							<configured>10</configured>
+						</numberOfNewAccessNumbers>
+						<oldLocalExchangeCarrier>
+							<existing>D001</existing>
+						</oldLocalExchangeCarrier>
+						<accessNumberRange1>
+							<existing>
+								<countryCode>49</countryCode>
+								<localAreaCode>211</localAreaCode>
+								<pilotNumber>20955553</pilotNumber>
+								<startNumber>0</startNumber>
+								<endNumber>9</endNumber>
+							</existing>
+							<configured>
+								<countryCode>49</countryCode>
+								<localAreaCode>211</localAreaCode>
+								<pilotNumber>20955553</pilotNumber>
+								<startNumber>0</startNumber>
+								<endNumber>9</endNumber>
+							</configured>
+						</accessNumberRange1>
+						<accessNumberRange2>
+							<existing>
+								<countryCode>49</countryCode>
+								<localAreaCode>211</localAreaCode>
+								<pilotNumber>20955553</pilotNumber>
+								<startNumber>0</startNumber>
+								<endNumber>9</endNumber>
+							</existing>
+							<configured>
+								<countryCode>49</countryCode>
+								<localAreaCode>222</localAreaCode>
+								<pilotNumber>20955554</pilotNumber>
+								<startNumber>0</startNumber>
+								<endNumber>9</endNumber>
+							</configured>
+						</accessNumberRange2>
+						<ownerAccessNumberRange1>
+							<existing>xyz</existing>
+							<configured>HeinoEigner</configured>
+						</ownerAccessNumberRange1>
+					</portingAccessNumberRanges>
+				</otherFunctionConfiguration>
+      </otherFunction>
+    </functions>
+  </lineChange>
+</order>

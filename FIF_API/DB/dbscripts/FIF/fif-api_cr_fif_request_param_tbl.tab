@@ -1,0 +1,18 @@
+--
+-- Create script for the FIF_REQUEST_PARAM table.
+--
+-- @author Olivier Goethals
+-- @date 2003-06-27
+
+CREATE TABLE FIF_REQUEST_PARAM (
+    TRANSACTION_ID       VARCHAR2(30) NOT NULL,
+    PARAM                VARCHAR2(80) NOT NULL,
+    VALUE                VARCHAR2(4000) NOT NULL
+);
+
+COMMENT ON COLUMN FIF_REQUEST_PARAM.TRANSACTION_ID IS
+    'The transaction ID of the FIF request.';
+COMMENT ON COLUMN FIF_REQUEST_PARAM.PARAM IS
+    'The parameter name.';
+COMMENT ON COLUMN FIF_REQUEST_PARAM.VALUE IS
+    'The parameter value.';

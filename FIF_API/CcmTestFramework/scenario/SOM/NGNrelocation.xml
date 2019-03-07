@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}" xmlns="http://www.arcor.net/orderSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+  <sendingSystem>POS</sendingSystem>
+  <entryUser>FIF</entryUser>
+  <entryRole>FIF</entryRole>
+  <entrySystem>POS</entrySystem>
+  <entryDateTime>{today}</entryDateTime>
+  <customerContactPoint>KBA</customerContactPoint>
+  <salesOrganisation>
+    <salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+    <salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+    <eShopCode>BERAT</eShopCode>
+  </salesOrganisation>
+  <superCustomerTrackingId>superCustomerTrackingId</superCustomerTrackingId>
+  <scanDate>{todayTruncated}</scanDate>
+  <customerData>
+    <customer ID="customer" >      
+      <ccbId type="C">
+        <existing>{customerNumber}</existing>
+      </ccbId>
+      <individual ID="cuind">
+        <changeType>CHANGE</changeType>
+        <salutation>
+          <existing>Herr</existing>
+        </salutation>
+        <forename>
+          <existing>COM</existing>
+        </forename>
+        <name>
+          <existing>ISDNrelocation</existing>
+        </name>
+        <address>
+          <configured>
+            <city>Duisburg</city>
+            <postalCode>47228</postalCode>
+            <street>In der Klanklang</street>
+            <streetNumber>15</streetNumber>
+            <country>DE</country>
+          </configured>
+        </address>
+        <accessInformation>
+          <existing>
+            <accessInformationType>STD</accessInformationType>
+            <contactName>COM ISDNrelocation</contactName>
+            <phoneNumber>023189767778</phoneNumber>
+          </existing>
+        </accessInformation>
+      </individual>
+    </customer>
+    <billingAccount ID="account">
+      <changeType>{accountChangeType}</changeType>
+      <ccbId type="A">
+        <existing>{accountNumber}</existing>
+      </ccbId>      
+      <individual ID="acind">
+        <changeType>CHANGE</changeType>
+        <salutation>
+          <existing>Herr</existing>
+        </salutation>
+        <forename>
+          <existing>COM</existing>
+        </forename>
+        <name>
+          <existing>ISDNrelocation</existing>
+        </name>
+        <address>
+          <configured>
+            <city>Duisburg</city>
+            <postalCode>47228</postalCode>
+            <street>In der Klanklang</street>
+            <streetNumber>15</streetNumber>
+            <country>DE</country>
+          </configured>
+        </address>
+        <accessInformation>
+          <existing>
+            <accessInformationType>STD</accessInformationType>
+            <contactName>COM ISDNrelocation</contactName>
+            <phoneNumber>023189767778</phoneNumber>
+          </existing>
+        </accessInformation>
+      </individual>      
+      <invoiceDelivery>
+        <invoiceDeliveryType>
+          <configured>WEBBILL</configured>
+        </invoiceDeliveryType>
+        <enableItemizedBill>
+          <configured>none</configured>
+        </enableItemizedBill>
+        <maskingDigits>
+          <configured>-1</configured>
+        </maskingDigits>
+      </invoiceDelivery>
+      <methodOfPayment>
+        <paymentMethod>
+          <configured>MANUAL</configured>
+        </paymentMethod>
+        <paymentTerm>
+          <configured>0</configured>
+        </paymentTerm>
+      </methodOfPayment>
+    </billingAccount>
+  </customerData>
+  <relocation orderPositionNumber="1">
+    <campaignCode>2</campaignCode>
+    <customerIntention>ChangeLine</customerIntention>
+    <desiredDate>{desiredDate}</desiredDate>
+    <orderReceivedDate>{today}</orderReceivedDate>
+    <relocationVariant>fixe Abschaltung</relocationVariant>
+    <providerCode>
+      <existing>VFAI</existing>
+    </providerCode>
+    <salesPackageName>
+      <existing>none</existing>
+    </salesPackageName>
+    <salesPacketCode>
+      <existing>none</existing>
+    </salesPacketCode>
+    <beneficiary ID="bene-001-1">
+      <customerNodeRefID>customer</customerNodeRefID>
+    </beneficiary>
+    <payerAllCharges ID="payer">
+      <billingAccountNodeRefID>account</billingAccountNodeRefID>
+    </payerAllCharges>
+    <accesses>
+      <ngn ID="oldaccess-001-1">
+        <ccbId type="S">
+          <existing>{internetServiceSubscriptionId}</existing>
+        </ccbId>
+        <ngnConfiguration>
+          <locationAddress>
+            <existing>
+              <city>Essen</city>
+              <postalCode>45128</postalCode>
+              <street>Rellinghauser Str.</street>
+              <streetNumber>27</streetNumber>
+            </existing>
+            <configured>
+              <city>Essen</city>
+              <postalCode>45128</postalCode>
+              <street>Rellinghauserer Str.</street>
+              <streetNumber>272</streetNumber>
+            </configured>
+          </locationAddress>
+          <localAreaCode>
+            <configured>0201</configured>
+          </localAreaCode>
+          <asb>
+            <configured>1</configured>
+          </asb>
+          <locationTAE>
+            <configured>vorne</configured>
+          </locationTAE>
+        </ngnConfiguration>
+      </ngn>
+      <sip ID="sip">
+        <ccbId type="S">
+          <existing>{voipServiceSubscriptionId}</existing>
+        </ccbId>
+        <sipConfiguration>
+          <locationAddress>
+            <configured>
+              <city>Essen</city>
+              <postalCode>45128</postalCode>
+              <street>Rellinghauserer Str.</street>
+              <streetNumber>272</streetNumber>
+            </configured>
+            <existing>
+              <city>Essen</city>
+              <postalCode>45128</postalCode>
+              <street>Rellinghauser Str.</street>
+              <streetNumber>27</streetNumber>
+            </existing>
+          </locationAddress>
+        </sipConfiguration>
+      </sip>
+    </accesses>
+    <functions>
+      <internet ID="internet-001-1" refAccessID="oldaccess-001-1">
+        <!-- targetAccessID="newaccess-001-1"> -->
+        <processingType>CHANGE</processingType>
+        <ccbId type="S">
+          <existing>{internetServiceSubscriptionId}</existing>
+        </ccbId>
+        <adslInternetConfiguration>
+          <productCode>
+            <existing>I1204</existing>
+          </productCode>
+          <productBillingName>
+            <existing>flat</existing>
+          </productBillingName>
+          <productVersionCode>
+            <existing>1</existing>
+          </productVersionCode>
+          <pricingStructureCode>
+            <existing>I1202</existing>
+            <configured>I1202</configured>
+          </pricingStructureCode>
+          <primaryCustSignDate>
+            <existing>2009-10-13</existing>
+          </primaryCustSignDate>
+          <DSLBandwidth>
+            <existing>V0178</existing>
+          </DSLBandwidth>
+          <desiredBandwidth>
+            <existing>V018C</existing>
+          </desiredBandwidth>
+          <automaticMailingIndicator>
+            <configured>true</configured>
+          </automaticMailingIndicator>
+        </adslInternetConfiguration>
+        <contractNumber>{internetContractNumber}</contractNumber>
+      </internet>
+      <hardware ID="hardware-001-1" >
+        <processingType>{accessHardwareProcessingType}</processingType>
+        <ccbId type="S">
+          <existing>{accessHardwareServiceSubscriptionId}</existing>
+        </ccbId>
+        <refFunctionID>
+          <existing>internet-001-1</existing>
+        </refFunctionID>
+        <hardwareConfiguration>
+          <hardwareServiceCode>
+            <existing>V011A</existing>
+          </hardwareServiceCode>
+          <articleNumber>
+            <existing>20080360</existing>
+          </articleNumber>
+          <articleName>
+            <existing>Settopbox</existing>            
+          </articleName>
+          <serialNumber>
+            <existing>123</existing>
+          </serialNumber>
+          <orderReason>
+            <existing>whatever</existing>
+          </orderReason>
+          <subventionCode>
+            <existing>0</existing>
+          </subventionCode>
+          <zeroChargeIndicator>
+            <existing>true</existing>
+          </zeroChargeIndicator>
+          <salutationDescription>
+            <existing>Herr</existing>
+          </salutationDescription>
+          <forename>
+            <existing>COM</existing>
+          </forename>
+          <name>
+            <existing>ISDNrelocation</existing>
+          </name>          
+          <hardwareMailingAddress>
+            <existing>              
+              <city>Essen</city>
+              <postalCode>45128</postalCode>
+              <street>Rellinghauser Straße</street>
+              <streetNumber>27</streetNumber>
+              <country>DE</country>
+            </existing>
+          </hardwareMailingAddress>          
+          <remarks>
+            <existing>remarks</existing>
+          </remarks>          
+        </hardwareConfiguration>
+      </hardware>      
+      <voice ID="voice-001-1" refAccessID="oldaccess-001-1">
+        <!-- targetAccessID="newaccess-001-1"> -->
+        <processingType>CHANGE</processingType>
+        <ccbId type="S">
+          <existing>{voiceServiceSubscriptionId}</existing>
+        </ccbId>
+        <voicePremiumConfiguration>
+          <productCode>
+            <existing>VI202</existing>
+          </productCode>
+          <pricingStructureCode>
+            <existing>VK001</existing>
+            <configured>VK001</configured>
+          </pricingStructureCode>
+          <minimumDurationPeriod>
+            <value>
+              <existing>24</existing>
+              <configured>12</configured>
+            </value>
+            <unit>
+              <existing>MONTH</existing>
+              <configured>MONTH</configured>
+            </unit>
+          </minimumDurationPeriod>
+          <automaticMailingIndicator>
+            <configured>true</configured>
+          </automaticMailingIndicator>
+          <keepOldAccessNumbers>
+            <configured>false</configured>
+          </keepOldAccessNumbers>
+          <portingAccessNumbers>
+            <numberOfNewAccessNumbers>
+              <configured>3</configured>
+            </numberOfNewAccessNumbers>
+            <portingMode>
+              <existing>Standard</existing>
+              <configured>Standard</configured>
+            </portingMode>
+            <numberOfNewAccessNumbers/>
+            <accessNumber1>
+              <existing>
+                <countryCode>49</countryCode>
+                <localAreaCode>711</localAreaCode>
+                <pilotNumber>117511</pilotNumber>
+              </existing>
+            </accessNumber1>
+            <accessNumber2>
+              <existing>
+                <countryCode>49</countryCode>
+                <localAreaCode>711</localAreaCode>
+                <pilotNumber>85475336</pilotNumber>
+              </existing>
+            </accessNumber2>
+            <accessNumber3>
+              <existing>
+                <countryCode>49</countryCode>
+                <localAreaCode>711</localAreaCode>
+                <pilotNumber>52074044</pilotNumber>
+              </existing>
+            </accessNumber3>
+          </portingAccessNumbers>
+          <connectionType>
+            <existing>comfortPlus</existing>
+            <configured>comfortPlus</configured>
+          </connectionType>
+          <desiredCountriesList>
+            <configured>
+              <desiredCountryServiceCode>V2101</desiredCountryServiceCode>
+              <desiredCountryServiceCode>V2107</desiredCountryServiceCode>
+            </configured>
+          </desiredCountriesList>          
+        </voicePremiumConfiguration>
+      </voice>
+    </functions>
+  </relocation>
+</order>

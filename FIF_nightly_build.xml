@@ -1,0 +1,453 @@
+<!--
+
+	ANT Build file for the FIF project
+
+	HEADER       : $Header:   //CMI_PROJECTS/archives/projects/NightlyBuild/FIF_nightly_build.xml-arc   1.25   29 Jun 2015 10:42:48   samir-kumar.pradhan  $
+	REVISION     : $Revision:   1.25  $
+	MODULENAME   : $Workfile:   FIF_nightly_build.xml  $
+	Last Change  : $Date:   29 Jun 2015 10:42:48  $
+	AUTHOR       : N. Dortmann
+	DESCRIPTION  : Buildfile for Jakarta Ant (FIF)
+	HISTORY      : $Log:   //CMI_PROJECTS/archives/projects/NightlyBuild/FIF_nightly_build.xml-arc  $
+
+   Rev 1.25   29 Jun 2015 10:42:48   samir-kumar.pradhan
+Updated, bcause ccm Build failed
+
+FIF_API BUILD:/devbld/inc64ov112/CC_BUILD/DEV1
+CCM     BUILD:/devbld/inc64ov112/DEV1/CCM
+
+   Rev 1.23   01 Apr 2014 10:59:04   bala.nandam
+Added changes of 1.18
+
+   Rev 1.22   17 Mar 2014 11:58:46   bala.nandam
+Added etc directories for SLSFIFDatabaseClient and FIFServiceBusResponseClient
+
+   Rev 1.21   11 Mar 2014 09:40:32   bala.nandam
+emailUtility component added.
+
+   Rev 1.20   21 Jan 2013 14:10:12   Martin.Henneke
+added changes from build.xml 1.16
+
+   Rev 1.19   21 Aug 2012 12:06:40   Martin.Henneke
+added OPMFIFDatabasClient\etc to CcmTestFramework
+
+   Rev 1.18   Jul 06 2012 11:20:08   nikolai.dortmann
+Add build on
+
+   Rev 1.17   Jun 14 2012 10:37:26   nikolai.dortmann
+Jenkins version fix
+
+   Rev 1.16   Jun 06 2012 12:06:00   nikolai.dortmann
+JENKINS VERSION
+
+   Rev 1.15   Nov 04 2011 13:40:12   nikolai.dortmann
+Add MasterdataChanges.xml
+
+   Rev 1.14   Oct 13 2011 15:36:58   nikolai.dortmann
+Copy files from CCMFIFDatabaseClient/etc and SynchronousFIFServiceBusClient/etc into CcmTestFramework/etc
+
+   Rev 1.13   Aug 09 2011 12:16:50   nikolai.dortmann
+Add copy of FunctionParameters.xml
+
+   Rev 1.12   Jul 06 2011 15:27:44   nikolai.dortmann
+Prepare for more baselines
+
+   Rev 1.11   10 Jan 2011 13:47:06   Martin.Henneke
+added request* and response* to copy from KBAFIFQueueClient to CcmTestFramework/dtd
+
+   Rev 1.10   Jan 04 2011 12:30:10   nikolai.dortmann
+changes according to build.xml 1.14 and change F:\ to G:\
+
+   Rev 1.9   Nov 25 2010 16:03:34   nikolai.dortmann
+changes according to build.xml 1.13
+
+   Rev 1.8   20 Aug 2010 16:51:38   Martin.Henneke
+changes according to build_cmi.xml 1.18  (xsd,xml to FIF)
+
+   Rev 1.7   Aug 18 2010 09:48:52   A-A-N.Hijazi
+remove config for Windows NT (use VIC -Config)
+
+   Rev 1.6   Jul 15 2010 14:02:38   nikolai.dortmann
+copy all files from CODBQueueClient\etc to CcmTestFramework\etc
+
+   Rev 1.5   Feb 11 2010 15:36:14   nikolai.dortmann
+Chages for running as XP service
+
+   Rev 1.4   31 Jul 2007 16:55:48   dortmann
+Changes for FIFServiceBus
+
+   Rev 1.3   16 Mar 2007 10:58:42   dortmann
+some small changes
+
+   Rev 1.2   25 Jan 2007 17:06:56   dortmann
+Add copy of all xsl files
+
+   Rev 1.1   Dec 08 2006 10:58:44   dortmann
+some changes
+
+   Rev 1.0   Dec 07 2006 13:51:14   dortmann
+Initial revision.
+
+-->
+
+<project name="FIF" default="nightlybuild" basedir="FIF_API">
+	<description> ANT nightly build file for the FIF project </description>
+
+  	<!-- Taskdef (pvcs and antcontrib)-->
+  	<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+
+	<!-- Global properties for this script -->
+  	<property environment="env"/>
+
+  	<tstamp/>
+  	<property name="buildname" value="FIF-API_${env.BUILD_ID}"/>
+
+	<property name="generatedsrc" location="${basedir}/FIF/generated"/>
+	<property name="src" location="${basedir}/FIF/src"/>
+	<property name="bin" location="${basedir}/FIF/bin"/>
+	<property name="lib" location="${basedir}/FIF/lib"/>
+	<property name="doc" location="${basedir}/FIF/doc"/>
+	<property name="jar" location="${basedir}/FIF/jar"/>
+	<property name="xsd" location="${basedir}/FIF/xsd"/>
+
+  	<!-- ENVINFO -->
+  	<target name="EnvInfo">
+    	<echo message="********************************************************************************************" />
+		<echo message="os.name             : ${os.name}"/>
+    	<echo message="ant.file            : ${ant.file}"/>
+    	<echo message="ant.project.name    : ${ant.project.name}" />
+    	<echo message="java.version        : ${java.version}" />
+		<echo message="java.home           : ${java.home}" />
+		<echo message="--------------------------------------------------------------------------------------------" />
+		<echo message="build on            : ${env.NODE_NAME}" />
+		<echo message="buildname           : ${env.DEV_NAME}" />
+		<echo message="buildpackage        : ${buildname}" />
+		<echo message="workspace           : ${env.WORKSPACE}" />
+		<echo message="********************************************************************************************" />
+  	</target>
+
+  	<!-- DOS2UX -->
+  	<target name="d2Ux">
+		<echo message="convert *.sh *.properties *.template and dbscripts to UNIX format ...."/>
+		<fixcrlf srcdir="${basedir}" eol="lf" includes="DB/**,**/*.xml,**/*.xsl,**/*.xslt,**/*.xsql,**/*.cmd,**/*.dtd,**/*.properties,**/*.template,**/*.sh,**/*.con,**/*.syn,**/*.tab,**/*.ugr,**/*.sql"/>
+  	</target>
+
+  	<!-- directory structure for FIF initFif-->
+  	<target name="init">
+  		<mkdir dir="${bin}"/>
+  		<mkdir dir="${doc}"/>
+  		<mkdir dir="${jar}"/>
+  		<mkdir dir="${generatedsrc}"/>
+	</target>
+
+    <target name="XjcCompileJar" depends="SetXJC, compile_emailutility_001, compile_epsm_sbus_001, compile_epsm_com_001,
+    	compile_epsm_fif_001, compile_epsm_aip_001, compile_epsm_cfm_001, compile_epsm_custwg_001, compile_consolidateSubscriptionData, compile_ccm_001"/>
+
+    <target name="SetXJC">
+		<path id="classpath">
+			<!--for use with bundled ant-->
+			<fileset dir="${lib}" includes="*.jar" />
+		</path>
+
+		<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+			<classpath refid="classpath" />
+		</taskdef>
+	</target>
+
+	<!--compile Java source files-->
+	<target name="compile_emailutility_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/CustomerInteraction-002.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/EmailUtility-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/FIF-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	<target name="compile_epsm_com_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-COM-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+
+	<target name="compile_epsm_sbus_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-SBUS-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="compile_epsm_fif_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-FIF-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="compile_epsm_aip_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-AIP-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="compile_epsm_cfm_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-CFM-WHSEUE-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="compile_epsm_custwg_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-CUSTWG-WHSVF-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	<target name="compile_consolidateSubscriptionData" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-CCM-ConsolidateSubscriptionData-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="compile_ccm_001" description="Compile all Java source files">
+		<xjc extension="true" schema="${xsd}/CCM-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<!-- Compile the java code from ${src} into ${bin} -->
+	<target name="compile" depends="init" description="Compiles all source files" >
+		<javac srcdir="${src}" destdir="${bin}" debug="true" encoding="iso-8859-1">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- create JAVADOC -->
+	<target name="createJavaDoc">
+		<javadoc access="protected" author="true" destdir="${doc}" nodeprecated="false" doctitle="FIF API"
+			nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+			packagenames="net.arcor.fif.messagecreator,net.arcor.fif.examples,net.arcor.fif.transport,net.arcor.fif.apps,net.arcor.fif.common,net.arcor.fif.db,net.arcor.fif.client,net.arcor.fif.server"
+			sourcepath="${src}" splitindex="true" use="true" version="true">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javadoc>
+	</target>
+
+	<!-- create JAR -->
+  	<target name="createJar">
+  		<jar destfile="${jar}/net.arcor.fif.jar" basedir="${bin}"
+  			includes="**/*.class"
+  			index="true"/>
+  	</target>
+
+	<!-- create SOMToFIF JARs -->
+	<target name="jar_trxBuilder" depends="init" >
+		<jar jarfile="${jar}/SOMToFIFRepository.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/*.xsd"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_AllScenariosWF1.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_AllScenariosWF1.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_Cancellation.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_Cancellation.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_DeactivateCustomer.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_DeactivateCustomer.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_ExternalOrders.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_ExternalOrders.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_IPCentrex.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_IPCentrex.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_LTE.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_LTE.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_Masterdata.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_Masterdata.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_OPLineChangesWF11.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_OPLineChangesWF11.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_OPLineChangesWF11CPCOM1b.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_OPLineChangesWF11CPCOM1b.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_OPTakeoverScenariosWF5.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_OPTakeoverScenariosWF5.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_OPTerminationsWF5.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_OPTerminationsWF5.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_LineChangeHW.jar" basedir="${src}"
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_LineChangeHW.xml"
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_Activation.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_Activation.xml" 
+			index="true" />
+	</target>
+
+  	<!-- copy all xsl files to CcmTestFramework\xslt-->
+  	<target name="copyAllXsl">
+	  <copy todir="${basedir}/CcmTestFramework/xslt" flatten="true">
+	    <fileset dir="${basedir}" includes="**/*.xsl"/>
+	  </copy>
+  	</target>
+
+	<!-- copy all files from CODBQueueClient\etc to CcmTestFramework\etc-->
+  	<target name="copyAllFilesFromEtc">
+	  <copy todir="${basedir}/CcmTestFramework/etc" flatten="true">
+		<fileset dir="${basedir}/CCMFIFDatabaseClient/etc" includes="**/*"/>
+	    <fileset dir="${basedir}/OPMFIFDatabaseClient/etc" includes="**/*"/>
+		<fileset dir="${basedir}/CODBQueueClient/etc" includes="**/*"/>
+		<fileset dir="${basedir}/SynchronousFIFServiceBusClient/etc" includes="**/*"/>
+		<fileset dir="${basedir}/SLSFIFDatabaseClient/etc" includes="**/*"/>
+        <fileset dir="${basedir}/FIFServiceBusResponseClient/etc" includes="**/*"/>
+        <fileset dir="${basedir}/SynchronousFIFEAIClient/etc" includes="**/*"/>
+	  </copy>
+  	</target>
+	
+	<!-- copy COMSOMQueueClient\FunctionParameters.xml to CcmTestFramework-->
+  	<target name="copyFunctionParametersXml">
+	  <copy todir="${basedir}/CcmTestFramework" flatten="true">
+	    <fileset dir="${basedir}/COMSOMQueueClient" includes="FunctionParameters.xml,MasterdataChanges.xml"/>
+	  </copy>
+  	</target>
+
+  		<!-- copy special dtd files from KBAFIFQueueClient to CcmTestFramework\dtd-->
+  	<target name="copyDtdFilesFromKBAFIF">
+	  <copy todir="${basedir}/CcmTestFramework/dtd" flatten="true">
+	    <fileset dir="${basedir}/KBAFIFQueueClient" includes="request.dtd,request-list.dtd,response.dtd,response-list.dtd"/>
+	  </copy>
+  	</target>
+
+  	<!-- create *.tar.gz -->
+  	<target name="createTarGz">
+    	<tar tarfile="${basedir}/${buildname}_${new.comp}.tar" longfile="gnu" basedir="${basedir}" includes="${new.comp}/**" />
+		<gzip zipfile="${basedir}/${buildname}_${new.comp}.tar.gz" src="${basedir}/${buildname}_${new.comp}.tar"/>
+		<delete file="${basedir}/${buildname}_${new.comp}.tar" />
+  	</target>
+
+  	<!-- create *.cksum -->
+  	<target name="createCksum">
+		<java jar="${env.WORKSPACE}/CMITools.jar" fork="true" output="${basedir}/${buildname}_${new.comp}.cksum">
+			<arg value="-cksum"/>
+			<arg value="${basedir}/${new.comp}"/>
+		</java>
+
+		<replace file="${basedir}/${buildname}_${new.comp}.cksum" token="${basedir}" value="."/>
+		<replace file="${basedir}/${buildname}_${new.comp}.cksum" token="\" value="/"/>
+  	</target>
+
+  	<!-- publish for cruisecontrol -->
+  	<target name="publishForCc">
+		<copy todir="${publish}">
+			<fileset dir="${basedir}/FIF">
+				<include name="${buildname}_${new.comp}.cksum"/>
+				<include name="${buildname}_${new.comp}.tar.gz"/>
+			</fileset>
+		</copy>
+		<!-- delete *.tar.gz and *.cksum -->
+		<delete file="${basedir}/FIF/${buildname}_${new.comp}.tar.gz" />
+		<delete file="${basedir}/FIF/${buildname}_${new.comp}.cksum" />
+  	</target>
+
+	<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  	++ MAIN BUILD LOOP
+  	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  	<target name="buildLoop">
+		<foreach list="${env.FIF_API_COMPS_TO_BUILD}"
+       		delimiter=","
+        	param="component"
+        	target="doComp"
+        	inheritall="true"/>
+  	</target>
+
+	<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  	++ MAIN BUILD
+  	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  	<target name="doComp">
+		<if>
+			<equals arg1="${component}" arg2="FIF.compile" />
+			<then>
+             	<!-- RegEx FIF.compile -->
+			 	<propertyregex property="change.comp"
+							   input="${component}"
+							   regexp="([^\.]*)"
+							   select="\1"
+							   casesensitive="false" />
+
+            	<echo> ************************************ </echo>
+        		<echo> NIGHLY BUILD FOR ${change.comp} </echo>
+        		<echo> ************************************ </echo>
+
+            	<!-- Init FIF -->
+            	<antcall target="init"/>
+
+				<!-- create new jars -->
+				<antcall target="XjcCompileJar"/>
+
+				<!-- compile FIF -->
+				<antcall target="compile"/>
+
+				<!-- Generate javadoc -->
+            	<antcall target="createJavaDoc"/>
+
+				<!-- Creates the jar file for FIF -->
+            	<antcall target="createJar"/>
+
+				<!-- Creates the SOMToFIF jar files -->
+				<antcall target="jar_trxBuilder"/>
+
+            	<!-- Component equal change.comp -->
+            	<property name="f.comp" value="${change.comp}"/>
+
+			</then>
+			<else>
+           		<echo> ************************************ </echo>
+         		<echo>  NIGHLY BUILD FOR ${component} </echo>
+         		<echo> ************************************ </echo>
+
+				<if>
+					<equals arg1="${component}" arg2="CcmTestFramework" />
+					<then>
+                		<antcall target="copyAllXsl"/>
+						<antcall target="copyAllFilesFromEtc"/>
+						<antcall target="copyDtdFilesFromKBAFIF"/>
+						<antcall target="copyFunctionParametersXml"/>
+					</then>
+				</if>
+
+				<!-- Component equal change.comp -->
+            	<property name="f.comp" value="${component}"/>
+
+			</else>
+		</if>
+
+		<antcall target="createTarGz">
+			<param name="new.comp" value="${f.comp}"/>
+		</antcall>
+
+    	<antcall target="createCksum">
+			<param name="new.comp" value="${f.comp}"/>
+		</antcall>
+	</target>
+
+	<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  	++ BASIC TARGET
+  	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+	<target name="nightlybuild" depends="EnvInfo, d2Ux, buildLoop"/>
+
+</project>

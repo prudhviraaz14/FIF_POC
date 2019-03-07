@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE request SYSTEM "request.dtd">
+<request>
+  <action-name>reconfigureMailboxAlias</action-name>
+  <request-params>
+    <request-param name="transactionID"><![CDATA[TEST_RECONF_MAILBOX_01]]></request-param>
+    <request-param name="productCode"><![CDATA[VI0001]]></request-param>
+    <request-param name="oldMailboxAlias"><![CDATA[49;173;52525]]></request-param>
+    <request-param name="newMailboxAlias"><![CDATA[bogus.test]]></request-param>
+    <request-param name="customerNumber"><![CDATA[0000123456789012]]></request-param>
+    <request-param name="rollenBezeichnung"><![CDATA[testRole]]></request-param>
+    <request-param name="userName"><![CDATA[kba_user_name]]></request-param>
+  </request-params>
+</request>

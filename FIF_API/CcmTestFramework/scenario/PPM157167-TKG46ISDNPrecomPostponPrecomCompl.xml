@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF039-Termination-IP-TKG5</request-list-name>
+   <request-list-id>FIF039-Termination-IP-TKG5</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+  
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-961:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationISDNPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF039-Termination-IP</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      {file:templates/LineCreationISDNPremium.xml}
+      
+      <trx-builder-request>
+         <transaction-id>term5-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-216:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/TerminationISDNPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF039-Termination-IP</request-param>
+                  <request-param name="entrySystem">KBA</request-param>
+                  <request-param name="sendingSystem">KBA</request-param>
+                  <request-param name="today">datetime:-216:hour</request-param>
+                  <request-param name="desiredDate">datetime:-214:hour</request-param>
+                  <request-param name="todayTruncated">date:-216:hour</request-param>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="mainAccessServiceCodeVoice">V0010</request-param>
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1276</request-param>
+                  <request-param name="pricingStructureCodeVoice">YP020</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V0178</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>term5-execute_precomp</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-168:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/TerminationISDNPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF039-Termination-IP</request-param>
+                  <request-param name="entrySystem">KBA</request-param>
+                  <request-param name="sendingSystem">KBA</request-param>
+                  <request-param name="today">datetime:-168:hour</request-param>
+                  <request-param name="desiredDate">datetime:-166:hour</request-param>
+                  <request-param name="todayTruncated">date:-168:hour</request-param>
+                  <request-param name="internetProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="safetyPackageCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param name="safetyPackagePreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="mainAccessServiceCodeVoice">V0010</request-param>
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1276</request-param>
+                  <request-param name="pricingStructureCodeVoice">YP020</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V0178</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>term5-execute_postpone</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-120:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/TerminationISDNPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF039-Termination-IP</request-param>
+                  <request-param name="entrySystem">KBA</request-param>
+                  <request-param name="sendingSystem">KBA</request-param>
+                  <request-param name="today">datetime:-120:hour</request-param>
+                  <request-param name="desiredDate">datetime:-118:hour</request-param>
+                  <request-param name="todayTruncated">date:-120:hour</request-param>
+                  <request-param name="internetProcessingStatus">postponedOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">postponedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">postponedOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">postponedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">postponedOPM</request-param>
+                  <request-param name="safetyPackageCompletionStatusOld">postponedOPM</request-param>
+                  <request-param name="safetyPackagePreviousCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="mainAccessServiceCodeVoice">V0010</request-param>
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1276</request-param>
+                  <request-param name="pricingStructureCodeVoice">YP020</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V0178</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+     
+      <trx-builder-request>
+         <transaction-id>term5-execute_precomp1</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-72:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/TerminationISDNPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF039-Termination-IP</request-param>
+                  <request-param name="entrySystem">KBA</request-param>
+                  <request-param name="sendingSystem">KBA</request-param>
+                  <request-param name="today">datetime:-72:hour</request-param>
+                  <request-param name="desiredDate">datetime:-70:hour</request-param>
+                  <request-param name="todayTruncated">date:-72:hour</request-param>
+                  <request-param name="internetProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusOld">postponedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusOld">postponedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="safetyPackageCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param name="safetyPackagePreviousCompletionStatusOld">postponedOPM</request-param>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="mainAccessServiceCodeVoice">V0010</request-param>
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1276</request-param>
+                  <request-param name="pricingStructureCodeVoice">YP020</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V0178</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+
+      <trx-builder-request>
+         <transaction-id>term5-execute_comp</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-24:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/TerminationISDNPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF039-Termination-IP</request-param>
+                  <request-param name="entrySystem">KBA</request-param>
+                  <request-param name="sendingSystem">KBA</request-param>
+                  <request-param name="today">datetime:-24:hour</request-param>
+                  <request-param name="desiredDate">datetime:-22:hour</request-param>
+                  <request-param name="todayTruncated">date:-24:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">completedOPM</request-param>
+                  <request-param name="safetyPackageCompletionStatusOld">completedOPM</request-param>
+                  <request-param name="safetyPackagePreviousCompletionStatusOld">precompletedOPM</request-param>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="ISDNLineCreation-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="mainAccessServiceCodeVoice">V0010</request-param>
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1276</request-param>
+                  <request-param name="pricingStructureCodeVoice">YP020</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V0178</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+
+
+   </requests>
+</request-list>

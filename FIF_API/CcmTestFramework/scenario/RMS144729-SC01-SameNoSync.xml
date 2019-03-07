@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>RMS144729-SC01-SameNoSync</request-list-name>
+   <request-list-id>RMS144729-SC01-SameNoSync</request-list-id>
+  
+  <!-- Scenario 13: SAP without synchronization:
+  	1) create customer with same email addresses for
+  		- customer <= validation triggered
+  		- account <= validation reused
+  		- contactRole <= no validation
+ 	2) SAP updateEmailAddress without synchronization
+   -->
+  
+   <requests>
+  
+        <request>
+         <action-name>createFullCustomer</action-name>
+         <request-params>
+            <request-param name="transactionID">RMS144729-SC01-SameNoSync_createFullCustomer</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">datetime:-48:hour</request-param>
+            <request-param name="ENTITY_TYPE">I</request-param>
+            <request-param name="SALUTATION_DESCRIPTION">Herr</request-param>
+            <request-param name="FORENAME">COM</request-param>
+            <request-param name="NAME">RMS144729-SC01-SameNoSync</request-param>
+            <request-param name="BIRTH_DATE">1963.12.20 00:00:00</request-param>
+            <request-param name="CREATE_ACCESS_INFORMATION">Y</request-param>
+            <request-param name="PHONE_NUMBER">02013792229</request-param>
+            <request-param name="ADDRESS_TYPE">KUND</request-param>
+            <request-param name="STREET_NAME">Rellinghauser Str.</request-param>
+            <request-param name="STREET_NUMBER">27</request-param>
+            <request-param name="POSTAL_CODE">45128</request-param>
+            <request-param name="CITY_NAME">Essen</request-param>
+            <request-param name="COUNTRY_CODE">DE</request-param>
+            <request-param name="USER_PASSWORD">fiftest</request-param>
+            <request-param name="MATCH_CODE_ID">1</request-param>
+            <request-param name="CUSTOMER_GROUP_RD">12</request-param>
+            <request-param name="CATEGORY_RD">RESIDENTIAL</request-param>
+            <request-param name="CLASSIFICATION_RD">E</request-param>
+            <request-param name="MASKING_DIGITS_RD">0</request-param>
+            <request-param name="PAYMENT_METHOD_RD">MANUAL</request-param>
+            <request-param name="PAYMENT_TERM_RD">14</request-param>
+            <request-param name="CYCLE_NAME">02_Standard_2</request-param>
+            <request-param name="MAILING_NAME">Rechnung</request-param>
+            <request-param name="DOC_TEMPLATE_NAME">Rechnung</request-param>
+            <request-param name="METHOD_OF_PAYMENT">MANUAL</request-param>
+            <request-param name="MANUAL_SUSPEND_IND">Y</request-param>
+            <request-param name="LANGUAGE_RD">ger</request-param>
+            <request-param name="CURRENCY_RD">EUR</request-param>
+            <request-param name="PAYMENT_TERM_RD">30</request-param>
+            <request-param name="ZERO_CHARGE_IND">N</request-param>
+            <request-param name="USAGE_LIMIT">514251</request-param>
+            <request-param name="OUTPUT_DEVICE_RD">PRINTER</request-param>
+            <request-param name="EMAIL_ADDRESS">oneemail@vodafone.com</request-param>
+         </request-params>
+      </request>
+       
+      <request>
+         <action-name>updateEmailAddress</action-name>
+         <request-params>
+            <request-param name="transactionID">RMS144729-SC01-SameNoSync-SAPUpdate</request-param>
+            <request-param name="emailAddress">accountNew@vodafone.com</request-param>
+            <request-param name="synchronizePrimaryContact">N</request-param>
+            <request-param-ref transactionID="RMS144729-SC01-SameNoSync_createFullCustomer" param-name="ACCOUNT_NUMBER" output-param-name="accountNumber"/>
+         </request-params>
+      </request>
+
+      <sql-request>
+         <transaction-id>checkEmailValidation</transaction-id>
+         <statement>
+            select count(1) numberOfValidations 
+            from EMAIL_VALIDATION ev 
+            where customer_number = 'customerNumber'                        
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="RMS144729-SC01-SameNoSync_createFullCustomer" param-name="CUSTOMER_NUMBER" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-result-params>
+         	<request-param name="numberOfValidations">2</request-param>
+         </sql-request-result-params>         
+      </sql-request>
+
+      <sql-request>
+         <transaction-id>checkAccessInfo</transaction-id>
+         <statement>
+			select count(1) numberOfAccessInformations from access_information 
+      		where entity_id in (select entity_id from entity e where customer_number = 'customerNumber')
+			or entity_id in (select entity_id from document_recipient dr where dr.mailing_id in (
+			  select mailing_id from mailing where customer_number = 'customerNumber'))
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="RMS144729-SC01-SameNoSync_createFullCustomer" param-name="CUSTOMER_NUMBER" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-result-params>
+         	<request-param name="numberOfAccessInformations">3</request-param>
+         </sql-request-result-params>         
+      </sql-request>
+
+
+   </requests>
+</request-list>

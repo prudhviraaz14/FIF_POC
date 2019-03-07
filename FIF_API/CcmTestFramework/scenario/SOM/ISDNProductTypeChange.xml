@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}" xmlns="http://www.arcor.net/orderSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+   <sendingSystem>POS</sendingSystem>
+   <entryUser>FIF</entryUser>
+   <entryRole>FIF</entryRole>
+   <entrySystem>POS</entrySystem>
+   <entryDateTime>{today}</entryDateTime>
+   <customerContactPoint>KBA</customerContactPoint>
+   <salesOrganisation>
+      <salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+      <salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+      <eShopCode>BERAT</eShopCode>
+   </salesOrganisation>
+   <superCustomerTrackingId>superCustomerTrackingId</superCustomerTrackingId>
+   <scanDate>{todayTruncated}</scanDate>
+   <customerData>
+      <customer ID="customer" >
+         <ccbId type="C">
+            <existing>{customerNumber}</existing>
+         </ccbId>
+      </customer>
+   </customerData>
+   <lineChange orderPositionNumber="1">
+      <customerIntention>ChangeLine</customerIntention>
+      <desiredDate>{desiredDate}</desiredDate>
+      <orderReceivedDate>{today}</orderReceivedDate>
+      <providerCode>
+         <existing>VFAI</existing>
+      </providerCode>
+      <salesPackageName>
+         <existing>none</existing>
+      </salesPackageName>
+      <salesPacketCode>
+         <existing>none</existing>
+      </salesPacketCode>
+      <beneficiary ID="bene-001-1">
+         <customerNodeRefID>customer</customerNodeRefID>
+      </beneficiary>
+      <accesses>
+         <isdn ID="access-001-1">
+            <ccbId type="S">
+               <existing>{voiceServiceSubscriptionId}</existing>
+            </ccbId>
+         </isdn>
+      </accesses>
+      <functions>
+         <internet ID="internet-001-1" refAccessID="access-001-1">
+            <processingType>CHANGE</processingType>
+            <ccbId type="S">
+               <existing>{internetServiceSubscriptionId}</existing>
+            </ccbId>
+            <providerTrackingNumber type="new">
+               <configured>001</configured>
+            </providerTrackingNumber>
+            <adslInternetConfiguration>
+               <productCode>
+                  <existing>I1100</existing>
+               </productCode>
+               <productBillingName>
+                  <existing>flat</existing>
+               </productBillingName>
+               <productVersionCode>
+                  <existing>1</existing>
+               </productVersionCode>
+               <pricingStructureCode>
+                  <existing>I1276</existing>
+                  <configured>I1277</configured>
+               </pricingStructureCode>
+               <primaryCustSignDate>
+                  <existing>2009-10-13</existing>
+               </primaryCustSignDate>
+               <DSLBandwidth>
+                  <existing>V0174</existing>
+                  <configured>V0178</configured>
+               </DSLBandwidth>
+               <desiredBandwidth>
+                  <existing>V018C</existing>
+               </desiredBandwidth>
+               <automaticMailingIndicator>
+                  <configured>true</configured>
+               </automaticMailingIndicator>
+            </adslInternetConfiguration>
+            <contractNumber>{internetContractNumber}</contractNumber>
+         </internet>
+         <voice ID="voice-001-1" refAccessID="access-001-1" >
+            <processingType>CHANGE</processingType>
+            <ccbId type="S">
+               <existing>{voiceServiceSubscriptionId}</existing>
+            </ccbId>
+            <contractNumber>{voiceContractNumber}</contractNumber>
+            <voicePremiumConfiguration>
+               <pricingStructureCode>
+                  <configured>V0780</configured>
+               </pricingStructureCode>
+               <portingAccessNumbers>
+                  <numberOfNewAccessNumbers>
+                     <configured>2</configured>
+                  </numberOfNewAccessNumbers>
+               </portingAccessNumbers>
+               <connectionType>
+                  <configured>comfortPlus</configured>
+               </connectionType>
+            </voicePremiumConfiguration>
+            <voiceBasisConfiguration>
+               <productCode>
+                  <existing>V0002</existing>
+               </productCode>
+               <mainAccessServiceCode>
+                  <existing>V0003</existing>
+               </mainAccessServiceCode>
+               <productVersionCode>
+                  <existing>1.0</existing>
+               </productVersionCode>
+               <pricingStructureCode>
+                  <existing>V0780</existing>
+               </pricingStructureCode>
+               <pricingStructureBillingName>
+                  <existing>Standard</existing>
+               </pricingStructureBillingName>
+               <primaryCustSignDate>
+                  <existing>2009-10-13</existing>
+               </primaryCustSignDate>
+               <minimumDurationPeriod>
+                  <value>
+                     <existing>12</existing>
+                  </value>
+                  <unit>
+                     <existing>MONTH</existing>
+                  </unit>
+               </minimumDurationPeriod>
+               <portingAccessNumbers>
+                  <portingMode>
+                     <existing>Standard</existing>
+                  </portingMode>
+                  <accessNumber1>
+                     <existing>
+                        <countryCode>49</countryCode>
+                        <localAreaCode>711</localAreaCode>
+                        <pilotNumber>117511</pilotNumber>
+                     </existing>
+                  </accessNumber1>
+               </portingAccessNumbers>
+               <connectionType>
+                  <existing>basic</existing>
+               </connectionType>
+            </voiceBasisConfiguration>
+         </voice>
+      </functions>
+   </lineChange>
+</order>

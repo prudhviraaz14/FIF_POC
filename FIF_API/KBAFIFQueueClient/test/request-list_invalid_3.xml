@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "request-list.dtd">
+<request-list>
+  <request-list-name>requestListInValid</request-list-name>
+  <request-list-id>invalid_03</request-list-id>
+  <requests>
+    <!-- No requests -->
+  </requests>
+</request-list>

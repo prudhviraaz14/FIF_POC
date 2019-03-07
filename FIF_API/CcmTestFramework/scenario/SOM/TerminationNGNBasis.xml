@@ -1,0 +1,17 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<termination orderPositionNumber="1">
+		<terminationReasonCode>ABWR</terminationReasonCode>
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/NGNAccessOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetTerm.xml_part}
+			{file:templates/VoiceBasisTerm.xml_part}
+			{file:templates/SafetyPackageTerm.xml_part}
+			{file:templates/Hardware1Ignore.xml_part}
+			{file:templates/DirectoryEntryIgnore.xml_part}
+		</functions>
+	</termination>
+</order>

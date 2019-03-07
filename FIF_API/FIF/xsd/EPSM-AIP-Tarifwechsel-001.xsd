@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	NOTE: All objects, service and event types are defined with regards to the latest available     
+	issue of the corresponding AAW-xyz document. Since this document is not final, changes 
+	become necessary for the schema with new versions of the document. 
+	Based on XXX ENTER_NAME V ENTER_VERSION_NUMBER
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:aipcommon="http://datatypes.callisto.com/EPSM-AIP-CommonTypes-001" xmlns:aipbase="http://www.arcor.net/AIP/EPSM-AIP-Base-001" 
+xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:mct="http://www.arcor.net/EPSM-CommonTypes-Mobilnummer-001" 
+xmlns="http://www.arcor.net/AIP/EPSM-AIP-Tarifwechsel-001" targetNamespace="http://www.arcor.net/AIP/EPSM-AIP-Tarifwechsel-001" 
+elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.1">
+	<!-- Import all base types -->
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/AIP/EPSM-AIP-Base-001" schemaLocation="EPSM-AIP-Base-001.xsd"/>
+	<!-- Import all common types -->
+	<xs:import namespace="http://datatypes.callisto.com/EPSM-AIP-CommonTypes-001" schemaLocation="EPSM-AIP-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-Mobilnummer-001" schemaLocation="EPSM-CommonTypes-Mobilnummer-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Aenderungshistorie ================== -->
+	<xs:element name="EPSM_AIP_Tarifwechsel_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>
+XML schema definition fuer AIP TW (Tarifwechsel)
+
+Version: 0.3
+
+Status des Dokument: In Abstimmung
+
+Aenderungshistorie:
+0.3		20.02.08	Robert Suschnik		Dokumentation, event hinzu
+0.2		22.01.08	Reto Renner			Targetnamespace angepasst
+0.1  	10.01.08 	Falk Nickenig 		initial
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>
+							Dieses Dokument basiert auf und referenziert
+							folgende Dokumente:
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>
+							Diese Schnittstelle wird durch die AIP
+							realisiert
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ========================= Endpunkt specifische 'complex types' ===================== -->
+	<xs:complexType name="TarifwechselInput">
+		<xs:annotation>
+			<xs:documentation>
+				Die Artikelnummer bezieht sich auf den Zieltarif. Der Inhalt der Rufnummer
+				ist aus Sicht der commontypes Anforderung aus dem AAW Projekt optional, AIP
+				erwartet die komplette Rufnummer, sonst wird ein Fehler zurueckgegeben.
+				Das Gueltigkeitsdatum ist optional, wird null uebergeben, sendet AIP 'asap' an
+				die VF. Hinweis: Die VF ist sehr kritisch bzgl. eines 'effDate in the past'.
+				In unserem Fall wird das Gueltigkeitsdatum immer der billingcycle des Kunden
+				sein, sollte der aber auf 'heute, 00.00 Uhr' stehen und wir versenden den
+				request an die VF um 10.00 Uhr, scheint wahrscheinlich,	dass die VF den
+				request zurueckweisen wird. Mangels input der VF funktioniert der Tarifwechsel
+				noch nicht, somit gibt es keine Erfahrungswerte.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="aipbase:AIPServiceInput">
+				<xs:sequence>
+					<xs:element name="simId" type="aipcommon:SimKartenID"/>
+					<xs:element name="artikelnummer" type="aipcommon:Artikelnummer"/>
+					<xs:element name="rufnummer" type="mct:Mobilnummer"/>
+					<xs:element name="gueltigkeitsDatum" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!--
+	<xs:complexType name="TarifwechselOutput">
+		<xs:annotation>
+			<xs:documentation>
+				siehe Definition von base:OutputData
+				result true		erfolgreich von der AIP angenommen
+				result false	sendet die AIP nicht, weil der Fehlerfall immer ueber das 
+								MeldeTarifwechselEvent gemeldet wird.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData"/>
+		</xs:complexContent>
+	</xs:complexType>
+	-->
+	
+	<!-- ========================= Service Definitionen Diensterbringer ===================== -->
+	<xs:complexType name="TarifwechselService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:sequence>
+					<xs:element name="tarifwechselInput" type="TarifwechselInput"/>
+					<!-- <xs:element name="tarifwechselOutput" type="TarifwechselOutput"/> -->
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ========================= Event Definitionen Diensterbringer ======================= -->
+	<xs:complexType name="MeldeTarifwechselEvent">
+		<xs:annotation>
+			<xs:documentation>Meldet an den Aufrufer das Ergebnis der TarifwechselService Transaktion</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderEvent">
+				<xs:sequence>
+					<xs:element name="MeldeTarifwechselOutput" type="MeldeTarifwechselOutput"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="MeldeTarifwechselOutput">
+		<xs:annotation>
+			<xs:documentation>
+			Ergebnis des Tarifwechsels
+			siehe Definition von base:OutputData
+			result true		Transaktion erfolgreich
+			result false	Transaktion fehlgeschlagen. Der errorcode ist immer '0',
+							der errorText ist immer gefuellt.
+			Das Feld rufnummer ist immer gefuellt (unabhaengig vom result)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element name="rufnummer" type="mct:Mobilnummer"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- ========================= Elemente Diensterbringer ================================= -->
+</xs:schema>

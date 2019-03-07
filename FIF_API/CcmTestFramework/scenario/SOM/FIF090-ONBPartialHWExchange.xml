@@ -1,0 +1,87 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerDataOld.xml_part}
+	<lineChange orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/ONBAccessOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/VoicePremiumIgnore.xml_part}
+			<hardware ID="hardware1">
+				<processingType>CHANGE</processingType>
+				<ccbId type="S">
+				    <existing>{hardwareONBSSID}</existing>
+				    <configured>{hardwareONBSSIDNew}</configured>
+				</ccbId>
+				<refFunctionID>
+					<existing>voice</existing>
+				</refFunctionID>
+				<providerTrackingNumber type="default">
+					<configured>ptnDefaultHWONB</configured>
+				</providerTrackingNumber>
+				<providerTrackingNumber type="change">
+					<configured>ptnChangeHWONB</configured>
+				</providerTrackingNumber>
+				<providerTrackingNumber type="target">
+					<configured>ptnTargetHWONB</configured>
+				</providerTrackingNumber>
+				<hardwareConfiguration>
+					<hardwareServiceCode>
+						<existing>VI041</existing>
+					</hardwareServiceCode>
+					<orderReason>
+						<existing>Neuauftrag</existing>
+					</orderReason>
+					<subventionCode>
+						<existing>1</existing>
+					</subventionCode>
+					<shippingCosts>
+						<existing>RG</existing>
+					</shippingCosts>
+					<salutationDescription>
+						<existing>Herr</existing>
+					</salutationDescription>
+					<forename>
+						<existing>COM</existing>
+					</forename>
+					<name>
+						<existing>{scenarioName}</existing>
+					</name>
+					<hardwareMailingAddress>
+						<existing>
+							{file:templates/Address1.xml_part}
+						</existing>
+					</hardwareMailingAddress>
+					<articleNumber>
+						<existing>20080549</existing>
+					</articleNumber>
+					<articleName>
+						<existing>Vodafone Webby</existing>
+					</articleName>
+					<serialNumber>
+						<existing>154947214842</existing>
+					</serialNumber>
+					<quantity>
+						<existing>100</existing>
+						<configured>80</configured>
+					</quantity>
+					<quantityOfPartiallyExchangedHardware>20</quantityOfPartiallyExchangedHardware>
+					<remarksForTechnician>
+						<existing>remarkForTechnician</existing>
+					</remarksForTechnician>
+					<conditionsList>
+						<existing>
+							<conditionService>
+								<conditionServiceType>HW</conditionServiceType>
+								<conditionServiceID>P-0229-06-03</conditionServiceID>
+							</conditionService>
+						</existing>
+					</conditionsList>		
+				</hardwareConfiguration>
+				<previousCompletionStatusOldCcbId>{hardwareONBPreviousCompletionStatusNew}</previousCompletionStatusOldCcbId>
+				<completionStatusOldCcbId>{hardwareONBProcessingStatus}</completionStatusOldCcbId>
+				<processingStatus>{hardwareONBProcessingStatus}</processingStatus>
+			</hardware>
+		</functions>
+	</lineChange>
+</order>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE messagecreator-metadata SYSTEM "messagecreator-metadata.dtd"[
+<!ENTITY ccm_createContributingItem SYSTEM "ccm_createContributingItem.xml">
+<!ENTITY ccm_skeletonContractChangeOrderFormTarif SYSTEM "ccm_skeletonContractChangeOrderFormTarif.xml">
+<!ENTITY ccm_skeletonContractChangeServiceDeliveryTarif SYSTEM "ccm_skeletonContractChangeServiceDeliveryTarif.xml">
+<!ENTITY ccm_releaseCustomerOrder SYSTEM "ccm_releaseCustomerOrder.xml">
+<!ENTITY ccm_signAndApplyNewPricingStructure SYSTEM "ccm_signAndApplyNewPricingStructure.xml">
+<!ENTITY ccm_signAndApplyNewPricingStructureWoValidation SYSTEM "ccm_signAndApplyNewPricingStructureWoValidation.xml">
+<!ENTITY ccm_finalizeAccount SYSTEM "ccm_finalizeAccount.xml">
+<!ENTITY ccm_createExternalNotificationForProvi SYSTEM "ccm_createExternalNotificationForProvi.xml">
+<!ENTITY ccm_deactivateCustomer SYSTEM "ccm_deactivateCustomer.xml">
+<!ENTITY ccm_createExternalNotificationServiceCharChanged SYSTEM "ccm_createExternalNotificationServiceCharChanged.xml">
+<!ENTITY ccm_createPosNotification SYSTEM "ccm_createPosNotification.xml">
+<!ENTITY ccm_createSelectedDestination SYSTEM "ccm_createSelectedDestination.xml">
+<!ENTITY ccm_checkCustAccessClassification SYSTEM "ccm_checkCustAccessClassification.xml">
+<!ENTITY ccm_createOMTSNotificationCheckTariffChangeCompleted SYSTEM "ccm_createOMTSNotificationCheckTariffChangeCompleted.xml">
+<!ENTITY ccm_handleFailedFifRequest SYSTEM "ccm_handleFailedFifRequest.xml">
+<!ENTITY ccm_modifyPSMPricePlan SYSTEM "ccm_modifyPSMPricePlan.xml">
+<!ENTITY ccm_updatePricePlanSubscriptionsToPsmDefinitions SYSTEM "ccm_updatePricePlanSubscriptionsToPsmDefinitions.xml">
+<!ENTITY ccm_update1Und1MasterData SYSTEM "ccm_update1Und1MasterData.xml">
+<!ENTITY ccm_createExtNotificationCheckContractChangeCompleted SYSTEM "ccm_createExtNotificationCheckContractChangeCompleted.xml">
+<!ENTITY ccm_notifySBusCreateCustomer SYSTEM "ccm_notifySBusCreateCustomer.xml">	
+<!ENTITY ccm_notifySBusActivateLine SYSTEM "ccm_notifySBusActivateLine.xml">	
+<!ENTITY ccm_notifySBusFinalAccount SYSTEM "ccm_notifySBusFinalAccount.xml">	
+<!ENTITY ccm_notifySBusDeactCustomer SYSTEM "ccm_notifySBusDeactCustomer.xml">	
+<!ENTITY ccm_checkAndDeactInactiveCustomer SYSTEM "ccm_checkAndDeactInactiveCustomer.xml">					
+<!ENTITY ccm_notifySBusSubscriptionTermination SYSTEM "ccm_notifySBusSubscriptionTermination.xml">	
+<!ENTITY ccm_setInvoiceDeliveryType SYSTEM "ccm_setInvoiceDeliveryType.xml">
+<!ENTITY ccm_notifySBusSubscriptionActivation SYSTEM "ccm_notifySBusSubscriptionActivation.xml">	
+<!ENTITY ccm_changeDSLBandwidth SYSTEM "ccm_changeDSLBandwidth.xml">
+<!ENTITY ccm_addHardwareService SYSTEM "ccm_addHardwareService.xml">
+<!ENTITY ccm_notifySBusTerminationCancellation SYSTEM "ccm_notifySBusTerminationCancellation.xml">
+<!ENTITY ccm_modifyVoIP SYSTEM "ccm_modifyVoIP.xml">
+<!ENTITY ccm_processServiceBusRequest SYSTEM "ccm_processServiceBusRequest.xml">
+<!ENTITY ccm_notifySBusTariffChange SYSTEM "ccm_notifySBusTariffChange.xml">
+<!ENTITY ccm_notifySBusTariffRollback SYSTEM "ccm_notifySBusTariffRollback.xml">	
+<!ENTITY ccm_consolidateSubscriptionData SYSTEM "ccm_consolidateSubscriptionData.xml">	
+<!ENTITY ccm_reconfigureServiceCharacteristic SYSTEM "ccm_reconfigureServiceCharacteristic.xml">	
+<!ENTITY ccm_notifyKbaForPtsgService SYSTEM "ccm_notifyKbaForPtsgService.xml">	
+<!ENTITY ccm_addContact SYSTEM "ccm_addContact.xml">
+<!ENTITY ccm_modifyEBOS SYSTEM "ccm_modifyEBOS.xml">
+<!ENTITY ccm_terminateTariffOption SYSTEM "ccm_terminateTariffOption.xml">
+<!ENTITY ccm_normalizeAddress SYSTEM "ccm_normalizeAddress.xml">
+]>
+<!--
+    This document contains the message metadata for the CCM-FIF DatabaseClient.
+    It contains information about the supported request, message, and message
+    creator types.  It also contains the action mappings that specify which
+    actions are supported.
+-->
+
+<messagecreator-metadata>
+
+    <!-- Request definitions -->
+    <request-definitions>
+        <request-definition>
+            <request-type>FIF</request-type>
+            <request-class>net.arcor.fif.messagecreator.FIFRequest</request-class>
+        </request-definition>
+    </request-definitions>
+
+    <!-- Message definitions -->
+    <message-definitions>
+        <message-definition>
+            <message-type>FIF</message-type>
+            <message-class>net.arcor.fif.messagecreator.FIFMessage</message-class>
+        </message-definition>
+    </message-definitions>
+
+    <!-- Message Creator definitions -->
+    <message-creator-definitions>
+        <message-creator-definition>
+            <creator-type>xsql</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSQLMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+        <message-creator-definition>
+            <creator-type>xslt</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSLTMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+    </message-creator-definitions>
+
+    <!-- Action Mappings-->
+    <action-mappings>
+	 <!-- Order Form Tariff Change -->
+	 &ccm_skeletonContractChangeOrderFormTarif;
+	 <!-- SDC Product Commitment Tariff Change -->
+	 &ccm_skeletonContractChangeServiceDeliveryTarif;
+	 <!-- Released Customer Order -->
+	 &ccm_releaseCustomerOrder;
+	 <!-- Sign And Apply New Pricing Structure -->
+	 &ccm_signAndApplyNewPricingStructure;
+     <!-- Sign And Apply New Pricing Structure -->
+	 &ccm_signAndApplyNewPricingStructureWoValidation;
+     <!-- change the state of the account to FINAL -->
+	 &ccm_finalizeAccount;
+	 <!-- Create External Notification for Provinsioning -->
+	 &ccm_createExternalNotificationForProvi;
+     <!-- change the state of customer -->
+	 &ccm_deactivateCustomer;
+     <!-- Create External Notification for STP service characteristic changed -->
+     &ccm_createExternalNotificationServiceCharChanged;
+     <!-- Create External Notification for STP service characteristic changed -->
+     &ccm_createContributingItem;
+     <!-- create a notification for POS -->
+     &ccm_createPosNotification;
+     <!-- create SelectedDestination -->
+     &ccm_createSelectedDestination;     
+     <!-- check Customer Access Classification -->     
+     &ccm_checkCustAccessClassification;
+     <!-- check tariff check completed -->     
+     &ccm_createOMTSNotificationCheckTariffChangeCompleted;  
+     <!-- modify price plan subscripion to PSM definition -->     
+     &ccm_modifyPSMPricePlan;        
+     <!-- add and remove price plan according to PSM definition -->          
+     &ccm_updatePricePlanSubscriptionsToPsmDefinitions;   
+     &ccm_handleFailedFifRequest;
+     &ccm_update1Und1MasterData;
+     <!-- releases proper external (permanent) notification -->          
+     &ccm_createExtNotificationCheckContractChangeCompleted;
+     &ccm_notifySBusCreateCustomer;
+	 &ccm_notifySBusActivateLine;
+	 &ccm_notifySBusFinalAccount;
+	 &ccm_notifySBusDeactCustomer;	
+	 &ccm_checkAndDeactInactiveCustomer;	
+	 &ccm_notifySBusSubscriptionTermination;	
+	 &ccm_setInvoiceDeliveryType; 
+	 &ccm_notifySBusSubscriptionActivation;
+     &ccm_changeDSLBandwidth;
+     &ccm_addHardwareService;
+     &ccm_notifySBusTerminationCancellation;
+     &ccm_modifyVoIP;
+     &ccm_processServiceBusRequest;
+     &ccm_notifySBusTariffRollback;
+     &ccm_notifySBusTariffChange;
+     &ccm_consolidateSubscriptionData;
+     &ccm_reconfigureServiceCharacteristic;
+     &ccm_notifyKbaForPtsgService;
+     &ccm_addContact;
+     &ccm_modifyEBOS;
+     &ccm_terminateTariffOption;
+     &ccm_normalizeAddress;
+    </action-mappings>
+</messagecreator-metadata>

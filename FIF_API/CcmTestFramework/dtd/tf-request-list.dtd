@@ -1,0 +1,38 @@
+<!--
+    DTD for the XML representation of a FIF Request List
+    
+    File name : $Workfile:   tf-request-list.dtd  $
+    Header    : $Header:   //PVCS_FIF/archives/FIF_API/CcmTestFramework/dtd/tf-request-list.dtd-arc   1.5   Aug 23 2011 09:12:38   schwarje  $
+    Revision  : $Revision:   1.5  $
+    
+    History:
+    $Log:   //PVCS_FIF/archives/FIF_API/CcmTestFramework/dtd/tf-request-list.dtd-arc  $
+  
+     Rev 1.5   Aug 23 2011 09:12:38   schwarje
+  BKS for TF
+  
+     Rev 1.4   Jun 24 2010 17:57:00   schwarje
+  CPCOM Phase 2: new FIF client type accepting SOM orders
+  
+     Rev 1.3   Aug 06 2009 12:38:52   schwarje
+  added com-request
+  
+     Rev 1.2   Dec 22 2006 11:36:06   schwarje
+  TF: added support for transaction lists
+  
+     Rev 1.1   Dec 08 2006 13:28:12   schwarje
+  added SQL requests
+  
+     Rev 1.0   Sep 08 2005 12:59:14   banania
+  Initial revision.
+
+
+-->
+
+<!ENTITY % request.dtd SYSTEM "tf-request.dtd"> 
+%request.dtd;
+
+<!ELEMENT request-list (request-list-name, request-list-id, requests)>
+<!ELEMENT request-list-name (#PCDATA)>
+<!ELEMENT request-list-id (#PCDATA)>
+<!ELEMENT requests (request|sql-request|transaction-list|bks-request|trx-builder-request)+>

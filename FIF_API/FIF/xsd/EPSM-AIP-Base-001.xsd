@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<!--
+	NOTE: All objects, service and event types are defined with regards to the latest available     
+	issue of the corresponding AAW-xyz document. Since this document is not final, changes 
+	become necessary for the schema with new versions of the document. 
+	Based on XXX ENTER_NAME V ENTER_VERSION_NUMBER
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001" xmlns:aipcommon="http://datatypes.callisto.com/EPSM-AIP-CommonTypes-001" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:adresse="http://www.arcor.net/EPSM-CommonTypes-Adresse-002" xmlns:jurperson="http://www.arcor.net/EPSM-CommonTypes-JuristischePerson-002" xmlns:natperson="http://www.arcor.net/EPSM-CommonTypes-NatuerlichePerson-002" xmlns:person="http://www.arcor.net/EPSM-CommonTypes-Person-002" xmlns="http://www.arcor.net/AIP/EPSM-AIP-Base-001" targetNamespace="http://www.arcor.net/AIP/EPSM-AIP-Base-001" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.1">
+	<!-- Import all base types -->
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<!-- Import all common types -->
+	<xs:import namespace="http://datatypes.callisto.com/EPSM-AIP-CommonTypes-001" schemaLocation="EPSM-AIP-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-Person-002" schemaLocation="EPSM-CommonTypes-Person-002.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-JuristischePerson-002" schemaLocation="EPSM-CommonTypes-JuristischePerson-002.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-NatuerlichePerson-002" schemaLocation="EPSM-CommonTypes-NatuerlichePerson-002.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-Adresse-002" schemaLocation="EPSM-CommonTypes-Adresse-002.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Aenderungshistorie ================== -->
+	<xs:element name="EPSM_AIP_Base_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>
+XML schema definition for AIP DSK and services 
+
+Version: 0.2
+
+Status des Dokument: in progress
+
+Aenderungshistorie: 
+
+Version 0.4 30.07.08	Ulrich Grepel - KundennummerX400 zu beiden JurPersons hinzugefuegt
+Version 0.3	16.07.08	Robert Suschnik Abweichender Vertragsinhaber Typen
+Version 0.2	06.12.07	Reto Renner	Definition Rechnungskontonummer aus common:EPSM-CommonTypes-001.xsd verwendet
+						Verwendung Major-Version 002 fuer CommonTypes Person, JurPerson, NatPerson und Adresse
+Version 0.1 08.10.07 	Falk Nickenig	Initial 
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- ========================= Endpunkt specifische 'complex types' ===================== -->
+	<xs:complexType name="AIPNatPerson">
+		<xs:annotation>
+			<xs:documentation>
+				Zusammengesetztes Objekt aus Common Types gem. dem Adonis Objektmodell.
+				Benoetigt werden folgende Felder:
+				- Person.Nachname
+				- Person.Vorname
+				- Person.Geburtsdatum
+				- NatuerlichePerson.Kundennummer
+				- Adresse.Strasse
+				- Adresse.Hausnummer
+				- Adresse.Ort
+				- Adresse.pLZ
+				- Rechnungskontonummer
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="natperson:NatuerlichePerson">
+				<xs:sequence>
+					<xs:element name="rechnungskontonummer" type="common:Rechnungskontonummer"/>
+					<xs:element name="personenDaten" type="person:Person"/>
+					<xs:element name="adresse" type="adresse:Adresse"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="AIPJurPerson">
+		<xs:annotation>
+			<xs:documentation>
+				Zusammengesetztes Objekt aus Common Types gem. dem Adonis Objektmodell.
+				Benoetigt werden folgende Felder:
+				- JuristischePerson.Kundennummer
+				- JuristischePerson.Firmennamen
+				- kundennummerX400 (optional)
+				- Adresse.Strasse
+				- Adresse.Hausnummer
+				- Adresse.Ort
+				- Adresse.pLZ
+				- Rechnungskontonummer
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="jurperson:JuristischePerson">
+				<xs:sequence>
+					<xs:element name="rechnungskontonummer" type="common:Rechnungskontonummer"/>
+					<xs:element name="adresse" type="adresse:Adresse"/>
+					<xs:element name="kundennummerX400" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="AIPAbweichenderVertragsInhaberNat">
+		<xs:annotation>
+			<xs:documentation>
+				Zusammengesetztes Objekt aus Common Types gem. dem Adonis Objektmodell.
+				Benoetigt werden folgende Felder fuer den inporting Vorgang auf der X.400
+				- Person.Nachname
+				- Person.Vorname
+				- Person.Geburtsdatum
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="natperson:NatuerlichePerson">
+				<xs:sequence>
+					<xs:element name="personenDaten" type="person:Person"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="AIPAbweichenderVertragsInhaberJur">
+		<xs:annotation>
+			<xs:documentation>
+				Zusammengesetztes Objekt aus Common Types gem. dem Adonis Objektmodell.
+				Benoetigt werden folgende Felder fuer den inporting Vorgang auf der X.400
+				- kundennummerX400 (optional)
+				- JuristischePerson.Firmennamen
+				- Adresse.Strasse
+				- Adresse.Hausnummer
+				- Adresse.Ort
+				- Adresse.pLZ
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="jurperson:JuristischePerson">
+				<xs:sequence>
+					<xs:element name="adresse" type="adresse:Adresse"/>
+					<xs:element name="kundennummerX400" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="AIPServiceInput">
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="technUser" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

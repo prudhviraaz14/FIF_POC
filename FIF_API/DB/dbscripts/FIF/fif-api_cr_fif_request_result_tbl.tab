@@ -1,0 +1,18 @@
+--
+-- Create script for the FIF_REQUEST_RESULT table.
+--
+-- @author Olivier Goethals
+-- @date 2003-10-01
+
+CREATE TABLE FIF_REQUEST_RESULT (
+    TRANSACTION_ID       VARCHAR2(30) NOT NULL,
+    RETURN_PARAM         VARCHAR2(80) NOT NULL,
+    RETURN_VALUE         VARCHAR2(4000) NOT NULL
+);
+
+COMMENT ON COLUMN FIF_REQUEST_RESULT.TRANSACTION_ID IS
+    'The transaction ID of the FIF request.';
+COMMENT ON COLUMN FIF_REQUEST_RESULT.RETURN_PARAM IS
+    'The name of the returned parameter.';
+COMMENT ON COLUMN FIF_REQUEST_RESULT.RETURN_VALUE IS
+    'The value of the returned parameter.';

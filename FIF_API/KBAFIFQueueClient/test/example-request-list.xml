@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+	Example XML for a request list
+	
+    File name : $Workfile:$
+    Header    : $Header:$
+    Revision  : $Revision:$
+    
+    History:
+    $Log:$	
+-->
+	
+<!DOCTYPE request-list SYSTEM "request-list.dtd">
+<request-list>
+	<request-list-name>ExampleRequestList</request-list-name>
+	<request-list-id>ExampleIDForTheRequestList</request-list-id>
+	<requests>
+		<request>
+			<action-name>actionName1</action-name>
+			<request-params>
+				<request-param name="transactionID">action1TransactionID</request-param>
+				<request-param name="testParamAction11">testValue</request-param>
+				<request-param name="testParamAction12">testValue</request-param>
+				<request-param name="testParamAction13">testValue</request-param>				
+			</request-params>
+		</request>
+		<request>
+			<action-name>actionName2</action-name>
+			<request-params>
+				<request-param name="transactionID">action2TransactionID</request-param>
+				<request-param name="testParamAction21">testValue</request-param>
+				<request-param name="testParamAction22">testValue</request-param>
+				<request-param name="testParamAction23">testValue</request-param>				
+			</request-params>
+		</request>		
+	</requests>
+</request-list>

@@ -1,0 +1,26 @@
+<instantAccess ID="instantAccess" refAccessID="access-new">
+	<processingType>ADD</processingType>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultInstantAccess</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeInstantAccess</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetInstantAccess</configured>
+	</providerTrackingNumber>
+	<refFunctionID>
+		<existing>voice</existing>
+	</refFunctionID>
+	<adslInstantAccessConfiguration>
+        <instantAccessVariant>
+          <existing>InstantAccess</existing>
+        </instantAccessVariant>
+        <simID>
+          <existing>{customerNumber}</existing>
+        </simID>
+	</adslInstantAccessConfiguration>
+	<processingStatus>{instantAccessProcessingStatus}</processingStatus>
+	<completionStatusNewCcbId>{instantAccessCompletionStatusNew}</completionStatusNewCcbId>
+	<previousCompletionStatusNewCcbId>{instantAccessPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+</instantAccess>

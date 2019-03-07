@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001" 
+	targetNamespace="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001" 
+	elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.1">
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="EPSM_AIP_Base_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>
+XML schema definition 
+
+Version: 0.1
+
+Status des Dokument: Final
+
+Aenderungshistorie: 
+
+Version 0.1 04.02.2008 	Jens Schwarzwälder	Initial 
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="FMCGroupKiasMsisdnList">
+		<xs:annotation>
+			<xs:documentation>Liste von Rufnummern fuer MobileGroup-Transaktionen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="msisdn" type="FMCGroupKiasMsisdn" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FMCGroupKiasMsisdn">
+		<xs:annotation>
+			<xs:documentation>Rufnummern fuer MobileGroup-Transaktionen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="transactionType" type="FMCGroupKiasTransactionType"/>
+			<xs:element name="mobileNumber" type="FMCGroupKiasMobileNumber"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="FMCGroupKiasTransactionType">
+		<xs:annotation>
+			<xs:documentation>
+				Definition eines Transaktionstyps fuer MobileGroup-Transaktionen
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="Add|Remove"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FMCGroupKiasMobileNumber">
+		<xs:annotation>
+			<xs:documentation>
+				Definition einer Rufnummer fuer MobileGroup-Transaktionen
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(49|GSM)[0-9]{1,17}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ServiceSubscriptionId">
+		<xs:annotation>
+			<xs:documentation>
+				Definition einer Rufnummer fuer MobileGroup-Transaktionen
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value=".{16}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VONummer">
+		<xs:annotation>
+			<xs:documentation>
+				Definition einer VONummer
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{8}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Artikelnummer">
+		<xs:annotation>
+			<xs:documentation>
+				Definition einer Artikelnummer
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{8}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="KampagnenID">
+		<xs:annotation>
+			<xs:documentation>
+				Definition einer Kampagnen ID
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="32"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="KundenName">
+		<xs:annotation>
+			<xs:documentation>
+				Name des Kunden
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SystemID">
+		<xs:annotation>
+			<xs:documentation>
+				ID des aufrufenden Systems
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SystemType">
+		<xs:annotation>
+			<xs:documentation>
+				Name des Kunden. Default: VIS
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VISPosition">
+		<xs:annotation>
+			<xs:documentation>
+				VIS Subposition
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VISProdukt">
+		<xs:annotation>
+			<xs:documentation>
+				VIS Produkt
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VISBarcode">
+		<xs:annotation>
+			<xs:documentation>
+				VIS Produkt
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="orderEnvelopeNumber">
+		<xs:annotation>
+			<xs:documentation>
+				order Envelope Number (Auftragsklammernummer)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="64"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CustomerOrderID">
+		<xs:restriction base="xs:string">
+			<xs:length value="10"></xs:length>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:choice>
+				<xs:sequence><xs:element name="streetName" type="xs:string" maxOccurs="1" minOccurs="1">
+			</xs:element><xs:element name="streetNumber" type="xs:string" maxOccurs="1" minOccurs="0">
+			</xs:element><xs:element name="streetNumberSuffix" type="xs:string" maxOccurs="1" minOccurs="0">
+			</xs:element></xs:sequence>
+                <xs:element name="postOfficeBox" type="xs:string" maxOccurs="1" minOccurs="1">
+			</xs:element>
+            </xs:choice>
+            <xs:element name="postalCode" type="xs:string" maxOccurs="1" minOccurs="0">
+			</xs:element>
+            <xs:element name="cityName" type="xs:string" maxOccurs="1" minOccurs="1">
+			</xs:element>
+            <xs:element name="citySuffixName" type="xs:string" maxOccurs="1" minOccurs="0">
+			</xs:element>
+            <xs:element name="country" maxOccurs="1" minOccurs="0" type="xs:string">
+            </xs:element>
+            <xs:element name="addressType" type="xs:string" maxOccurs="1" minOccurs="0">
+			</xs:element>
+            <xs:element name="additionalAddressDescription" type="xs:string" maxOccurs="1" minOccurs="0">
+			</xs:element>
+            <xs:element name="secondAdditionalAddressDescription" type="xs:string" maxOccurs="1" minOccurs="0">
+			</xs:element>
+        </xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SingleNumber">
+		<xs:sequence>
+			<xs:element name="countryCode" type="xs:positiveInteger"
+				maxOccurs="1" minOccurs="1">
+			</xs:element>
+			<xs:element name="localAreaCode" type="xs:positiveInteger"
+				maxOccurs="1" minOccurs="1">
+			</xs:element>
+			<xs:element name="pilotNumber" type="xs:positiveInteger" maxOccurs="1" minOccurs="1">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AccessNumberRange">
+		<xs:sequence>
+			<xs:element name="countryCode" type="xs:positiveInteger"
+				maxOccurs="1" minOccurs="1">
+			</xs:element>
+			<xs:element name="localAreaCode" type="xs:positiveInteger"
+				maxOccurs="1" minOccurs="1">
+			</xs:element>
+			<xs:element name="pilotNumber" type="xs:positiveInteger"
+				maxOccurs="1" minOccurs="1">
+			</xs:element>
+			<xs:element name="beginRange" type="xs:positiveInteger" maxOccurs="1" minOccurs="1"></xs:element>
+			<xs:element name="endRange" type="xs:positiveInteger" maxOccurs="1" minOccurs="1"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="ServiceLocation">
+		<xs:sequence>
+			<xs:element name="roomNumber" type="xs:string"></xs:element>
+			<xs:element name="deskNumber" type="xs:string"></xs:element>
+			<xs:element name="jackLocation" type="xs:string"></xs:element>
+			<xs:element name="additionalLocationInfo"
+				type="xs:string">
+			</xs:element>
+			<xs:element name="floor" type="xs:string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+  <xs:complexType name="IPAddress">
+		<xs:sequence>
+			<xs:element name="ipNumber" type="xs:string"/>
+			<xs:element name="subnetMask" type="xs:string"/>
+			<xs:element name="alias" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="Action">
+		<xs:restriction base="xs:string">
+	        <xs:enumeration value="ADD" />
+    	    <xs:enumeration value="REMOVE" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	
+	
+</xs:schema>

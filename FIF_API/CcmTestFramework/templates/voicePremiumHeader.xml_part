@@ -1,0 +1,16 @@
+<voicePremiumConfiguration>
+    <pricingStructureCode>
+        <configured>{pricingStructureCode}</configured>
+    </pricingStructureCode>
+    <desiredPremiumType>
+        <configured>{desiredPremiumType}</configured>
+    </desiredPremiumType>
+    <allowPremiumTypeChange>
+        <configured>{allowPremiumTypeChange}</configured>
+    </allowPremiumTypeChange>
+    <keepOldAccessNumbers>
+        <configured>{keepOldAccessNumbers}</configured>
+    </keepOldAccessNumbers>
+    <numberNewAccessNumbers>
+        <configured>{numberNewAccessNumbers}</configured>
+    </numberNewAccessNumbers>    

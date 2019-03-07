@@ -1,0 +1,17 @@
+<internet ID="{ID}" refAccessID="{refAccessID}" targetAccessID="{targetAccessID}">
+    <ccbId type="S">
+        <existing>{serviceSubscriptionId}</existing>
+    </ccbId>    
+    <processingType>{processingType}</processingType>
+    <internetConfiguration>
+        <pricingStructureCode>
+            <configured>{pricingStructureCode}</configured>
+        </pricingStructureCode>
+        <DSLBandwidth>
+            <configured>{DSLBandwidth}</configured>
+        </DSLBandwidth>
+        <allowBandwidthDowngrade>
+            <configured>{allowBandwidthDowngrade}</configured>
+        </allowBandwidthDowngrade>
+    </internetConfiguration>
+</internet>

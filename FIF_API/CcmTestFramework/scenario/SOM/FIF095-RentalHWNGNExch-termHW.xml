@@ -1,0 +1,219 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<lineChange orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/NGNAccessOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetIgnore.xml_part}
+			{file:templates/VoicePremiumIgnore.xml_part}
+				<hardware ID="hardwareRentedIAD">
+					<processingType>TERM</processingType>
+					<ccbId type="S">
+					    <existing>{hardwareRentedIADSSID}</existing>
+					</ccbId>
+					<refFunctionID>
+						<existing>internet</existing>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultRentalIAD</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeRentalIAD</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetRentalIAD</configured>
+					</providerTrackingNumber>
+					<rentedHardwareConfiguration>
+						<hardwareServiceCode>
+							<existing>V011A</existing>
+						</hardwareServiceCode>
+						<orderReason>
+							<existing>Neuauftrag</existing>
+							<configured>Rückgabe Mietgerät</configured>
+						</orderReason>
+						<subventionCode>
+							<existing>1</existing>
+						</subventionCode>
+						<shippingCosts>
+							<existing>RG</existing>
+						</shippingCosts>
+						<salutationDescription>
+							<existing>Herr</existing>
+						</salutationDescription>
+						<forename>
+							<existing>COM</existing>
+						</forename>
+						<name>
+							<existing>{scenarioName}</existing>
+						</name>
+						<hardwareMailingAddress>
+							<existing>
+								{file:templates/Address1.xml_part}
+							</existing>
+						</hardwareMailingAddress>
+						<articleNumber>
+							<existing>20090013</existing>
+						</articleNumber>
+						<articleName>
+							<existing>DSL-EasyBox 803</existing>
+						</articleName>
+						<serialNumber>
+							<existing>154947214842</existing>
+						</serialNumber>
+						<conditionsList>
+							<existing>
+								<conditionService>
+									<conditionServiceType>HW</conditionServiceType>
+									<conditionServiceCode>V0854</conditionServiceCode>
+									<conditionServiceName>whatever</conditionServiceName>
+									<conditionServiceID>whatever</conditionServiceID>
+								</conditionService>
+							</existing>
+						</conditionsList>		
+					</rentedHardwareConfiguration>
+					<previousCompletionStatusOldCcbId>{hardwareRentedIADPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+					<completionStatusOldCcbId>{hardwareRentedIADCompletionStatusOld}</completionStatusOldCcbId>
+					<processingStatus>{hardwareRentedIADProcessingStatus}</processingStatus>
+				</hardware>
+				<hardware ID="hardwareRentedSTB">
+					<processingType>TERM</processingType>
+					<ccbId type="S">
+					    <existing>{hardwareRentedSTBSSID}</existing>
+					</ccbId>
+					<refFunctionID>
+						<existing>internet</existing>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultRentalSTB</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeRentalSTB</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetRentalSTB</configured>
+					</providerTrackingNumber>
+					<rentedHardwareConfiguration>
+						<hardwareServiceCode>
+							<existing>I1359</existing>
+						</hardwareServiceCode>
+						<orderReason>
+							<existing>Neuauftrag</existing>
+							<configured>Rückgabe Mietgerät</configured>
+						</orderReason>
+						<subventionCode>
+							<existing>1</existing>
+						</subventionCode>
+						<shippingCosts>
+							<existing>RG</existing>
+						</shippingCosts>
+						<salutationDescription>
+							<existing>Herr</existing>
+						</salutationDescription>
+						<forename>
+							<existing>COM</existing>
+						</forename>
+						<name>
+							<existing>{scenarioName}</existing>
+						</name>
+						<hardwareMailingAddress>
+							<existing>
+								{file:templates/Address1.xml_part}
+							</existing>
+						</hardwareMailingAddress>
+						<articleNumber>
+							<existing>20090013</existing>
+						</articleNumber>
+						<articleName>
+							<existing>DSL-EasyBox 803</existing>
+						</articleName>
+						<serialNumber>
+							<existing>154947214842</existing>
+						</serialNumber>
+						<conditionsList>
+							<existing>
+								<conditionService>
+									<conditionServiceStartDate>{today}</conditionServiceStartDate>
+									<conditionServiceType>HW</conditionServiceType>
+									<conditionServiceName>whatever</conditionServiceName>
+									<conditionServiceID>whatever</conditionServiceID>
+								</conditionService>
+							</existing>
+						</conditionsList>		
+					</rentedHardwareConfiguration>
+					<previousCompletionStatusOldCcbId>{hardwareRentedSTBPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+					<completionStatusOldCcbId>{hardwareRentedSTBCompletionStatusOld}</completionStatusOldCcbId>
+					<processingStatus>{hardwareRentedSTBProcessingStatus}</processingStatus>
+				</hardware>
+				<hardware ID="hardwareBundleIAD">
+					<processingType>IGNORE</processingType>
+					<ccbId type="S">
+					    <existing>{hardwareBundleIADSSID}</existing>
+					</ccbId>
+					<refFunctionID>
+						<existing>internet</existing>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultBundleIAD</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeBundleIAD</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetBundleIAD</configured>
+					</providerTrackingNumber>
+					<hardwareConfiguration>
+						<hardwareServiceCode>
+							<existing>V011A</existing>
+						</hardwareServiceCode>
+						<orderReason>
+							<existing>Neuauftrag</existing>
+						</orderReason>
+						<subventionCode>
+							<existing>1</existing>
+						</subventionCode>
+						<shippingCosts>
+							<existing>RG</existing>
+						</shippingCosts>
+						<salutationDescription>
+							<existing>Herr</existing>
+						</salutationDescription>
+						<forename>
+							<existing>COM</existing>
+						</forename>
+						<name>
+							<existing>{scenarioName}</existing>
+						</name>
+						<hardwareMailingAddress>
+							<existing>
+								{file:templates/Address1.xml_part}
+							</existing>
+						</hardwareMailingAddress>
+						<articleNumber>
+							<existing>20080549</existing>
+						</articleNumber>
+						<articleName>
+							<existing>DSL-EasyBox 803</existing>
+						</articleName>
+						<serialNumber>
+							<existing>154947214842</existing>
+						</serialNumber>
+						<conditionsList>
+							<existing>
+								<conditionService>
+									<conditionServiceStartDate>{today}</conditionServiceStartDate>
+									<conditionServiceType>HW</conditionServiceType>
+									<conditionServiceName>whatever</conditionServiceName>
+									<conditionServiceID>whatever</conditionServiceID>
+								</conditionService>
+							</existing>
+						</conditionsList>		
+					</hardwareConfiguration>
+					<previousCompletionStatusOldCcbId>{hardwareBundleIADPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+					<completionStatusOldCcbId>{hardwareBundleIADCompletionStatusOld}</completionStatusOldCcbId>
+					<processingStatus>{hardwareBundleIADProcessingStatus}</processingStatus>
+				</hardware>
+		</functions>
+	</lineChange>
+</order>

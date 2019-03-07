@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF088-LC-ONBCN</request-list-name>
+   <request-list-id>FIF088-LC-ONBCN-1</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+
+      <sql-request>
+         <transaction-id>getScenarioData</transaction-id>
+         <statement>select '3100' || 'NUMBER1' as ONENETID, '3200' || 'NUMBER2' as SITEID, 'FIF088-LC-ONBCN' as SCENARIONAME from dual</statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="generateNumbers" param-name="NUMBER1"/>
+            <request-param-ref transactionID="generateNumbers" param-name="NUMBER2"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="ONENETID"/>
+            <request-param name="SITEID"/>
+            <request-param name="SCENARIONAME"/>
+         </sql-request-output-params>
+      </sql-request>
+  
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-961:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationOneNetBusiness.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  {file:templates/ArcorGK.xml_part}
+                  {file:templates/AccessNumbersMasterdataScenarioName.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="productCodeVoice">VI207</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="serviceLevel">S0106</request-param>
+                  <request-param name="installationPackage">Telefonfunktion</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+        <!-- create a VOICE-ONLINE bundle -->	
+		<request>
+			<action-name>modifyBundleTF</action-name>
+			<request-params>
+				<request-param name="transactionID">createBundle</request-param>
+				<request-param name="OVERRIDE_SYSTEM_DATE">datetime:-192:hour</request-param>
+				<request-param-ref transactionID="masterdata_0" param-name="customerNumber" output-param-name="CUSTOMER_NUMBER"/>
+			</request-params>
+		</request>		
+
+      {file:templates/FindBundle.xml}
+      
+      <sql-request>
+         <transaction-id>OneNet</transaction-id>
+         <statement>
+		      insert into onenet (onenet_id, effective_date, effective_status, name, description, audit_update_date_time, audit_update_user_id, update_number)
+		      values ('oneNetID', sysdate - 7, 'ACTIVE', 'scenarioName', 'OneNetID for scenarioName', sysdate - 7, 'TFW', 1)
+         </statement>
+         <sql-request-input-params>
+			<request-param-ref transactionID="getScenarioData" param-name="ONENETID" output-param-name="oneNetID"/>
+			<request-param-ref transactionID="getScenarioData" param-name="SCENARIONAME" output-param-name="scenarioName"/>
+         </sql-request-input-params>
+      </sql-request>
+      
+      <sql-request>
+         <transaction-id>OneNetCustomer</transaction-id>
+         <statement>
+		      insert into onenet_customer (onenet_id, customer_number, effective_date, effective_status, audit_update_date_time, audit_update_user_id, update_number)
+		      values ('oneNetID', 'customerNumber', sysdate - 7, 'ACTIVE', sysdate - 7, 'TFW', 1)
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="masterdata_0" param-name="customerNumber"/>
+			<request-param-ref transactionID="getScenarioData" param-name="ONENETID" output-param-name="oneNetID"/>
+         </sql-request-input-params>
+      </sql-request>
+      
+      <sql-request>
+         <transaction-id>OneNetSite</transaction-id>
+         <statement>
+		      insert into onenet_site (site_id, effective_date, effective_status, onenet_id, bundle_id, name, description, audit_update_date_time, audit_update_user_id, update_number)
+		      values ('siteID', sysdate - 7, 'ACTIVE', 'oneNetID', 'bundleId', 'scenarioName', 'SiteID for scenarioName', sysdate - 7, 'TFW', 1)
+         </statement>
+         <sql-request-input-params>
+			<request-param-ref transactionID="getScenarioData" param-name="ONENETID" output-param-name="oneNetID"/>
+			<request-param-ref transactionID="getScenarioData" param-name="SITEID" output-param-name="siteID"/>
+			<request-param-ref transactionID="getScenarioData" param-name="SCENARIONAME" output-param-name="scenarioName"/>
+            <request-param-ref transactionID="findBundle" param-name="BUNDLE_ID" output-param-name="bundleId"/>
+         </sql-request-input-params>
+      </sql-request>
+      
+      <sql-request>
+         <transaction-id>commit</transaction-id>
+         <statement>commit</statement>
+      </sql-request>
+      
+      <request>
+         <action-name>createContract</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF088-LC-ONBCN-ICContract</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">datetime:-155:hour</request-param>
+            <request-param-ref transactionID="masterdata_0" param-name="customerNumber" output-param-name="customerNumber"/>
+            <request-param name="createContract">Y</request-param>
+            <request-param name="createProductCommitment">Y</request-param>
+            <request-param name="contractType">O</request-param>
+            <request-param name="name">InternetConnect</request-param>
+            <request-param name="salesOrganisationNumber">97000000</request-param>
+            <request-param name="productCode">I0006</request-param>
+            <request-param name="pricingStructureCode">I0006</request-param>
+         </request-params>
+      </request>
+
+      <sql-request>
+         <transaction-id>getPCNumber</transaction-id>
+         <statement>
+            select distinct product_commitment_number productCommitmentNumber from order_form_product_commit
+			where contract_number = 'contractNumber'           
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="FIF088-LC-ONBCN-ICContract" param-name="contractNumber" output-param-name="contractNumber"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="productCommitmentNumber"/>
+         </sql-request-output-params>
+      </sql-request>
+
+      <request>
+         <action-name>addProductSubscription</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF088-LC-ONBCN-addProductSubscription</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">datetime:-153:hour</request-param>
+            <request-param-ref transactionID="getPCNumber" param-name="productCommitmentNumber" output-param-name="PRODUCT_COMMITMENT_NUMBER"/>
+            <request-param-ref transactionID="masterdata_0" param-name="customerNumber" output-param-name="CUSTOMER_NUMBER"/>
+            <request-param name="DESIRED_DATE">datetime:240:hour</request-param>
+            <request-param name="DESIRED_SCHEDULE_TYPE">START_AFTER</request-param>
+            <request-param name="REASON_RD">AEND</request-param>
+            
+            <request-param name="SERVICE_CODE_01">I021E</request-param>
+	        <request-param-list name="CONF_SERVICE_CHAR_LIST_01">
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[A0020]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[Die Budgetoptimierer GmbH;Herr;Seiler, Lipp;07031/79720;michael.seiler@die-dbo.de;ja;]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[A0030]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[20.05.2015]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[A0040]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[TAL]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[A0065]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[DATE]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[21.05.2015]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[A0075]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[Nein]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[I0030]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[mit OP]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[I051a]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[Arcor]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[I0534]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[nein]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[I054b]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[4er Netz]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[I1519]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[individuell]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[I1520]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[DECIMAL]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[439.00]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[I1522]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[00%]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[I1524]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[individuell]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[I1525]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[DECIMAL]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[0.00]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[I1530]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[STRING]]></request-param>
+	            <request-param name="CONFIGURED_VALUE"><![CDATA[3 Jahre]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[V0014]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[ADDRESS]]></request-param>
+	            <request-param name="ADDRESS_TYPE"><![CDATA[LOKA]]></request-param>
+	            <request-param name="STREET_NAME"><![CDATA[Rellinghauser Str.]]></request-param>
+	            <request-param name="STREET_NUMBER"><![CDATA[27]]></request-param>
+	            <request-param name="POSTAL_CODE"><![CDATA[45128]]></request-param>
+	            <request-param name="CITY_NAME"><![CDATA[Essen]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[V0015]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[SERVICE_LOCATION]]></request-param>
+	            <request-param name="SERVICE_LOCATION"><![CDATA[Serverraum]]></request-param>
+	          </request-param-list-item>
+	        </request-param-list>
+            
+            <request-param name="SERVICE_CODE_02">S0010</request-param>
+            <request-param name="PARENT_SERVICE_SUBS_REF_02">01</request-param>
+            <request-param-list name="CONF_SERVICE_CHAR_LIST_02">
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE">I0030</request-param>
+	            <request-param name="DATA_TYPE">STRING</request-param>
+	            <request-param name="CONFIGURED_VALUE">mit OP</request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE">S0004</request-param>
+	            <request-param name="DATA_TYPE">STRING</request-param>
+	            <request-param name="CONFIGURED_VALUE">Internet Connect</request-param>
+	          </request-param-list-item>
+            </request-param-list>
+            
+         </request-params>
+      </request>
+      
+      
+      <trx-builder-request>
+         <transaction-id>FIF088-LC-ONBCN-LC-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-144:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationOneNetBusiness.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-24:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  {file:templates/ArcorGK.xml_part}
+                  {file:templates/AccessNumbersMasterdataScenarioName.xml_part}
+                  <request-param name="productCodeVoice">VI207</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="serviceLevel">S0106</request-param>
+                  <request-param name="installationPackage">Telefonfunktion</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>FIF088-LC-ONBCN-LC-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-24:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationOneNetBusiness.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-24:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="hardwareONBProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardwareONBCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardwareONBPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">completedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="installationSvcProcessingStatus">completedOPM</request-param>
+                  <request-param name="installationSvcCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="installationSvcPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="FIF088-LC-ONBCN-LC-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF088-LC-ONBCN-LC-allocate_1" param-name="ccbId" output-param-name="hardwareONBSSID"/>
+                  <request-param-ref transactionID="FIF088-LC-ONBCN-LC-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="FIF088-LC-ONBCN-LC-allocate_3" param-name="ccbId" output-param-name="installationSvcSSID"/>
+                  {file:templates/ArcorGK.xml_part}
+                  {file:templates/AccessNumbersMasterdataScenarioName.xml_part}
+                  <request-param name="productCodeVoice">VI207</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="serviceLevel">S0106</request-param>
+                  <request-param name="installationPackage">Telefonfunktion</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      {file:templates/FindBundle.xml}
+      
+      <sql-request>
+         <transaction-id>getCNSS</transaction-id>
+         <statement>
+            select SERVICE_SUBSCRIPTION_ID from service_subscription
+            where product_subscription_id = 'productSubscriptionId'
+            and service_code = 'I021E'			           
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="FIF088-LC-ONBCN-addProductSubscription" param-name="productSubscriptionId" output-param-name="productSubscriptionId"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="SERVICE_SUBSCRIPTION_ID"/>
+         </sql-request-output-params>
+      </sql-request>
+      
+        <!-- create a VOICE-ONLINE bundle -->
+		<request>
+			<action-name>modifyBundleTF</action-name>
+			<request-params>
+				<request-param name="transactionID">FIF088-LC-ONBCN_modifyBundle</request-param>
+				<request-param name="BUNDLE_ID">VOICE_ONLINE</request-param>
+				<request-param-ref transactionID="findBundle" param-name="BUNDLE_ID" output-param-name="BUNDLE_ID"/>
+				<request-param-list name="BUNDLE_ITEM_LIST">
+					<request-param-list-item>
+                        <request-param name="BUNDLE_ITEM_TYPE_RD">OTHERACCESS</request-param>
+						<request-param-ref transactionID="FIF088-LC-ONBCN-addProductSubscription" 
+							param-name="SERVICE_SUBSCRIPTION_ID" 
+							output-param-name="SUPPORTED_OBJECT_ID"/>
+                        <request-param name="SUPPORTED_OBJECT_TYPE_RD">SERVSUB</request-param>
+                        <request-param name="ACTION_NAME">ADD</request-param>
+					</request-param-list-item>
+				</request-param-list>
+			</request-params>
+		</request>		
+      
+      
+   </requests>
+</request-list>

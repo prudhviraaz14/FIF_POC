@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF079-RL-BITSIPTrunk</request-list-name>
+   <request-list-id>FIF079-RL-BITSIPTrunk-1</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-961:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITSIPTrunk.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF079-RL-BITSIPTrunk</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="phoneSystemType">S0-A</request-param>
+                  <request-param name="accessTechnology">ADSL</request-param>
+                  <request-param name="serviceLevel">S0106</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>LineCreation-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-960:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITSIPTrunk.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="phoneSystemType">S0-A</request-param>
+                  <request-param name="accessTechnology">ADSL</request-param>
+                  <request-param name="serviceLevel">S0106</request-param>
+                  <request-param name="scenarioName">FIF079-RL-BITSIPTrunk</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+            
+      <trx-builder-request>
+         <transaction-id>LineCreation-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-719:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITSIPTrunk.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="extraNumbersNumberRangeProcessingStatus">completedOPM</request-param>
+                  <request-param name="extraNumbersNumberRangeCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="extraNumbersNumberRangePreviousCompletionStatusNew">acknowledgedOPM</request-param>                  
+                  <request-param name="extraNumbersSingleNumberProcessingStatus">completedOPM</request-param>
+                  <request-param name="extraNumbersSingleNumberCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="extraNumbersSingleNumberPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="hardwareBDSLProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardwareBDSLCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardwareBDSLPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="hardwareSIPProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardwareSIPCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardwareSIPPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">completedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="extraNumbersNumberRangeSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="extraNumbersSingleNumberSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="hardwareBDSLSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_5" param-name="ccbId" output-param-name="hardwareSIPSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_6" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI211</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="scenarioName">FIF079-RL-BITSIPTrunk</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="pricingStructureCodeInternet">YI016</request-param> 
+                  <request-param name="phoneSystemType">S0-A</request-param>
+                  <request-param name="accessTechnology">ADSL</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="serviceLevel">S0106</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      {file:templates/FindBundle.xml}
+            
+      <trx-builder-request>
+         <transaction-id>relocation-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-120:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/RelocationBITSIPTrunk.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-120:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:-120:hour</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="extraNumbersNumberRangeSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="extraNumbersSingleNumberSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="hardwareBDSLSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_5" param-name="ccbId" output-param-name="hardwareSIPSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_6" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI211</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="productCodeInternetNew">I1207</request-param>
+                  <request-param name="scenarioName">FIF079-RL-BITSIPTrunk</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="pricingStructureCodeInternet">YI016</request-param> 
+                  <request-param name="pricingStructureCodeInternetNew">I1105</request-param> 
+                  <request-param name="phoneSystemType">S0-A</request-param>
+                  <request-param name="accessTechnology">ADSL</request-param>
+                  <request-param name="accessTechnologyNew">ADSL</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="DSLBandwidthNew">I1217</request-param>
+                  <request-param name="serviceLevel">S0106</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>relocation-create</transaction-id>
+         <transaction-type>create</transaction-type>
+         <override-system-date>datetime:-119:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/RelocationBITSIPTrunk.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-120:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:-120:hour</request-param>
+                  <request-param name="internetProcessingStatus">acknowledgedOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">acknowledgedOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="extraNumbersNumberRangeProcessingStatus">noactionOPM</request-param>
+                  <request-param name="extraNumbersNumberRangeCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="extraNumbersNumberRangePreviousCompletionStatusNew">noactionOPM</request-param>                  
+                  <request-param name="extraNumbersSingleNumberProcessingStatus">noactionOPM</request-param>
+                  <request-param name="extraNumbersSingleNumberCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="extraNumbersSingleNumberPreviousCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="hardwareBDSLProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardwareBDSLCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="hardwareBDSLPreviousCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="hardwareSIPProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardwareSIPCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="hardwareSIPPreviousCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">noactionOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">noactionOPM</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="relocation-allocate_0" param-name="ccbId" output-param-name="internetSSIDNew"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="relocation-allocate_1" param-name="ccbId" output-param-name="voiceSSIDNew"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="extraNumbersNumberRangeSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="extraNumbersSingleNumberSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="hardwareBDSLSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_5" param-name="ccbId" output-param-name="hardwareSIPSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_6" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI211</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="productCodeInternetNew">I1203</request-param>
+                  <request-param name="scenarioName">FIF079-RL-BITSIPTrunk</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="pricingStructureCodeVoiceNew">VG007</request-param>                  
+                  <request-param name="pricingStructureCodeInternet">YI016</request-param> 
+                  <request-param name="pricingStructureCodeInternetNew">YI016</request-param> 
+                  <request-param name="phoneSystemType">S0-A</request-param>
+                  <request-param name="accessTechnology">ADSL</request-param>
+                  <request-param name="accessTechnologyNew">ADSL</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="DSLBandwidthNew">V018C</request-param>
+                  <request-param name="serviceLevel">S0106</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>relocation-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-10:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/RelocationBITSIPTrunk.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-120:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:-120:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="extraNumbersNumberRangeProcessingStatus">noactionOPM</request-param>
+                  <request-param name="extraNumbersNumberRangeCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="extraNumbersNumberRangePreviousCompletionStatusNew">noactionOPM</request-param>                  
+                  <request-param name="extraNumbersSingleNumberProcessingStatus">noactionOPM</request-param>
+                  <request-param name="extraNumbersSingleNumberCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="extraNumbersSingleNumberPreviousCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="hardwareBDSLProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardwareBDSLCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="hardwareBDSLPreviousCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="hardwareSIPProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardwareSIPCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="hardwareSIPPreviousCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">noactionOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">noactionOPM</request-param>
+                  <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="relocation-allocate_0" param-name="ccbId" output-param-name="internetSSIDNew"/>
+                  <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="relocation-allocate_1" param-name="ccbId" output-param-name="voiceSSIDNew"/>
+                  <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="extraNumbersNumberRangeSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="extraNumbersSingleNumberSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="hardwareBDSLSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_5" param-name="ccbId" output-param-name="hardwareSIPSSID"/>
+                  <request-param-ref transactionID="LineCreation-allocate_6" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI211</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="productCodeInternetNew">I1203</request-param>
+                  <request-param name="scenarioName">FIF079-RL-BITSIPTrunk</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="pricingStructureCodeVoiceNew">VG007</request-param>                  
+                  <request-param name="pricingStructureCodeInternet">YI016</request-param> 
+                  <request-param name="pricingStructureCodeInternetNew">YI016</request-param> 
+                  <request-param name="phoneSystemType">S0-A</request-param>
+                  <request-param name="accessTechnology">ADSL</request-param>
+                  <request-param name="accessTechnologyNew">ADSL</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="DSLBandwidthNew">V018C</request-param>
+                  <request-param name="serviceLevel">S0106</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+  
+      
+   </requests>
+</request-list>

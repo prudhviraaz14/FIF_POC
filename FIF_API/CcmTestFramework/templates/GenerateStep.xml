@@ -1,0 +1,55 @@
+<sql-request>
+ <transaction-id>generateBarcodes</transaction-id>
+ <statement>SELECT 'ARC01'||TO_CHAR(SYSDATE,'DDHH24MISS') AS BARCODE1,
+  'ARC02'||TO_CHAR(SYSDATE,'DDHH24MISS') AS BARCODE2,
+  'ARC03'||TO_CHAR(SYSDATE,'DDHH24MISS') AS BARCODE3,
+  'ARC04'||TO_CHAR(SYSDATE,'DDHH24MISS') AS BARCODE4,
+  'ARC05'||TO_CHAR(SYSDATE,'DDHH24MISS') AS BARCODE5,
+  'ARC06'||TO_CHAR(SYSDATE,'DDHH24MISS') AS BARCODE6 FROM DUAL</statement>
+ <sql-request-output-params>
+	<request-param name="BARCODE1"/>
+	<request-param name="BARCODE2"/>
+    <request-param name="BARCODE3"/>
+    <request-param name="BARCODE4"/>
+    <request-param name="BARCODE5"/>
+    <request-param name="BARCODE6"/>
+ </sql-request-output-params>
+</sql-request>
+
+<sql-request>
+ <transaction-id>generateNumbers</transaction-id>
+ <statement>SELECT (mod(TO_CHAR(SYSDATE,'DD'),9) + 1) || TO_CHAR(SYSDATE,'HH24MISS') || '1' AS NUMBER1,
+  (mod(TO_CHAR(SYSDATE,'DD'),9) + 1) || TO_CHAR(SYSDATE,'HH24MISS') || '2' AS NUMBER2,
+  (mod(TO_CHAR(SYSDATE,'DD'),9) + 1) || TO_CHAR(SYSDATE,'HH24MISS') || '3' AS NUMBER3,
+  (mod(TO_CHAR(SYSDATE,'DD'),9) + 1) || TO_CHAR(SYSDATE,'HH24MISS') || '4' AS NUMBER4,
+  (mod(TO_CHAR(SYSDATE,'DD'),9) + 1) || TO_CHAR(SYSDATE,'HH24MISS') || '5' AS NUMBER5,
+  (mod(TO_CHAR(SYSDATE,'DD'),9) + 1) || TO_CHAR(SYSDATE,'HH24MISS') || '6' AS NUMBER6,
+  (mod(TO_CHAR(SYSDATE,'DD'),9) + 1) || TO_CHAR(SYSDATE,'HH24MISS') || '7' AS NUMBER7 FROM DUAL</statement>
+ <sql-request-output-params>
+	<request-param name="NUMBER1"/>
+	<request-param name="NUMBER2"/>
+	<request-param name="NUMBER3"/>
+  <request-param name="NUMBER4"/>
+  <request-param name="NUMBER5"/>
+  <request-param name="NUMBER6"/>
+  <request-param name="NUMBER7"/>
+ </sql-request-output-params>
+</sql-request>
+
+<sql-request>
+	 <transaction-id>cleanup1</transaction-id>
+	 <statement>DELETE FROM CCM_EXTERNAL_NOTIFICATION_PARM WHERE TRANSACTION_ID like 'FIF%'</statement>
+  </sql-request>
+  <sql-request>
+	 <transaction-id>cleanup2</transaction-id>
+	 <statement>DELETE FROM CCM_EXTERNAL_NOTIFICATION WHERE TRANSACTION_ID like 'FIF%'</statement>
+  </sql-request>
+
+<sql-request>
+ <transaction-id>cleanup3</transaction-id>
+ <statement>COMMIT</statement>
+</sql-request>
+
+
+
+

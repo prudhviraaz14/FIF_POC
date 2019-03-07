@@ -1,0 +1,69 @@
+<internet ID="internet" refAccessID="access-old">
+	<processingType>IGNORE</processingType>
+	<ccbId type="S">
+	    <existing>{internetSSID}</existing>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultInternet</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeInternet</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetInternet</configured>
+	</providerTrackingNumber>
+	<adslInternetConfiguration>
+		<pricingStructureCode>
+			<existing>{pricingStructureCodeInternet}</existing>
+		</pricingStructureCode>
+		<productCode>
+			<existing>{productCodeInternet}</existing>
+		</productCode>
+		<visTrackingPosition/>
+		<primaryCustSignName>
+			<existing>{scenarioName}</existing>
+		</primaryCustSignName>
+		<primaryCustSignDate>
+			<existing>{todayTruncated}</existing>
+		</primaryCustSignDate>
+		<minimumDurationPeriod>
+			<value>
+				<existing>24</existing>
+			</value>
+			<unit>
+				<existing>MONTH</existing>
+			</unit>
+		</minimumDurationPeriod>
+		<dialInAccountName>
+			<configured>{internetSSID}</configured>
+		</dialInAccountName>
+		<DSLBandwidth>
+			<existing>{DSLBandwidth}</existing>
+		</DSLBandwidth>
+		<allowBandwidthDowngrade>
+			<existing>true</existing>
+		</allowBandwidthDowngrade>
+		<desiredBandwidth>
+			<existing>{DSLBandwidth}</existing>
+		</desiredBandwidth>
+		<fixedIPAddressIndicator>
+			<existing>false</existing>
+		</fixedIPAddressIndicator>
+		<specialTimeWindow/>
+		<projectOrderIndicator>
+			<existing>false</existing>
+		</projectOrderIndicator>
+		<fixedOrderDateIndicator>
+			<existing>false</existing>
+		</fixedOrderDateIndicator>
+		<automaticMailingIndicator>
+			<existing>true</existing>
+		</automaticMailingIndicator>
+		{file:(productCodeInternet=I1203)templates/ConditionsExisting.xml_part}
+		{file:(productCodeInternet=I1204)templates/ConditionsExisting.xml_part}
+		{file:(productCodeInternet=I1208)templates/ConditionsExisting.xml_part}		
+	</adslInternetConfiguration>
+	<processingStatus>{internetProcessingStatus}</processingStatus>
+	<completionStatusOldCcbId>{internetCompletionStatusOld}</completionStatusOldCcbId>
+	<previousCompletionStatusOldCcbId>{internetPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+</internet>

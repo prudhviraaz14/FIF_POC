@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+		xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+		xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" 
+		xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001" 
+		xmlns:ape="http://www.arcor.net/EPSM-CommonTypes-APE-001"
+		xmlns:adresse="http://www.arcor.net/EPSM-CommonTypes-Adresse-002"
+		targetNamespace="http://www.arcor.net/EPSM-CommonTypes-Adresse-002" 
+		elementFormDefault="qualified" 
+		attributeFormDefault="unqualified">
+<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+
+		<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+
+		<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-APE-001" schemaLocation="EPSM-CommonTypes-APE-001.xsd"/>
+<xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="EPSM_Adresse_Dokument_Information ">
+	<xs:annotation>
+		<xs:documentation>Diese Schemata wurde aus dem Adonis-XML-Export generiert. Timestamp des Adonis-Exports: 07.08.2007  09:57</xs:documentation>
+	</xs:annotation>
+</xs:element>
+<xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Ort">
+	<xs:annotation>
+		<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) ADRESSE.ORT ] 
+[Befüllung durch BOI  (Ver. 29.5.07) INHABER_ADRESSE.ORT]
+Ortsname der Adresse z.B. Hamburg</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="40"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Ortszusatz">
+	<xs:annotation>
+		<xs:documentation>[FIF - Modify Address] [FIF Create NgnVoIP Contract]  [FIF CreateAdditionalAccount] [FIF createDualModeContract]
+Anhang des Ortsnamens zur eindeutigen Ortsbezeichnung, z. B. "am Main".</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="30"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Land">
+	<xs:annotation>
+		<xs:documentation>[FIF - Modify Address] [FIF Create Customer][CI] [FIF Create NgnVoIP Contract] [FIF CreateAdditionalAccount]; Land, in welchem die Anschrift liegt.</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="60"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Strasse">
+	<xs:annotation>
+		<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) Adresse.Strasse ]
+[Befüllung durch BOI  (Ver. 29.5.07) INHABER_ADRESSE.STRASSE]
+Strassenname z.B. Buchenweg</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="46"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Hausnummer">
+	<xs:annotation>
+		<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) ADRESSE.HNR ] 
+[Befüllung durch BOI  (Ver. 29.5.07) INHABER_ADRESSE.HAUSNR]
+Hausnummer zur Straße z.B. 4 oder aber auch 4a.</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="10"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Hausnummerzusatz">
+	<xs:annotation>
+		<xs:documentation>[FIF - Modify Address] [FIF Create Customer] [FIF Create NgnVoIP Contract] [FIF CreateAdditionalAccount] [FIF createDualModeContract]
+Hausnummernzusatz zur genaueren Bezeichnung der Anschrift, z. B. das "a" in "Nr. 9a".</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="10"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Postfach">
+	<xs:annotation>
+		<xs:documentation>[CI][FIF - Modify Address][ODB]; Postfachnummer der Anschrift</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="20"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="AdresseAbweichend">
+	<xs:annotation>
+		<xs:documentation>[Befüllung duch BOI] Adresse weicht von Kundenadresse ab? Ja, Nei
+BOI prüft alle durch die APE Adresse vererbeten Attribute auf Gleichheit</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:boolean"/>
+</xs:simpleType>
+<xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Adresse">
+	<xs:annotation>
+		<xs:documentation>Allgemeine Adressdaten</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="ape:AuftragsPositionsElement">
+			<xs:sequence>
+				<xs:element name="pLZ" type="common:Postleitzahl" minOccurs="0"/>
+				<xs:element name="ort" type="adresse:Ort" minOccurs="0"/>
+				<xs:element name="ortszusatz" type="adresse:Ortszusatz" minOccurs="0"/>
+				<xs:element name="land" type="adresse:Land" minOccurs="0"/>
+				<xs:element name="strasse" type="adresse:Strasse" minOccurs="0"/>
+				<xs:element name="hausnummer" type="adresse:Hausnummer" minOccurs="0"/>
+				<xs:element name="hausnummerzusatz" type="adresse:Hausnummerzusatz" minOccurs="0"/>
+				<xs:element name="postfach" type="adresse:Postfach" minOccurs="0"/>
+				<xs:element name="adresseAbweichend" type="adresse:AdresseAbweichend" minOccurs="0"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+</xs:schema>

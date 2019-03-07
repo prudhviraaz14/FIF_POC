@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- 
+    XSQL file for finding a customer based on the customer number
+    
+    @author Olivier Goethals
+    @date 2002-02-13
+-->    
+<?xml-stylesheet type="text/xsl" href="FindCustomer.xsl"?>
+<xsql:query connection="oprccmtd" xmlns:xsql="urn:oracle-xsql">
+
+	SELECT * FROM customer where customer_number like '{@customerNumber}'
+    ORDER BY customer_number, effective_date
+
+</xsql:query>    

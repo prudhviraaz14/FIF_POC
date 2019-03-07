@@ -1,0 +1,58 @@
+				<hardware ID="hardwareBDSL">
+					<processingType>ADD</processingType>
+					<ccbId type="S">
+					    <configured>{hardwareBDSLSSID}</configured>
+					</ccbId>
+					<refFunctionID>
+						<configured>internet</configured>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultHWBDSL</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeHWBDSL</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetHWBDSL</configured>
+					</providerTrackingNumber>
+					<hardwareConfiguration>
+						<hardwareServiceCode>
+							<configured>V011A</configured>
+						</hardwareServiceCode>
+						<orderReason>
+							<configured>Neuauftrag</configured>
+						</orderReason>
+						<subventionCode>
+							<configured>1</configured>
+						</subventionCode>
+						<shippingCosts>
+							<configured>RG</configured>
+						</shippingCosts>
+						<salutationDescription>
+							<configured>Herr</configured>
+						</salutationDescription>
+						<forename>
+							<configured>COM</configured>
+						</forename>
+						<name>
+							<configured>{scenarioName}</configured>
+						</name>
+						<hardwareMailingAddress>
+							<configured>
+								{file:templates/Address1.xml_part}
+							</configured>
+						</hardwareMailingAddress>
+						<articleNumber>
+							<configured>20080549</configured>
+						</articleNumber>
+						<articleName>
+							<configured>DSL-EasyBox 803</configured>
+						</articleName>
+						<serialNumber>
+							<configured>154947214842</configured>
+						</serialNumber>
+					</hardwareConfiguration>
+					<previousCompletionStatusNewCcbId>{hardwareBDSLPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+					<completionStatusNewCcbId>{hardwareBDSLProcessingStatus}</completionStatusNewCcbId>
+					<processingStatus>{hardwareBDSLProcessingStatus}</processingStatus>
+				</hardware>

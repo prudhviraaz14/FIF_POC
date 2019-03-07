@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}" xmlns="http://www.arcor.net/orderSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+  <sendingSystem>POS</sendingSystem>
+  <entryUser>FIF</entryUser>
+  <entryRole>FIF</entryRole>
+  <entrySystem>POS</entrySystem>
+  <entryDateTime>{today}</entryDateTime>
+  <customerContactPoint>KBA</customerContactPoint>
+  <salesOrganisation>
+    <salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+    <salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+    <eShopCode>123</eShopCode>
+  </salesOrganisation>
+  <superCustomerTrackingId>superCustomerTrackingId</superCustomerTrackingId>
+  <scanDate>{todayTruncated}</scanDate>
+  <customerData role="default">
+      <customer ID="customer" >
+          <ccbId type="C">
+              <existing>{customerNumber}</existing>
+          </ccbId>
+      </customer>
+      <billingAccount ID="account"  ownerNodeRefID="customer">
+          <ccbId type="A">
+              <existing>{accountNumber}</existing>
+          </ccbId>
+      </billingAccount>
+      <skeletonContract ID="sk" ownerNodeRefID="customer">
+          <ccbId type="K">
+              <existing>{skeletonContractNumber}</existing>
+          </ccbId>		
+      </skeletonContract>
+      <serviceDeliveryContract ID="sdc" ownerNodeRefID="customer" skeletonContractNodeRefID="sk">						
+          <ccbId type="D">
+              <existing>{sdcNumber}</existing>
+          </ccbId>
+      </serviceDeliveryContract>
+  </customerData>
+  <customerData role="target">
+      <customer ID="targetcustomer" >
+          <ccbId type="C">
+              <existing>{targetCustomerNumber}</existing>
+          </ccbId>
+      </customer>
+      <billingAccount ID="targetaccount"  ownerNodeRefID="customer">
+          <ccbId type="A">
+              <existing>{targetAccountNumber}</existing>
+          </ccbId>
+      </billingAccount>
+      <skeletonContract ID="targetsk" ownerNodeRefID="customer">
+          <ccbId type="K">
+              <existing>{targetSkeletonContractNumber}</existing>
+          </ccbId>		
+      </skeletonContract>
+      <serviceDeliveryContract ID="targetsdc" ownerNodeRefID="customer" skeletonContractNodeRefID="sk">						
+          <ccbId type="D">
+              <existing>{targetSdcNumber}</existing>
+          </ccbId>
+      </serviceDeliveryContract>
+  </customerData>
+  <relocation orderPositionNumber="1">
+    <customerIntention>RelocateSeat</customerIntention>
+    <desiredDate>{desiredDate}</desiredDate>
+      <orderReceivedDate>{today}</orderReceivedDate>
+    <orderVariant>orderVariant</orderVariant>
+    <seatRelocationIndicator>true</seatRelocationIndicator>
+    <targetBundleId>1a745cn295c9ag25</targetBundleId>
+    <keepFixedNumbersIndicator>N</keepFixedNumbersIndicator>
+    <relocationVariant>Standard</relocationVariant>
+    <providerCode>
+      <configured>VFAI</configured>
+    </providerCode>
+    <salesPacketName>
+      <configured>All Inclusive Paket</configured>
+    </salesPacketName>
+    <reason>
+      <configured>CUST_REQUEST</configured>
+    </reason>
+    <beneficiary ID="beneficiary" role="new">
+        <customerNodeRefID>customer</customerNodeRefID>
+        <targetCustomerNodeRefID>targetcustomer</targetCustomerNodeRefID>
+    </beneficiary>
+    <payerAllCharges ID="payer-001">
+        <billingAccountNodeRefID>account</billingAccountNodeRefID>
+        <targetBillingAccountNodeRefID>targetaccount</targetBillingAccountNodeRefID>
+    </payerAllCharges>
+        <accesses>
+            <businessDSL ID="sdsl">
+                <ccbId type="S">
+                    <existing>{internetServiceSubscriptionId}</existing>
+                </ccbId>
+            </businessDSL>
+            <ipCentrex ID="ipcentrex">
+                <ccbId type="S">
+                    <existing>{voiceServiceSubscriptionId}</existing>
+                </ccbId>
+            </ipCentrex>
+            <ipCentrex ID="targetipcentrex">
+                <ccbId type="S">
+                    <existing>{targetVoiceServiceSubscriptionId}</existing>
+                </ccbId>
+            </ipCentrex>
+        </accesses>
+        <functions>
+            <internet ID="internet" refAccessID="sdsl">
+                <ccbId type="S">
+                    <existing>{internetServiceSubscriptionId}</existing>
+                </ccbId>
+                <processingType>IGNORE</processingType>
+            </internet>
+            <voice ID="voice" refAccessID="ipcentrex">
+                <ccbId type="S">
+                    <existing>{voiceServiceSubscriptionId}</existing>
+                </ccbId>
+                <processingType>IGNORE</processingType>
+            </voice>
+            <seat refAccessID="ipcentrex" ID="seat1" targetAccessID="targetipcentrex">
+                <ccbId type="S">
+                    <existing>{seat1ServiceSubscriptionId}</existing>
+                    <configured>{targetSeat1ServiceSubscriptionId}</configured>
+                </ccbId>
+                <processingStatus>completedOPM</processingStatus>
+                <processingType>CHANGE</processingType>
+                <serviceDeliveryContractNodeRefID>sdc</serviceDeliveryContractNodeRefID>
+                <targetServiceDeliveryContractNodeRefID>targetsdc</targetServiceDeliveryContractNodeRefID>
+                <providerTrackingNumber type="target">
+                    <configured>002v001</configured>
+                </providerTrackingNumber>
+                <providerTrackingNumber type="default">
+                    <configured>001v001</configured>
+                </providerTrackingNumber>
+                <convergedSeatConfiguration>
+                    <productCode>
+                        <configured>VI205</configured>
+                    </productCode>
+                    <mobileAccessNumber>
+                        <configured>
+                        	<countryCode>49</countryCode>
+                        	<localAreaCode>172</localAreaCode>
+                            <pilotNumber>{mobileAccessNumber1}</pilotNumber>
+                        </configured>
+                    </mobileAccessNumber>
+                    <imsi>
+                        <configured>2620912309</configured>
+                    </imsi>
+                    <fixedAccessNumber>
+                        <configured>
+                        	<countryCode>49</countryCode>
+                        	<localAreaCode>201</localAreaCode>
+                            <pilotNumber>{accessNumber1}</pilotNumber>
+                        </configured>
+                    </fixedAccessNumber>
+                    <msisdnStatus>
+                        <configured>new</configured>
+                    </msisdnStatus>
+                    <remarks>
+                        <configured>remarkstarget</configured>
+                    </remarks>
+                    <pricingStructureCode>
+                        <configured>YV001</configured>
+                    </pricingStructureCode>
+                    <boardSignName>
+                        <configured>Vodafone</configured>
+                    </boardSignName>
+                    <boardSignDate>
+                        <configured>{todayTruncated}</configured>
+                    </boardSignDate>
+                    <primaryCustSignName>
+                        <configured>Kunde</configured>
+                    </primaryCustSignName>
+                    <primaryCustSignDate>
+                        <configured>{todayTruncated}</configured>
+                    </primaryCustSignDate>
+                    <minimumDurationPeriod>
+                        <value>
+                            <configured>36</configured>
+                        </value>
+                        <unit>
+                            <configured>MONTH</configured>
+                        </unit>
+                        <startDate>
+                            <configured>{todayTruncated}</configured>
+                        </startDate>
+                    </minimumDurationPeriod>
+                    <autoExtension>
+                        <value>
+                            <configured>22</configured>
+                        </value>
+                        <unit>
+                            <configured>MONTH</configured>
+                        </unit>
+                        <autoExtensionIndicator>
+                            <configured>Y</configured>
+                        </autoExtensionIndicator>
+                    </autoExtension>
+                    <noticePeriod>
+                        <value>
+                            <configured>1</configured>
+                        </value>
+                        <unit>
+                            <configured>MONTH</configured>
+                        </unit>
+                    </noticePeriod>
+                    <specialTerminationRight>
+                        <configured>NONE</configured>
+                    </specialTerminationRight>
+               </convergedSeatConfiguration>
+            </seat>
+            <seat refAccessID="ipcentrex" ID="seat2">
+                <ccbId type="S">
+                    <existing>{seat2ServiceSubscriptionId}</existing>
+                </ccbId>
+                <processingType>IGNORE</processingType>
+            </seat>
+            <seat refAccessID="ipcentrex" ID="seat3">
+                <ccbId type="S">
+                    <existing>{seat3ServiceSubscriptionId}</existing>
+                </ccbId>
+                <processingType>IGNORE</processingType>
+            </seat>
+        </functions>
+  </relocation>
+</order>

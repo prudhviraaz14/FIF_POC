@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by Reto Renner (Arcor AG & Co. KG) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arcor.net/FIF/EPSM-FIF-ModifiziereMarketingeinwilligung-001" 
+xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001"
+xmlns:fifcommon="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001"  
+targetNamespace="http://www.arcor.net/FIF/EPSM-FIF-ModifiziereMarketingeinwilligung-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001" schemaLocation="EPSM-FIF-CommonTypes-001.xsd"/>	
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="EPSM_FIF_ModifiziereMarketingeinwilligungService_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>XML schema definition for FIF ASBO and services
+                Version: 0.1
+                
+                Status des Dokument: Entwurf
+                
+                Aenderungshistorie:
+                Version 0.1 17.07.08	Aziz Banani	initial
+            </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>Dieses Dokument basiert auf und referenziert folgende Dokumente:</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>Diese Schnittstelle wird durch den CCM-FIF realisiert</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ==================== ModifiziereMarketingeinwilligung ====================== -->
+	<xs:complexType name="ModifiziereMarketingeinwilligungService">
+		<xs:annotation>
+			<xs:documentation>Typdefinition Dienst ModifiziereMarketingeinwilligung</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:annotation>
+						<xs:documentation/>
+					</xs:annotation>
+					<xs:element name="ModifiziereMarketingeinwilligungInput" type="ModifiziereMarketingeinwilligungInput"/>
+					<xs:element name="ModifiziereMarketingeinwilligungOutput" type="ModifiziereMarketingeinwilligungOutput"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ModifiziereMarketingeinwilligungInput">
+		<xs:annotation>
+			<xs:documentation>Inputdaten Dienst ModifiziereMarketingeinwilligung</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="kundennummer" type="common:Kundennummer"/>
+					<xs:element name="marketingEinwilligungFax" type="xs:boolean"  minOccurs="0"/>
+					<xs:element name="marketingEinwilligungTelefon" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="marketingEinwilligungPost" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="marketingEinwilligungEmail" type="xs:boolean"/>
+					<xs:element name="gueltigkeitsDatum" type="xs:dateTime"/>
+					<xs:element name="emailAddress" type="common:Email"/>
+					<xs:element name="kampagnenID" type="fifcommon:KampagnenID" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ModifiziereMarketingeinwilligungOutput">
+		<xs:annotation>
+			<xs:documentation>Outputdaten Dienst ModifiziereMarketingeinwilligungService</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

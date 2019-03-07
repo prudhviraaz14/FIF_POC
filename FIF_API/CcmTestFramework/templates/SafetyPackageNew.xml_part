@@ -1,0 +1,62 @@
+<safetyPackage ID="safetyPackage">
+	<processingType>ADD</processingType>
+	<ccbId type="S">
+	    <configured>{safetyPackageSSID}</configured>
+	</ccbId>
+	<providerTrackingNumber type="new">
+		<configured>001f</configured>
+	</providerTrackingNumber>
+	<safetyPackageConfiguration>
+		<!-- Following elements are already supplied in the Input-SOM -->
+		<pricingStructureCode>
+			<configured>{pricingStructureCodeSafetyPackage}</configured>
+		</pricingStructureCode>
+		<visTrackingPosition/>
+		<primaryCustSignName>
+			<configured>{scenarioName}</configured>
+		</primaryCustSignName>
+		<primaryCustSignDate>
+			<configured>{todayTruncated}</configured>
+		</primaryCustSignDate>
+		<minimumDurationPeriod>
+			<value>
+				<configured>24</configured>
+			</value>
+			<unit>
+				<configured>MONTH</configured>
+			</unit>
+		</minimumDurationPeriod>
+		<conditionsList>
+			<configured>
+				<conditionService>
+					<conditionServiceType>CM</conditionServiceType>
+					<conditionServiceName>Startguthaben 10Eu mtl</conditionServiceName>
+					<conditionServiceID>1234567890</conditionServiceID>
+					<conditionServiceCode>V0046</conditionServiceCode>
+				</conditionService>
+			</configured>
+		</conditionsList>
+		<!-- Following elements are enriched by BKS -->
+		<productCode>
+			<configured>I1410</configured>
+		</productCode>
+		<productVersionCode>
+			<configured>1</configured>
+		</productVersionCode>
+		<productBillingName>
+			<configured>Arcor-Sicherheitspaket</configured>
+		</productBillingName>
+		<mainAccessServiceCode>
+			<configured>I1410</configured>
+		</mainAccessServiceCode>
+		<pricingStructureBillingName>
+			<configured>.</configured>
+		</pricingStructureBillingName>
+		<!-- Following element is enriched by OPM -->
+		<activationKey>
+			<configured>1234567890</configured>
+		</activationKey>
+	</safetyPackageConfiguration>
+	<processingStatus>{safetyPackageProcessingStatus}</processingStatus>
+	<completionStatusNewCcbId>{safetyPackageProcessingStatus}</completionStatusNewCcbId>
+</safetyPackage>

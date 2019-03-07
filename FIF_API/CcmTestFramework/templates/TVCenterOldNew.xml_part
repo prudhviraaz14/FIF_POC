@@ -1,0 +1,83 @@
+<tvCenter ID="tvCenter" refAccessID="access-old">
+	<processingType>CHANGE</processingType>
+	<ccbId type="S">
+	    <existing>{tvCenterSSID}</existing>
+	    <configured>{tvCenterSSIDNew}</configured>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultTVCenter</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeTVCenter</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetTVCenter</configured>
+	</providerTrackingNumber>
+	<contractNumber>
+		<existing>{targetContractNumberTVCenter}</existing>
+	</contractNumber>
+	<productCommitmentNumber>
+		<existing>{targetProductCommitmentNumberTVCenter}</existing>
+	</productCommitmentNumber>
+	{file:(useSDC=true)templates/SDCForFunctionsNew.xml_part}
+	<tvCenterBundledConfiguration>
+		<productCode>
+			<existing>I1305</existing>
+		</productCode>
+		<mainAccessServiceCode>
+			<existing>I1305</existing>
+		</mainAccessServiceCode>
+		<pricingStructureCode>
+			<existing>{pricingStructureCodeTVCenter}</existing>
+			<configured>{pricingStructureCodeTVCenterNew}</configured>
+		</pricingStructureCode>
+		<minimumDurationPeriod>
+			<value>
+				<existing>24</existing>
+			</value>
+			<unit>
+				<existing>MONTH</existing>
+			</unit>
+		</minimumDurationPeriod>
+		<autoExtension>
+			<value>
+				<existing>12</existing>
+			</value>
+			<unit>
+				<existing>MONTH</existing>
+			</unit>
+			<autoExtensionIndicator>
+				<existing>true</existing>
+			</autoExtensionIndicator>
+		</autoExtension>
+		<specialTerminationRight>
+			<existing>NONE</existing>
+		</specialTerminationRight>
+		<fskLevel>
+			<existing>keine</existing>
+		</fskLevel>
+		<allowPartialCancel>
+			<existing>false</existing>
+		</allowPartialCancel>
+		<initialOrderType>
+			<existing>TVC im Paket</existing>
+		</initialOrderType>
+		<featuresList>
+			<existing>
+			{file:(TVType=IPTV)templates/TVFeaturesIPTV.xml_part}
+				<featureServiceCode>I1356</featureServiceCode>
+			</existing>
+		</featuresList>
+		<multimediaAccount>
+			<existing>{customerNumber}</existing>
+		</multimediaAccount>
+		<language>
+			<existing>german</existing>
+		</language>
+	</tvCenterBundledConfiguration>
+	<processingStatus>{tvCenterProcessingStatus}</processingStatus>
+	<completionStatusOldCcbId>{tvCenterCompletionStatusOld}</completionStatusOldCcbId>
+	<previousCompletionStatusOldCcbId>{tvCenterPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+	<completionStatusNewCcbId>{tvCenterCompletionStatusNew}</completionStatusNewCcbId>
+	<previousCompletionStatusNewCcbId>{tvCenterPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+</tvCenter>

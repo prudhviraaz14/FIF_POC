@@ -1,0 +1,16 @@
+/*
+--#########################################################################
+--
+-- Script Name  :  $Workfile:   fif-api_cr_fif_recycle_transaction_tbl.ugr  $ 
+-- Header       :  $Header:   //PVCS_FIF/archives/FIF_API/DB/dbscripts/FIF/fif-api_cr_fif_recycle_transaction_tbl.ugr-arc   1.0   Oct 02 2008 13:24:32   makuier  $ 
+-- Revision     :  $Revision:   1.0  $
+-- 
+-- -----------------------------------------------------------------------
+--
+-- Description:
+--
+--
+--
+--#########################################################################*/
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON FIF_RECYCLE_TRANSACTION TO CCM_USER;

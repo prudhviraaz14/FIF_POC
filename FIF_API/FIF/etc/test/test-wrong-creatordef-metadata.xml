@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE messagecreator-metadata SYSTEM "messagecreator-metadata.dtd">
+
+<!--
+    This document contains a test configuration file for the
+    FIF Message Creator.
+
+    !!! Do not change this file !!!
+
+    The JUnit tests in this package rely on the information
+    contained in this file.  If this file is changed the tests will fail.
+
+	==================
+	 Test description
+	==================
+	This configuration file contains a wrong messagecreator definition.
+	The MessageCreatorMetaData class should report an error when reading this file.
+
+    @author goethalo
+    @date 2002-02-18
+-->
+
+<messagecreator-metadata>
+
+    <!-- Request definitions: the second one is wrong -->
+    <request-definitions>
+        <request-definition>
+            <request-type>FIF</request-type>
+            <request-class>net.arcor.fif.messagecreator.FIFRequest</request-class>
+        </request-definition>
+        <request-definition>
+            <request-type>FIF2</request-type>
+            <request-class>net.arcor.fif.messagecreator.FIFRequest</request-class>
+        </request-definition>
+    </request-definitions>
+
+    <!-- Message definitions -->
+    <message-definitions>
+        <message-definition>
+            <message-type>FIF</message-type>
+            <message-class>net.arcor.fif.messagecreator.FIFMessage</message-class>
+        </message-definition>
+        <message-definition>
+            <message-type>FIF2</message-type>
+            <message-class>net.arcor.fif.messagecreator.FIFMessage</message-class>
+        </message-definition>
+    </message-definitions>
+
+    <!-- Message Creator definitions -->
+    <message-creator-definitions>
+        <message-creator-definition>
+            <creator-type>xsql</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSQLMessageCreatorWrong</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+        <message-creator-definition>
+            <creator-type>xslt</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSLTMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+    </message-creator-definitions>
+
+    <!-- Action Mappings-->
+    <action-mappings>
+
+    	<!-- Simple Action: only Simple Parameters - XSLT -->
+        <action-mapping>
+			<action-name>simpleActionXSLT</action-name>
+            <message-creation>
+                <creator-type>xslt</creator-type>
+                <creator-params>
+                    <creator-param>
+                        <param-name>filename</param-name>
+                        <param-value>TestSimpleAction.xsl</param-value>
+                    </creator-param>
+                </creator-params>
+            </message-creation>
+            <message-parameters>
+                <message-param>
+                    <param-name>firstParameter</param-name>
+                    <param-mandatory>true</param-mandatory>
+                </message-param>
+                <message-param>
+                    <param-name>secondParameter</param-name>
+                    <param-mandatory>false</param-mandatory>
+                    <param-default-value>defaultValueParam2</param-default-value>
+				</message-param>
+                <message-param>
+                    <param-name>thirdParameter</param-name>
+                    <param-mandatory>false</param-mandatory>
+				</message-param>
+            </message-parameters>
+            <response-handling>
+                <return-warnings>false</return-warnings>
+                <output-parameters/>
+            </response-handling>                                                
+        </action-mapping>
+
+		<!-- Complex Action: List Parameters at different levels - XSLT -->
+        <action-mapping>
+			<action-name>complexActionXSLT</action-name>
+            <message-creation>
+                <creator-type>xslt</creator-type>
+                <creator-params>
+                    <creator-param>
+                        <param-name>filename</param-name>
+                        <param-value>TestComplexAction.xsl</param-value>
+                    </creator-param>
+                </creator-params>
+            </message-creation>
+            <message-parameters>
+                <message-param>
+                    <param-name>firstParameter</param-name>
+                    <param-mandatory>true</param-mandatory>
+                </message-param>
+                <message-param-list>
+                    <param-list-name>secondParameter</param-list-name>
+                    <param-list-mandatory>true</param-list-mandatory>
+                    <message-param>
+                    	<param-name>subParam1</param-name>
+                    	<param-mandatory>true</param-mandatory>
+                    </message-param>
+                    <message-param>
+                    	<param-name>subParam2</param-name>
+                    	<param-mandatory>false</param-mandatory>
+                    </message-param>
+                    <message-param>
+                    	<param-name>subParam3</param-name>
+                    	<param-mandatory>true</param-mandatory>
+                    </message-param>
+                </message-param-list>
+                <message-param>
+                    <param-name>thirdParameter</param-name>
+                    <param-mandatory>false</param-mandatory>
+                </message-param>
+                <message-param-list>
+                    <param-list-name>fourthParameter</param-list-name>
+                    <param-list-mandatory>false</param-list-mandatory>
+                    <message-param>
+                    	<param-name>subParam1</param-name>
+                    	<param-mandatory>true</param-mandatory>
+                    </message-param>
+                    <message-param-list>
+                    	<param-list-name>subParamList2</param-list-name>
+                    	<param-list-mandatory>true</param-list-mandatory>
+	                    <message-param>
+	                    	<param-name>subsubParam1</param-name>
+	                    	<param-mandatory>true</param-mandatory>
+	                    </message-param>
+	                    <message-param-list>
+	                    	<param-list-name>subsubParam2</param-list-name>
+	                    	<param-list-mandatory>false</param-list-mandatory>
+		                    <message-param>
+		                    	<param-name>subsubsubParam1</param-name>
+		                    	<param-mandatory>true</param-mandatory>
+		                    </message-param>
+		                    <message-param>
+		                    	<param-name>subsubsubParam2</param-name>
+		                    	<param-mandatory>false</param-mandatory>
+		                    	<param-default-value>defaultValuesubsubsubPram2</param-default-value>
+		                    </message-param>
+						</message-param-list>
+	                </message-param-list>
+	             </message-param-list>
+	         </message-parameters>
+             <response-handling>
+                 <return-warnings>false</return-warnings>
+                 <output-parameters/>
+             </response-handling>                                    	         
+        </action-mapping>
+
+
+    	<!-- Simple Action: only Simple Parameters - XSQL -->
+        <action-mapping>
+			<action-name>simpleActionXSQL</action-name>
+            <message-creation>
+                <creator-type>xsql</creator-type>
+                <creator-params>
+                    <creator-param>
+                        <param-name>filename</param-name>
+                        <param-value>TestSimpleAction.xsql</param-value>
+                    </creator-param>
+                </creator-params>
+            </message-creation>
+            <message-parameters>
+                <message-param>
+                    <param-name>firstParameter</param-name>
+                    <param-mandatory>true</param-mandatory>
+                </message-param>
+                <message-param>
+                    <param-name>secondParameter</param-name>
+                    <param-mandatory>false</param-mandatory>
+                    <param-default-value>defaultValueParam2</param-default-value>
+				</message-param>
+                <message-param>
+                    <param-name>thirdParameter</param-name>
+                    <param-mandatory>false</param-mandatory>
+				</message-param>
+            </message-parameters>
+            <response-handling>
+                <return-warnings>false</return-warnings>
+                <output-parameters/>
+            </response-handling>                                                
+        </action-mapping>
+
+		<!-- Complex Action for XSQL does not exist:
+			List Parameters are not allowed in this mode -->
+
+    </action-mappings>
+
+</messagecreator-metadata>

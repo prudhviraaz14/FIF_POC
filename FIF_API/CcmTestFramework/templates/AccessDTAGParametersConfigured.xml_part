@@ -1,0 +1,10 @@
+		<providerContractNumber>
+			<configured>new{orderID}</configured>
+		</providerContractNumber>
+		<providerCompletionDate>
+			<configured>{desiredDate}</configured>
+		</providerCompletionDate>
+		<providerPaymentDate>
+			<configured>{desiredDate}</configured>
+		</providerPaymentDate>
+		<DTAGOrderNumber>ON{orderID}</DTAGOrderNumber>

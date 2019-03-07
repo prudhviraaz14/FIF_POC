@@ -1,0 +1,79 @@
+<tvCenter ID="tvCenter" refAccessID="access-new">
+	<processingType>ADD</processingType>
+	<ccbId type="S">
+	    <configured>{tvCenterSSID}</configured>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultTVCenter</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeTVCenter</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetTVCenter</configured>
+	</providerTrackingNumber>
+	<contractNumber>
+		<configured>{targetContractNumberTVCenter}</configured>
+	</contractNumber>
+	<productCommitmentNumber>
+		<configured>{targetProductCommitmentNumberTVCenter}</configured>
+	</productCommitmentNumber>
+	{file:(useSDC=true)templates/SDCForFunctionsNew.xml_part}
+	<tvCenterBundledConfiguration>
+		<productCode>
+			<configured>I1305</configured>
+		</productCode>
+		<mainAccessServiceCode>
+			<configured>I1305</configured>
+		</mainAccessServiceCode>
+		<pricingStructureCode>
+			<configured>{pricingStructureCodeTVCenter}</configured>
+		</pricingStructureCode>
+		<minimumDurationPeriod>
+			<value>
+				<configured>24</configured>
+			</value>
+			<unit>
+				<configured>MONTH</configured>
+			</unit>
+		</minimumDurationPeriod>
+		<autoExtension>
+			<value>
+				<configured>12</configured>
+			</value>
+			<unit>
+				<configured>MONTH</configured>
+			</unit>
+			<autoExtensionIndicator>
+				<configured>true</configured>
+			</autoExtensionIndicator>
+		</autoExtension>
+		<specialTerminationRight>
+			<configured>NONE</configured>
+		</specialTerminationRight>
+		<fskLevel>
+			<configured>keine</configured>
+		</fskLevel>
+		<allowPartialCancel>
+			<configured>false</configured>
+		</allowPartialCancel>
+		<initialOrderType>
+			<configured>TVC im Paket</configured>
+		</initialOrderType>
+		<featuresList>
+			<configured>
+			{file:(TVType=IPTV)templates/TVFeaturesIPTV.xml_part}
+				<featureServiceCode>I1356</featureServiceCode>
+			</configured>
+		</featuresList>
+		<multimediaAccount>
+			<configured>{customerNumber}</configured>
+		</multimediaAccount>
+		<language>
+			<configured>german</configured>
+		</language>
+	</tvCenterBundledConfiguration>
+	<processingStatus>{tvCenterProcessingStatus}</processingStatus>
+	<completionStatusNewCcbId>{tvCenterCompletionStatusNew}</completionStatusNewCcbId>
+	<previousCompletionStatusNewCcbId>{tvCenterPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+</tvCenter>

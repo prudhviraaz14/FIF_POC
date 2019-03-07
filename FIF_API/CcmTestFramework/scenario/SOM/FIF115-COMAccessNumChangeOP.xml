@@ -1,0 +1,98 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<lineChange orderPositionNumber="1">
+		<customerIntention>ChgAccessNumbers</customerIntention>
+		<desiredDate>{desiredDate}</desiredDate>
+		<orderReceivedDate>{today}</orderReceivedDate>
+		<beneficiary ID="beneficiary">
+			<customerNodeRefID>customer</customerNodeRefID>
+		</beneficiary>
+		<payerAllCharges ID="payer-001">
+			<billingAccountNodeRefID>account</billingAccountNodeRefID>
+		</payerAllCharges>
+		<ccbId type="B">
+			<existing>{bundleId}</existing>
+		</ccbId>	
+		<accesses>
+			<otherAccess ID="access">
+				<ccbId type="S">
+					<existing>{voiceSSID}</existing>
+				</ccbId>
+			</otherAccess>
+		</accesses>
+		<functions>
+			<otherFunction ID="voice-001-1" refAccessID="access-other" >
+				<processingType>CHANGE</processingType>
+				<ccbId type="S">
+					<existing>{voiceSSID}</existing>
+				</ccbId>
+				<contractNumber>{voiceContractNumber}</contractNumber>
+				<otherFunctionConfiguration>
+					<portingMode1>
+						<configured>Löschen</configured> 
+					</portingMode1>
+					<portingMode2>
+						<configured>Nein</configured> 
+					</portingMode2>
+					<portingMode3>
+						<configured>Nein</configured> 
+					</portingMode3>
+					<lineOwner1>
+						<existing>
+							<name>Inhabername</name> 
+						</existing>
+						<configured>
+							<name>FIF115-COMAccessNumChangeOP</name> 
+							<firstName>COM</firstName> 
+						</configured>
+					</lineOwner1>
+					<activationDate>
+						<configured>{desiredDate}</configured>
+					</activationDate>
+					<productCode>
+						<existing>{productCodeVoice}</existing>
+					</productCode>
+					<mainAccessServiceCode>
+						<existing>{mainAccessServiceCodeVoice}</existing>
+					</mainAccessServiceCode>
+					<pricingStructureCode>
+						<existing>{pricingStructureCodeVoice}</existing>
+					</pricingStructureCode>
+					<activationType>
+						<existing>Neuanschluss</existing>
+					</activationType>
+					<portingAccessNumberRanges>
+						<numberOfNewAccessNumbers>
+							<configured>1</configured>
+						</numberOfNewAccessNumbers>
+						<accessNumberRange1>
+							<existing>
+								<countryCode>49</countryCode>
+								<localAreaCode>211</localAreaCode>
+								<pilotNumber>{accessNumber1}</pilotNumber>
+								<startNumber>100</startNumber>
+								<endNumber>999</endNumber>
+							</existing>
+							<configured>
+								<countryCode>49</countryCode>
+								<localAreaCode>211</localAreaCode>
+								<pilotNumber>{accessNumber2}</pilotNumber>
+								<startNumber>100</startNumber>
+								<endNumber>999</endNumber>
+							</configured>
+						</accessNumberRange1>
+						<accessNumberRange2>
+							<configured>
+								<countryCode>49</countryCode>
+								<localAreaCode>201</localAreaCode>
+								<pilotNumber>{accessNumber3}</pilotNumber>
+								<startNumber>100</startNumber>
+								<endNumber>999</endNumber>
+							</configured>
+						</accessNumberRange2>
+					</portingAccessNumberRanges>
+				</otherFunctionConfiguration>
+			</otherFunction>
+		</functions>
+	</lineChange>
+</order>

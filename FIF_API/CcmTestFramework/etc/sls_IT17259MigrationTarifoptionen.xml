@@ -1,0 +1,43 @@
+<action-mapping>
+    <action-name>IT17259MigrationTarifoptionen</action-name>
+    <message-creation>
+        <creator-type>xslt</creator-type>
+        <creator-params>
+            <creator-param>
+                <param-name>filename</param-name>
+                <param-value>IT17259MigrationTarifoptionen.xsl</param-value>
+            </creator-param>
+        </creator-params>
+    </message-creation>
+    <message-parameters>
+        <!-- Transaction Information -->
+        <message-param>
+            <param-name>transactionID</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>OLD_PRICING_STRUCTURE_CODE</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>NEW_PRICING_STRUCTURE_CODE</param-name>
+            <param-mandatory>true</param-mandatory>
+        </message-param>
+        <message-param>
+            <param-name>SERVICE_SUBSCRIPTION_ID</param-name>
+            <param-mandatory>false</param-mandatory>
+        </message-param>
+        <message-param-list>
+            <param-list-name>TARIFF_OPTION_SERVICE_LIST</param-list-name>
+            <param-list-mandatory>false</param-list-mandatory>
+            <message-param>
+                <param-name>SERVICE_CODE</param-name>
+                <param-mandatory>true</param-mandatory>
+            </message-param>
+        </message-param-list>
+    </message-parameters>
+    <response-handling>
+        <return-warnings>false</return-warnings>
+        <output-parameters/>
+    </response-handling>
+</action-mapping>

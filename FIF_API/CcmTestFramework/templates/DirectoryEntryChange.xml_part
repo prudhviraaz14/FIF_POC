@@ -1,0 +1,75 @@
+				<directoryEntry ID="directoryEntry">
+					<processingType>CHANGE</processingType>
+					<ccbId type="S">
+						<existing>{directoryEntrySSID}</existing>
+						<configured>{directoryEntrySSIDNew}</configured>
+					</ccbId>
+					<refFunctionID>
+						<existing>voice</existing>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultTBE</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeTBE</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetTBE</configured>
+					</providerTrackingNumber>
+					<directoryEntryConfiguration>									
+						<dtagId>
+							<existing>{dtagId}</existing>
+							<configured>A{dtagId}</configured>
+						</dtagId>
+						<directoryEntryText>{directoryEntryText}</directoryEntryText>
+						<directoryEntryType>
+							<existing>Einzeleintrag</existing>
+						</directoryEntryType>
+						<inverseSearchIndicator>
+							<existing>false</existing>
+						</inverseSearchIndicator>
+						<titleDescription action="remove">
+							<existing>Dr.</existing>
+						</titleDescription>
+						<forename>
+							<existing>COM</existing>
+						</forename>
+						<nobilityPrefixDescription action="remove">
+							<existing>Baron</existing>
+						</nobilityPrefixDescription>
+						<surnamePrefix action="remove">
+							<existing>de</existing>
+						</surnamePrefix>
+						<name>
+							<existing>{scenarioName}</existing>
+						</name>
+						<profession>
+							<existing>Künstler</existing>
+						</profession>
+						<industrialSectorRd>
+							<existing>121</existing>
+						</industrialSectorRd>
+						<listedAddress>
+							<existing>
+								{file:templates/Address1.xml_part}
+							</existing>
+						</listedAddress>
+						<listedPhoneNumber>
+							<existing>
+								<countryCode>49</countryCode>
+								<localAreaCode>211</localAreaCode>
+								<pilotNumber>{accessNumber1}</pilotNumber>
+							</existing>
+							<configured>
+								<countryCode>49</countryCode>
+								<localAreaCode>211</localAreaCode>
+								<pilotNumber>{accessNumber2}</pilotNumber>
+							</configured>
+						</listedPhoneNumber>
+					</directoryEntryConfiguration>
+					<processingStatus>{directoryEntryProcessingStatus}</processingStatus>
+					<completionStatusOldCcbId>{directoryEntryCompletionStatusOld}</completionStatusOldCcbId>
+					<previousCompletionStatusOldCcbId>{directoryEntryPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+					<completionStatusNewCcbId>{directoryEntryCompletionStatusNew}</completionStatusNewCcbId>
+					<previousCompletionStatusNewCcbId>{directoryEntryPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+				</directoryEntry>

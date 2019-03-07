@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	NOTE: All objects, service and event types are defined with regards to the latest available     
+	issue of the corresponding AAW-xyz document. Since this document is not final, changes 
+	become necessary for the schema with new versions of the document. 
+	Based on XXX ENTER_NAME V ENTER_VERSION_NUMBER
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:aipcommon="http://datatypes.callisto.com/EPSM-AIP-CommonTypes-001" xmlns:aipbase="http://www.arcor.net/AIP/EPSM-AIP-Base-001" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:mct="http://www.arcor.net/EPSM-CommonTypes-Mobilnummer-001" xmlns="http://www.arcor.net/AIP/EPSM-AIP-DeaktiviereSimKarte-001" targetNamespace="http://www.arcor.net/AIP/EPSM-AIP-DeaktiviereSimKarte-001" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.1">
+	<!-- Import all base types -->
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/AIP/EPSM-AIP-Base-001" schemaLocation="EPSM-AIP-Base-001.xsd"/>
+	<!-- Import all common types -->
+	<xs:import namespace="http://datatypes.callisto.com/EPSM-AIP-CommonTypes-001" schemaLocation="EPSM-AIP-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-Mobilnummer-001" schemaLocation="EPSM-CommonTypes-Mobilnummer-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="EPSM_AIP_DeaktiviereSimKarte_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>
+XML schema definition for AIP DSK and services 
+
+Version: 0.6
+
+Status des Dokument: Final
+
+Aenderungshistorie: 
+
+Version 0.6	06.12.2007	Reto Renner	Verwendung von EPSM-Mobilnummer-001.xsd, EPSM-AIP-CommonTypes-001.xsd
+Version 0.1 08.10.07 Falk Nickenig initial (Trennung von Services und Endpunktdefinition)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>
+							Dieses Dokument basiert auf und referenziert
+							folgende Dokumente:
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>
+							Diese Schnittstelle wird durch die AIP
+							realisiert
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ========================= Endpunkt specifische 'complex types' ===================== -->
+	<xs:complexType name="DeaktiviereSimKarteInput">
+		<xs:complexContent>
+			<xs:extension base="aipbase:AIPServiceInput">
+				<xs:sequence>
+					<xs:element name="deaktivierteRufnummer" type="mct:Mobilnummer"/>
+					<xs:element name="simId" type="aipcommon:SimKartenID"/>
+					<xs:element name="wunschDatum" type="xs:dateTime"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DeaktiviereSimKarteOutput">
+		<xs:complexContent>
+			<xs:extension base="base:OutputData"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ========================= Service Definitionen Diensterbringer ===================== -->
+	<xs:complexType name="DeaktiviereSimKarteService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="deaktiviereSimKarteInput" type="DeaktiviereSimKarteInput"/>
+					<xs:element name="deaktiviereSimKarteOutput" type="DeaktiviereSimKarteOutput"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ========================= Event Definitionen Diensterbringer ======================= -->
+	<!-- ========================= Elemente Diensterbringer ================================= -->
+	<xs:element name="deaktiviereSimKarteService" type="DeaktiviereSimKarteService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

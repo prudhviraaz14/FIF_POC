@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE request SYSTEM "request.dtd">
+<request>
+  <action-name>terminateService</action-name>
+  <request-params>
+    <request-param name="transactionID"><![CDATA[KBA_SIMPLE001]]></request-param>
+    <request-param name="terminationType"><![CDATA[Simple]]></request-param>
+    <request-param name="contractNumber"><![CDATA[000000012345]]></request-param>
+    <request-param name="customerNumber"><![CDATA[0000123456789012]]></request-param>
+    <request-param name="noticePeriodStartDate"><![CDATA[2003.07.03 00:00:00]]></request-param>
+    <request-param name="terminationDate"><![CDATA[2003.07.30 00:00:00]]></request-param>
+    <request-param name="terminationReason"><![CDATA[termination reason]]></request-param>
+    <request-param name="sendConfirmationLetter"><![CDATA[Y]]></request-param>
+    <request-param name="deactivateOnlineAccount"><![CDATA[N]]></request-param>
+  </request-params>
+</request>

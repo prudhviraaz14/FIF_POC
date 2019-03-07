@@ -1,0 +1,93 @@
+<voice ID="voice" refAccessID="access-new">
+	<processingType>ADD</processingType>
+	<ccbId type="S">
+	    <configured>{voiceSSID}</configured>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultVoice</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeVoice</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetVoice</configured>
+	</providerTrackingNumber>
+    <sipTrunkS2MConfiguration>
+        <productCode>
+            <configured>VI211</configured>
+        </productCode>
+        <productVersionCode>
+            <configured>1</configured>
+        </productVersionCode>
+        <mainAccessServiceCode>
+            <configured>VI021</configured>
+        </mainAccessServiceCode>
+        <pricingStructureCode>
+            <configured>{pricingStructureCodeVoice}</configured>
+        </pricingStructureCode>
+        <pricingStructureBillingName>
+            <configured>Professional L</configured>
+        </pricingStructureBillingName>
+		<primaryCustSignName>
+			<configured>{scenarioName}</configured>
+		</primaryCustSignName>
+		<primaryCustSignDate>
+			<configured>{todayTruncated}</configured>
+		</primaryCustSignDate>
+        <minimumDurationPeriod>
+            <value>
+                <configured>12</configured>
+            </value>
+            <unit>
+                <configured>MONTH</configured>
+            </unit>
+            <startDate>
+                <configured>{todayTruncated}</configured>
+            </startDate>
+        </minimumDurationPeriod>
+        <autoExtension>
+            <value>
+                <configured>12</configured>
+            </value>
+            <unit>
+                <configured>MONTH</configured>
+            </unit>
+            <autoExtensionIndicator>
+                <configured>Y</configured>
+            </autoExtensionIndicator>
+        </autoExtension>
+        <noticePeriod>
+            <value>
+                <configured>1</configured>
+            </value>
+            <unit>
+                <configured>MONTH</configured>
+            </unit>
+        </noticePeriod>
+        <conditionsList>
+            <configured>
+                <conditionService>
+                    <conditionServiceType>MM</conditionServiceType>
+                    <conditionServiceName>keine Aktionskennung monatlich</conditionServiceName>
+                </conditionService>
+                <conditionService>
+                    <conditionServiceType>CM</conditionServiceType>
+                    <conditionServiceName>keine Kondition monatlich</conditionServiceName>
+                </conditionService>
+            </configured>
+        </conditionsList>
+        <tariffOptionsList>
+            <configured>
+                <tariffOption>
+                    <serviceCode>V1092</serviceCode>
+                </tariffOption>
+            </configured>
+        </tariffOptionsList>
+        <connectionType>
+            <configured>S2M</configured>
+        </connectionType>
+    </sipTrunkS2MConfiguration>
+	<processingStatus>{voiceProcessingStatus}</processingStatus>
+	<completionStatusNewCcbId>{voiceCompletionStatusNew}</completionStatusNewCcbId>
+	<previousCompletionStatusNewCcbId>{voicePreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+</voice>

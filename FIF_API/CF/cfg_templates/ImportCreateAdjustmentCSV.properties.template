@@ -1,0 +1,193 @@
+# START HEADER
+#  File:                $Workfile:   ImportCreateAdjustmentCSV.properties.template  $
+#  Author:              $Author:   makuier  $
+#  Revision:            $Revision:   1.19  $
+#  Purpose:             Configuration file for importing CreateAdjustment requests from a CSV file to the FIF_REQUEST table.
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Aug 11 2011 18:18:30  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportCreateAdjustmentCSV.properties.template-arc  $
+#
+#   Rev 1.19   Aug 11 2011 18:18:30   makuier
+#Console added to log4j.
+#
+#   Rev 1.18   Jul 13 2011 21:51:38   wlazlow
+#SPN-FIF-000113841
+#
+#   Rev 1.17   Nov 23 2010 17:10:48   banania
+#SPN-CCB-000105323: New keys added:
+#insertExternalSystemIdName
+#UpdatexternalSystemIdStatement
+#
+#   Rev 1.16   Oct 13 2010 14:08:42   banania
+#SPN-CCB-000105323: New keys added:
+#insertExternalSystemIdName
+#UpdatexternalSystemIdStatement
+#
+#   Rev 1.15   Jul 09 2010 12:48:56   banania
+#SPN-FIF-000101589: Parameter PAYMENT_MODE, KBA_TRANSACTION_NR & PRINT added.
+#
+#   Rev 1.14   Nov 10 2008 16:02:46   banania
+#SPN-FIF-000079331: EXTERNAL_PRODUCT_ID added to ImportCreateAdjustmentCSV.properties.template.
+#
+#   Rev 1.13   May 14 2008 17:09:36   lejam
+#Added UNIT_MEASURE_ENUM, UNIT_VOLUME PN-CCB-71449
+#
+#   Rev 1.12   Feb 07 2008 11:26:22   schwarje
+#SPN-FIF-000065717: removed Console logging
+#
+#   Rev 1.11   Jul 30 2007 13:38:34   schwarje
+#SPN-FIF-000058445: added OMTS_ORDER_ID as optional parameter
+#
+#   Rev 1.10   May 10 2007 13:44:40   schwarje
+#IT-18718: added conditionType and article code to adjustemts
+#
+#   Rev 1.9   Feb 22 2007 11:20:50   schwarje
+#IT-k-18908: added invoice id to CreateAdjustment transaction
+#
+#   Rev 1.8   Oct 27 2006 18:29:32   wlazlow
+#SPN-FIF-000047380
+#SPN-FIF-000047498
+#
+#   Rev 1.7   Sep 06 2006 17:22:32   wlazlow
+#IT-16447
+#
+#   Rev 1.6   Aug 29 2006 14:48:40   borhoa
+#Fix for SPN-FIF-000045493.
+#Extend template to handle new optional parameters
+#
+#   Rev 1.5   Jul 13 2005 11:09:00   banania
+#IT-14085. Update.
+#
+#   Rev 1.4   Jul 12 2005 17:26:16   banania
+#IT-14085.
+#Added new fields : create_date, resolution_date, resolution_user_id & category
+#
+#   Rev 1.3   Jun 22 2005 12:44:02   makuier
+#Made product code optional in create adjustment.
+#IT-k-000014674
+#
+#   Rev 1.2   08 Feb 2005 10:34:14   goethalo
+#SPN-CCB-000028638: Adapted to changed property file.
+#
+#   Rev 1.1   Oct 15 2004 11:29:18   goethalo
+#SPN-FIF-000026136: Made the target client a templated parameter.
+#
+#   Rev 1.0   Apr 28 2004 14:02:36   goethalo
+#Initial revision.
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+# The names of columns that are mandatory in the CSV
+ImportCSVToDB.ColumnNames.Mandatory=START_DATE, AMOUNT, CREATE_USER_ID, INTERNAL_REASON_TEXT, DESCRIPTION, REASON_CODE, TAX_CODE
+
+# The names of columns that are optional in the CSV
+ImportCSVToDB.ColumnNames.Optional=CUSTOMER_NUMBER, ACCOUNT_NUMBER, SALES_ORG_NUMBER, PRODUCT_CODE, CREATE_DATE, RESOLUTION_DATE, SERVICE_SUBSCRIPTION_ID, SERVICE_TICKET_POSITION_ID, PRODUCT_SUBSCRIPTION_ID, CHILD_CUSTOMER_NUMBER, SHORT_DESCRIPTION, RESOLUTION_USER_ID, INVOICE_ID, CONDITION_TYPE, ARTICLE_CODE, OMTS_ORDER_ID, UNIT_MEASURE_ENUM, UNIT_VOLUME, EXTERNAL_PRODUCT_ID, RECURRING_VALUE, PAYMENT_MODE, KBA_TRANSACTION_NR, PRINT
+
+
+##################
+# SQL STATEMENTS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importcreateadjustmentcsv.targetClient
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Name of database target client
+#DefaultValue:      -
+#ExampleValue:      SLS
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     13.10.04
+#Last_Modified_By   goethalo
+#Description:       The name of the target client to insert requests for (e.g. SLS, WRF)
+#END PARAMETER
+# The SQL statement for inserting requests in the database
+ImportCSVToDB.InsertRequestStmt=INSERT INTO FIF_REQUEST (TRANSACTION_ID, TARGET_CLIENT, STATUS, ACTION_NAME, ERROR_TEXT, DUE_DATE, PRIORITY, CREATION_DATE, START_DATE, END_DATE) VALUES (?, '${slsfif.importcreateadjustmentcsv.targetClient}', 'ON_HOLD', 'createAdjustment', '', SYSDATE, 5, SYSDATE, NULL, NULL)
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The SQL statement for inserting request parameters in the database
+ImportCSVToDB.InsertParamStmt=INSERT INTO FIF_REQUEST_PARAM (TRANSACTION_ID, PARAM, VALUE) VALUES (?, ?, ?)
+
+# The name of the database field representing the transaction ID for a request
+ImportCSVToDB.InsertParamStmt.TransactionIDFieldIndex=1
+
+# The name of the database field representing the parameter name for a request
+ImportCSVToDB.InsertParamStmt.ParamNameFieldIndex=2
+
+# The name of the database field representing the parameter value for a request
+ImportCSVToDB.InsertParamStmt.ParamValueFieldIndex=3
+
+# The name of the external system id
+ImportCSVToDB.insertExternalSystemIdName=ACCOUNT_NUMBER
+
+# The SQL statement for updating the request external system id
+ImportCSVToDB.UpdatexternalSystemIdStatement=UPDATE FIF_REQUEST SET EXTERNAL_SYSTEM_ID = ? WHERE TRANSACTION_ID=?
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importcreateadjustmentcsv.log4j.appender.File.File
+#ValidFrom:         FIF-API-06.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/ImportCreateAdjustmentCSV.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     04.02.04
+#Last_Modified_By   goethalo
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importcreateadjustmentcsv.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n

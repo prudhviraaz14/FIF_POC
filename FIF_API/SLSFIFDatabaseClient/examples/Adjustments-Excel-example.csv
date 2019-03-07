@@ -1,0 +1,7 @@
+ACCOUNT_NUMBER,START_DATE,ADJUSTMENT_TYPE,AMOUNT,CREATE_USER_ID,INTERNAL_REASON_TEXT,DESCRIPTION,REASON_CODE,PRODUCT_CODE,TAX_CODE
+000000567890,2003.12.31 00:00:00,GA,10,mustermm,Example adjustment,Example bill description,PAUS,V0010,A3
+000000567891,2003.12.31 00:00:00,GA,20,mustermm,Example adjustment,Example bill description,PAUS,V0011,A3
+000000567892,2004.01.01 00:00:00,GA,30,mustermm,Example adjustment,Example bill description,PAUS,V0012,A3
+000000567893,2004.01.01 00:00:00,GA,40,mustermm,Example adjustment,Example bill description,PAUS,V0013,A3
+000000567894,2004.01.25 00:00:00,GA,50,mustermm,Example adjustment,Example bill description,PAUS,V0014,A3
+000000567895,2004.01.25 00:00:00,GA,60,mustermm,Example adjustment,Example bill description,PAUS,V0015,A3

@@ -1,0 +1,37 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+<lineCreation orderPositionNumber="1">
+    <customerIntention>LineChangeClone</customerIntention>
+    <desiredDate>{desiredDate}</desiredDate>
+    <orderReceivedDate>{today}</orderReceivedDate>
+    <previousOrderRef>
+        <orderId>{orderID}_C</orderId>
+        <orderPositionNumber>1</orderPositionNumber>
+        <continuationType>CONTINUE</continuationType>
+    </previousOrderRef>
+    <providerCode>
+        <configured>VFAI</configured>
+    </providerCode>
+    <salesPacketName>
+        <configured>All Inclusive Paket</configured>
+    </salesPacketName>
+    <beneficiary ID="beneficiary">
+        <customerNodeRefID>customer</customerNodeRefID>
+    </beneficiary>
+    <payerAllCharges ID="payer-001">
+        <billingAccountNodeRefID>account</billingAccountNodeRefID>
+    </payerAllCharges>
+    <aoMastered>
+        <configured>true</configured>
+    </aoMastered>
+    <ccbId type="B">
+        <configured>{bundleId}</configured>
+    </ccbId>
+    <accesses>
+        {file:templates/ISDNS2MAccessNew.xml_part}
+    </accesses>
+    <functions>
+        {file:templates/VoiceRangesNew.xml_part}
+    </functions>
+</lineCreation>
+</order>

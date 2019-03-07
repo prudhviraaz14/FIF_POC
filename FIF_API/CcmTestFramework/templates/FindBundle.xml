@@ -1,0 +1,18 @@
+<sql-request>
+ <transaction-id>findBundle</transaction-id>
+ <statement>SELECT BUNDLE_ID FROM BUNDLE b1
+  WHERE CUSTOMER_NUMBER = 'customerNumber'
+  AND EFFECTIVE_DATE = (
+    select max(effective_date) from bundle b2
+    where b1.bundle_id = b2.bundle_id)</statement>
+ <sql-request-input-params>
+  <request-param-ref transactionID="masterdata_0" param-name="customerNumber" />
+ </sql-request-input-params>
+ <sql-request-output-params>
+	<request-param name="BUNDLE_ID"/>
+ </sql-request-output-params>
+</sql-request>
+
+
+
+

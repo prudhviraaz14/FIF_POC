@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+  <!-- ========================= IMPORTS ===================================== -->
+  <!-- codb-config.xml taken from com.som.jar definig database access to CODB -->
+  <import resource="classpath:META-INF/codb-config.xml" />
+  
+  
+  <!-- ========================= GENERAL DEFINITIONS ========================= -->
+  
+  <!-- needed for use of annotation @Required to check required bean properties -->
+  <context:component-scan base-package="de.arcor.com.som.internal" />
+  
+  <!-- Configurer that replaces ${...} placeholders with values from properties files -->
+  <!-- (in this case, mail and JDBC related properties) -->
+  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+      <list>
+        <value>etc/com-interface.properties</value>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- ========================= RESOURCE DEFINITIONS ========================= -->
+  
+  <!-- Local Apache Commons DBCP DataSource that refers to a combined database -->
+  <!-- (see dataAccessContext-jta.xml for an alternative) -->
+  <!-- The placeholders are resolved from jdbc.properties through -->
+  <!-- the PropertyPlaceholderConfigurer in applicationContext.xml -->
+  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <property name="driverClassName" value="${regressiontest.jdbc.driverClassName}" />
+    <property name="url" value="${regressiontest.jdbc.url}" />
+    <property name="username" value="${regressiontest.jdbc.username}" />
+    <property name="password" value="${regressiontest.jdbc.password}" />
+  </bean>
+  
+  <!-- ========================= SqlMap setup for iBATIS Database Layer  ========================= -->
+  
+  <!-- SqlMap setup for iBATIS Database Layer -->
+  <bean id="sqlMapClient" class="de.arcor.com.som.db.ibatis.ComSqlMapClientFactoryBean">
+    <property name="configLocation" value="${regressiontest.sqlMapConfig}" />
+    <property name="dataSource" ref="dataSource" />
+    <!-- All XML files ending in "_SqlMap.xml" will be read as mappings. The * after "classpath"
+      ensures, that also files from other locations like JAR files are found (which are by a
+      different classloader). -->
+    <property name="mappingLocations" value="classpath*:de/arcor/com/**/db/ibatis/xml/*_SqlMap.xml" />
+  </bean>
+  
+  <!-- ========================= ASPECT CONFIGURATION ======================== -->
+  <!-- Transaction manager for a single JDBC DataSource -->
+  
+  <!-- (see dataAccessContext-jta.xml for an alternative) -->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+  
+</beans>

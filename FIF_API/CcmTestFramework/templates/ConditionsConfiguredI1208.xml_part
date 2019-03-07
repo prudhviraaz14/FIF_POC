@@ -1,0 +1,14 @@
+		<conditionsList>
+			<configured>
+				<conditionService>
+					<conditionServiceType>CM</conditionServiceType>
+					<conditionServiceName>GS_LTE_EOL_10E[br]</conditionServiceName>
+					<conditionServiceID>P-0229-06-03</conditionServiceID>
+				</conditionService>
+				<conditionService>
+					<conditionServiceType>CM</conditionServiceType>
+					<conditionServiceName>GS_LTE_YI009_EOL_20E[br]</conditionServiceName>
+					<conditionServiceID>P-0229-06-04</conditionServiceID>
+				</conditionService>
+			</configured>
+		</conditionsList>		

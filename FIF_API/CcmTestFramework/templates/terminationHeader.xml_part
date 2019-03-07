@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}" somVersion="v.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.arcor.de/orderSchema som_schema_20090115.xsd" xmlns="http://www.arcor.de/orderSchema">
+	<entryUser>{entryUser}</entryUser>
+	<entryRole>{entryRole}</entryRole>
+	<entrySystem>{entrySystem}</entrySystem>
+	<entryDateTime>{entryDateTime}</entryDateTime>
+	<customerContactPoint>{customerContactPoint}</customerContactPoint>
+	<salesOrganisation>
+		<salesOrganisationNumber type="A">{salesOrganisationNumber}</salesOrganisationNumber>
+		<salesOrganisationNumber type="V">{salesOrganisationNumberVF}</salesOrganisationNumber>
+	</salesOrganisation>
+	<termination orderPositionNumber="1">
+		<customerIntention>{customerIntention}</customerIntention>
+		<desiredDate>{desiredDate}</desiredDate>
+		<orderReceivedDate>{orderReceivedDate}</orderReceivedDate>
+		<kbaOrderItemType>{kbaOrderItemType}</kbaOrderItemType>
+        <terminationReasonCode>{terminationReasonCode}</terminationReasonCode>
+        <detailedTerminationReason>{detailedTerminationReason}</detailedTerminationReason>
+        <threePartyProcess>{threePartyProcess}</threePartyProcess>
+
+		

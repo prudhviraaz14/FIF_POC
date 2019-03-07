@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by Reto Renner (Arcor AG & Co. KG) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arcor.net/FIF/EPSM-FIF-AktiviereEingehendePortierung-001" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:mobilrufnummer="http://www.arcor.net/EPSM-CommonTypes-MobilRufnummer-001" xmlns:simkarte="http://www.arcor.net/EPSM-CommonTypes-SIMKarte-001" targetNamespace="http://www.arcor.net/FIF/EPSM-FIF-AktiviereEingehendePortierung-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-MobilRufnummer-001" schemaLocation="EPSM-CommonTypes-MobilRufnummer-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-SIMKarte-001" schemaLocation="EPSM-CommonTypes-SIMKarte-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="EPSM_FIF_AktiviereEingehendePortierungService_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>XML schema definition for FIF ASBO and services
+Version: 0.5
+
+Status des Dokument: Abgestimmt
+
+Aenderungshistorie:
+Version 0.5  27.07.07   Reto Renner  Elemente deaktivierteRufnummer aus MeldeAktiviereEingehendePortierungOutput entfernt
+Version 0.4  23.07.07   Reto Renner  Elemente SimSerienNr und AbschaltDatum in MeldeAktiviereEingehendePortierungOutput entfernt
+Version 0.3  17.07.07   Jens Schwarzwaelder  Event hinzugefügt
+Version 0.2  17.07.07   Jens Schwarzwaelder  Mobilrufnummerparameter durch GesamtMobilRufnummer ersetzt 
+Version 0.1  06.07.07	Reto Renner	initial
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>Dieses Dokument basiert auf und referenziert folgende Dokumente:</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>Diese Schnittstelle wird durch den CCM-FIF realisiert</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ==================== AktiviereEingehendePortierungService ====================== -->
+	<xs:complexType name="AktiviereEingehendePortierungService">
+		<xs:annotation>
+			<xs:documentation>Typdefinition Dienst aktiviereEingehendePortierungService</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="AktiviereEingehendePortierungInput" type="AktiviereEingehendePortierungInput"/>
+					<xs:element name="AktiviereEingehendePortierungOutput" type="AktiviereEingehendePortierungOutput"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AktiviereEingehendePortierungInput">
+		<xs:annotation>
+			<xs:documentation>Inputdaten Dienst aktiviereEingehendePortierungService</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="portierteRufnummer" type="mobilrufnummer:GesamtMobilRufnummer"/>
+					<xs:element name="simSerienNr" type="simkarte:SimSerienNr"/>
+					<xs:element name="simPuk" type="simkarte:SimPuk"/>
+					<xs:element name="portierungsDatum" type="xs:dateTime"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AktiviereEingehendePortierungOutput">
+		<xs:annotation>
+			<xs:documentation>Outputdaten Dienst aktiviereEingehendePortierungService</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MeldeAktiviereEingehendePortierungEvent">
+		<xs:annotation>
+			<xs:documentation>Event meldeAktiviereEingehendePortierungEvent</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderEvent">
+				<xs:sequence>
+					<xs:element name="MeldeAktiviereEingehendePortierungOutput" type="MeldeAktiviereEingehendePortierungOutput"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MeldeAktiviereEingehendePortierungOutput">
+		<xs:annotation>
+			<xs:documentation>Outputdaten Event meldeAktiviereEingehendePortierungEvent</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData"/>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

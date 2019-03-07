@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+History of Changes:
+Vers.    Date              Author             		Comment
+====    =========  =============	===================================================
+0.1 		16.09.2010	Thomas Schneider  initial version
+0.2 		17.09.2010	Reto Renner      	 	
+-->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsoap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapjms="http://www.w3.org/2008/07/soap/bindings/JMS/" xmlns:wsdlbase="http://www.vodafone.de/ESB/Service/Base/BaseAbstract-001.wsdl" xmlns:ccm="http://www.vodafone.de/ESB/Service/SBUS/CCM/CCM-001" xmlns:tns="http://www.vodafone.de/ESB/Service/SBUS/CCM-001.wsdl" xmlns:ns="http://www.vodafone.de/ESB/Schema/Common/BaseTypes-ESB-001" 
+targetNamespace="http://www.vodafone.de/ESB/Service/SBUS/CCM-001.wsdl">
+	<wsdl:import namespace="http://www.vodafone.de/ESB/Service/Base/BaseAbstract-001.wsdl" location="BaseAbstract-001.wsdl"/>
+	<wsdl:types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://www.vodafone.de/ESB/Service/SBUS/CCM/CCM-001" schemaLocation="CCM-001.xsd"/>
+		</schema>
+	</wsdl:types>
+	<wsdl:message name="SetFNPAoFlagRequest">
+		<wsdl:part name="SetFNPAoFlagRequest" element="ccm:SetFNPAoFlagRequest"/>
+	</wsdl:message>
+	<wsdl:message name="SetFNPAoFlagResponse">
+		<wsdl:part name="SetFNPAoFlagResponse" element="ccm:SetFNPAoFlagResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GenerateOrderEnvelopeNumberRequest">
+		<wsdl:part name="GenerateOrderEnvelopeNumbergRequest" element="ccm:GenerateOrderEnvelopeNumberRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GenerateOrderEnvelopeNumberResponse">
+		<wsdl:part name="GenerateOrderEnvelopeNumberResponse" element="ccm:GenerateOrderEnvelopeNumberResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="CCMPortType">
+		<wsdl:operation name="SetFNPAoFlag">
+			<wsdl:input name="SetFNPAoFlagRequest" message="tns:SetFNPAoFlagRequest"/>
+			<wsdl:output name="SetFNPAoFlagResponse" message="tns:SetFNPAoFlagResponse"/>
+			<wsdl:fault name="functionalESBException" message="wsdlbase:functionalESBException"/>
+			<wsdl:fault name="technicalESBException" message="wsdlbase:technicalESBException"/>
+		</wsdl:operation>
+		<wsdl:operation name="GenerateOrderEnvelopeNumber">
+			<wsdl:input name="GenerateOrderEnvelopeNumberRequest" message="tns:GenerateOrderEnvelopeNumberRequest"/>
+			<wsdl:output name="GenerateOrderEnvelopeNumberResponse" message="tns:GenerateOrderEnvelopeNumberResponse"/>
+			<wsdl:fault name="functionalESBException" message="wsdlbase:functionalESBException"/>
+			<wsdl:fault name="technicalESBException" message="wsdlbase:technicalESBException"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CCMJMSBinding" type="tns:CCMPortType">
+		<wsoap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<!--<wsoap12:binding style="document" transport="http://www.w3.org/2008/07/soap/bindings/JMS/"/>-->
+		<wsdl:operation name="SetFNPAoFlag">
+			<wsoap12:operation soapAction="/CCM-001/SetFNPAoFlag" soapActionRequired="true" style="document"/>
+			<soapjms:targetService>CCM</soapjms:targetService>
+			<wsdl:input>
+				<wsoap12:body parts="SetFNPAoFlagRequest" use="literal"/>
+				<wsoap12:header message="wsdlbase:appMonDetailsHeader" part="AppMonDetails" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsoap12:body parts="SetFNPAoFlagResponse" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="functionalESBException">
+				<wsoap12:fault name="functionalESBException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="technicalESBException">
+				<wsoap12:fault name="technicalESBException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GenerateOrderEnvelopeNumber">
+			<wsoap12:operation soapAction="/CCM-001/GenerateOrderEnvelopeNumber" soapActionRequired="true" style="document"/>
+			<soapjms:targetService>CCM</soapjms:targetService>
+			<wsdl:input>
+				<wsoap12:body parts="GenerateOrderEnvelopeNumberRequest" use="literal"/>
+				<wsoap12:header message="wsdlbase:appMonDetailsHeader" part="AppMonDetails" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsoap12:body parts="GenerateOrderEnvelopeNumberResponse" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="functionalESBException">
+				<wsoap12:fault name="functionalESBException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="technicalESBException">
+				<wsoap12:fault name="technicalESBException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CCMService">
+		<wsdl:port name="CCMServiceJMSEndpoint" binding="tns:CCMJMSBinding">
+			<wsoap12:address location="jms:queue:endpointQeue"/>
+			<!-- optional: replaces "wsoap12:address": -->
+			<!--
+            <jms:address
+                destinationStyle="queue"
+                jndiDestinationName="endpointQeue"
+                jndiConnectionFactoryName="jmsFactory">
+            </jms:address>
+            -->
+		</wsdl:port>
+	</wsdl:service>
+	<!-- xmlns:jms="http://cxf.apache.org/transports/jms" -->
+</wsdl:definitions>

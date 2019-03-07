@@ -1,0 +1,15 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<termination orderPositionNumber="1">
+		<terminationReasonCode>UMZ</terminationReasonCode>
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/LTEAccessOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetTerm.xml_part}
+			{file:templates/VoiceBasisTerm.xml_part}
+			{file:templates/SafetyPackageTerm.xml_part}
+		</functions>
+	</termination>
+</order>

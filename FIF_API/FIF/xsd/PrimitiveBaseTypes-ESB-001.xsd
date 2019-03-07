@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by RAJ KANNAN I (Vodafone Ireland Ltd) -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Vodafone D2 GmbH (Vodafone D2 GmbH) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://www.vodafone.de/ESB/Schema/Common/BaseTypes-ESB-001" xmlns:ns1="http://www.vodafone.de/ESB/Schema/Common/StringNumberTypes-ESB-001" xmlns:ns2="http://www.vodafone.de/ESB/Schema/Common/PrimitiveBaseTypes-ESB-001" targetNamespace="http://www.vodafone.de/ESB/Schema/Common/PrimitiveBaseTypes-ESB-001" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.1">
+	<annotation>
+		<documentation>
+			History of Changes:
+			Vers.	Date			Author			Comment
+			====	==========		===========		===================================================
+			1.0		2011-01-20		Christian Schepp	Initial version
+			1.1		2011-03-16		Andreas Keller	Added primitive types
+			1.2		2011-05-20		Andreas Keller	Added primitive types
+			1.3		2012-10-08		Ioannis Potikoglou	Added StringMax26
+		</documentation>
+	</annotation>
+	<simpleType name="String1">
+		<restriction base="xs:string">
+			<maxLength value="1"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax2">
+		<restriction base="xs:string">
+			<maxLength value="2"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax3">
+		<restriction base="xs:string">
+			<maxLength value="3"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax4">
+		<restriction base="xs:string">
+			<maxLength value="4"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax5">
+		<restriction base="xs:string">
+			<maxLength value="5"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax6">
+		<restriction base="xs:string">
+			<maxLength value="6"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax7">
+		<restriction base="xs:string">
+			<maxLength value="7"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax8">
+		<restriction base="xs:string">
+			<maxLength value="8"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax9">
+		<restriction base="xs:string">
+			<maxLength value="9"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax10">
+		<restriction base="xs:string">
+			<maxLength value="10"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax12">
+		<restriction base="xs:string">
+			<maxLength value="12"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax13">
+		<restriction base="xs:string">
+			<maxLength value="13"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax17">
+		<restriction base="xs:string">
+			<maxLength value="17"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax21">
+		<restriction base="xs:string">
+			<maxLength value="21"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax128">
+		<restriction base="xs:string">
+			<maxLength value="128"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax35">
+		<restriction base="xs:string">
+			<maxLength value="35"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax64">
+		<restriction base="xs:string">
+			<maxLength value="64"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax255">
+		<restriction base="xs:string">
+			<maxLength value="255"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax256">
+		<restriction base="xs:string">
+			<maxLength value="256"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax512">
+		<restriction base="xs:string">
+			<maxLength value="512"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax1300">
+		<restriction base="xs:string">
+			<maxLength value="1300"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax2000">
+		<restriction base="xs:string">
+			<maxLength value="2000"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax4000">
+		<restriction base="xs:string">
+			<maxLength value="4000"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax14">
+		<restriction base="xs:string">
+			<maxLength value="14"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax15">
+		<restriction base="xs:string">
+			<maxLength value="15"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax20">
+		<restriction base="xs:string">
+			<maxLength value="20"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax25">
+		<restriction base="xs:string">
+			<maxLength value="25"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax26">
+		<restriction base="xs:string">
+			<maxLength value="26"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax30">
+		<restriction base="xs:string">
+			<maxLength value="30"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax32">
+		<restriction base="xs:string">
+			<maxLength value="32"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax40">
+		<restriction base="xs:string">
+			<maxLength value="40"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax50">
+		<restriction base="xs:string">
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax60">
+		<restriction base="xs:string">
+			<maxLength value="60"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax80">
+		<restriction base="xs:string">
+			<maxLength value="80"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax150">
+		<restriction base="xs:string">
+			<maxLength value="150"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax260">
+		<restriction base="xs:string">
+			<maxLength value="260"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax500">
+		<restriction base="xs:string">
+			<maxLength value="500"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax100">
+		<restriction base="xs:string">
+			<maxLength value="100"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax1000">
+		<restriction base="xs:string">
+			<maxLength value="1000"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="NumberMax2">
+		<restriction base="xs:integer">
+			<totalDigits value="2"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="NumberMax3">
+		<restriction base="xs:integer">
+			<totalDigits value="3"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="NumberMax4">
+		<restriction base="xs:integer">
+			<totalDigits value="4"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="NumberMax6">
+		<restriction base="xs:integer">
+			<totalDigits value="6"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="NumberMax8">
+		<restriction base="xs:integer">
+			<totalDigits value="8"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="NumberMax9">
+		<restriction base="xs:integer">
+			<totalDigits value="9"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="MFBoolean" final="restriction">
+		<annotation>
+			<documentation>
+            	Possible values are Y,N
+            </documentation>
+		</annotation>
+		<restriction base="xs:string">
+			<enumeration value="Y"/>
+			<enumeration value="N"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax200">
+		<restriction base="xs:string">
+			<maxLength value="200"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax16">
+		<restriction base="xs:string">
+			<maxLength value="16"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax300">
+		<restriction base="xs:string">
+			<maxLength value="300"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax320">
+		<restriction base="xs:string">
+			<maxLength value="320"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IntMax6">
+		<restriction base="xs:integer">
+			<pattern value="\d{1,6}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IntMax2">
+		<restriction base="xs:integer">
+			<pattern value="\d{1,2}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IntMax7">
+		<restriction base="xs:integer">
+			<pattern value="\d{1,7}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IntMax9">
+		<restriction base="xs:integer">
+			<pattern value="\d{1,9}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IntMax10">
+		<restriction base="xs:integer">
+			<pattern value="\d{1,10}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IntMax12">
+		<restriction base="xs:integer">
+			<pattern value="\d{1,12}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int0..1">
+		<restriction base="xs:integer">
+			<pattern value="[0-1]"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int1..2">
+		<restriction base="xs:integer">
+			<pattern value="[1-2]"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int0..10">
+		<restriction base="xs:integer">
+			<pattern value="[0-9]|10"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int1">
+		<restriction base="xs:integer">
+			<pattern value="\d{1}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int2">
+		<restriction base="xs:integer">
+			<pattern value="\d{2}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int4">
+		<restriction base="xs:integer">
+			<pattern value="\d{4}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int5">
+		<restriction base="xs:integer">
+			<pattern value="\d{5}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int7">
+		<restriction base="xs:integer">
+			<pattern value="\d{7}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int8">
+		<restriction base="xs:integer">
+			<pattern value="\d{8}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int10">
+		<restriction base="xs:integer">
+			<pattern value="\d{10}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringInt12">
+		<restriction base="xs:string">
+			<pattern value="\d{12}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int12">
+		<restriction base="xs:integer">
+			<pattern value="\d{12}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringInt14">
+		<restriction base="xs:string">
+			<pattern value="\d{14}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int14">
+		<restriction base="xs:integer">
+			<pattern value="\d{14}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Int15">
+		<restriction base="xs:integer">
+			<pattern value="\d{15}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IntMax8">
+		<restriction base="xs:integer">
+			<pattern value="\d{1,8}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IntMax11">
+		<restriction base="xs:integer">
+			<pattern value="\d{1,11}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringInt5">
+		<restriction base="xs:string">
+			<pattern value="\d{5}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringIntMax4">
+		<restriction base="xs:string">
+			<pattern value="\d{1,4}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringIntMax5">
+		<restriction base="xs:string">
+			<pattern value="\d{1,5}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringIntMax6">
+		<restriction base="xs:string">
+			<pattern value="\d{1,6}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringIntMax8">
+		<restriction base="xs:string">
+			<pattern value="\d{1,8}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringIntMax9">
+		<restriction base="xs:string">
+			<pattern value="\d{1,9}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringIntMax10">
+		<restriction base="xs:string">
+			<pattern value="\d{1,10}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringIntMax16">
+		<restriction base="xs:string">
+			<pattern value="\d{1,16}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax0">
+		<restriction base="xs:string">
+			<minLength value="0"/>
+			<maxLength value="0"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax11">
+		<restriction base="xs:string">
+			<minLength value="1"/>
+			<maxLength value="11"/>
+			<pattern value="(\S.*\S)|\S"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax18">
+		<restriction base="xs:string">
+			<minLength value="1"/>
+			<maxLength value="18"/>
+			<pattern value="(\S.*\S)|\S"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax24">
+		<restriction base="xs:string">
+			<minLength value="1"/>
+			<maxLength value="24"/>
+			<pattern value="(\S.*\S)|\S"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax27">
+		<restriction base="xs:string">
+			<minLength value="1"/>
+			<maxLength value="27"/>
+			<pattern value="(\S.*\S)|\S"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax34">
+		<restriction base="xs:string">
+			<minLength value="1"/>
+			<maxLength value="34"/>
+			<pattern value="(\S.*\S)|\S"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax400">
+		<restriction base="xs:string">
+			<minLength value="1"/>
+			<maxLength value="400"/>
+			<pattern value="(\S.*\S)|\S"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax60000">
+		<restriction base="xs:string">
+			<minLength value="1"/>
+			<maxLength value="60000"/>
+		</restriction>
+		<!-- xs:pattern value="(\S.*\S)|\S"/ -->
+	</simpleType>
+	<simpleType name="String4">
+		<restriction base="xs:string">
+			<minLength value="4"/>
+			<maxLength value="4"/>
+			<pattern value="(\S.*\S)|\S"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="String5">
+		<restriction base="xs:string">
+			<minLength value="5"/>
+			<maxLength value="5"/>
+			<pattern value="(\S.*\S)|\S"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMin1">
+		<restriction base="xs:string">
+			<minLength value="1"/>
+			<pattern value="(\S.*\S)|\S"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax45">
+		<restriction base="xs:string">
+			<maxLength value="45"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IntMax4">
+		<restriction base="xs:integer">
+			<pattern value="\d{1,4}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringMax250">
+		<restriction base="xs:string">
+			<maxLength value="250"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IntMax3">
+		<restriction base="xs:integer">
+			<pattern value="\d{1,3}"/>
+		</restriction>
+	</simpleType>
+</schema>

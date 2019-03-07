@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}_B" xmlns="http://www.arcor.net/orderSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+	<barcode>{orderID}</barcode>
+	<entryUser>FIFTF</entryUser>
+	<entryRole>FIFTF</entryRole>
+	<entrySystem>{entrySystem}</entrySystem>
+	<entryDateTime>{today}</entryDateTime>
+	<orderAcceptedDate>{today}</orderAcceptedDate>
+	<customerContactPoint>KBA</customerContactPoint>
+	<salesOrganisation>
+		<salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+		<salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+		<eShopCode>123</eShopCode>
+	</salesOrganisation>
+	<superCustomerTrackingId>{orderIDLineCreation}</superCustomerTrackingId>
+	<scanDate>{todayTruncated}</scanDate>
+	{file:templates/CustomerData.xml_part}
+	<termination orderPositionNumber="1">
+		<customerIntention>LineChangeDeact</customerIntention>
+		<desiredDate>{desiredDate}</desiredDate>
+		<orderReceivedDate>{today}</orderReceivedDate>
+		<providerCode>
+			<existing>VFAI</existing>
+		</providerCode>
+		<salesPacketName>
+			<existing>All Inclusive Paket</existing>
+		</salesPacketName>
+		<beneficiary ID="beneficiary">
+			<customerNodeRefID>customer</customerNodeRefID>
+		</beneficiary>
+		<payerAllCharges ID="payer-001">
+			<billingAccountNodeRefID>account</billingAccountNodeRefID>
+		</payerAllCharges>
+		<aoMastered>
+			<existing>true</existing>
+		</aoMastered>
+		<ccbId type="B">
+			<existing>{bundleId}</existing>
+		</ccbId>
+		<terminationReasonCode>UMZ</terminationReasonCode>
+		<accesses>
+			{file:templates/BDSLAccessOld.xml_part}
+			{file:templates/SIPTrunkAccessOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetTermBDSL.xml_part}
+			{file:templates/VoiceSIPTrunkTerm.xml_part}
+			{file:templates/ExtraNumbersSingleNumberTerm.xml_part}
+			{file:templates/ExtraNumbersNumberRangeTerm.xml_part}
+		</functions>
+	</termination>
+</order>

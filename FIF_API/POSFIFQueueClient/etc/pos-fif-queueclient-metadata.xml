@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE messagecreator-metadata SYSTEM "messagecreator-metadata.dtd"[
+<!ENTITY pos_setDesiredCountries SYSTEM "pos_setDesiredCountries.xml">
+<!ENTITY pos_setInvoiceDeliveryType SYSTEM "pos_setInvoiceDeliveryType.xml">
+<!ENTITY pos_createVoIPContract SYSTEM "pos_createVoIPContract.xml">
+<!ENTITY pos_createDualModeContract SYSTEM "pos_createDualModeContract.xml">
+<!ENTITY pos_createContactRole SYSTEM "pos_createContactRole.xml">
+<!ENTITY pos_createCustomer SYSTEM "pos_createCustomer.xml">
+<!ENTITY pos_addConditionService SYSTEM "pos_addConditionService.xml">
+<!ENTITY pos_addHardwareService SYSTEM "pos_addHardwareService.xml">
+<!ENTITY pos_addFeatureService SYSTEM "pos_addFeatureService.xml">
+<!ENTITY pos_createNgnDslContract SYSTEM "pos_createNgnDslContract.xml">
+<!ENTITY pos_createNgnVoIPContract SYSTEM "pos_createNgnVoIPContract.xml">
+<!ENTITY pos_createAdditionalAccount SYSTEM "pos_createAdditionalAccount.xml">
+<!ENTITY pos_createDirectoryEntry SYSTEM "pos_createDirectoryEntry.xml">
+<!ENTITY pos_setDesiredTariffOption SYSTEM "pos_setDesiredTariffOption.xml">
+<!ENTITY pos_createSafetyPackage SYSTEM "pos_createSafetyPackage.xml">
+<!ENTITY pos_terminateService SYSTEM "pos_terminateService.xml">
+<!ENTITY pos_modifyContract SYSTEM "pos_modifyContract.xml">
+<!ENTITY pos_modifyMethodOfPayment SYSTEM "pos_modifyMethodOfPayment.xml">
+<!ENTITY pos_addInstallationService SYSTEM "pos_addInstallationService.xml">
+<!ENTITY pos_createMultimediaContract SYSTEM "pos_createMultimediaContract.xml">
+<!ENTITY pos_storeCampaignInformation SYSTEM "pos_storeCampaignInformation.xml">
+<!ENTITY pos_addServiceSubscription SYSTEM "pos_addServiceSubscription.xml">
+<!ENTITY pos_createISDNContract SYSTEM "pos_createISDNContract.xml">
+<!ENTITY pos_createOnlineContract SYSTEM "pos_createOnlineContract.xml">
+<!ENTITY pos_createBusinessADSLService SYSTEM "pos_createBusinessADSLService.xml">
+<!ENTITY pos_createBitDslContract SYSTEM "pos_createBitDslContract.xml">
+<!ENTITY pos_createBitVoIPContract SYSTEM "pos_createBitVoIPContract.xml">
+<!ENTITY pos_createSelectedDestination SYSTEM "pos_createSelectedDestination.xml">
+<!ENTITY pos_createMobilePhoneContract SYSTEM "pos_createMobilePhoneContract.xml">
+<!ENTITY pos_modifyAddress SYSTEM "pos_modifyAddress.xml">
+<!ENTITY pos_addOfficeComplete SYSTEM "pos_addOfficeComplete.xml">
+<!ENTITY pos_createMicrosoftOnlineSuiteContract SYSTEM "pos_createMicrosoftOnlineSuiteContract.xml">
+<!ENTITY pos_createPCBackupContract SYSTEM "pos_createPCBackupContract.xml">
+<!ENTITY pos_modifyCustomerInfo SYSTEM "pos_modifyCustomerInfo.xml">
+<!ENTITY pos_createTVCenterContract SYSTEM "pos_createTVCenterContract.xml">
+<!ENTITY pos_modifyEntity SYSTEM "pos_modifyEntity.xml">
+<!ENTITY pos_createDSLRContract SYSTEM "pos_createDSLRContract.xml">
+<!ENTITY pos_createCompanyNetContract SYSTEM "pos_createCompanyNetContract.xml">
+<!ENTITY pos_CreateEthernetBusinessContract SYSTEM "pos_CreateEthernetBusinessContract.xml">
+<!ENTITY pos_createSDSLRegioContract SYSTEM "pos_createSDSLRegioContract.xml">
+<!ENTITY pos_createBusinessDSLProfiContract SYSTEM "pos_createBusinessDSLProfiContract.xml">
+<!ENTITY pos_createInternetConnectContract SYSTEM "pos_createInternetConnectContract.xml">
+<!ENTITY pos_addAdditionalServiceSubscription SYSTEM "pos_addAdditionalServiceSubscription.xml">
+<!ENTITY pos_createS2MContract SYSTEM "pos_createS2MContract.xml">
+<!ENTITY pos_createAdditionalS2MService SYSTEM "pos_createAdditionalS2MService.xml">
+<!ENTITY pos_createPreselectContract SYSTEM "pos_createPreselectContract.xml">
+<!ENTITY pos_createDiscountContract SYSTEM "pos_createDiscountContract.xml">
+
+]>
+
+<!--
+    This document contains the message metadata for the POS-FIF QueueClient.
+    It contains information about the supported request, message, and message
+    creator types.  It also contains the action mappings that specify which
+    actions are supported.
+-->
+<messagecreator-metadata>
+    <!-- Request definitions -->
+    <request-definitions>
+        <request-definition>
+            <request-type>FIF</request-type>
+            <request-class>net.arcor.fif.messagecreator.FIFRequest</request-class>
+        </request-definition>
+    </request-definitions>
+    <!-- Message definitions -->
+    <message-definitions>
+        <message-definition>
+            <message-type>FIF</message-type>
+            <message-class>net.arcor.fif.messagecreator.FIFMessage</message-class>
+        </message-definition>
+    </message-definitions>
+    <!-- Message Creator definitions -->
+    <message-creator-definitions>
+        <message-creator-definition>
+            <creator-type>xsql</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSQLMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+        <message-creator-definition>
+            <creator-type>xslt</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSLTMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+    </message-creator-definitions>
+    <!-- Action Mappings -->
+    <action-mappings>
+        <!-- Set Desired Countries  -->
+	    &pos_setDesiredCountries;
+        <!-- Set Invoice Delivery Type  -->
+	    &pos_setInvoiceDeliveryType;
+        <!-- Create Voice over IP contract -->
+	    &pos_createVoIPContract;
+        <!--  create Dual Mode contract -->
+	    &pos_createDualModeContract;
+        <!--  create contact Role-->
+	    &pos_createContactRole;
+        <!-- Create Customer Mappings-->
+	    &pos_createCustomer;
+        <!-- Add  Condition Service -->
+	    &pos_addConditionService;
+        <!-- Add hardware service -->
+	    &pos_addHardwareService;
+        <!-- Add feature service  -->
+	    &pos_addFeatureService;
+        <!--Create NGN DSL Contract -->
+	    &pos_createNgnDslContract;
+        <!-- Create NgnVoIP Contract -->
+	    &pos_createNgnVoIPContract;
+        <!-- Create Account Mappings-->
+	    &pos_createAdditionalAccount;
+        <!-- Add Directory Entry -->
+	    &pos_createDirectoryEntry;
+        <!-- Set Desired Tariff Option  -->
+	    &pos_setDesiredTariffOption;
+        <!-- Create safety package -->
+	    &pos_createSafetyPackage;
+        <!-- Terminate Service  -->
+        &pos_terminateService;
+        <!-- Modify Contract  -->
+	    &pos_modifyContract;
+        <!-- Modify Method Of Payment  -->
+	    &pos_modifyMethodOfPayment;
+        <!-- Add installation service -->
+        &pos_addInstallationService; 
+        <!-- Create Multimedia Contract -->
+        &pos_createMultimediaContract;                
+        <!-- Store Campaign Information -->
+        &pos_storeCampaignInformation;
+        <!-- Add Service Subscription -->
+        &pos_addServiceSubscription;
+        <!-- Create ISDN contract -->
+        &pos_createISDNContract;
+        <!-- Create Online contract -->
+        &pos_createOnlineContract;  
+        <!-- Create Business ADSL service -->
+        &pos_createBusinessADSLService;   
+         <!-- Create Bit DSL Contract -->
+         &pos_createBitDslContract;
+         <!-- Create Bit VoIP contract -->
+        &pos_createBitVoIPContract;
+        <!-- Create Selected Destinations -->
+        &pos_createSelectedDestination;        
+        &pos_createMobilePhoneContract;
+        &pos_modifyAddress;
+        &pos_addOfficeComplete;
+        &pos_createMicrosoftOnlineSuiteContract;
+        &pos_createPCBackupContract;
+        &pos_modifyCustomerInfo;
+        &pos_createTVCenterContract;
+        &pos_modifyEntity;
+        &pos_createDSLRContract;
+        &pos_createCompanyNetContract;
+        &pos_CreateEthernetBusinessContract;
+        &pos_createSDSLRegioContract;
+        &pos_createBusinessDSLProfiContract;
+        &pos_createInternetConnectContract;
+        &pos_addAdditionalServiceSubscription;
+        &pos_createS2MContract;
+        &pos_createAdditionalS2MService;
+        &pos_createPreselectContract;
+        &pos_createDiscountContract;
+        
+    </action-mappings>
+</messagecreator-metadata>

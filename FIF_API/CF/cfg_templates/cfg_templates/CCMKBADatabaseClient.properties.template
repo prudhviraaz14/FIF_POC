@@ -1,0 +1,513 @@
+# START HEADER
+#  File:                $Workfile:   CCMKBADatabaseClient.properties.template  $
+#  Author:              $Author:   naveen.k  $
+#  Revision:            $Revision:   1.0  $
+#  Purpose:             Configuration file for the CCM-KBA DatabaseClient application
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Jul 04 2017 17:03:24  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/cfg_templates/CCMKBADatabaseClient.properties.template-arc  $
+#
+#   Rev 1.0   Jul 04 2017 17:03:24   naveen.k
+#Initial revision.
+#
+#   Rev 1.6   Nov 25 2009 13:23:58   lejam
+#Modified FIF database clients templates for property files SPN-CCB-88372,SPN-CCB-93658
+#
+#   Rev 1.5   Jan 27 2009 17:46:10   lejam
+#Added request locking functionality to FIF-API database client to allow multiple running instances of the application SPN-FIF-82246
+#
+#   Rev 1.4   Feb 07 2008 11:26:22   schwarje
+#SPN-FIF-000065717: removed Console logging
+#
+#   Rev 1.3   Jul 02 2007 16:53:18   lejam
+#Modified select to retrieve rows ordered by CREATION_DATE SPN-CCB-57401
+#
+#   Rev 1.2   Apr 25 2007 14:25:36   schwarje
+#IT-19232: support for transaction lists
+#
+#   Rev 1.1   Dec 20 2006 17:49:10   banania
+# IT-k-000018054
+#
+#   Rev 1.0   Nov 23 2004 16:06:30   goethalo
+#Initial revision.
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         ccmkba.databaseclient.SentOutputDir
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA Database Client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./sent
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The directory to store messages sent to FIF in
+#Description:       (only used if WriteSentMessages is set to true)
+#END PARAMETER
+databaseclient.SentOutputDir=${ccmkba.databaseclient.SentOutputDir}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# Indicates whether the sender should be started (true/false)
+databaseclient.StartSender=true
+
+# The number of requests to retrieve from the database and process in one run
+databaseclient.RequestBatchSize=500
+
+# The time (in milliseconds) to sleep between each request retrieval run
+databaseclient.RequestSleepTime=10000
+
+# Indicates whether the sent messages should be written to an output file
+# (true/false)
+databaseclient.WriteSentMessages=true
+
+# Indicates whether the receiver should be started (true/false)
+databaseclient.StartReceiver=false
+
+# Indicates whether this database client supports transaction lists (true/false)
+databaseclient.TransactionListSupported=false
+
+# strings for the FIF states in the database table
+databaseclient.RequestStatusNotStarted=N
+databaseclient.RequestStatusInProgress=Y
+databaseclient.RequestStatusCompleted=Y
+databaseclient.RequestStatusFailed=Y
+databaseclient.RequestStatusNotExecuted=NOT_EXECUTED
+databaseclient.RequestStatusCanceled=CANCELED
+
+# data type of the status field (VARCHAR / NUMBER)
+databaseclient.RequestStatusDataType=VARCHAR
+
+# The maximum size (in characters) of the error message field
+databaseclient.MaxErrorMessageSize=1
+
+
+##################
+# SQL STATEMENTS #
+##################
+
+# The SQL statement for retrieving the requests from the database
+databaseclient.RetrieveRequestsStatement=SELECT TRANSACTION_ID, ACTION_NAME FROM CCM_EXTERNAL_NOTIFICATION WHERE TARGET_SYSTEM='KBA' AND PROCESSED_INDICATOR='N' ORDER BY CREATION_DATE
+
+# The name of the table field representing the transaction Id of the request
+databaseclient.RetrieveRequestsStatement.TransactionIDFieldName=TRANSACTION_ID
+
+# The name of the table field representing the action the request is for
+databaseclient.RetrieveRequestsStatement.ActionFieldName=ACTION_NAME
+
+
+# The SQL statement for retrieving the request parameters from the database
+databaseclient.RetrieveParamsStatement=SELECT * FROM CCM_EXTERNAL_NOTIFICATION_PARM WHERE TRANSACTION_ID=?
+
+# The name of the database field representing the parameter name for a request
+databaseclient.RetrieveParamsStatement.ParamNameFieldName=PARAM
+
+# The name of the database field representing the parameter value for a request
+databaseclient.RetrieveParamsStatement.ParamValueFieldName=VALUE
+
+
+# The SQL statement for locking the request for update to 'In Progress'
+databaseclient.RetrieveStateNotStartedForUpdateStatement=SELECT 1 FROM CCM_EXTERNAL_NOTIFICATION WHERE TRANSACTION_ID=? AND PROCESSED_INDICATOR='N' FOR UPDATE
+
+# The SQL statement for updating the request state to 'In Progress'
+# Since the CCM-KBA database client is only sending a message to KBA and
+# not waiting for an answer, we set the status to closed.
+databaseclient.UpdateStateInProgressStatement=UPDATE CCM_EXTERNAL_NOTIFICATION SET PROCESSED_INDICATOR='Y' WHERE TRANSACTION_ID=?
+
+
+# The SQL statement for updating the finished request's state
+databaseclient.UpdateFinishedRequestStatement=UPDATE CCM_EXTERNAL_NOTIFICATION SET PROCESSED_INDICATOR=? WHERE TRANSACTION_ID=? AND AUDIT_UPDATE_USER_ID!=?
+
+# The index of the database field for storing the status
+databaseclient.UpdateFinishedRequestStatement.StatusIndex=1
+
+# The name of the table field representing the transaction Id of the request
+databaseclient.UpdateFinishedRequestStatement.TransactionIDIndex=2
+
+# The name of the database field for storing the error message
+databaseclient.UpdateFinishedRequestStatement.ErrorMessageIndex=3
+
+
+# The SQL statement for inserting the request result parameters in the database
+databaseclient.InsertRequestResultParams=NULL
+
+# The index in the SQL statement of the database field for storing the transaction ID 
+databaseClient.InsertRequestResultParams.TransactionIDIndex=1
+
+# The index in the SQL statement of the database field for storing the return parameter name
+databaseClient.InsertRequestResultParams.ReturnParamNameIndex=2
+
+# The index in the SQL statement of the database field for storing the return parameter value
+databaseClient.InsertRequestResultParams.ReturnParamValueIndex=3
+
+
+
+#############################
+# MESSAGE CREATION SETTINGS #
+#############################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         ccmkba.messagecreator.MetaDataDir
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA Database Client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./etc
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the metadata file is stored
+#END PARAMETER
+messagecreator.MetaDataDir=${ccmkba.messagecreator.MetaDataDir}
+
+#START PARAMETER
+#Parameter:         ccmkba.messagecreator.XSLT.Directory
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA Database Client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./etc
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the XSQL files are located
+#END PARAMETER
+messagecreator.XSLT.Directory=${ccmkba.messagecreator.XSLT.Directory}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The name of the XML metadata file
+messagecreator.MetaDataFile=ccm-kba-databaseclient-metadata.xml
+
+# Indicates whether the produced XML messages should also be written
+# as a file in the output directory
+messagecreator.WriteOutputFiles=false
+
+# The directory to store the output XML files in
+messagecreator.OutputDir=null
+
+# Indicates whether the use of reference data should be supported by the client.
+messagecreator.EnableReferenceDataSupport=true
+
+# The name of the database alias to use for retrieving reference data
+messagecreator.ReferenceDataDBAlias=requestdb
+
+# Indicates whether the XML representation of a request should be
+# written as a file.
+messagecreator.XSLT.WriteIntermediateFiles=false
+
+# The directory where the intermediate XML files should be written
+messagecreator.XSLT.IntermediateDir=null
+
+
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         ccmkba.log4j.appender.File.File
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/CCMKBADatabaseClient.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The name (including relative of absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${ccmkba.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+
+
+#####################
+# DATABASE SETTINGS #
+#####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         ccmkba.db.requestdb.ConnectString
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       Fully qualified URL for JDBC
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:ccmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The connection string to use to connect to the CCM database.
+#Description:       (Format: jdbc:oracle:thin:@hostname:port:dbname)
+#END PARAMETER
+db.requestdb.ConnectString=${ccmkba.db.requestdb.ConnectString}
+
+#START PARAMETER
+#Parameter:         ccmkba.db.requestdb.User
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       All users of database.
+#DefaultValue:      -
+#ExampleValue:      ccm_user
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The user name to use to connect to the CCM database.
+#END PARAMETER
+db.requestdb.User=${ccmkba.db.requestdb.User}
+
+#START PARAMETER
+#Parameter:         ccmkba.db.requestdb.Password
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       Valid password.
+#DefaultValue:      -
+#ExampleValue:      ernirnlihlrieppg
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The encrypted password to use to connect to the CCM database (encrypted in CCB format).
+#END PARAMETER
+db.requestdb.Password=${ccmkba.db.requestdb.Password}
+
+#START PARAMETER
+#Parameter:         ccmkba.db.requestdb.EncryptionKey
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       Encryption key used to encrypt the password.
+#DefaultValue:      -
+#ExampleValue:      pshsodoehseffjlhsohedqfpnpfssmpleggfqpprnlhjhess
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The encryption key that was used to encrypt the database password.
+#END PARAMETER
+db.requestdb.EncryptionKey=${ccmkba.db.requestdb.EncryptionKey}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of database aliases that are being used by the application
+# An alias maps to a specific set of database configuration settings
+# The DatabaseClient only needs one database alias and this alias should
+# be called requestdb
+db.aliases=requestdb
+
+# The name of the database driver to use
+db.requestdb.Driver=oracle.jdbc.driver.OracleDriver
+
+# The maximum number of minutes that a connection can remain active (in minutes)
+db.requestdb.MaximumConnectionLifeTime=240
+
+# The minimum number of open connections in the pool
+db.requestdb.MinimumConnectionCount=0
+
+# The maximum number of open connections in the pool
+db.requestdb.MaximumConnectionCount=15
+
+# The number of minutes to wait between connection cleanup runs
+db.requestdb.HouseKeepingSleepTime=1
+
+
+
+
+##################
+# QUEUE SETTINGS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#--- SENDQUEUE SETTINGS ---#
+
+#START PARAMETER
+#Parameter:         ccmkba.transport.sendqueue.QueueName
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue name
+#DefaultValue:      -
+#ExampleValue:      CCM.KBA.REQUEST
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The name of the queue to connect to for sending notification messages to KBA.
+#END PARAMETER
+transport.sendqueue.QueueName=${ccmkba.transport.sendqueue.QueueName}
+
+#START PARAMETER
+#Parameter:         ccmkba.transport.sendqueue.QueueManagerName
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager name
+#DefaultValue:      -
+#ExampleValue:      CCBSVR2E
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The name of the queue manager to connect to for sending notification messages to KBA.
+#END PARAMETER
+transport.sendqueue.QueueManagerName=${ccmkba.transport.sendqueue.QueueManagerName}
+
+#START PARAMETER
+#Parameter:         ccmkba.transport.sendqueue.QueueManagerHostName
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager host name
+#DefaultValue:      -
+#ExampleValue:      hp64d01
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The host name of the queue manager to connect to for sending notification messages to KBA.
+#END PARAMETER
+transport.sendqueue.QueueManagerHostName=${ccmkba.transport.sendqueue.QueueManagerHostName}
+
+#START PARAMETER
+#Parameter:         ccmkba.transport.sendqueue.QueueManagerPort
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager port number
+#DefaultValue:      -
+#ExampleValue:      5012
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The port number of the queue manager to connect to for sending notification messages to KBA.
+#END PARAMETER
+transport.sendqueue.QueueManagerPortNumber=${ccmkba.transport.sendqueue.QueueManagerPort}
+
+#START PARAMETER
+#Parameter:         ccmkba.transport.sendqueue.QueueManagerChannelName
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (CCM-KBA database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager channel name
+#DefaultValue:      -
+#ExampleValue:      5012
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The channel name of the queue manager to connect to for sending notification messages to KBA.
+#END PARAMETER
+transport.sendqueue.QueueManagerChannelName=${ccmkba.transport.sendqueue.QueueManagerChannelName}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of queue aliases that are being used by the application
+# An alias maps to a specific set of queue configuration settings
+transport.aliases=sendqueue
+
+#--- SENDQUEUE SETTINGS ---#
+
+# The type of queue to use (JMS: Java Messaging Service; MQ: MQSeries)
+transport.sendqueue.QueueType=MQ
+
+# The message acknowledge mode to use for the queue session
+transport.sendqueue.AcknowledgeMode=AUTO_ACKNOWLEDGE
+
+# The transport type of the queue manager
+transport.sendqueue.QueueManagerTransportType=TCPIP
+
+# The character encoding to use for encoding and decoding the messages that are
+# sent and received over the queue
+transport.sendqueue.Encoding=ISO-8859-1

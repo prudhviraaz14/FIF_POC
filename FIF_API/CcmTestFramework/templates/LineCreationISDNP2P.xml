@@ -1,0 +1,70 @@
+
+      <trx-builder-request>
+         <transaction-id>ISDNP2PLineCreation-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-144:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationISDNP2P.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-120:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1276</request-param>
+                  <request-param name="pricingStructureCodeVoice">YP023</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V0178</request-param>
+                  <request-param name="scenarioName">ISDNP2PLineCreation</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>ISDNP2PLineCreation-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-120:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationISDNP2P.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-144:hour</request-param>
+                  <request-param name="desiredDate">datetime:-120:hour</request-param>
+                  <request-param name="todayTruncated">date:-144:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">completedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="extraLineProcessingStatus">completedOPM</request-param>
+                  <request-param name="extraLineCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="extraLinePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="ISDNP2PLineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="ISDNP2PLineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="ISDNP2PLineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="ISDNP2PLineCreation-allocate_3" param-name="ccbId" output-param-name="extraLineSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1276</request-param>
+                  <request-param name="pricingStructureCodeVoice">YP023</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V0178</request-param>
+                  <request-param name="scenarioName">ISDNP2PLineCreation</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>

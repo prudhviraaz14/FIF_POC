@@ -1,0 +1,138 @@
+# START HEADER
+#  File:                $Workfile:   ImportTerminateServiceSubscriptionCSV.properties.template  $
+#  Author:              $Author:   banania  $
+#  Revision:            $Revision:   1.2  $
+#  Purpose:             Configuration file for importing erminateServiceSubscriptionCSV requests from a CSV file to the FIF_REQUEST table.
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Sep 19 2014 18:34:16  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportTerminateServiceSubscriptionCSV.properties.template-arc  $
+#
+#   Rev 1.2   Sep 19 2014 18:34:16   banania
+#SPN-FIF-000128501: Missing Key "UpdatexternalSystemIdStatement" added.
+#
+#   Rev 1.1   Sep 05 2014 07:51:00   schwarje
+#SPN-FIF-000128375: removed duplicate parameter NUMBER from transaction metadata and CSV imports
+#
+#   Rev 1.0   Aug 20 2014 17:19:46   schwarje
+#Initial revision.
+#
+#
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+# The names of columns that are mandatory in the CSV
+ImportCSVToDB.ColumnNames.Mandatory=
+
+# The names of columns that are optional in the CSV
+ImportCSVToDB.ColumnNames.Optional=SERVICE_SUBSCRIPTION_ID, PRODUCT_SUBSCRIPTION_ID, DESIRED_DATE, DESIRED_SCHEDULE_TYPE, REASON_RD, RECONFIGURE_SERVICE, ACTIVATE_TERMINATION, TERMINATE_PRODUCT_SUBSCRIPTION, OMTS_ORDER_ID, PROVIDER_TRACKING_NUMBER, VALIDATE_ACCESS_NUMBERS, SERVICE_CHAR_CODE, DATA_TYPE, ADDRESS_ID, CONFIGURED_VALUE, MASKING_DIGITS_RD, RETENTION_PERIOD_RD, STORAGE_MASKING_DIGITS_RD, COUNTRY_CODE, CITY_CODE, LOCAL_NUMBER, FROM_EXT_NUM, TO_EXT_NUM, IP_NUMBER, SUBNET_MASK, ALIAS, NETWORK_ACCOUNT, AREA_ID, NUMBER, DATA_NETWORK_ID_CODE, SUB_ADDRESS, COUNTRY, ADMIN_MGMT_DOMAIN, PRIVATE_MGMT_DOMAIN, SURNAME, MIDDLE_INITIAL, GIVEN_NAME, PERSONAL_NAME, GENERATION_QUALIFIER, ORGANIZATION, ORG_UNIT_1, ORG_UNIT_2, ORG_UNIT_3, ORG_UNIT_4, GATEWAY_DOMAIN, NETWORK_USER_IDENTIFIER, EXTERNAL_CARRIER_CODE, FLOOR, ROOM_NUMBER, JACK_LOCATION, DESK_NUMBER, ADDITIONAL_LOCATION_INFO, TECH_SERVICE_ID, ADDRESS_TYPE, STREET_NAME, STREET_NUMBER, STREET_NUMBER_SUFFIX, POSTAL_CODE, CITY_NAME, CITY_SUFFIX_NAME, ADDRESS_ADDITIONAL_TEXT, CREATE_CONTACT, CONTACT_TYPE_RD, SHORT_DESCRIPTION, LONG_DESCRIPTION_TEXT
+
+# Indicates, if the parameter names are converted to upper case
+ImportCSVToDB.ColumnNames.convertToUpperCase=false
+
+##################
+# SQL STATEMENTS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importterminateservicesubscriptioncsv.targetClient
+#ValidFrom:         FIF-API-48
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Name of database target client
+#DefaultValue:      -
+#ExampleValue:      SLS
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     20.08.14
+#Last_Modified_By   schwarje
+#Description:       The name of the target client to insert requests for (e.g. SLS, WRF)
+#END PARAMETER
+# The SQL statement for inserting requests in the database
+ImportCSVToDB.InsertRequestStmt=INSERT INTO FIF_REQUEST (TRANSACTION_ID, TARGET_CLIENT, STATUS, ACTION_NAME, ERROR_TEXT, DUE_DATE, PRIORITY, CREATION_DATE, START_DATE, END_DATE) VALUES (?, '${slsfif.importterminateservicesubscriptioncsv.targetClient}', 'NOT_STARTED', 'terminateServiceSubscription', '', SYSDATE, 5, SYSDATE, NULL, NULL)
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The SQL statement for inserting request parameters in the database
+ImportCSVToDB.InsertParamStmt=INSERT INTO FIF_REQUEST_PARAM (TRANSACTION_ID, PARAM, VALUE) VALUES (?, ?, ?)
+
+# The name of the database field representing the transaction ID for a request
+ImportCSVToDB.InsertParamStmt.TransactionIDFieldIndex=1
+
+# The name of the database field representing the parameter name for a request
+ImportCSVToDB.InsertParamStmt.ParamNameFieldIndex=2
+
+# The name of the database field representing the parameter value for a request
+ImportCSVToDB.InsertParamStmt.ParamValueFieldIndex=3
+
+# The name of the external system id
+ImportCSVToDB.insertExternalSystemIdName=SERVICE_SUBSCRIPTION_ID
+
+# The SQL statement for updating the request external system id
+ImportCSVToDB.UpdatexternalSystemIdStatement=UPDATE FIF_REQUEST SET EXTERNAL_SYSTEM_ID = ? WHERE TRANSACTION_ID=?
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importterminateservicesubscriptioncsv.log4j.appender.File.File
+#ValidFrom:         FIF-API-48
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/ImportTerminateServiceSubscriptionCSV.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     20.08.14
+#Last_Modified_By   schwarje
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importterminateservicesubscriptioncsv.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n

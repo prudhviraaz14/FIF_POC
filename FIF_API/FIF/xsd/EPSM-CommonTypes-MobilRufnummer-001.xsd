@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ape="http://www.arcor.net/EPSM-CommonTypes-APE-001" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:leistungsmerkmal="http://www.arcor.net/EPSM-CommonTypes-Leistungsmerkmal-001" xmlns:mobilrufnummer="http://www.arcor.net/EPSM-CommonTypes-MobilRufnummer-001" targetNamespace="http://www.arcor.net/EPSM-CommonTypes-MobilRufnummer-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-APE-001" schemaLocation="EPSM-CommonTypes-APE-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-Leistungsmerkmal-001" schemaLocation="EPSM-CommonTypes-Leistungsmerkmal-001.xsd"/>
+	<xs:element name="EPSM_MobilRufnummer_Dokument_Information ">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="MobilLaenderkennzeichen">
+		<xs:annotation>
+			<xs:documentation>Länderkennzeichen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MobilVorwahl">
+		<xs:annotation>
+			<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) RUFNUMMERNPORTIERUNG.MOBIL_VORWAHL]
+Vorwahl der Mobilnummer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MobilRufnummer">
+		<xs:annotation>
+			<xs:documentation>[Befüllung durch BOI  (Ver. 29.5.07) RUFNUMMERNPORTIERUNG.MOBIL_RUFNUMMER]
+Rufnummer Mobil</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="8"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="GesamtMobilRufnummer">
+		<xs:annotation>
+			<xs:documentation>Angaben zur Rufnummernportierung der Mobilfunkrufnummer
+</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="leistungsmerkmal:Leistungsmerkmal">
+				<xs:sequence>
+					<xs:element name="mobilLaenderkenzeichen" type="mobilrufnummer:MobilLaenderkennzeichen" minOccurs="0"/>
+					<xs:element name="mobilVorwahl" type="mobilrufnummer:MobilVorwahl" minOccurs="0"/>
+					<xs:element name="mobilRufnummer" type="mobilrufnummer:MobilRufnummer" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

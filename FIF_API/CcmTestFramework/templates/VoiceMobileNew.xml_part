@@ -1,0 +1,50 @@
+<voice ID="mobile-voice" refAccessID="mobile-access-new">
+	<processingType>ADD</processingType>
+	<ccbId type="S">
+	    <configured>{mobileSSID}</configured>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultMobile</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeMobile</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetMobile</configured>
+	</providerTrackingNumber>
+	<contractNumber>
+		<configured>{targetContractNumberMobile}</configured>
+	</contractNumber>
+	<productCommitmentNumber>
+		<configured>{targetProductCommitmentNumberMobile}</configured>
+	</productCommitmentNumber>
+	<voicePremiumConfiguration>
+		<productCode>
+			<configured>V8000</configured>
+		</productCode>
+		<pricingStructureCode>
+			<configured>{pricingStructureCodeMobile}</configured>
+		</pricingStructureCode>
+		<visTrackingPosition/>
+		<primaryCustSignName>
+			<configured>COM {scenarioName}</configured>
+		</primaryCustSignName>
+		<primaryCustSignDate>
+			<configured>{todayTruncated}</configured>
+		</primaryCustSignDate>
+		<articleNumber>
+			<configured>{articleNumber}</configured>
+		</articleNumber>		
+		<minimumDurationPeriod>
+			<value>
+				<configured>24</configured>
+			</value>
+			<unit>
+				<configured>MONTH</configured>
+			</unit>
+		</minimumDurationPeriod>
+	</voicePremiumConfiguration>
+	<processingStatus>{mobileProcessingStatus}</processingStatus>
+	<completionStatusNewCcbId>{mobileCompletionStatusNew}</completionStatusNewCcbId>
+	<previousCompletionStatusNewCcbId>{mobilePreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+</voice>

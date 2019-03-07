@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by Reto Renner (Arcor AG & Co. KG) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arcor.net/FIF/EPSM-FIF-ErstelleMobilfunkVertrag-001" 
+    xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" 
+    xmlns:fifcommon="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001" 
+    xmlns:rufnummer="http://www.arcor.net/EPSM-CommonTypes-Mobilnummer-001" 
+    xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001" 
+    xmlns:simkarte="http://www.arcor.net/EPSM-CommonTypes-SIMKarte-001"
+    targetNamespace="http://www.arcor.net/FIF/EPSM-FIF-ErstelleMobilfunkVertrag-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-CommonTypes-001" schemaLocation="EPSM-FIF-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-Mobilnummer-001" schemaLocation="EPSM-CommonTypes-Mobilnummer-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-SIMKarte-001" schemaLocation="EPSM-CommonTypes-SIMKarte-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:complexType name="tarifOptionenListe">
+		<xs:annotation>
+			<xs:documentation>Liste von Rufnummern fuer MobileGroup-Transaktionen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="tarifOption" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="EPSM_FIF_ErstelleMobilfunkVertragService_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>XML schema definition for FIF ASBO and services
+                Version: 0.1
+                
+                Status des Dokument: Entwurf
+                
+                Aenderungshistorie:
+                Version 0.1 22.02.08	Rusbe Makuie	initial
+            </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>Dieses Dokument basiert auf und referenziert folgende Dokumente:</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>Diese Schnittstelle wird durch den CCM-FIF realisiert</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ==================== ErstelleMobilfunkVertragService ====================== -->
+	<xs:complexType name="ErstelleMobilfunkVertragService">
+		<xs:annotation>
+			<xs:documentation>Typdefinition Dienst ErstelleMobilfunkVertragService</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:annotation>
+						<xs:documentation/>
+					</xs:annotation>
+					<xs:element name="ErstelleMobilfunkVertragInput" type="ErstelleMobilfunkVertragInput"/>
+					<xs:element name="ErstelleMobilfunkVertragOutput" type="ErstelleMobilfunkVertragOutput"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ErstelleMobilfunkVertragInput">
+		<xs:annotation>
+			<xs:documentation>Inputdaten Dienst ErstelleMobilfunkVertragService</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="rufnummer" type="rufnummer:Mobilnummer"/>
+					<xs:element name="kundennummer" type="common:Kundennummer"/>
+					<xs:element name="artikelnummer" type="fifcommon:Artikelnummer"/>
+					<xs:element name="voNumber" type="fifcommon:VONummer"/>
+					<xs:element name="simPuk" type="simkarte:SimPuk"/>
+					<xs:element name="simId" type="simkarte:SimSerienNr"/>
+					<xs:element name="tarif" type="xs:string"/>
+					<xs:element name="simKarteAktiviert" type="xs:boolean"/>
+					<xs:element name="barcode" type="common:Barcode" minOccurs="0"/>
+					<xs:element name="tarifOptionen" type="tarifOptionenListe" minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ErstelleMobilfunkVertragOutput">
+		<xs:annotation>
+			<xs:documentation>Outputdaten Dienst ErstelleMobilfunkVertragService</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--
+START HEADER
+END HEADER
+-->
+<beans>
+    
+    <!-- Queue configuration -->
+    <bean id="messageListenerContainer"
+        class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="concurrentConsumers" value="1"/> 
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="listenQueue"/>
+        <property name="sessionTransacted" value="true"/>
+        <property name="messageListener" ref="requestReplyWorker"/>
+        <property name="messageSelector" value="JMSType = 'Response' and (
+            SBUS_Servicename = 'aktualisiereEueKundendatenService' or
+            SBUS_Servicename = 'starteEingehendeRufnummerPortierungService' or
+            SBUS_Servicename = 'setTriggerService' or
+            SBUS_Servicename = 'fatalServiceResponse' and ( 
+                SBUS_Endpunkt = 'CUSTWGVF' or
+                SBUS_Endpunkt = 'COM'))"/>
+    </bean> 
+    
+    <bean id="requestReplyWorker" init-method="init"
+        destroy-method="closeSenderQueues" class="net.arcor.mcf.jms.wf.WorkflowRequestReplyWorker">
+        <property name="listenQueue" ref="listenQueue"/>      
+        <property name="outQueue" ref="outQueue"/>        
+        <property name="backoutTreshold" value="5"/>        
+        <property name="handlerConfig">
+            <ref bean="ServiceHandlerConfig"/>
+        </property>        
+        <property name="headerHandler">
+            <ref bean="HeaderHandler"/>
+        </property>        
+        <property name="serviceResolver">
+            <ref bean="ServiceResolver"/>
+        </property>    
+        <property name="useJaxbJavaPackage" value="false"/>
+        
+        <property name="fatalResponseContextName"  value="net.arcor.sbus.epsm_sbus_001" />
+        <property name="fatalResponseSchemaName"   value="EPSM-SBUS-001.xsd"/>
+        
+        <property name="serviceMap" ref="serviceRegistryXml" />
+    </bean>
+    
+    <!-- =========================================================================================== -->
+    <!-- JAXB Parameter der Services                                                                 -->
+    <!-- =========================================================================================== -->
+    
+    <bean id="serviceRegistryXml"
+        class="net.arcor.mcf.jms.ServiceRegistryXml">
+        <property name="serviceRegistryXmlMap">
+            <map>
+                <entry key="aktualisiereEueKundendatenService,001"  value-ref="CFM-001" />
+                <entry key="fatalServiceResponse,001" value-ref="fatalResponse-001"/>
+                <entry key="setTriggerService,001"  value-ref="CUSTWG-WHSVF-001" />                
+                <entry key="starteEingehendeRufnummerPortierungService,001"  value-ref="AIP-001" />              
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="CFM-001" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="requestContextName">net.arcor.cfm.epsm_cfm_whseue_001</prop>
+                <prop key="responseContextName">net.arcor.cfm.epsm_cfm_whseue_001</prop>
+                <prop key="requestSchemaName">EPSM-CFM-WHSEUE-001.xsd</prop>
+                <prop key="responseSchemaName">EPSM-CFM-WHSEUE-001.xsd</prop>
+            </props>
+        </property>
+    </bean> 
+    
+    <bean id="AIP-001"
+        class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="requestContextName">net.arcor.aip.epsm_aip_001</prop>
+                <prop key="responseContextName">net.arcor.aip.epsm_aip_001</prop>
+                <prop key="requestSchemaName">EPSM-AIP-001.xsd</prop>
+                <prop key="responseSchemaName">EPSM-AIP-001.xsd</prop>
+            </props>
+        </property>
+    </bean>
+        
+    <bean id="CUSTWG-WHSVF-001" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="requestContextName">net.arcor.custwg.epsm_custwg_whsvf_001</prop>
+                <prop key="responseContextName">net.arcor.custwg.epsm_custwg_whsvf_001</prop>
+                <prop key="requestSchemaName">EPSM-CUSTWG-WHSVF-001.xsd</prop>
+                <prop key="responseSchemaName">EPSM-CUSTWG-WHSVF-001.xsd</prop>
+            </props>
+        </property>
+    </bean>
+        
+    <bean id="fatalResponse-001" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="requestContextName">net.arcor.sbus.epsm_sbus_001</prop>
+                <prop key="responseContextName">net.arcor.sbus.epsm_sbus_001</prop>
+                <prop key="requestSchemaName">EPSM-SBUS-001.xsd</prop>
+                <prop key="responseSchemaName">EPSM-SBUS-001.xsd</prop>
+            </props>
+        </property>
+    </bean>    
+                
+    <bean id="AktualisiereEueKundendatenServiceConfig"
+        class="net.arcor.mcf.config.ServiceHandlerConfigBean">
+        <property name="serviceName" value="net.arcor.cfm.epsm_cfm_whseue_001.AktualisiereEueKundendatenService"/>
+        <property name="handler">
+            <bean class="net.arcor.fif.servicehandler.SynchronousFifResponseHandler"/>
+        </property>
+        <property name="hasReply" value="false"/>
+    </bean>
+    
+    <bean id="SetTriggerServiceConfig"
+        class="net.arcor.mcf.config.ServiceHandlerConfigBean">
+        <property name="serviceName" value="net.arcor.custwg.epsm_custwg_whsvf_001.SetTriggerService"/>
+        <property name="handler">
+            <bean class="net.arcor.fif.servicehandler.SynchronousFifResponseHandler"/>
+        </property>
+        <property name="hasReply" value="false"/>
+    </bean>
+    
+    <bean id="FatalServiceResponseConfig"
+        class="net.arcor.mcf.config.ServiceHandlerConfigBean">
+        <property name="serviceName" value="net.arcor.sbus.epsm_sbus_001.FatalServiceResponse"/>
+        <property name="handler">
+            <bean class="net.arcor.fif.servicehandler.SynchronousFifResponseHandler"/>
+        </property>
+        <property name="hasReply" value="false"/>
+    </bean>
+        
+    <bean id="StarteEingehendeRufnummerPortierungServiceConfig"
+        class="net.arcor.mcf.config.ServiceHandlerConfigBean">
+        <property name="serviceName" value="net.arcor.aip.epsm_aip_starteeingehenderufnummerportierung_001.StarteEingehendeRufnummerPortierungService"/>
+        <property name="handler">
+            <bean class="net.arcor.fif.servicehandler.SynchronousFifResponseHandler"/>
+        </property>
+        <property name="hasReply" value="false"/>
+    </bean> 
+    
+    <bean id="ServiceHandlerConfig"
+        class="net.arcor.mcf.config.ServiceHandlerConfigSimple" init-method="init" >
+        <property name="configBeanList">
+            <list>
+                <ref bean="StarteEingehendeRufnummerPortierungServiceConfig"/>
+                <ref bean="AktualisiereEueKundendatenServiceConfig"/>
+                <ref bean="SetTriggerServiceConfig"/>
+                <ref bean="FatalServiceResponseConfig"/>
+            </list>
+        </property>
+    </bean>
+     
+    <bean id="HeaderHandler" class="net.arcor.mcf.jms.HeaderHandlerCopy">
+        <property name="headerConfig">
+            <bean class="net.arcor.mcf.config.HeaderHandlerConfigSimple"/>
+        </property>
+        <property name="endpointName" value="Response"/>
+    </bean>
+    
+    <bean id="ServiceResolver" class="net.arcor.mcf.jms.ServiceResolverXml"/>
+    
+    <bean id="queueHandler" class="net.arcor.mcf.jms.QueueHandler" init-method="init">
+        <property name="connectionFactory"  ref="connectionFactory" />
+        <property name="outQueue"           ref="outQueue"/>
+        <property name="requestContextName"  value="net.arcor.cfm.epsm_cfm_whseue_001" />
+        <property name="requestSchemaName"   value="EPSM-CFM-WHSEUE-001.xsd"/>        
+    </bean>
+    
+<!-- 
+##################
+# QUEUE SETTINGS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         syncfifservicebus.transport.QueueManagerName
+#ValidFrom:         FIF-API-27
+#ValidTo:           open
+#Components:        FIF-API (FIF ServiceBus Client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager name
+#DefaultValue:      -
+#ExampleValue:      CCBSVR2E
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     30.07.08
+#Last_Modified_By   schwarje
+#Description:       The name of the queue manager to connect to for requests coming from ServiceBus.
+#END PARAMETER
+
+
+#START PARAMETER
+#Parameter:         syncfifservicebus.transport.QueueManagerHostName
+#ValidFrom:         FIF-API-27
+#ValidTo:           open
+#Components:        FIF-API (FIF ServiceBus Client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager host name
+#DefaultValue:      -
+#ExampleValue:      hp64d01
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     30.07.08
+#Last_Modified_By   schwarje
+#Description:       The host name of the queue manager to connect to for requests coming from ServiceBus.
+#END PARAMETER
+
+
+#START PARAMETER
+#Parameter:         syncfifservicebus.transport.QueueManagerPortNumber
+#ValidFrom:         FIF-API-27
+#ValidTo:           open
+#Components:        FIF-API (FIF ServiceBus Client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager port number
+#DefaultValue:      -
+#ExampleValue:      5012
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     30.07.08
+#Last_Modified_By   schwarje
+#Description:       The port number of the queue manager to connect to for requests coming from ServiceBus.
+#END PARAMETER
+-->
+
+    <bean id="connectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory">
+        <property name="transportType" value="1" />
+        <property name="queueManager" value="${syncfifservicebus.transport.QueueManagerName}" />
+        <property name="hostName" value="${syncfifservicebus.transport.QueueManagerHostName}" />
+        <property name="port" value="${syncfifservicebus.transport.QueueManagerPortNumber}" />
+        <property name="channel" value="CLIENT.${syncfifservicebus.transport.QueueManagerName}" />
+    </bean>
+    
+    <bean id="listenQueue" class="com.ibm.mq.jms.MQQueue">
+        <constructor-arg index="0" value="${syncfifservicebus.transport.QueueManagerName}" />
+        <constructor-arg index="1" value="AAW.CCM.SBUSOUT" />
+    </bean>
+    
+    <bean id="outQueue" class="com.ibm.mq.jms.MQQueue">
+        <constructor-arg index="0" value="" />
+        <constructor-arg index="1" value="AAW.CCM.SBUSIN" />
+    </bean>
+        
+</beans>

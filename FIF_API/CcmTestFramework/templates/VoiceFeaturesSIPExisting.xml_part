@@ -1,0 +1,26 @@
+<conditionsList>
+    <existing>
+        <conditionService>
+        	<conditionServiceStartDate>2015-01-01</conditionServiceStartDate>
+            <conditionServiceType>MM</conditionServiceType>
+            <conditionServiceName>keine Aktionskennung monatlich</conditionServiceName>
+        </conditionService>
+        <conditionService>
+        	<conditionServiceStartDate>2015-01-01</conditionServiceStartDate>
+            <conditionServiceType>CM</conditionServiceType>
+            <conditionServiceName>keine Kondition monatlich</conditionServiceName>
+        </conditionService>
+    </existing>
+</conditionsList>
+<tariffOptionsList>
+    <existing>
+        <tariffOption>
+            <serviceCode>V1092</serviceCode>
+        </tariffOption>
+    </existing>
+</tariffOptionsList>
+<serviceLevel>
+    <existing>
+        <serviceCode>{serviceLevel}</serviceCode>
+    </existing>
+</serviceLevel>

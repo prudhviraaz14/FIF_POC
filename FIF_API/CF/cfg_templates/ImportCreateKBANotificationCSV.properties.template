@@ -1,0 +1,158 @@
+# START HEADER
+#  File:                $Workfile:   ImportCreateKBANotificationCSV.properties.template  $
+#  Author:              $Author:   makuier  $
+#  Revision:            $Revision:   1.8  $
+#  Purpose:             Configuration file for importing createKBANotification requests from a CSV file to the FIF_REQUEST table.
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Aug 11 2011 17:12:00  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportCreateKBANotificationCSV.properties.template-arc  $
+#
+#   Rev 1.8   Aug 11 2011 17:12:00   makuier
+#Console added to log4j.
+#
+#   Rev 1.7   Nov 23 2010 17:10:46   banania
+#SPN-CCB-000105323: New keys added:
+#insertExternalSystemIdName
+#UpdatexternalSystemIdStatement
+#
+#   Rev 1.6   Oct 13 2010 14:08:42   banania
+#SPN-CCB-000105323: New keys added:
+#insertExternalSystemIdName
+#UpdatexternalSystemIdStatement
+#
+#   Rev 1.5   Feb 07 2008 11:26:44   schwarje
+#SPN-FIF-000065717: removed Console logging
+#
+#   Rev 1.4   Oct 27 2006 18:30:34   wlazlow
+#SPN-FIF-000047380
+#SPN-FIF-000047498
+#
+#   Rev 1.3   Sep 06 2006 17:22:04   wlazlow
+#IT-16447
+#
+#   Rev 1.2   Jul 14 2005 14:08:02   goethalo
+#Adde4d RECEIVER_HINT parameter to createKBANotification transaction in the SLS-FIF Database Client
+#
+#   Rev 1.1   Jun 14 2005 15:39:12   goethalo
+#IT-k-000014661: Added support for setting the INPUT_CHANNEL when creating a KBA contact
+#
+#   Rev 1.0   Nov 23 2004 16:07:52   goethalo
+#Initial revision.
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+# The names of columns that are mandatory in the CSV
+ImportCSVToDB.ColumnNames.Mandatory=CUSTOMER_NUMBER, CATEGORY, USER_NAME, TEXT
+
+# The names of columns that are optional in the CSV
+ImportCSVToDB.ColumnNames.Optional=EFFECTIVE_DATE, TYPE, INPUT_CHANNEL, RECEIVER_HINT, CONTACT_TYPE_RD, SHORT_DESCRIPTION, AUTHOR_NAME
+
+
+##################
+# SQL STATEMENTS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importcreatekbanotificationcsv.targetClient
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Name of database target client
+#DefaultValue:      -
+#ExampleValue:      SLS
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The name of the target client to insert requests for (e.g. SLS, WRF)
+#END PARAMETER
+# The SQL statement for inserting requests in the database
+ImportCSVToDB.InsertRequestStmt=INSERT INTO FIF_REQUEST (TRANSACTION_ID, TARGET_CLIENT, STATUS, ACTION_NAME, ERROR_TEXT, DUE_DATE, PRIORITY, CREATION_DATE, START_DATE, END_DATE) VALUES (?, '${slsfif.importcreatekbanotificationcsv.targetClient}', 'ON_HOLD', 'createKBANotification', '', SYSDATE, 5, SYSDATE, NULL, NULL)
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The SQL statement for inserting request parameters in the database
+ImportCSVToDB.InsertParamStmt=INSERT INTO FIF_REQUEST_PARAM (TRANSACTION_ID, PARAM, VALUE) VALUES (?, ?, ?)
+
+# The name of the database field representing the transaction ID for a request
+ImportCSVToDB.InsertParamStmt.TransactionIDFieldIndex=1
+
+# The name of the database field representing the parameter name for a request
+ImportCSVToDB.InsertParamStmt.ParamNameFieldIndex=2
+
+# The name of the database field representing the parameter value for a request
+ImportCSVToDB.InsertParamStmt.ParamValueFieldIndex=3
+
+# The name of the external system id
+ImportCSVToDB.insertExternalSystemIdName=CUSTOMER_NUMBER
+
+# The SQL statement for updating the request external system id
+ImportCSVToDB.UpdatexternalSystemIdStatement=UPDATE FIF_REQUEST SET EXTERNAL_SYSTEM_ID = ? WHERE TRANSACTION_ID=?
+
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importcreatekbanotificationcsv.log4j.appender.File.File
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/ImportCreateKBANotificationCSV.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     22.11.04
+#Last_Modified_By   goethalo
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importcreatekbanotificationcsv.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n

@@ -1,0 +1,38 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerDataOld.xml_part}
+{file:templates/CustomerDataNew.xml_part}
+	<contractPartnerChange orderPositionNumber="1">
+		<parentBarcode>{parentBarcode}</parentBarcode>
+		<customerIntention>partnerChange</customerIntention>
+		<desiredDate>{desiredDate}</desiredDate>
+		<orderReceivedDate>{today}</orderReceivedDate>
+		<providerCode>
+			<configured>VFAI</configured>
+		</providerCode>
+		<salesPacketName>
+			<configured>All Inclusive Paket</configured>
+		</salesPacketName>
+		<beneficiary ID="beneficiary">
+			<customerNodeRefID>customer</customerNodeRefID>
+			<targetCustomerNodeRefID>customer-new</targetCustomerNodeRefID>
+		</beneficiary>
+		<payerAllCharges ID="payer-001">
+			<billingAccountNodeRefID>account</billingAccountNodeRefID>
+			<targetBillingAccountNodeRefID>account-new</targetBillingAccountNodeRefID>
+		</payerAllCharges>
+		<accesses>
+			{file:templates/LTEAccessOldNew.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetOldNew.xml_part}
+			{file:templates/VoiceBasisOldNew.xml_part}
+			{file:templates/DirectoryEntryIgnore.xml_part}
+			{file:templates/HardwareLTEIgnore.xml_part}
+			{file:templates/SafetyPackageIgnore.xml_part}
+		</functions>
+		<ccbId type="B">
+			<existing>{bundleId}</existing>
+			<configured>{bundleIdNew}</configured>
+		</ccbId>
+	</contractPartnerChange>
+</order>

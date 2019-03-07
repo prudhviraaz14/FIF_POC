@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransformationRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.arcor.de/transformer/SOMToFIFTransformationSchema" xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema" xsi:schemaLocation="http://www.arcor.de/transformer/SOMToFIFTransformationSchema SOMToFIFTransformationSchema.xsd" docTypeQualifiedName="request-list" docTypeSystemId="request-list.dtd">
+  <RootTemplate>
+    <RequestListTemplate orderIdPath="//order[@orderID]">
+
+      <!-- global request list parameters -->
+      <RLPMapping targetName="sourceSystem" sourceAttrName="/order/customerContactPoint" />
+      <RLPMapping targetName="userName" sourceAttrName="/order/entryUser" />
+      <RLPMapping targetName="rollenBezeichnung" sourceAttrName="/order/entryRole" />
+      <RLPMapping targetName="manualRollback" sourceAttrName="/order/*/transactionType" decoding="'validate','Y','N'" />
+      <RLPMapping targetName="somDate" sourceAttrName="/order/entryDateTime" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="orderId" sourceAttrName="/order/@orderID" />
+      <RLPMapping targetName="OMTSOrderID" sourceAttrName="/order/@orderID" />
+      <RLPMapping targetName="salesOrganisationNumber" sourceAttrName="/order/salesOrganisation/salesOrganisationNumber[@type='A']" />
+      <RLPMapping targetName="salesOrganisationNumberVF" sourceAttrName="/order/salesOrganisation/salesOrganisationNumber[@type='V']" />
+      <RLPMapping targetName="desiredDate" sourceAttrName="/order/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="orderPositionNumber" sourceAttrName="/order/*/@orderPositionNumber" />
+      <RLPMapping targetName="scanDate" sourceAttrName="/order/scanDate" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="superCustomerTrackingId" sourceAttrName="/order/superCustomerTrackingId" />
+      <RLPMapping targetName="reason" sourceAttrName="/order/*/reason" />
+
+      <!-- ***************************************************************************************** -->
+
+      <!-- terminations -->
+
+      <!-- termination of non-preselect voice function, i.e. ISDN, NGN, Bitstream or Mobile -->
+      <RequestTemplate fif-request-name="terminateService" extends="base_terminateService_template" sourceWorkingPath="/order/termination/functions/voice">
+        <TemplateConditions>
+          <base:IsMember sourceAttrName="processingType" value="TERM" />
+          <base:IsNotExisting sourceAttrName="/order/termination/functions/voice[@refAccessID=../../accesses/preselection/@ID]" />
+        </TemplateConditions>
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+        <TransformationTemplate>
+          <TemplateConditions>
+            <OrComposite>
+              <base:IsExisting sourceAttrName="portingPhoneNumbers/phoneNumber/configured" />
+              <base:IsMember sourceAttrName="/order/termination/terminationReasonCode" value="ABWR" />
+            </OrComposite>
+          </TemplateConditions>
+          <RPListTemplate listName="portAccessNumberList">
+            <RPListItemTemplate sourceWorkingPath="portingPhoneNumbers/phoneNumber/configured">
+              <RPMapping sourceAttrName="countryCode" targetName="countryCode" />
+              <RPMapping sourceAttrName="localAreaCode" targetName="areaCode" />
+              <RPMapping sourceAttrName="pilotNumber" targetName="localNumber" />
+            </RPListItemTemplate>
+          </RPListTemplate>
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="portingPhoneNumbers/phoneNumber/configured" />
+            <base:IsNotMember sourceAttrName="/order/termination/terminationReasonCode" value="ABWR" />
+          </TemplateConditions>
+        </TransformationTemplate>
+        <!-- IT-k-26159: different orderVariant for IP Bitstream -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember sourceAttrName="productCode/existing" value="VI203" />
+            <base:IsExisting sourceAttrName="/order/termination/newCarrier/configured" />
+          </TemplateConditions>
+          <RPMapping staticValue="Kündigung Providerwechsel" targetName="orderVariant" />
+        </TransformationTemplate>
+      </RequestTemplate>
+
+      <!-- voice termination for preselect (simple termination) -->
+      <RequestTemplate fif-request-name="terminateService" extends="base_terminateService_template" sourceWorkingPath="/order/termination/functions/voice">
+        <TemplateConditions>
+          <base:IsMember sourceAttrName="processingType" value="TERM" />
+          <base:IsExisting sourceAttrName="/order/termination/functions/voice[@refAccessID=../../accesses/preselection/@ID]" />
+        </TemplateConditions>
+        <RPMapping staticValue="Simple" targetName="terminationType" />
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="terminateService" extends="base_terminateService_template" sourceWorkingPath="/order/termination/functions/internet">
+        <TemplateConditions>
+          <base:IsMember sourceAttrName="processingType" value="TERM" />
+          <base:IsExisting sourceAttrName="/order/termination/accesses/*" />
+          <base:IsNotExisting sourceAttrName="/order/termination/functions/internet[@refAccessID=../../accesses/isdn/@ID]" />
+          <base:IsNotExisting sourceAttrName="/order/termination/functions/internet[@refAccessID=../../accesses/preselection/@ID]" />
+        </TemplateConditions>
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+        <!-- IT-k-26159: different orderVariant for IP Bitstream -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <OrComposite>
+              <base:IsMember sourceAttrName="productCode/existing" value="I1203" />
+              <base:IsMember sourceAttrName="productCode/existing" value="I1201" />
+            </OrComposite>
+            <base:IsExisting sourceAttrName="/order/termination/newCarrier/configured" />
+          </TemplateConditions>
+          <RPMapping staticValue="Kündigung Providerwechsel" targetName="orderVariant" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember sourceAttrName="productCode/existing" value="I1201" />
+            <OrComposite>
+              <base:IsMember sourceAttrName="/order/termination/terminationReasonCode" value="UMZN" />
+              <base:IsMember sourceAttrName="/order/termination/terminationReasonCode" value="ZTCOM" />
+            </OrComposite>
+            <base:IsNotExisting sourceAttrName="/order/termination/newCarrier/configured" />
+          </TemplateConditions>
+          <RPMapping staticValue="Kündigung T-Com" targetName="orderVariant" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember sourceAttrName="productCode/existing" value="I1201" />
+            <AndComposite>
+              <base:IsNotMember sourceAttrName="/order/termination/terminationReasonCode" value="ZTCOM" />
+              <base:IsNotMember sourceAttrName="/order/termination/terminationReasonCode" value="UMZN" />
+            </AndComposite>
+            <base:IsNotExisting sourceAttrName="/order/termination/newCarrier/configured" />
+          </TemplateConditions>
+          <RPMapping staticValue="Kündigung Arcor" targetName="orderVariant" />
+        </TransformationTemplate>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="terminateService" extends="base_terminateService_template" sourceWorkingPath="/order/termination/functions/internet">
+        <TemplateConditions>
+          <base:IsMember sourceAttrName="processingType" value="TERM" />
+          <OrComposite>
+            <base:IsNotExisting sourceAttrName="/order/termination/accesses/*" />
+            <base:IsExisting sourceAttrName="/order/termination/functions/internet[@refAccessID=../../accesses/isdn/@ID]" />
+            <base:IsExisting sourceAttrName="/order/termination/functions/internet[@refAccessID=../../accesses/preselection/@ID]" />
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping staticValue="Simple" targetName="terminationType" />
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="terminateService" 
+        extends="base_terminateService_template" 
+        sourceWorkingPath="/*/termination/*/iptv | /*/termination/*/vod | /*/termination/*/tvCenter" >
+        <TemplateConditions>
+          <base:IsMember sourceAttrName="processingType" value="TERM" />
+        </TemplateConditions>
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+        <TransformationTemplate>
+          <TemplateConditions>
+            <OrComposite>
+              <AndComposite>
+                <base:IsMember value="isdn" sourceAttrName="name(../../accesses/*[@ID='${@refAccessID}'])" />
+                <base:IsNotMember value="TERM" sourceAttrName="../voice[@refAccessID='${@refAccessID}']/processingType" />
+              </AndComposite>
+              <AndComposite>
+                <base:IsNotMember value="isdn" sourceAttrName="name(../../accesses/*[@ID='${@refAccessID}'])" />
+                <base:IsNotMember value="TERM" sourceAttrName="../internet[@refAccessID='${@refAccessID}']/processingType" />
+              </AndComposite>              
+            </OrComposite>
+          </TemplateConditions>
+          <RPMapping targetName="DSLServiceSubscriptionId" sourceAttrName="../../accesses/*[@ID='${@refAccessID}']/ccbId/existing" />
+          <TransformationTemplate>
+            <TemplateConditions>
+              <base:IsMember value="tvCenter" sourceAttrName="name(.)" />
+            </TemplateConditions>
+            <RPMapping targetName="terminateDSLIndicator" staticValue="N" />  
+          </TransformationTemplate>    
+          <TransformationTemplate>
+            <TemplateConditions>
+              <base:IsNotMember value="tvCenter" sourceAttrName="name(.)" />
+            </TemplateConditions>
+            <RPMapping targetName="terminateNGNIndicator" staticValue="N" />  
+          </TransformationTemplate>    
+        </TransformationTemplate>        
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="terminateService" extends="base_terminateService_template" sourceWorkingPath="/order/termination/functions/safetyPackage|/order/termination/discount">
+        <TemplateConditions>
+          <base:IsMember sourceAttrName="processingType" value="TERM" />
+        </TemplateConditions>
+        <RPMapping staticValue="Simple" targetName="terminationType" />
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="terminateService" extends="base_terminateService_template" sourceWorkingPath="/order/termination/functions/msOnlineSuite|/order/termination/pcBackup">
+        <TemplateConditions>
+          <base:IsMember sourceAttrName="processingType" value="TERM" />
+        </TemplateConditions>
+        <RPMapping staticValue="Complex" targetName="terminationType" />
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="terminateServiceCancellation" extends="base_terminateServiceCancellation_template" sourceWorkingPath="/order/termination/functions/voice">
+        <TemplateConditions>
+          <base:IsMember value="V0001" sourceAttrName="productCode/existing" />
+        </TemplateConditions>
+      </RequestTemplate>
+      <RequestTemplate fif-request-name="terminateServiceCancellation" extends="base_terminateServiceCancellation_template" sourceWorkingPath="/order/termination/functions/internet">
+        <TemplateConditions>
+          <base:IsMember value="I1100" sourceAttrName="productCode/existing" />
+        </TemplateConditions>
+      </RequestTemplate>
+      <RequestTemplate fif-request-name="terminateServiceCancellation" extends="base_terminateServiceCancellation_template" sourceWorkingPath="/order/termination/functions/safetyPackage|/order/termination/discount">
+      </RequestTemplate>
+
+    </RequestListTemplate>
+  </RootTemplate>
+
+  <BaseTemplates>
+    <AbstractTransformationTemplate ID="base_executevalidate_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember value="validate" sourceAttrName="/order/*/transactionType" />
+          <base:IsMember value="execute" sourceAttrName="/order/*/transactionType" />
+        </OrComposite>
+      </TemplateConditions>
+    </AbstractTransformationTemplate>
+
+    <AbstractTransformationTemplate ID="base_terminateService_template" extends="base_executevalidate_template">
+      <TemplateConditions>
+        <OrComposite>
+          <base:IsMember sourceAttrName="/order/termination/customerIntention" value="Termination" />
+          <base:IsMember sourceAttrName="/order/termination/customerIntention" value="Relocation" />
+        </OrComposite>
+      </TemplateConditions>
+
+      <RPMapping targetName="threePartyProcess" sourceAttrName="/order/termination/threePartyProcess" decoding="'true','Ja','Nein'" />
+
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="portingPhoneNumbers/portingCarrier/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="carrier" sourceAttrName="portingPhoneNumbers/portingCarrier/configured" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="portingPhoneNumbers/portingCarrier/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="carrier" sourceAttrName="/order/termination/newCarrier/configured" />
+      </TransformationTemplate>
+
+      <RPMapping targetName="productCode" sourceAttrName="productCode/existing" />
+      <RPMapping targetName="serviceSubscriptionId" sourceAttrName="ccbId[@type='S']/existing" />
+      <RPMapping targetName="contractNumber" sourceAttrName="contractNumber/existing" />
+      <RPMapping targetName="terminationFeeServiceCode" sourceAttrName="fee/configured" />
+
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsExisting sourceAttrName="portingPhoneNumbers/phoneNumber/configured" />
+        </TemplateConditions>
+        <RPMapping staticValue="ABWR" targetName="terminationReason" />
+      </TransformationTemplate>
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotExisting sourceAttrName="portingPhoneNumbers/phoneNumber/configured" />
+        </TemplateConditions>
+        <RPMapping targetName="terminationReason" sourceAttrName="/order/termination/terminationReasonCode" />
+      </TransformationTemplate>
+
+      <RPMapping targetName="customerNumber" sourceAttrName="/order/termination/beneficiary/ccbId[@type='C']" />
+      <RPMapping targetName="noticePeriodStartDate" sourceAttrName="/order/termination/orderReceivedDate" formatter="SOMToCCBDateFormatter" />
+      <RPMapping targetName="terminationDate" sourceAttrName="/order/termination/desiredDate" formatter="SOMToCCBDateFormatter" />
+    </AbstractTransformationTemplate>
+    
+    <AbstractTransformationTemplate ID="base_terminateServiceCancellation_template">
+      <TemplateConditions>
+        <base:IsMember value="TERM" sourceAttrName="processingType" />
+        <base:IsMember value="cancel" sourceAttrName="/order/termination/transactionType" />
+      </TemplateConditions>
+      <RPMapping targetName="customerNumber" sourceAttrName="/order/termination/beneficiary[@role='default']/ccbId[@type='C']" />
+      <RPMapping targetName="contractNumber" sourceAttrName="contractNumber/existing" />
+    </AbstractTransformationTemplate>
+      
+  </BaseTemplates>
+</TransformationRepository>

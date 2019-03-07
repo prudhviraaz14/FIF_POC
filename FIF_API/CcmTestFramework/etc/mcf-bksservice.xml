@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+                HEADER       : $Header:   //PVCS_FIF/archives/FIF_API/CcmTestFramework/etc/mcf-bksservice.xml-arc   1.0   Aug 08 2011 13:43:02   schwarje  $
+                REVISION     : $Revision:   1.0  $
+                MODULENAME   : $Workfile:   mcf-bksservice.xml  $
+                PROJECT      : CcmServiceBusInterface
+                AUTHOR       : wlazlow
+               
+                DESCRIPTION  : 
+                TABLES       : 
+                
+                HISTORY      : $Log:   //PVCS_FIF/archives/FIF_API/CcmTestFramework/etc/mcf-bksservice.xml-arc  $
+
+   Rev 1.0   Aug 08 2011 13:43:02   schwarje
+Initial revision.
+  
+-->
+  
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jms="http://www.springframework.org/schema/jms"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util" 
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                        http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-2.5.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd                       
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <!-- ========================= -->
+    <!-- = Dienstnutzer / Sender = -->
+    <!-- ========================= -->
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+       <property name="location" value="file:etc/TestFramework.properties"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+    <import resource="classpath:/mcf2/mcf2-applicationContext.xml" /> 
+   <import resource="classpath:/mcf2/ws/wsApplicationContext.xml"/>
+ 
+   <bean id="ccmServiceBusRequestInvoker" class="net.arcor.fif.transport.ServiceBusRequestInvoker" />
+	 
+	 <bean id="serviceRegistrySender"    class="net.arcor.mcf2.model.ServiceRegistrySender">
+        <property name="serviceConfigs">
+            <list>
+               <ref bean="getCcbOpenOrderServiceConfig"/>						 			 					 					 					 					 					 					 					 					 
+               <ref bean="fetchProductBundleConfig"/>						 			 					 					 					 					 					 					 					 					 
+            </list>
+        </property>
+    </bean>
+	 
+	 
+    <!-- Die Service-Konfigurationen -->
+    
+    <!-- Servicename und -version werden im JAXB-Fall aus der JAXB-Struktur ausgelesen, -->
+    <!-- im Fall von XML-Strings im Konstruktor des ServiceRequest-Objektes angegeben. -->
+   
+   <bean id="getCcbOpenOrderServiceConfig"  class="net.arcor.mcf2.model.ServiceConfigXml">
+      <constructor-arg value="getCcbOpenOrderService,001"/>
+      <constructor-arg value="EPSM-BKS-GetCcbOpenOrder-001.xsd"/>
+      <constructor-arg value="net.arcor.ccm.epsm_bks_getccbopenorder_001"/>              
+   </bean>
+   
+   <bean id="fetchProductBundleConfig"  class="net.arcor.mcf2.model.ServiceConfigXml">
+      <constructor-arg value="fetchProductBundleService,001"/>
+      <constructor-arg value="EPSM-CCM-001.xsd"/>
+      <constructor-arg value="de.arcor.aaw.kernAAW.bks.services"/>              
+   </bean>
+   
+   <bean id="fatalServiceResponseConfig" class="net.arcor.mcf2.model.ServiceConfigXml">
+        <constructor-arg value="fatalServiceResponse,001"/>
+        <constructor-arg value="EPSM-SBUS-001.xsd"/>
+        <constructor-arg value="net.arcor.sbus.epsm_sbus_001"/>              
+    </bean>      	 
+
+</beans>
+  
+  

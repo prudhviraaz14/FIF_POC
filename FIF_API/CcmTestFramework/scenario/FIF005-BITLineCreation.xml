@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF005-BITLineCreation</request-list-name>
+   <request-list-id>FIF005-BITLineCreation-1</request-list-id>
+
+   <requests>
+  <!-- include file -->
+  {file:templates/GenerateStep.xml}
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-1200:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITComplete.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-960:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI203</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP037</request-param>
+                  <request-param name="pricingStructureCodeVoice">VP037</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+				  <request-param name="accessTechnology">ADSL-AnnexJ</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="scenarioName">FIF005-BITLineCreation</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>FIF005-BITLineCreation-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-1199:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITComplete.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-960:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI203</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP037</request-param>
+                  <request-param name="pricingStructureCodeVoice">VP037</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="accessTechnology">ADSL-AnnexJ</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="scenarioName">FIF005-BITLineCreation</request-param>
+              </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+   <trx-builder-request>
+         <transaction-id>FIF005-BITLineCreation-create</transaction-id>
+         <transaction-type>create</transaction-type>
+        <override-system-date>datetime:-1198:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITComplete.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-960:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="internetProcessingStatus">acknowledgedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">acknowledgedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">acknowledgedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="hardwareRentedIADProcessingStatus">acknowledgedOPM</request-param>
+				  <request-param name="hardwareRentedIADCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="installationSvcProcessingStatus">acknowledgedOPM</request-param>
+				  <request-param name="installationSvcCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">acknowledgedOPM</request-param>
+				  <request-param name="safetyPackageSvcCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_3" param-name="ccbId" output-param-name="hardwareRentedIADSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_4" param-name="ccbId" output-param-name="installationSvcSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_5" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI203</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP037</request-param>
+                  <request-param name="pricingStructureCodeVoice">VP037</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="accessTechnology">ADSL-AnnexJ</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="scenarioName">FIF005-BITLineCreation</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>FIF005-BITLineCreation-precompleted</transaction-id>
+         <transaction-type>execute</transaction-type>
+        <override-system-date>datetime:-960:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITComplete.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-960:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="internetProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">precompletedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+              	  <request-param name="hardwareRentedIADProcessingStatus">completedOPM</request-param>
+				  <request-param name="hardwareRentedIADCompletionStatusNew">completedOPM</request-param>
+				  <request-param name="hardwareRentedIADPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="installationSvcProcessingStatus">completedOPM</request-param>
+				  <request-param name="installationSvcCompletionStatusNew">completedOPM</request-param>
+				  <request-param name="installationSvcPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">completedOPM</request-param>
+				  <request-param name="safetyPackageCompletionStatusNew">completedOPM</request-param>
+				  <request-param name="safetyPackagePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_3" param-name="ccbId" output-param-name="hardwareRentedIADSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_4" param-name="ccbId" output-param-name="installationSvcSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_5" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI203</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP037</request-param>
+                  <request-param name="pricingStructureCodeVoice">VP037</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="accessTechnology">ADSL-AnnexJ</request-param>
+                  <request-param name="maxTechnicalBandwidth">16384</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="scenarioName">FIF005-BITLineCreation</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+	<trx-builder-request>
+		<transaction-id>FIF005-BITLineCreation-completed</transaction-id>
+		<transaction-type>execute</transaction-type>
+        <override-system-date>datetime:-936:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITComplete.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-960:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedCCM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedCCM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">completedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">precompletedCCM</request-param>
+              	  <request-param name="hardwareRentedIADProcessingStatus">completedCCM</request-param>
+				  <request-param name="hardwareRentedIADCompletionStatusNew">completedCCM</request-param>
+				  <request-param name="hardwareRentedIADPreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="installationSvcProcessingStatus">completedCCM</request-param>
+				  <request-param name="installationSvcCompletionStatusNew">completedCCM</request-param>
+				  <request-param name="installationSvcPreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">completedCCM</request-param>
+				  <request-param name="safetyPackageCompletionStatusNew">completedCCM</request-param>
+				  <request-param name="safetyPackagePreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_3" param-name="ccbId" output-param-name="hardwareRentedIADSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_4" param-name="ccbId" output-param-name="installationSvcSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_5" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI203</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP037</request-param>
+                  <request-param name="pricingStructureCodeVoice">VP037</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="accessTechnology">ADSL-AnnexJ</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="maxTechnicalBandwidth">16384</request-param>
+                  <request-param-ref transactionID="masterdata_0" param-name="customerNumber" output-param-name="dtagId"/>				  
+				  <request-param name="addDTAGParameters">true</request-param>
+                  <request-param name="scenarioName">FIF005-BITLineCreation</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+	  {file:templates/FindBundle.xml}
+
+	<trx-builder-request>
+         <transaction-id>FIF005-BITLineCreation-close</transaction-id>
+         <transaction-type>close-final</transaction-type>
+		 <override-system-date>datetime:-930:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationBITComplete.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-960:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedCCM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedCCM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedCCM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedCCM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">completedCCM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">completedCCM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">completedOPM</request-param>
+				  <request-param name="hardwareRentedIADProcessingStatus">completedCCM</request-param>
+				  <request-param name="hardwareRentedIADCompletionStatusNew">completedCCM</request-param>
+				  <request-param name="hardwareRentedIADPreviousCompletionStatusNew">completedOPM</request-param>
+          		  <request-param name="installationSvcProcessingStatus">completedCCM</request-param>
+				  <request-param name="installationSvcCompletionStatusNew">completedCCM</request-param>
+				  <request-param name="installationSvcPreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">completedCCM</request-param>
+				  <request-param name="safetyPackageCompletionStatusNew">completedCCM</request-param>
+				  <request-param name="safetyPackagePreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_3" param-name="ccbId" output-param-name="hardwareRentedIADSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_4" param-name="ccbId" output-param-name="installationSvcSSID"/>
+                  <request-param-ref transactionID="FIF005-BITLineCreation-allocate_5" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="productCodeVoice">VI203</request-param>
+                  <request-param name="productCodeInternet">I1203</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP037</request-param>
+                  <request-param name="pricingStructureCodeVoice">VP037</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="accessTechnology">ADSL-AnnexJ</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="scenarioName">FIF005-BITLineCreation</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+   </requests>
+</request-list>

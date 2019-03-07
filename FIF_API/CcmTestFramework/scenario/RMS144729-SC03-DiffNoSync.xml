@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>RMS144729-SC03-DiffNoSync</request-list-name>
+   <request-list-id>RMS144729-SC03-DiffNoSync</request-list-id>
+  
+  <!-- Scenario 13: SAP without synchronization:
+  	1) create customer with same email addresses for
+  		- customer <= validation triggered
+  		- account <= validation reused
+  		- contactRole <= no validation
+ 	2) SAP updateEmailAddress without synchronization
+   -->
+  
+   <requests>
+  
+     {file:templates/GenerateStep.xml}
+      
+      <sql-request>
+         <transaction-id>getScenarioData</transaction-id>
+         <statement>select 'RMS144729-SC04-DiffSync' as SCENARIONAME from dual</statement>
+         <sql-request-output-params>
+            <request-param name="SCENARIONAME"/>
+         </sql-request-output-params>
+      </sql-request>
+
+      <trx-builder-request>
+         <transaction-id>RMS144729-SC03-DiffNoSync-create</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-96:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/PPM108364-Create.xml">            
+              <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdataScenarioName.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-96:hour</request-param>
+                  <request-param name="desiredDate">datetime:-96:hour</request-param>
+                  <request-param name="todayTruncated">date:-96:hour</request-param>
+                  <request-param name="customerEmailAddress">oneemail@vodafone.com</request-param>                  
+                  <request-param name="accountEmailAddress">oneemail@vodafone.com</request-param>                  
+                  <request-param name="contactRoleEmailAddress">oneemail@vodafone.com</request-param>                  
+              </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <request>
+         <action-name>updateEmailAddress</action-name>
+         <request-params>
+            <request-param name="transactionID">RMS144729-SC03-DiffNoSync-SAPUpdate</request-param>
+            <request-param name="emailAddress">accountNew@vodafone.com</request-param>
+            <request-param name="synchronizePrimaryContact">N</request-param>
+            <request-param-ref transactionID="RMS144729-SC03-DiffNoSync-create_1" param-name="accountNumber" output-param-name="accountNumber"/>
+         </request-params>
+      </request>
+
+      <sql-request>
+         <transaction-id>checkEmailValidation</transaction-id>
+         <statement>
+            select count(1) numberOfValidations 
+            from EMAIL_VALIDATION ev 
+            where customer_number = 'customerNumber'                        
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="RMS144729-SC03-DiffNoSync-create_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-result-params>
+         	<request-param name="numberOfValidations">2</request-param>
+         </sql-request-result-params>         
+      </sql-request>
+
+      <sql-request>
+         <transaction-id>checkAccessInfo</transaction-id>
+         <statement>
+			select count(1) numberOfAccessInformations from access_information 
+      		where entity_id in (select entity_id from entity e where customer_number = 'customerNumber')
+			or entity_id in (select entity_id from document_recipient dr where dr.mailing_id in (
+			  select mailing_id from mailing where customer_number = 'customerNumber'))
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="RMS144729-SC03-DiffNoSync-create_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-result-params>
+         	<request-param name="numberOfAccessInformations">3</request-param>
+         </sql-request-result-params>         
+      </sql-request>
+
+   </requests>
+</request-list>

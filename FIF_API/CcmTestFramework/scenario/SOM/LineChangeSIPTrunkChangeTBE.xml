@@ -1,0 +1,15 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerDataOld.xml_part}
+	<lineChange orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/BDSLAccessOld.xml_part}
+			{file:templates/SIPTrunkAccessOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetIgnoreBDSL.xml_part}
+			{file:templates/VoiceRangesIgnore.xml_part}
+			{file:templates/DirectoryEntryChange.xml_part}
+		</functions>
+	</lineChange>
+</order>

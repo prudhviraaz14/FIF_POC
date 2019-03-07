@@ -1,0 +1,7 @@
+<phoneNumber>
+    <configured>
+        <countryCode>{countryCode}</countryCode>
+        <localAreaCode>{areaCode}</localAreaCode>
+        <pilotNumber>{localNumber}</pilotNumber>
+    </configured>
+</phoneNumber>      

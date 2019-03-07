@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE request SYSTEM "request.dtd">
+<request>
+  <action-name>terminateService</action-name>
+  <request-params>
+    <request-param name="transactionID"><![CDATA[KBA_COMPLEX_WORKING_02]]></request-param>
+    <request-param name="terminationType"><![CDATA[Complex]]></request-param>
+    <request-param name="productCode"><![CDATA[V0001]]></request-param>
+    <request-param name="accessNumber"><![CDATA[49;2159;225588;0;100]]></request-param>
+    <request-param name="contractNumber"><![CDATA[000000156262]]></request-param>
+    <request-param name="customerNumber"><![CDATA[000000086639]]></request-param>
+    <request-param name="noticePeriodStartDate"><![CDATA[2003.07.03 00:00:00]]></request-param>
+    <request-param name="terminationDate"><![CDATA[2003.07.30 00:00:00]]></request-param>
+    <request-param name="terminationReason"><![CDATA[complex KBA]]></request-param>
+    <request-param name="sendConfirmationLetter"><![CDATA[Y]]></request-param>
+    <request-param name="deactivateOnlineAccount"><![CDATA[Y]]></request-param>
+    <request-param name="OMTSOrderID"><![CDATA[ARC001010101]]></request-param>
+    <request-param name="userName"><![CDATA[kba_user_name]]></request-param>
+  </request-params>
+</request>

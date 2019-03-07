@@ -1,0 +1,17 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<lineChange orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/NGNFibreAccessOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetFibreOld.xml_part}
+			{file:templates/VoiceFibrePremiumBasis.xml_part}
+			{file:templates/DirectoryEntryIgnore.xml_part}
+			{file:templates/HardwareRentedIADIgnore.xml_part}
+			{file:templates/SafetyPackageIgnore.xml_part}
+		</functions>
+	</lineChange>
+</order>
+ 

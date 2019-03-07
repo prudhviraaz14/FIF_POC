@@ -1,0 +1,7 @@
+--
+-- Synonym script for the FIF_ERROR_MAPPING table.
+--
+-- @author Olivier Goethals
+-- @date 2003-07-10
+
+CREATE PUBLIC SYNONYM FIF_ERROR_MAPPING FOR FIF_ERROR_MAPPING;

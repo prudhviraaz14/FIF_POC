@@ -1,0 +1,35 @@
+<featuresList>
+	<existing>
+		<featureServiceCode>V0023</featureServiceCode>
+		<featureServiceCode>V0024</featureServiceCode>
+		<featureServiceCode>V0059</featureServiceCode>
+		<featureServiceCode>V0063</featureServiceCode>
+		<featureServiceCode>V0065</featureServiceCode>
+		<featureService>
+			<featureServiceCode>V0068</featureServiceCode>
+			<additionalInfo>
+				<key>V0085</key>
+				<value>on request</value>
+			</additionalInfo>
+		</featureService>
+	</existing>
+</featuresList>
+<blockingList>
+	<existing>
+		<blockingServiceCode>V0026</blockingServiceCode>
+		<blockingServiceCode>V0027</blockingServiceCode>
+	</existing>
+</blockingList>
+<desiredCountriesList>
+	<existing>
+		<desiredCountryServiceCode>V2101</desiredCountryServiceCode>
+		<desiredCountryServiceCode>V2107</desiredCountryServiceCode>
+	</existing>
+</desiredCountriesList>
+<tariffOptionsList>
+	<existing>
+		<tariffOption>
+			<serviceCode>V0292</serviceCode>
+		</tariffOption>
+	</existing>
+</tariffOptionsList>

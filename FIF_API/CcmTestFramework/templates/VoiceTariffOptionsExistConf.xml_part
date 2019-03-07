@@ -1,0 +1,18 @@
+<tariffOptionsList>
+    <existing>
+        <tariffOption>
+            <serviceCode>V1091</serviceCode>
+        </tariffOption>
+        <tariffOption>
+            <serviceCode>V1092</serviceCode>
+        </tariffOption>
+    </existing>
+    <configured>
+        <tariffOption>
+            <serviceCode>V1091</serviceCode>
+        </tariffOption>
+        <tariffOption>
+            <serviceCode>V1093</serviceCode>
+        </tariffOption>
+    </configured>
+</tariffOptionsList>

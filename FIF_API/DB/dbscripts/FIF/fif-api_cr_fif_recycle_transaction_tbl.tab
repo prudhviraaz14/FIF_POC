@@ -1,0 +1,28 @@
+/*
+--#########################################################################
+--
+-- Script Name  :  $Workfile:   fif-api_cr_fif_recycle_transaction_tbl.tab  $ 
+-- Header		:  $Header:   //PVCS_BKS/archives/BKS/DB/dbscripts/fif-api_cr_fif_recycle_transaction_tbl.tab-arc   1.0   Nov 28 2007 10:07:00   huptasch  $ 
+-- Revision		:  $Revision:   1.0  $
+-- 
+---------------------------------------------------------------------------
+--
+-- Description:
+--
+--
+--
+--#########################################################################*/
+
+@ConfigEnvSpecifics.sql
+create table FIF_RECYCLE_TRANSACTION (
+		TRANSACTION_ID varchar2(80) not null,
+		CLIENT_NAME    varchar2(20) not null,
+		XML_MESSAGE	   clob not null,
+		DUE_DATE       date,
+		STATUS         varchar2(20) not null,
+		RECYCLE_STAGE  integer not null,
+		QUEUE_NAME      varchar2(80) not null,
+		QUEUE_MANAGER   varchar2(20) not null,
+		QUEUE_HOST      varchar2(20) not null
+)
+ &&ONL_CCM_SMALL_TAB;

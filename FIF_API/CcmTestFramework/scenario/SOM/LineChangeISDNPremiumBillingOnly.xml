@@ -1,0 +1,16 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerDataOld.xml_part}
+	<lineChange orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/ISDNAccessOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetChange.xml_part}
+			{file:templates/VoicePremiumChange.xml_part}
+			{file:templates/DirectoryEntryIgnore.xml_part}
+			{file:templates/Hardware1Ignore.xml_part}
+			{file:templates/SafetyPackageIgnore.xml_part}
+		</functions>
+	</lineChange>
+</order>

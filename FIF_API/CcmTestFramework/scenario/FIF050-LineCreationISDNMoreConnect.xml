@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF050-LineCreation-IP-MC</request-list-name>
+   <request-list-id>FIF050-LineCreation-IP-MC-1</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+  
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-961:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationISDNPremiumMoreConnect.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF050-LineCreation-IP-MC</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      
+      <trx-builder-request>
+         <transaction-id>ISDNLineCreationMoreConnect-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-960:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationISDNPremiumMoreConnect.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1276</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG008</request-param>
+                  <request-param name="pricingStructureCodeMobile">V8020</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V0178</request-param>
+                  <request-param name="scenarioName">FIF050-LineCreation-IP-MC</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      {file:templates/FindBundle.xml}
+      
+      <trx-builder-request>
+         <transaction-id>ISDNLineCreationMoreConnect-create</transaction-id>
+         <transaction-type>create</transaction-type>
+         <override-system-date>datetime:-959:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationISDNPremiumMoreConnect.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="mobileProcessingStatus">noactionOPM</request-param>
+                  <request-param name="mobileCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="mobilePreviousCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="hardwareMobileProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardwareMobileCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">completedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="hardware1ProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardware1CompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardware2ProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardware2CompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardware2PreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="installationSvcProcessingStatus">completedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">completedOPM</request-param>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_5" param-name="ccbId" output-param-name="mobileSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_6" param-name="ccbId" output-param-name="hardwareMobileSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_13" param-name="bundleId" output-param-name="bundleId"/>                  
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1276</request-param>
+                  <request-param name="pricingStructureCodeVoice">YP020</request-param>
+                  <request-param name="pricingStructureCodeMobile">V8020</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V0178</request-param>
+                  <request-param name="scenarioName">FIF050-LineCreation-IP-MC</request-param>
+                  <request-param name="articleNumber">20080000</request-param>                  
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <trx-builder-request>
+         <transaction-id>ISDNLineCreationMoreConnect-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-958:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationISDNPremiumMoreConnect.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="mobileProcessingStatus">noactionOPM</request-param>
+                  <request-param name="mobileCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="mobilePreviousCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="hardwareMobileProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardwareMobileCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">completedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="hardware1ProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardware1CompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardware2ProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardware2CompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardware2PreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="installationSvcProcessingStatus">completedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">completedOPM</request-param>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_5" param-name="ccbId" output-param-name="mobileSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_6" param-name="ccbId" output-param-name="hardwareMobileSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_13" param-name="bundleId" output-param-name="bundleId"/>                  
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1276</request-param>
+                  <request-param name="pricingStructureCodeVoice">YP020</request-param>
+                  <request-param name="pricingStructureCodeMobile">V8020</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V0178</request-param>
+                  <request-param name="scenarioName">FIF050-LineCreation-IP-MC</request-param>
+                  <request-param name="articleNumber">20080000</request-param>                  
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <request>
+         <action-name>ErstelleMobilfunkVertrag</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF050-LineCreation-IP-MC_ErstelleMobilfunkVertrag</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">datetime:-624:hour</request-param>
+            <request-param name="SimId">123123123123</request-param>
+            <request-param name="Artikelnummer">20080000</request-param>
+            <request-param name="SimPuk">123123123123123</request-param>
+            <request-param name="Rufnummer;Mobilvorwahl">0172</request-param>
+            <request-param-ref transactionID="masterdata_0" param-name="customerNumber" output-param-name="Kundennummer" />
+            <request-param-ref transactionID="generateNumbers" param-name="NUMBER1" output-param-name="Rufnummer;Mobilfunkrufnummer"/>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="Barcode"/>          
+            <request-param name="SimKarteAktiviert">true</request-param>
+            <request-param name="VoNumber">97000000</request-param>
+            <request-param name="Tarif">V8020</request-param>
+         </request-params>
+      </request>
+      
+      <trx-builder-request>
+         <transaction-id>ISDNLineCreationMoreConnect-close-final</transaction-id>
+         <transaction-type>close-final</transaction-type>
+         <override-system-date>datetime:-620:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationISDNPremiumMoreConnect.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="mobileProcessingStatus">noactionOPM</request-param>
+                  <request-param name="mobileCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="mobilePreviousCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="hardwareMobileProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardwareMobileCompletionStatusNew">noactionOPM</request-param>
+                  <request-param name="directoryEntryProcessingStatus">completedOPM</request-param>
+                  <request-param name="directoryEntryCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="directoryEntryPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="hardware1ProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardware1CompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardware2ProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardware2CompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardware2PreviousCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="installationSvcProcessingStatus">completedOPM</request-param>
+                  <request-param name="safetyPackageProcessingStatus">completedOPM</request-param>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_2" param-name="ccbId" output-param-name="directoryEntrySSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_3" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_4" param-name="ccbId" output-param-name="safetyPackageSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_5" param-name="ccbId" output-param-name="mobileSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_6" param-name="ccbId" output-param-name="hardwareMobileSSID"/>
+                  <request-param-ref transactionID="ISDNLineCreationMoreConnect-allocate_13" param-name="bundleId" output-param-name="bundleId"/>                  
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">V0002</request-param>
+                  <request-param name="productCodeInternet">I1100</request-param>
+                  <request-param name="pricingStructureCodeInternet">I1276</request-param>
+                  <request-param name="pricingStructureCodeVoice">YP020</request-param>
+                  <request-param name="pricingStructureCodeMobile">V8020</request-param>
+                  <request-param name="pricingStructureCodeSafetyPackage">YI412</request-param>
+                  <request-param name="DSLBandwidth">V0178</request-param>
+                  <request-param name="scenarioName">FIF050-LineCreation-IP-MC</request-param>
+                  <request-param name="articleNumber">20080000</request-param>                  
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      
+   </requests>
+</request-list>

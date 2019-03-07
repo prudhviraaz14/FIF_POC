@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}" xmlns="http://www.arcor.net/orderSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+  <sendingSystem>POS</sendingSystem>
+  <entryUser>FIF</entryUser>
+  <entryRole>FIF</entryRole>
+  <entrySystem>{entrySystem}</entrySystem>
+  <entryDateTime>{today}</entryDateTime>
+  <customerContactPoint>KBA</customerContactPoint>
+  <salesOrganisation>
+    <salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+    <salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+    <eShopCode>BERAT</eShopCode>
+  </salesOrganisation>
+  <superCustomerTrackingId>superCustomerTrackingId</superCustomerTrackingId>
+  <scanDate>{todayTruncated}</scanDate>
+  <customerData>
+    <customer ID="customer" >      
+      <ccbId type="C">
+        <existing>{customerNumber}</existing>
+      </ccbId>
+    </customer>
+    <billingAccount ID="account">
+      <changeType>{accountChangeType}</changeType>
+      <ccbId type="A">
+        <existing>{accountNumber}</existing>
+      </ccbId>      
+    </billingAccount>
+  </customerData>
+  <lineChange orderPositionNumber="1">
+    <campaignCode>2</campaignCode>
+    <customerIntention>ChangeLine</customerIntention>
+    <desiredDate>{desiredDate}</desiredDate>
+    <orderReceivedDate>{today}</orderReceivedDate>
+    <providerCode>
+      <existing>VFAI</existing>
+    </providerCode>
+    <salesPackageName>
+      <existing>none</existing>
+    </salesPackageName>
+    <salesPacketCode>
+      <existing>none</existing>
+    </salesPacketCode>
+    <beneficiary ID="bene-001-1">
+      <customerNodeRefID>customer</customerNodeRefID>
+    </beneficiary>
+    <payerAllCharges ID="payer">
+      <billingAccountNodeRefID>account</billingAccountNodeRefID>
+    </payerAllCharges>
+    <accesses>
+      <isdn ID="oldaccess-001-1">
+        <ccbId type="S">
+          <existing>{voiceServiceSubscriptionId}</existing>
+        </ccbId>
+        <isdnConfiguration>
+          <locationAddress>
+            <existing>
+              <city>Essen</city>
+              <postalCode>45128</postalCode>
+              <street>Rellinghauser Str.</street>
+              <streetNumber>27</streetNumber>
+            </existing>
+          </locationAddress>
+          <localAreaCode>
+            <configured>0201</configured>
+          </localAreaCode>
+          <asb>
+            <configured>1</configured>
+          </asb>
+          <locationTAE>
+            <configured>vorne</configured>
+          </locationTAE>
+        </isdnConfiguration>
+      </isdn>
+    </accesses>
+    <functions>
+      <internet ID="internet-001-1" refAccessID="oldaccess-001-1">
+        <!-- targetAccessID="newaccess-001-1"> -->
+        <processingType>IGNORE</processingType>
+        <ccbId type="S">
+          <existing>{internetServiceSubscriptionId}</existing>
+        </ccbId>
+        <adslInternetConfiguration>
+          <productCode>
+            <existing>I1100</existing>
+          </productCode>
+          <productBillingName>
+            <existing>flat</existing>
+          </productBillingName>
+          <productVersionCode>
+            <existing>1</existing>
+          </productVersionCode>
+          <pricingStructureCode>
+            <existing>I1276</existing>
+          </pricingStructureCode>
+          <primaryCustSignDate>
+            <existing>2009-10-13</existing>
+          </primaryCustSignDate>
+          <DSLBandwidth>
+            <existing>V0174</existing>
+          </DSLBandwidth>
+          <desiredBandwidth>
+            <existing>V018C</existing>
+          </desiredBandwidth>
+          <automaticMailingIndicator>
+            <configured>true</configured>
+          </automaticMailingIndicator>
+        </adslInternetConfiguration>
+        <contractNumber>{internetContractNumber}</contractNumber>
+      </internet>
+      <voice ID="voice-001-1" refAccessID="oldaccess-001-1">
+        <!-- targetAccessID="newaccess-001-1"> -->
+        <processingType>IGNORE</processingType>
+        <ccbId type="S">
+          <existing>{voiceServiceSubscriptionId}</existing>
+        </ccbId>
+        <voicePremiumConfiguration>
+          <productCode>
+            <existing>V0002</existing>
+          </productCode>
+          <productVersionCode>
+            <existing>1.0</existing>
+          </productVersionCode>
+          <pricingStructureCode>
+            <existing>V0290</existing>
+          </pricingStructureCode>
+          <pricingStructureBillingName>
+            <existing>Standard</existing>
+          </pricingStructureBillingName>
+          <primaryCustSignDate>
+            <existing>2009-10-13</existing>
+          </primaryCustSignDate>
+        </voicePremiumConfiguration>        
+      </voice>
+      <tvCenter ID="tvCenter-001-1" refAccessID="oldaccess-001-1">
+        <!-- targetAccessID="newaccess-001-1"> -->
+        <processingType>{tvCenterProcessingType}</processingType>
+        <ccbId type="S">
+          <existing>{tvCenterServiceSubscriptionId}</existing>
+        </ccbId>
+        <providerTrackingNumber>
+          <configured>005h</configured>
+        </providerTrackingNumber>        
+        <tvCenterBundledConfiguration>
+          <productCode>
+            <existing>I1305</existing>
+          </productCode>
+          <productBillingName>
+            <existing>flat</existing>
+          </productBillingName>
+          <productVersionCode>
+            <existing>1</existing>
+          </productVersionCode>
+          <pricingStructureCode>
+            <existing>Y1300</existing>
+            <configured>Y1300</configured>
+          </pricingStructureCode>
+          <primaryCustSignDate>
+            <existing>2009-10-13</existing>
+          </primaryCustSignDate>
+          <allowPartialCancel>
+            <existing>false</existing>
+          </allowPartialCancel>
+          <fskLevel>
+            <existing>FSK18Plus</existing>
+          </fskLevel>
+          <initialOrderType>
+            <existing>TVC als Option</existing>
+          </initialOrderType>
+          <tariffOptionsList>
+            <existing>
+              <tariffOption>
+                <serviceCode>I6102</serviceCode>
+                <tariffOptionType>SVOD</tariffOptionType>
+              </tariffOption>
+            </existing>
+            <configured>
+              <tariffOption>
+                <serviceCode>I6104</serviceCode>
+                <tariffOptionType>SVOD</tariffOptionType>
+              </tariffOption>
+            </configured>
+          </tariffOptionsList>          
+        </tvCenterBundledConfiguration>
+        <contractNumber>{tvCenterContractNumber}</contractNumber>
+      </tvCenter>
+    </functions>
+  </lineChange>
+</order>

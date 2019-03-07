@@ -1,0 +1,16 @@
+/*
+--#########################################################################
+--
+-- Script Name  :  $Workfile:   fif-api_cr_fif_recycle_transaction_tbl.syn  $ 
+-- Header		:  $Header:   //PVCS_BKS/archives/BKS/DB/dbscripts/fif-api_cr_fif_recycle_transaction_tbl.syn-arc   1.0   Nov 28 2007 10:06:58   huptasch  $ 
+-- Revision		:  $Revision:   1.0  $
+-- 
+---------------------------------------------------------------------------
+--
+-- Description:
+--
+--
+--
+--#########################################################################*/
+
+create public synonym FIF_RECYCLE_TRANSACTION for FIF_RECYCLE_TRANSACTION;

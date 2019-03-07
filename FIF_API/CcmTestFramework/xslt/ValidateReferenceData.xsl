@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+	XSLT file for validating reference data from GENERAL_CODE_ITEM
+	
+	@author wlazlow
+-->
+<xsl:stylesheet exclude-result-prefixes="dateutils" version="1.0" xmlns:dateutils="http://xml.apache.org/xalan/java/net.arcor.fif.common.DateUtils" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:output doctype-system="fif_transaction.dtd" encoding="ISO-8859-1" indent="yes" method="xml"/>
+	<xsl:template match="/">
+		<xsl:element name="CcmFifCommandList">
+			<xsl:apply-templates select="request/request-params"/>
+		</xsl:element>
+	</xsl:template>
+	<xsl:template match="request-params">
+		<!-- Copy over transaction ID and action name -->
+		<xsl:element name="transaction_id">
+			<xsl:value-of select="request-param[@name='transactionID']"/>
+		</xsl:element>
+		<xsl:element name="client_name">
+			<xsl:value-of select="request-param[@name='clientName']"/>
+		</xsl:element>
+		<xsl:element name="action_name">
+			<xsl:value-of select="//request/action-name"/>
+		</xsl:element>
+		<xsl:element name="override_system_date">
+			<xsl:value-of select="request-param[@name='OVERRIDE_SYSTEM_DATE']"/>
+		</xsl:element>
+		<xsl:element name="Command_List">
+			
+			<xsl:element name="CcmFifValidateGeneralCodeItemCmd">
+				<xsl:element name="command_id">find_reference_data</xsl:element>
+				<xsl:element name="CcmFifValidateGeneralCodeItemInCont">
+					<xsl:element name="group_code">
+						<xsl:value-of select="request-param[@name='groupCode']"/>
+					</xsl:element>
+					<xsl:element name="value">
+						<xsl:value-of select="request-param[@name='value']"/>
+					</xsl:element>
+					<xsl:element name="raise_error_if_invalid">N</xsl:element>
+				</xsl:element>
+			</xsl:element>
+			
+			<xsl:element name="CcmFifRaiseErrorCmd">
+				<xsl:element name="command_id">raiseError</xsl:element>
+				<xsl:element name="CcmFifRaiseErrorInCont">
+					<xsl:element name="error_text">
+						<xsl:value-of select="request-param[@name='errorText']"/>
+					</xsl:element>							
+					<xsl:element name="ccm_error_code">
+						<xsl:value-of select="request-param[@name='errorCode']"/>
+					</xsl:element>
+					<xsl:element name="process_ind_ref">
+						<xsl:element name="command_id">find_reference_data</xsl:element>
+						<xsl:element name="field_name">is_valid</xsl:element>
+					</xsl:element>
+					<xsl:element name="required_process_ind">N</xsl:element>					
+				</xsl:element>
+			</xsl:element>			
+				
+		</xsl:element>
+	</xsl:template>
+</xsl:stylesheet>

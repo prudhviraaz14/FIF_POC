@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}" xmlns="http://www.arcor.net/orderSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+  <sendingSystem>POS</sendingSystem>
+  <entryUser>FIF</entryUser>
+  <entryRole>FIF</entryRole>
+  <entrySystem>POS</entrySystem>
+  <entryDateTime>{today}</entryDateTime>
+  <customerContactPoint>KBA</customerContactPoint>
+  <salesOrganisation>
+    <salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+    <salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+    <eShopCode>BERAT</eShopCode>
+  </salesOrganisation>
+  <superCustomerTrackingId>superCustomerTrackingId</superCustomerTrackingId>
+  <scanDate>{todayTruncated}</scanDate>
+  <customerData>
+    <customer ID="customer" >
+      <ccbId type="C">
+        <existing>{customerNumber}</existing>
+      </ccbId>
+      <individual ID="cuind">
+        <changeType>IGNORE</changeType>
+        <salutation>
+          <existing>Herr</existing>
+        </salutation>
+        <forename>
+          <existing>COM</existing>
+        </forename>
+        <name>
+          <existing>ISDNrelocation</existing>
+        </name>
+        <address>
+          <configured>
+            <city>Duisburg</city>
+            <postalCode>47228</postalCode>
+            <street>In der Klanklang</street>
+            <streetNumber>15</streetNumber>
+            <country>DE</country>
+          </configured>
+        </address>
+        <accessInformation>
+          <existing>
+            <accessInformationType>STD</accessInformationType>
+            <contactName>COM ISDNrelocation</contactName>
+            <phoneNumber>023189767778</phoneNumber>
+          </existing>
+        </accessInformation>
+      </individual>
+    </customer>
+    <billingAccount ID="account">
+      <ccbId type="A">
+        <existing>{accountNumber}</existing>
+      </ccbId>      
+      <individual ID="acind">
+        <changeType>IGNORE</changeType>
+        <salutation>
+          <existing>Herr</existing>
+        </salutation>
+        <forename>
+          <existing>COM</existing>
+        </forename>
+        <name>
+          <existing>ISDNrelocation</existing>
+        </name>
+        <address>
+          <configured>
+            <city>Duisburg</city>
+            <postalCode>47228</postalCode>
+            <street>In der Klanklang</street>
+            <streetNumber>15</streetNumber>
+            <country>DE</country>
+          </configured>
+        </address>
+        <accessInformation>
+          <existing>
+            <accessInformationType>STD</accessInformationType>
+            <contactName>COM ISDNrelocation</contactName>
+            <phoneNumber>023189767778</phoneNumber>
+          </existing>
+        </accessInformation>
+      </individual>      
+    </billingAccount>
+  </customerData>
+  <relocation orderPositionNumber="1">
+    <customerIntention>ChangeLine</customerIntention>
+    <desiredDate>{desiredDate}</desiredDate>
+    <orderReceivedDate>{today}</orderReceivedDate>
+    <relocationVariant>fixe Abschaltung</relocationVariant>
+    <providerCode>
+      <existing>VFAI</existing>
+    </providerCode>
+    <salesPackageName>
+      <existing>none</existing>
+    </salesPackageName>
+    <salesPacketCode>
+      <existing>none</existing>
+    </salesPacketCode>
+    <beneficiary ID="bene-001-1">
+      <customerNodeRefID>customer</customerNodeRefID>
+    </beneficiary>
+    <payerAllCharges ID="payer">
+      <billingAccountNodeRefID>account</billingAccountNodeRefID>
+    </payerAllCharges>
+    <accesses>
+      <ngn ID="newaccess-001-1">
+        <ngnConfiguration>
+          <locationAddress>
+            <configured>
+              <city>Essen</city>
+              <postalCode>45128</postalCode>
+              <street>Rellinghauserer Str.</street>
+              <streetNumber>272</streetNumber>
+            </configured>
+          </locationAddress>
+          <localAreaCode>
+            <configured>0201</configured>
+          </localAreaCode>
+          <asb>
+            <configured>1</configured>
+          </asb>
+          <locationTAE>
+            <configured>vorne</configured>
+          </locationTAE>
+        </ngnConfiguration>
+      </ngn>
+      <isdn ID="oldaccess-001-1">
+        <ccbId type="S">
+          <existing>{voiceServiceSubscriptionId}</existing>
+        </ccbId>
+        <isdnConfiguration>
+          <locationAddress>
+            <existing>
+              <city>Essen</city>
+              <postalCode>45128</postalCode>
+              <street>Rellinghauser Str.</street>
+              <streetNumber>27</streetNumber>
+            </existing>
+            <configured>
+              <city>Essen</city>
+              <postalCode>45128</postalCode>
+              <street>Rellinghauserer Str.</street>
+              <streetNumber>272</streetNumber>
+            </configured>
+          </locationAddress>
+          <localAreaCode>
+            <configured>0201</configured>
+          </localAreaCode>
+          <asb>
+            <configured>1</configured>
+          </asb>
+          <locationTAE>
+            <configured>vorne</configured>
+          </locationTAE>
+        </isdnConfiguration>
+      </isdn>
+    </accesses>
+    <functions>
+      <internet ID="internet-001-1" refAccessID="oldaccess-001-1" targetAccessID="newaccess-001-1">
+        <!-- targetAccessID="newaccess-001-1"> -->
+        <processingType>CHANGE</processingType>
+        <ccbId type="S">
+          <existing>{internetServiceSubscriptionId}</existing>
+        </ccbId>
+        <adslInternetConfiguration>
+          <productCode>
+            <existing>I1100</existing>
+          </productCode>
+          <productBillingName>
+            <existing>flat</existing>
+          </productBillingName>
+          <productVersionCode>
+            <existing>1</existing>
+          </productVersionCode>
+          <pricingStructureCode>
+            <existing>I1202</existing>
+            <configured>I1202</configured>
+          </pricingStructureCode>
+          <primaryCustSignDate>
+            <existing>2009-10-13</existing>
+          </primaryCustSignDate>
+          <minimumDurationPeriod>
+            <value>
+              <existing/>
+              <configured/>
+            </value>
+            <unit>
+              <existing>MONTH</existing>
+              <configured>MONTH</configured>
+            </unit>
+          </minimumDurationPeriod>
+          <DSLBandwidth>
+            <existing>V0174</existing>
+          </DSLBandwidth>
+          <desiredBandwidth>
+            <existing>V018C</existing>
+          </desiredBandwidth>
+          <automaticMailingIndicator>
+            <configured>true</configured>
+          </automaticMailingIndicator>
+        </adslInternetConfiguration>
+        <contractNumber>{internetContractNumber}</contractNumber>
+      </internet>
+      <voice ID="voice-001-1" refAccessID="oldaccess-001-1" targetAccessID="newaccess-001-1">
+        <!-- targetAccessID="newaccess-001-1"> -->
+        <processingType>CHANGE</processingType>
+        <ccbId type="S">
+          <existing>{voiceServiceSubscriptionId}</existing>
+        </ccbId>
+        <voicePremiumConfiguration>
+          <productCode>
+            <existing>V0002</existing>
+            <configured>VI202</configured>
+          </productCode>
+          <productVersionCode>
+            <existing>1.0</existing>
+            <configured>1.0</configured>
+          </productVersionCode>
+          <pricingStructureCode>
+            <existing>V0290</existing>
+            <configured>VK001</configured>
+          </pricingStructureCode>
+          <pricingStructureBillingName>
+            <existing>Standard</existing>
+            <configured>Standard</configured>
+          </pricingStructureBillingName>
+          <primaryCustSignDate>
+            <existing>2009-10-13</existing>
+            <configured>2009-10-13</configured>
+          </primaryCustSignDate>
+          <minimumDurationPeriod>
+            <value>
+              <existing>24</existing>
+              <configured>12</configured>
+            </value>
+            <unit>
+              <existing>MONTH</existing>
+              <configured>MONTH</configured>
+            </unit>
+          </minimumDurationPeriod>
+          <automaticMailingIndicator>
+            <configured>true</configured>
+          </automaticMailingIndicator>
+          <keepOldAccessNumbers>
+            <configured>false</configured>
+          </keepOldAccessNumbers>
+          <portingAccessNumbers>
+            <numberOfNewAccessNumbers>
+              <configured>3</configured>
+            </numberOfNewAccessNumbers>
+            <portingMode>
+              <existing>Standard</existing>
+              <configured>Standard</configured>
+            </portingMode>
+            <numberOfNewAccessNumbers/>
+            <accessNumber1>
+              <existing>
+                <countryCode>49</countryCode>
+                <localAreaCode>711</localAreaCode>
+                <pilotNumber>117511</pilotNumber>
+              </existing>
+            </accessNumber1>
+            <accessNumber2>
+              <existing>
+                <countryCode>49</countryCode>
+                <localAreaCode>711</localAreaCode>
+                <pilotNumber>85475336</pilotNumber>
+              </existing>
+            </accessNumber2>
+            <accessNumber3>
+              <existing>
+                <countryCode>49</countryCode>
+                <localAreaCode>711</localAreaCode>
+                <pilotNumber>52074044</pilotNumber>
+              </existing>
+            </accessNumber3>
+          </portingAccessNumbers>
+          <connectionType>
+            <existing>comfortPlus</existing>
+            <configured>comfortPlus</configured>
+          </connectionType>
+          <desiredCountriesList>
+            <configured>
+              <desiredCountryServiceCode>V2101</desiredCountryServiceCode>
+              <desiredCountryServiceCode>V2107</desiredCountryServiceCode>
+            </configured>
+          </desiredCountriesList>          
+        </voicePremiumConfiguration>
+      </voice>
+    </functions>
+  </relocation>
+</order>

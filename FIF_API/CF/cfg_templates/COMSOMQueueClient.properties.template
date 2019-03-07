@@ -1,0 +1,1346 @@
+# START HEADER
+#  File:                $Workfile:   COMSOMQueueClient.properties.template  $
+#  Author:              $Author:   lejam  $
+#  Revision:            $Revision:   1.51  $
+#  Purpose:             Configuration file for the COM-SOM Queue Client application
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Jan 15 2019 16:52:54  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/COMSOMQueueClient.properties.template-arc  $
+#
+#   Rev 1.51   Jan 15 2019 16:52:54   lejam
+#SPN-FIF-000135751 Added PSM DB connection
+#
+#   Rev 1.50   Dec 19 2018 08:33:44   lejam
+#IT-K34257 ReplyTo Machanism defaulted to "Y".
+#
+#   Rev 1.49   Jun 06 2018 14:56:26   lejam
+#PPM230939 BusinessVoip
+#
+#   Rev 1.48   Jan 08 2016 11:41:30   sibani.panda
+#PPM_101666: transaction builder selection xpath added for Product I1209.
+#
+#   Rev 1.47   May 21 2015 09:02:34   schwarje
+#PPM-116590 OneNet Business: TrxBuilder selection rules changed for ONB
+#
+#   Rev 1.46   Sep 26 2013 11:10:26   schwarje
+#IT-32619: TrxBuilder selection rules: process Bitstream contractPartnerChange in WF 12
+#
+#   Rev 1.45   Mar 13 2013 12:37:38   schwarje
+#IT-32496: new transactionType = new, create ExternalOrder in status NEW or WAITING
+#
+#   Rev 1.44   Mar 05 2013 11:06:58   schwarje
+#IT-32434: isdnS2M as TrxBuilder selection criteria
+#
+#   Rev 1.43   Aug 31 2012 15:11:06   makuier
+#maxRetries and retrySleepTime added.
+#
+#   Rev 1.42   Jul 23 2012 13:02:28   schwarje
+#IT-k-32278: changed TrxBuilder selection rules for transactionType = allocate
+#
+#   Rev 1.41   Dec 13 2011 15:17:04   schwarje
+#SPN-FIF-000117211: read processingHints from the correct position in the SOM
+#
+#   Rev 1.40   Oct 20 2011 10:20:14   schwarje
+#removed "." from template
+#
+#   Rev 1.39   Oct 20 2011 09:55:18   schwarje
+#IT-k-31236: added COM.ENDPOINT.NAME
+#
+#   Rev 1.38   Oct 18 2011 10:09:26   schwarje
+#IT-28900: support for prioritized requests
+#
+#   Rev 1.37   Sep 30 2011 15:10:02   lejam
+#Added SOMToFIFRepository_Activation.xml IT-28575
+#
+#   Rev 1.36   Aug 22 2011 15:51:08   schwarje
+#IT-28900: added selection rule for distinguishing "old" and "new" contract partner changes
+#
+#   Rev 1.35   Aug 22 2011 15:45:06   schwarje
+#IT-28900: desupported providerChange by removing relevant TrxBuilder selection rules for transactionTypes validate and execute
+#
+#   Rev 1.34   Jul 12 2011 16:15:48   schwarje
+#SPN-FIF-000113805: use LTE ( = WF12) TrxBuilder for TLA requests
+#
+#   Rev 1.33   May 26 2011 13:54:06   schwarje
+#IT-28575: added sipTrunk to TrxBuilder selection rules
+#
+#   Rev 1.32   Apr 12 2011 13:58:26   schwarje
+#SPN-FIF-000111254: hardcoded SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion in FIF config templates
+#
+#   Rev 1.31   Apr 05 2011 14:36:50   makuier
+# Do not call trx builder CPCOM1b
+#
+#   Rev 1.30   Feb 24 2011 16:33:24   schwarje
+#SPN-FIF-000109591: changed TrxBuilder selection rules
+#
+#   Rev 1.29   Feb 16 2011 20:02:32   schwarje
+#new TrxBuilder selection rule for distinguishing OP and NoOP scenarios
+#
+#   Rev 1.28   Feb 09 2011 17:28:04   schwarje
+#SPN-FIF-000109121: add adjustmentTermination to configuration of TrxBuilder selection
+#
+#   Rev 1.27   Feb 03 2011 15:50:12   makuier
+#Use LTE repository for LTE Contract Partner change 
+#
+#   Rev 1.26   Feb 02 2011 12:54:10   schwarje
+#SPN-FIF-000108892: changed rules for TrxBuilder selection. Use customerData to distinguish between WF1 and WF5
+#
+#   Rev 1.25   Dec 30 2010 16:37:34   schwarje
+#IT-27144: added order positions adjustmentCreation and customerChange
+#
+#   Rev 1.24   Dec 22 2010 18:29:52   schwarje
+#IT-k-29816: allocate PTNs in case of hardware exchange for LTE
+#
+#   Rev 1.23   Dec 14 2010 18:04:24   schwarje
+#SPN-FIF-000107425: restricted selection rules for Terminal Logistics Alignment TrxBuilder
+#
+#   Rev 1.22   Nov 23 2010 14:37:56   wlazlow
+#IT-k-29265
+#
+#   Rev 1.21   Nov 19 2010 16:52:36   lejam
+#Added SOMToFIFRepository_LineChangeHW.xml TLA IT-27783
+#
+#   Rev 1.20   Nov 17 2010 16:22:10   schwarje
+#SPN-FIF-000104048: parametrized RequestHandler.SelectInterval and SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion
+#
+#   Rev 1.19   Nov 09 2010 17:59:00   lejam
+#Added support for cancel WF1 SPN-FIF-106427
+#
+#   Rev 1.18   Nov 05 2010 13:50:18   lejam
+#Added providerChange to scenarios supported by cancel transaction type SPN-FIF-106303
+#
+#   Rev 1.17   Nov 05 2010 09:18:48   schwarje
+#SPN-FIF-000105939: added discount terminations to COM-SOM configuration
+#
+#   Rev 1.16   Oct 27 2010 13:51:36   lejam
+#For transactionType=cancel both SOMToFIFRepository_OPTerminationsWF5.xml and SOMToFIFRepository_Cancellation.xml depending on teh XPath conditions evaluation. SPN-FIF-105816
+#
+#   Rev 1.15   Oct 19 2010 17:08:38   schwarje
+#SPN-FIF-000105279: call IPCentrex TrxBuilder also for businessDSL-only SOMs
+#
+#   Rev 1.14   Oct 06 2010 18:54:36   wlazlow
+#SPN-FIF-000104942
+#
+#   Rev 1.13   Sep 24 2010 15:37:50   schwarje
+#IT-27143: seperated CPCOM 1b from CPCOM 2 TrxBuilders
+#
+#   Rev 1.12   Sep 21 2010 16:54:40   schwarje
+#SPN-FIF-000104239: added relocation to the TrxBuilder selection configuration
+#
+#   Rev 1.11   Sep 14 2010 16:30:54   schwarje
+#fixed statement for failed request notification
+#
+#   Rev 1.10   Aug 06 2010 11:48:32   schwarje
+#IT-27143: added TrxBuilder for provider and contract partner change
+#
+#   Rev 1.9   Aug 05 2010 09:51:42   schwarje
+#IT-27143: added deactivateCustomer
+#
+#   Rev 1.8   Jul 30 2010 19:31:02   schwarje
+#SPN-FIF-000102600: fixed log directories, added parameter for writing invalid requests
+#
+#   Rev 1.7   Jul 30 2010 12:47:18   banania
+#IT-28260 Surf Sofort 4.0 mit LTE.
+#SOMToFIFRepository_LTE.xml  added.
+#
+#   Rev 1.6   Jul 28 2010 14:43:58   wlazlow
+#SPN-CCB-000101728
+#
+#   Rev 1.5   Jul 08 2010 19:09:24   schwarje
+#IT-27143: updated TrxBuilder selection rules
+#
+#   Rev 1.4   Jun 30 2010 18:21:24   schwarje
+#changed parameters for logging request files
+#
+#   Rev 1.3   Jun 30 2010 10:48:00   schwarje
+#SPN-FIF-000101164: fixed configuration
+#
+#   Rev 1.2   Jun 29 2010 16:20:10   schwarje
+#SPN-FIF-000101145: fixed configuration
+#
+#   Rev 1.1   Jun 28 2010 08:31:50   schwarje
+#fixed XPath expressions
+#
+#   Rev 1.0   Jun 25 2010 17:11:16   schwarje
+#Initial revision.
+#
+#
+# END HEADER
+
+
+####################
+# GENERAL SETTINGS #
+####################
+
+
+#START PARAMETER
+#Parameter:         somfif.SynchronousFifClient.NumberOfRequestReceivers
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      1
+#RecomnendedVal.:   1
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       number of request receivers (threads waiting for requests from the front end)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         somfif.SynchronousFifClient.NumberOfRequestHandlers
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      8
+#RecomnendedVal.:   8
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       number of regular request handlers (threads processing FifTransactions in the back end)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         somfif.SynchronousFifClient.NumberOfRecycleHandlers
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   2
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       number of recycling request handlers (threads processing FifTransactions in recycling)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         somfif.SynchronousFifClient.ClientId
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      COM1
+#RecomnendedVal.:   COM1
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       client ID (unique identifier (for each instance) of a client of a certain type)
+#Description:       different client IDs are needed, if e.g. two COM-SOM clients are run in seperate packages
+#Description:       Then one client would have COM1, the other one COM2
+#END PARAMETER
+
+SynchronousFifClient.NumberOfRequestReceivers=${somfif.SynchronousFifClient.NumberOfRequestReceivers}
+SynchronousFifClient.NumberOfRequestHandlers=${somfif.SynchronousFifClient.NumberOfRequestHandlers}
+SynchronousFifClient.NumberOfRecycleHandlers=${somfif.SynchronousFifClient.NumberOfRecycleHandlers}
+SynchronousFifClient.ClientId=${somfif.SynchronousFifClient.ClientId}
+SynchronousFifClient.ClientType=COM
+
+
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         ccmfif.SynchronousFifClient.FilePath
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./WORK
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The path to the directory where all FIF related messages are stored.
+#Description:       The messages are actually stored in child directories like fif-request.
+#END PARAMETER
+
+SynchronousFifClient.SentOutputDir=${somfif.SynchronousFifClient.FilePath}/COMSOMQueueClient/fif-request
+SynchronousFifClient.ReplyOutputDir=${somfif.SynchronousFifClient.FilePath}/COMSOMQueueClient/fif-reply
+SynchronousFifClient.InvalidReplyOutputDir=${somfif.SynchronousFifClient.FilePath}/COMSOMQueueClient/fif-invalid-reply
+SynchronousFifClient.RequestOutputDir=${somfif.SynchronousFifClient.FilePath}/COMSOMQueueClient/com-request
+SynchronousFifClient.InvalidRequestDir=${somfif.SynchronousFifClient.FilePath}/COMSOMQueueClient/com-invalid-request
+SynchronousFifClient.ResponseOutputDir=${somfif.SynchronousFifClient.FilePath}/COMSOMQueueClient/com-response
+
+SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion=false
+
+#START PARAMETER
+#Parameter:         somfif.RequestHandler.SelectInterval
+#ValidFrom:         FIF-API-37.01.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     INTEGER
+#ValidValues:       -
+#DefaultValue:      -
+#ExampleValue:      ./WORK
+#RecomnendedVal.:   60000
+#Optional:          N
+#Last_Modified:     17.11.10
+#Last_Modified_By   schwarje
+#Description:       waiting time (in milliseconds) after retrieving FifTransactions without success
+#END PARAMETER
+RequestHandler.SelectInterval=${somfif.RequestHandler.SelectInterval}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# Indicates whether messages sent to FIF should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteSentMessages=true
+
+# Indicates whether the request messages from COM should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteRequestMessages=true
+
+# Indicates whether the reply messages from FIF should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteReplyMessages=true
+
+# Indicates whether the response messages to COM should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteResponseMessages=true
+
+# Indicates whether the invalid request messages created by the TrxBuilder should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteInvalidRequestMessages=true
+
+# indicates, if notifications are created (CCM-FIF handleFailedFifRequest) after a request failed in the back end
+SynchronousFifClient.FailedRequestNotification=false
+# list of action names (comma seperated), for which notifications are created
+SynchronousFifClient.FailedRequestNotification.ActionNames=
+# database alias for notifications for failed requests
+SynchronousFifClient.FailedRequestNotification.DBAlias=fifdb
+
+# indicates, if all FifTransactions are deleted from the database after processing
+SynchronousFifClient.DeleteAfterCompletion=false
+# list of action names (comma seperated), for which FifTransactions are deleted from the database after processing
+# (only used, if SynchronousFifClient.DeleteAfterCompletion is set to 'false')
+SynchronousFifClient.DeleteAfterCompletion.ActionNames=
+
+# indicates, if certain actions are blocked (and postponed) by this client
+SynchronousFifClient.BlockActionNames=false
+# list of blocked action names (comma seperated)
+SynchronousFifClient.BlockActionNames.ActionNames=modifyContract
+# postponement delay (in minutes) for blocked actions
+SynchronousFifClient.BlockActionNames.Delay=360
+
+# indicates, if failed responses (transactions completed in the backend, but errors while sending the 
+# responses back to the front end) are taken care of
+SynchronousFifClient.FailedResponseHandling=true
+# maxmimum number of retries for resending responses
+SynchronousFifClient.FailedResponseHandling.MaxRetries=10
+# batch size for retrieving failed responses
+SynchronousFifClient.FailedResponseHandling.BatchSize=100
+# waiting time (in minutes) between two batches
+SynchronousFifClient.FailedResponseHandling.SleepTime=60
+# delay time (in minutes) after which a retry is done
+SynchronousFifClient.FailedResponseHandling.ResendDelay=720
+
+# indicates, if hanging requests (requests which still seem to be in progress in FIF after a certain time) 
+# are reset on startup of the FIF client
+SynchronousFifClient.HangingRequestHandling=true
+# batch size for retrieving hanging requests
+SynchronousFifClient.HangingRequestHandling.BatchSize=100
+# minimum age (in minutes) for hanging requests to be reset
+SynchronousFifClient.HangingRequestHandling.RequestAge=60
+
+#######################################
+# Settings specific to the SOM client #
+#######################################
+
+SynchronousSOMQueueClient.SOMRequestDir=${somfif.SynchronousFifClient.FilePath}/COMSOMQueueClient/som-request
+SynchronousSOMQueueClient.WriteSOMRequests=true
+
+#############
+# Simple TrxBuilder mappings
+#############
+
+# the simple cases, where transactionType directly maps to the TrxBuilder configuration
+SynchronousSOMQueueClient.TrxBuilderSelection.create.Filename=SOMToFIFRepository_ExternalOrders.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.close-cancel.Filename=SOMToFIFRepository_ExternalOrders.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.close-abort.Filename=SOMToFIFRepository_ExternalOrders.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.close-final.Filename=SOMToFIFRepository_ExternalOrders.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.new.Filename=SOMToFIFRepository_ExternalOrders.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.masterdata.Filename=SOMToFIFRepository_Masterdata.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.activateONEGroup.Filename=SOMToFIFRepository_Activation.xml
+
+#############
+# TrxBuilder mappings for transactionType=cancel
+#############
+
+SynchronousSOMQueueClient.TrxBuilderSelection.cancel.1.Filename=SOMToFIFRepository_Cancellation.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.cancel.1.XPathExpression=\
+count(/*/cancellation | /*/providerChange) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.cancel.2.Filename=SOMToFIFRepository_OPTerminationsWF5.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.cancel.2.XPathExpression=\
+count(/*/termination) > 0 and \
+count(/*/customerData) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.cancel.3.Filename=SOMToFIFRepository_AllScenariosWF1.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.cancel.3.XPathExpression=\
+count(/*/termination) > 0 and \
+count(/*/customerData) = 0
+
+
+#############
+# TrxBuilder mappings for transactionType=allocate
+#############
+
+# allocate for IPCentrex
+SynchronousSOMQueueClient.TrxBuilderSelection.allocate.1.Filename=SOMToFIFRepository_IPCentrex.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.allocate.1.XPathExpression=\
+count(/*/*/*/ipCentrex | /*/*/*/businessDSL | /*/*/*/isdnS2M | /*/*/*/sipTrunk | /*/*/*/oneNetBusiness | /*/*/*/*/businessIpBitstreamConfiguration | /*/*/*/businessVoip) > 0
+
+# allocate for non-OP scenarios
+SynchronousSOMQueueClient.TrxBuilderSelection.allocate.2.Filename=SOMToFIFRepository_LTE.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.allocate.2.XPathExpression=\
+count(/*/customerData) > 0
+
+#############
+# TrxBuilder mappings for transactionType=validate
+#############
+
+SynchronousSOMQueueClient.TrxBuilderSelection.validate.1.Filename=SOMToFIFRepository_OPTerminationsWF5.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.validate.1.XPathExpression=\
+count(/*/termination) > 0 and \
+count(/*/*/*/ipCentrex | /*/*/*/businessDSL | /*/*/*/isdnS2M | /*/*/*/sipTrunk | /*/*/*/oneNetBusiness | /*/*/*/*/businessIpBitstreamConfiguration | /*/*/*/businessVoip) = 0 and \
+count(/*/customerData) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.validate.2.Filename=SOMToFIFRepository_OPTakeoverScenariosWF5.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.validate.2.XPathExpression=\
+count(/*/contractPartnerChange) > 0 and \
+count(/*/*/*/ipCentrex | /*/*/*/businessDSL | /*/*/*/isdnS2M | /*/*/*/sipTrunk | /*/*/*/oneNetBusiness | /*/*/*/*/businessIpBitstreamConfiguration | /*/*/*/businessVoip) = 0 and \
+count(/*/customerData) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.validate.3.Filename=SOMToFIFRepository_OPTerminationsWF5.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.validate.3.XPathExpression=\
+count(/*/termination) > 0 and \
+count(/*/*/discount) > 0 and \
+count(/*/*/functions/*) = 0 \
+count(/*/customerData) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.validate.4.Filename=SOMToFIFRepository_AllScenariosWF1.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.validate.4.XPathExpression=\
+count(/*/customerData) = 0
+
+#############
+# TrxBuilder mappings for transactionType=execute
+#############
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.1.Filename=SOMToFIFRepository_LTE.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.1.XPathExpression=\
+count(/*/*/functions/*/processingStatus) > 0 and \
+count(/*/*/*/ipCentrex | /*/*/*/businessDSL | /*/*/*/isdnS2M | /*/*/*/sipTrunk | /*/*/*/oneNetBusiness | /*/*/*/*/businessIpBitstreamConfiguration | /*/*/*/businessVoip) = 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.2.Filename=SOMToFIFRepository_IPCentrex.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.2.XPathExpression=\
+count(/*/*/*/ipCentrex | /*/*/*/businessDSL | /*/*/*/isdnS2M | /*/*/*/sipTrunk | /*/*/*/oneNetBusiness | /*/*/*/*/businessIpBitstreamConfiguration | /*/*/*/businessVoip) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.3.Filename=SOMToFIFRepository_OPLineChangesWF11.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.3.XPathExpression=\
+(count(/*/lineChange) > 0 or count(/*/relocation) > 0) and \
+count(/*/customerData) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.4.Filename=SOMToFIFRepository_OPTerminationsWF5.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.4.XPathExpression=\
+count(/*/termination) > 0 and \
+count(/*/customerData) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.5.Filename=SOMToFIFRepository_OPLineChangesWF11.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.5.XPathExpression=\
+count(/*/adjustmentCreation) > 0 or \
+count(/*/adjustmentTermination) > 0 or \
+count(/*/customerChange) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.6.Filename=SOMToFIFRepository_OPTakeoverScenariosWF5.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.6.XPathExpression=\
+count(/*/contractPartnerChange) > 0 and \
+count(/*/customerData) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.7.Filename=SOMToFIFRepository_OPTerminationsWF5.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.7.XPathExpression=\
+count(/*/termination) > 0 and \
+count(/*/*/discount) > 0 and \
+count(/*/*/functions/*) = 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.8.Filename=SOMToFIFRepository_Cancellation.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.8.XPathExpression=\
+count(/*/cancellation) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.9.Filename=SOMToFIFRepository_DeactivateCustomer.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.9.XPathExpression=\
+count(/*/customerDeactivation) > 0
+
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.10.Filename=SOMToFIFRepository_AllScenariosWF1.xml
+SynchronousSOMQueueClient.TrxBuilderSelection.execute.10.XPathExpression=\
+count(/*/customerData) = 0
+
+#############
+# TrxBuilder mappings END
+#############
+
+
+
+###########################
+# Backend Server Settings #
+###########################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         somfif.ServerHandler.ServerProcessName
+#ValidFrom:         FIF-API-26
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       process names
+#DefaultValue:      -
+#ExampleValue:      CcmFifInterface_std
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the CcmFifInterface process
+#END PARAMETER
+ServerHandler.ServerProcessName=${somfif.ServerHandler.ServerProcessName}
+
+#START PARAMETER
+#Parameter:         somfif.ServerHandler.ServerInstanceBase
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       instance name base
+#DefaultValue:      -
+#ExampleValue:      fifie_CFD_
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       The base for name of the instance of the CcmFifInterface
+#Description:       The actual name of the instance is craeted by concatinating 
+#Description:       the thread number to the instance base
+#END PARAMETER
+ServerHandler.ServerInstanceBase=${somfif.ServerHandler.ServerInstanceBase}
+
+#START PARAMETER
+#Parameter:         somfif.ServerHandler.ServerArguments
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#DefaultValue:      -
+#ExampleValue:      
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       arguments the CcmFifInterface is called with
+#END PARAMETER
+ServerHandler.ServerArguments=${somfif.ServerHandler.ServerArguments}
+
+
+
+###########################
+# RequestHandler Settings #
+###########################
+
+# batch size for retrieving FifTransactions
+RequestHandler.BatchSize=100
+
+######################
+# Recycling Settings #
+######################
+
+#START PARAMETER
+#Parameter:         somfif.RequestHandler.EnableRecycling
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       true/false
+#DefaultValue:      -
+#ExampleValue:      true
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       enables/disables recycling.
+#END PARAMETER
+RequestHandler.EnableRecycling=${somfif.RequestHandler.EnableRecycling}
+
+#START PARAMETER
+#Parameter:         somfif.RequestHandler.MaxRecycleStage
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      4
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       The maximum number of recycling stages.
+#Description:       You have to declare RequestHandler.RecycleDelay.StageX variables 
+#Description:       up to the value of MaxRecycleStage
+#END PARAMETER
+RequestHandler.MaxRecycleStage=${somfif.RequestHandler.MaxRecycleStage}
+
+#START PARAMETER
+#Parameter:         somfif.RequestHandler.RecycleDelay.Stage1
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for first stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage1=${somfif.RequestHandler.RecycleDelay.Stage1}
+#START PARAMETER
+#Parameter:         somfif.RequestHandler.RecycleDelay.Stage2
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for second stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage2=${somfif.RequestHandler.RecycleDelay.Stage2}
+#START PARAMETER
+#Parameter:         somfif.RequestHandler.RecycleDelay.Stage3
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for third stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage3=${somfif.RequestHandler.RecycleDelay.Stage3}
+#START PARAMETER
+#Parameter:         somfif.RequestHandler.RecycleDelay.Stage4
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for fourth stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage4=${somfif.RequestHandler.RecycleDelay.Stage4}
+
+# db alias for retrieving recycled errors
+RequestHandler.RecycledErrorsDBAlias=fifdb
+# database statement for retrieving recycled errors
+RequestHandler.RetrieveRecycledErrorStmt=select value from general_code_item where group_code = 'ERR_REF'
+# indicates, if the respective FIF client supports prioritzed requests
+RequestHandler.EnablePrioritizedRequests=true
+
+
+#############################
+# MESSAGE CREATION SETTINGS #
+#############################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         somfif.messagecreator.MetaDataDir
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./etc
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The directory where the metadata file is located.
+#END PARAMETER
+messagecreator.MetaDataDir=${somfif.messagecreator.MetaDataDir}
+
+#START PARAMETER
+#Parameter:         somfif.messagecreator.OutputDir
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./output
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The directory to store the output XML files in.
+#Description:       (Not used if messagecreator.WriteOutputFiles is set to false).
+#END PARAMETER
+messagecreator.OutputDir=${somfif.messagecreator.OutputDir}
+
+#START PARAMETER
+#Parameter:         somfif.messagecreator.XSQL.Directory
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./xsql
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The directory where the XSQL files are located.
+#END PARAMETER
+messagecreator.XSQL.Directory=${somfif.messagecreator.XSQL.Directory}
+
+#START PARAMETER
+#Parameter:         somfif.messagecreator.XSLT.Directory
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./xslt
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The directory where the XSLT files are located.
+#END PARAMETER
+messagecreator.XSLT.Directory=${somfif.messagecreator.XSLT.Directory}
+
+#START PARAMETER
+#Parameter:         somfif.messagecreator.XSLT.IntermediateDir
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./intermediate
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The directory where the intermediate XML files should be written to.
+#Description:       (Not used if messagecreator.XSLT.WriteIntermediateFiles is set to false).
+#END PARAMETER
+messagecreator.XSLT.IntermediateDir=${somfif.messagecreator.XSLT.IntermediateDir}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The name of the XML metadata file
+messagecreator.MetaDataFile=codb-queueclient-metadata.xml
+
+# Indicates whether the produced XML messages should also be written
+# as a file in the output directory
+messagecreator.WriteOutputFiles=false
+
+# Indicates whether the XML representation of a request should be
+# written as a file.
+messagecreator.XSLT.WriteIntermediateFiles=false
+
+# Indicates whether the use of reference data should be supported by the client.
+messagecreator.EnableReferenceDataSupport=true
+
+# The name of the database alias to use for retrieving reference data
+messagecreator.ReferenceDataDBAlias=fifdb
+
+# The name of the database alias to use for retrieving psm data
+messagecreator.PSMDBAlias=psmdb
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         somfif.log4j.appender.File.File
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/COMSOMQueueClient.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The name (including relative of absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${somfif.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=10MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+
+##################
+# QUEUE SETTINGS #
+##################
+
+#START PARAMETER
+#Parameter:         somfif.transport.RequestQueueName
+#ValidFrom:         FIF-API-36
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue name
+#DefaultValue:      -
+#ExampleValue:      BPM.REQUEST
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the queue to connect to for requests coming from COM.
+#END PARAMETER
+transport.RequestQueueName=${somfif.transport.RequestQueueName}
+
+#START PARAMETER
+#Parameter:         somfif.transport.ResponseQueueName
+#ValidFrom:         FIF-API-36
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      A valid queue name
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the queue to connect to for replies to COM.
+#END PARAMETER
+transport.ResponseQueueName=${somfif.transport.ResponseQueueName}
+
+#START PARAMETER
+#Parameter:         somfif.transport.QueueManagerName
+#ValidFrom:         FIF-API-36
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager name
+#DefaultValue:      -
+#ExampleValue:      CCBSVR2E
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the queue manager to connect to for requests coming from COM.
+#END PARAMETER
+transport.QueueManagerName=${somfif.transport.QueueManagerName}
+
+#START PARAMETER
+#Parameter:         somfif.transport.QueueManagerHostName
+#ValidFrom:         FIF-API-36
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager host name
+#DefaultValue:      -
+#ExampleValue:      hp64d01
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The host name of the queue manager to connect to for requests coming from COM.
+#END PARAMETER
+transport.QueueManagerHostName=${somfif.transport.QueueManagerHostName}
+
+#START PARAMETER
+#Parameter:         somfif.transport.QueueManagerPortNumber
+#ValidFrom:         FIF-API-36
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager port number
+#DefaultValue:      -
+#ExampleValue:      5012
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The port number of the queue manager to connect to for requests coming from COM.
+#END PARAMETER
+transport.QueueManagerPortNumber=${somfif.transport.QueueManagerPortNumber}
+
+
+#START PARAMETER
+#Parameter:         COM.ENDPOINT.NAME
+#ValidFrom:         FIF-API-41
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM client)
+#ParameterType:     STRING
+#ExampleValue:      COM.
+#Optional:          N
+#Last_Modified:     20.10.11
+#Last_Modified_By   schwarje
+#Description:       Name of the COM endpoint, introduced with IT-k-31236
+#END PARAMETER
+
+# The channel name of the queue manager
+transport.QueueManagerChannelName=CLIENT.${COM.ENDPOINT.NAME}${somfif.transport.QueueManagerName}
+
+# The message acknowledge mode to use for the queue session
+transport.AcknowledgeMode=CLIENT_ACKNOWLEDGE
+
+# The transport type of the queue manager
+transport.QueueManagerTransportType=TCPIP
+
+# The character encoding to use for encoding and decoding the messages that are
+# sent and received over the queue
+transport.Encoding=ISO-8859-1
+
+transport.TransactionedSession=true
+
+#START PARAMETER
+#Parameter:         somfif.transport.jmsReplyTo
+#ValidFrom:         FIF-API-43
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM client)
+#ParameterType:     STRING
+#ExampleValue:      N
+#DefaultValue:      Y
+#Optional:          Y
+#Last_Modified:     19.12.18
+#Last_Modified_By   makuier
+#Description:       The JMS reply to functionality turn off if the value is set to N, in all other cases is turned on
+#END PARAMETER
+transport.jmsReplyTo=${somfif.transport.jmsReplyTo}
+
+#START PARAMETER
+#Parameter:         somfif.transport.MaxRetry
+#ValidFrom:         FIF-API-43
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM client)
+#ParameterType:     STRING
+#ExampleValue:      5
+#DefaultValue:      10
+#Optional:          Y
+#Last_Modified:     31.08.12
+#Last_Modified_By   makuier
+#Description:       Maximum number of reconnect tries if the connection to MQ is lost
+#END PARAMETER
+transport.MaxRetry=${somfif.transport.MaxRetry}
+
+#START PARAMETER
+#Parameter:         somfif.transport.RetrySleepTime
+#ValidFrom:         FIF-API-43
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM client)
+#ParameterType:     STRING
+#ExampleValue:      3
+#DefaultValue:      5
+#Optional:          Y
+#Last_Modified:     31.08.12
+#Last_Modified_By   makuier
+#Description:       The sleep time between consecutive MQ reconnection tries.
+#END PARAMETER
+transport.RetrySleepTime=${somfif.transport.RetrySleepTime}
+
+#####################
+# DATABASE SETTINGS #
+#####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         somfif.db.fifdb.Driver
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       Class name
+#DefaultValue:      -
+#ExampleValue:      oracle.jdbc.driver.OracleDriver
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the JDBC database driver to use.
+#END PARAMETER
+db.fifdb.Driver=${somfif.db.fifdb.Driver}
+
+#START PARAMETER
+#Parameter:         somfif.db.fifdb.ConnectString
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       Fully qualified URL for JDBC
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:ccmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The connection string to use to connect to the database containing the FIF tables.
+#Description:       (Format: jdbc:oracle:thin:@hostname:port:dbname)
+#END PARAMETER
+db.fifdb.ConnectString=${somfif.db.fifdb.ConnectString}
+
+#START PARAMETER
+#Parameter:         somfif.db.fifdb.User
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       All users of database.
+#DefaultValue:      -
+#ExampleValue:      ccm_user
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The user name to use to connect to the database containing the FIF tables.
+#END PARAMETER
+db.fifdb.User=${somfif.db.fifdb.User}
+
+#START PARAMETER
+#Parameter:         somfif.db.fifdb.Password
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       Valid password.
+#DefaultValue:      -
+#ExampleValue:      ernirnlihlrieppg
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The ecnrypted password to use to connect to the database (encrypted in CCB format).
+#END PARAMETER
+db.fifdb.Password=${somfif.db.fifdb.Password}
+
+#START PARAMETER
+#Parameter:         somfif.db.fifdb.EncryptionKey
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       Encryption key used to encrypt the password.
+#DefaultValue:      -
+#ExampleValue:      pshsodoehseffjlhsohedqfpnpfssmpleggfqpprnlhjhess
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The encryption key that was used to encrypt the database password.
+#END PARAMETER
+db.fifdb.EncryptionKey=${somfif.db.fifdb.EncryptionKey}
+
+#START PARAMETER
+#Parameter:         somfif.db.fifdb.MaximumConnectionCount
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM database client)
+#ParameterType:     INTEGER
+#ValidValues:       -
+#DefaultValue:      -
+#ExampleValue:      30
+#RecomnendedVal.:   30
+#Optional:          N
+#Last_Modified:     25.06.10
+#Last_Modified_By   schwarje
+#Description:       The maximum number of open connections in the pool
+#Description:       The number has to be high enough for all request handler, recycle handlers, 
+#Description:       for failed response handling and for failed request handling
+#END PARAMETER
+db.fifdb.MaximumConnectionCount=${somfif.db.fifdb.MaximumConnectionCount}
+
+#START PARAMETER
+#Parameter:         somfif.db.psmdb.Driver
+#ValidFrom:         FIF-API-62.01.08
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       Class name
+#DefaultValue:      -
+#ExampleValue:      oracle.jdbc.driver.OracleDriver
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     14.01.19
+#Last_Modified_By   lejam
+#Description:       The name of the JDBC database driver to use.
+#END PARAMETER
+db.psmdb.Driver=${somfif.db.psmdb.Driver}
+
+#START PARAMETER
+#Parameter:         somfif.db.psmdb.ConnectString
+#ValidFrom:         FIF-API-62.01.08
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       Fully qualified URL for JDBC
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:psmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     14.01.19
+#Last_Modified_By   lejam
+#Description:       The connection string to use to connect to the database containing the PSM tables (ONL DB)
+#Description:       (Format: jdbc:oracle:thin:@hostname:port:dbname)
+#END PARAMETER
+db.psmdb.ConnectString=${somfif.db.psmdb.ConnectString}
+
+#START PARAMETER
+#Parameter:         somfif.db.psmdb.User
+#ValidFrom:         FIF-API-62.01.08
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       All users of database.
+#DefaultValue:      -
+#ExampleValue:      psm_gui_user
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     14.01.19
+#Last_Modified_By   lejam
+#Description:       The user name to use to connect to the database containing the FIF tables.
+#END PARAMETER
+db.psmdb.User=${somfif.db.psmdb.User}
+
+#START PARAMETER
+#Parameter:         somfif.db.psmdb.Password
+#ValidFrom:         FIF-API-62.01.08
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       Valid password.
+#DefaultValue:      -
+#ExampleValue:      ernirnlihlrieppg
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     14.01.19
+#Last_Modified_By   lejam
+#Description:       The ecnrypted password to use to connect to the database (encrypted in CCB format).
+#END PARAMETER
+db.psmdb.Password=${somfif.db.psmdb.Password}
+
+#START PARAMETER
+#Parameter:         somfif.db.psmdb.EncryptionKey
+#ValidFrom:         FIF-API-62.01.08
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM queue client)
+#ParameterType:     STRING
+#ValidValues:       Encryption key used to encrypt the password.
+#DefaultValue:      -
+#ExampleValue:      pshsodoehseffjlhsohedqfpnpfssmpleggfqpprnlhjhess
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     14.01.19
+#Last_Modified_By   lejam
+#Description:       The encryption key that was used to encrypt the database password.
+#END PARAMETER
+db.psmdb.EncryptionKey=${somfif.db.psmdb.EncryptionKey}
+
+#START PARAMETER
+#Parameter:         somfif.db.psmdb.MaximumConnectionCount
+#ValidFrom:         FIF-API-62.01.08
+#ValidTo:           open
+#Components:        FIF-API (COM-SOM database client)
+#ParameterType:     INTEGER
+#ValidValues:       -
+#DefaultValue:      -
+#ExampleValue:      30
+#RecomnendedVal.:   30
+#Optional:          N
+#Last_Modified:     14.01.19
+#Last_Modified_By   lejam
+#Description:       The maximum number of open connections in the pool
+#Description:       The number has to be high enough for all request handler, recycle handlers, 
+#Description:       for failed response handling and for failed request handling
+#END PARAMETER
+db.psmdb.MaximumConnectionCount=${somfif.db.psmdb.MaximumConnectionCount}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of database aliases that are being used by the application
+# An alias maps to a specific set of database configuration settings
+# The QueueClient only needs one database alias and this alias should
+# be called errormappingdb.
+# If errormapping.EnableErrorMapping is set to false these settings are
+# ingnored
+db.aliases=fifdb, psmdb
+
+# The maximum number of minutes that a connection can remain active (in minutes)
+db.fifdb.MaximumConnectionLifeTime=240
+db.psmdb.MaximumConnectionLifeTime=240
+
+# The minimum number of open connections in the pool
+db.fifdb.MinimumConnectionCount=0
+db.psmdb.MinimumConnectionCount=0
+
+# The number of minutes to wait between connection cleanup runs
+db.fifdb.HouseKeepingSleepTime=1
+db.psmdb.HouseKeepingSleepTime=1
+
+
+#######################
+# Database statements #
+#######################
+
+#### Database statements for FifTransaction logging ####
+SynchronousFifClient.FifTransaction.DBAlias=fifdb
+
+# The select statement recycle transaction by ID 
+SynchronousFifClient.FifTransaction.RetrieveFifTransactionsById= \
+select * from fif_transaction where transaction_id = ? and client_type = ?
+
+# The select statement to retrieve pending transactions
+SynchronousFifClient.FifTransaction.RetrievePendingFifTransactions= \
+select * from fif_transaction \
+where status = ? and client_id = ? \
+and due_date <= sysdate \
+and rownum <= ?
+
+# The select statement to retrieve pending transactions
+SynchronousFifClient.FifTransaction.RetrievePendingPriorityFifTransactions= \
+select * from fif_transaction \
+where status = ? and client_id = ? \
+and due_date <= sysdate \
+and priority_indicator = 'Y' \
+and rownum <= ?
+
+# The select statement to retrieve pending transactions
+SynchronousFifClient.FifTransaction.CheckPriorityFifTransactions= \
+select count(1) from fif_transaction \
+where status = ? and client_id = ? \
+and due_date <= sysdate \
+and priority_indicator = 'Y'
+
+# The select statement to retrieve completed requests with failed responses
+SynchronousFifClient.FifTransaction.RetrieveFailedResponses= \
+select * from fif_transaction \
+where status = ? \
+and client_id = ? \
+and audit_update_date_time <= ? \
+and response_retry_count < ? \
+and rownum <= ?
+
+# The delete statement recycle transaction
+SynchronousFifClient.FifTransaction.DeleteFifTransaction= \
+delete from fif_transaction where transaction_id = ? and client_type = ?
+
+
+
+# The update statement recycle transaction
+SynchronousFifClient.FifTransaction.UpdateFifTransaction= \
+update fif_transaction set \
+due_date = ?, end_date = ?, status = ?, recycle_stage = ?, client_response = ?, \
+customer_number = ?, audit_update_user_id = ?, audit_update_date_time = sysdate, response_retry_count = ?, jms_correlation_id = ?, jms_reply_to = ? \
+where transaction_id = ? and client_type = ?
+
+# The insert statement recycle transaction
+SynchronousFifClient.FifTransaction.InsertFifTransaction= \
+insert into fif_transaction \
+(transaction_id, client_type, client_id, client_request, client_response, due_date, entry_date, \
+status, recycle_stage, customer_number, audit_update_user_id, response_retry_count, jms_correlation_id, jms_reply_to, audit_update_date_time) \
+values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate)
+
+
+
+
+#### Database statements for creation of notifications for failed requests ####
+
+# parameters for creating notifications for failed fif requests   
+SynchronousFifClient.FailedRequestNotification.GetTransactionID.Statement=\
+select 'FR-'||lpad(fif_transaction_id_seq.nextval, 15, '0') from dual
+
+SynchronousFifClient.FailedRequestNotification.InsertRequest.Statement=\
+insert into ccm_fif_request (transaction_id, target_client, status, action_name, \
+   due_date, priority, creation_date, audit_update_user_id, external_system_id) \
+values (?, 'CCM', 'NOT_STARTED', 'handleFailedFifRequest', sysdate, 0, sysdate, 'COM-SOM', ?)
+
+SynchronousFifClient.FailedRequestNotification.InsertRequestParam.Statement=\
+insert into ccm_fif_request_param (transaction_id, param, value) \
+values (?, ?, ?)   
+
+SynchronousFifClient.FailedRequestNotification.InsertRequestParamList.Statement=\
+insert into ccm_fif_request_param_list (transaction_id, param_list, list_item_number, param, value) \
+values (?, ?, ?, ?, ?)   
+

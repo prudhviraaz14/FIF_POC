@@ -1,0 +1,13 @@
+<mobile ID="mobile-access-new">
+	<ccbId type="S">
+		<configured>{mobileSSID}</configured>
+	</ccbId>
+	<mobileConfiguration>
+		<locationAddress>
+			<configured>
+				{file:templates/Address1.xml_part}
+			</configured>
+		</locationAddress>
+	</mobileConfiguration>
+	<processingStatus>{mobileProcessingStatus}</processingStatus>
+</mobile>

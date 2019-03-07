@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransformationRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.arcor.de/transformer/SOMToFIFTransformationSchema"
+  xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema"
+  xsi:schemaLocation="http://www.arcor.de/transformer/SOMToFIFTransformationSchema SOMToFIFTransformationSchema.xsd"
+  docTypeQualifiedName="request-list" docTypeSystemId="request-list.dtd">
+  <RootTemplate>
+    
+    <RequestListTemplate orderIdPath="//order[@orderID]">
+      
+      <!-- global request list parameters -->
+      <RLPMapping targetName="orderId" sourceAttrName="/order/@orderID" />
+      
+      <!-- createCustomer -->
+      <RequestTemplate fif-request-name="cancelCustOrderWithBarCode" sourceWorkingPath="/order">
+        <TemplateConditions>
+          <base:IsMember value="cancel" sourceAttrName="/*/*/transactionType"/>
+        </TemplateConditions>
+        
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="cancellation/targetOrderId" />
+          </TemplateConditions>
+          <RPMapping targetName="customerTrackingId" sourceAttrName="cancellation/targetOrderId"/>
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="cancellation/targetOrderId" />
+          </TemplateConditions>
+          <RPMapping targetName="customerTrackingId" sourceAttrName="/order/@orderID"/>
+        </TransformationTemplate>
+        <RPMapping targetName="reasonRd" sourceAttrName="*/cancellationReasonCode"/>
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="closeExternalOrder" sourceWorkingPath="/order">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="close-cancel" sourceAttrName="/*/*/transactionType"/>
+            <base:IsMember value="close-final" sourceAttrName="/*/*/transactionType"/>
+            <base:IsMember value="close-abort" sourceAttrName="/*/*/transactionType"/>
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping targetName="closeReason" sourceAttrName="/*/*/transactionType"/>
+      </RequestTemplate>
+      
+    </RequestListTemplate>
+    
+  </RootTemplate>
+</TransformationRepository>

@@ -1,0 +1,32 @@
+		<action-mapping>
+			<action-name>modifyRowForSepaMigration</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>ModifyRowForSepaMigration.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				
+				<message-param>
+					<param-name>SQL_WHERE</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+			    <message-param>
+			        <param-name>ROW_NUMBER_LIMIT</param-name>
+			        <param-mandatory>false</param-mandatory>
+			    </message-param>
+				
+			</message-parameters>
+			<response-handling>
+				<return-warnings>false</return-warnings>
+				<output-parameters/>
+			</response-handling>
+		</action-mapping>

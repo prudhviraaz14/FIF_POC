@@ -1,0 +1,144 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<relocation orderPositionNumber="1">
+		<relocationVariant>kombinierte Schaltung</relocationVariant>
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+<ipBitstream ID="access-bit">
+	<ccbId type="S">
+		<existing>{internetSSID}</existing>
+		<configured>{internetSSIDNew}</configured>
+	</ccbId>
+	<ipBitstreamConfiguration>
+		<locationAddress>
+			<existing>
+				{file:templates/Address1.xml_part}
+			</existing>
+			<configured>
+				{file:templates/Address2.xml_part}
+			</configured>
+		</locationAddress>
+		<salesSegment>
+			<existing>GK</existing>
+		</salesSegment>
+		<asb>
+			<existing>31</existing>
+		</asb>
+		<localAreaCode>
+			<existing>0211</existing>
+		</localAreaCode>
+		<carrier>
+			<existing>Arcor</existing>
+		</carrier>
+		<serviceProvider>
+			<existing>Arcor</existing>
+		</serviceProvider>
+		<oldAccess>
+			<existing>NEW</existing>
+		</oldAccess>
+        <accessTechnology>
+            <existing>{accessTechnology}</existing>
+        </accessTechnology>
+        <ngabLineID>
+			<existing>ngab{accountNumber}</existing>
+		</ngabLineID>
+		<technicalServiceId>
+			<configured>2</configured>
+			<existing>1</existing>
+		</technicalServiceId>
+		<DTAGContractNumber>CN{orderID}</DTAGContractNumber>
+		<DTAGCompletionDate>{desiredDate}</DTAGCompletionDate>
+		<DTAGPaymentDate>{desiredDate}</DTAGPaymentDate>
+		<DTAGOrderNumber>ON{orderID}</DTAGOrderNumber>
+		<witaUsage>WITA4.0</witaUsage>
+		<newLocalExchangeCarrierWitaIndicator>true</newLocalExchangeCarrierWitaIndicator>
+	</ipBitstreamConfiguration>
+	<processingStatus>{voiceProcessingStatus}</processingStatus>
+  	<contactRoleRefList>
+    	<contactRoleRef>
+      		<existing>contactRole</existing>
+    	</contactRoleRef>
+  	</contactRoleRefList>
+</ipBitstream>
+			{file:templates/SIPTrunkAccessOldNew.xml_part}
+		</accesses>
+		<functions>
+<internet ID="internet" refAccessID="access-bit">
+	<processingType>CHANGE</processingType>
+	<ccbId type="S">
+	    <existing>{internetSSID}</existing>
+	    <configured>{internetSSIDNew}</configured>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultInternet</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeInternet</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetInternet</configured>
+	</providerTrackingNumber>
+	<adslInternetConfiguration>
+		<pricingStructureCode>
+			<existing>{pricingStructureCodeInternet}</existing>
+			<configured>{pricingStructureCodeInternetNew}</configured>
+		</pricingStructureCode>
+		<productCode>
+			<existing>{productCodeInternet}</existing>
+		</productCode>
+		<visTrackingPosition/>
+		<primaryCustSignName>
+			<existing>{scenarioName}</existing>
+		</primaryCustSignName>
+		<primaryCustSignDate>
+			<existing>{todayTruncated}</existing>
+		</primaryCustSignDate>
+		<minimumDurationPeriod>
+			<value>
+				<existing>24</existing>
+			</value>
+			<unit>
+				<existing>MONTH</existing>
+			</unit>
+		</minimumDurationPeriod>
+		<dialInAccountName>
+			<configured>{internetSSID}</configured>
+		</dialInAccountName>
+		<DSLBandwidth>
+			<existing>{DSLBandwidth}</existing>
+		</DSLBandwidth>
+		<allowBandwidthDowngrade>
+			<existing>true</existing>
+		</allowBandwidthDowngrade>
+		<desiredBandwidth>
+			<existing>{DSLBandwidth}</existing>
+		</desiredBandwidth>
+		<fixedIPAddressIndicator>
+			<existing>false</existing>
+		</fixedIPAddressIndicator>
+		<specialTimeWindow/>
+		<projectOrderIndicator>
+			<existing>false</existing>
+		</projectOrderIndicator>
+		<fixedOrderDateIndicator>
+			<existing>false</existing>
+		</fixedOrderDateIndicator>
+		<automaticMailingIndicator>
+			<existing>true</existing>
+		</automaticMailingIndicator>
+	</adslInternetConfiguration>
+	<processingStatus>{internetProcessingStatus}</processingStatus>
+	<completionStatusOldCcbId>{internetCompletionStatusOld}</completionStatusOldCcbId>
+	<previousCompletionStatusOldCcbId>{internetPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+	<completionStatusNewCcbId>{internetCompletionStatusNew}</completionStatusNewCcbId>
+	<previousCompletionStatusNewCcbId>{internetPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+</internet>
+			{file:templates/VoiceRangesOldNew.xml_part}
+			{file:templates/ExtraNumbersSingleNumberIgnore.xml_part}
+			{file:templates/ExtraNumbersNumberRangeIgnore.xml_part}
+			{file:templates/HardwareBDSLIgnore.xml_part}
+			{file:templates/HardwareSIPIgnore.xml_part}			
+			{file:templates/DirectoryEntryIgnore.xml_part}
+		</functions>
+	</relocation>
+</order>

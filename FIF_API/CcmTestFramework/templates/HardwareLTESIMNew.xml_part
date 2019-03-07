@@ -1,0 +1,61 @@
+				<hardware ID="hardwareLTESIM">
+					<processingType>ADD</processingType>
+					<ccbId type="S">
+					    <configured>{hardwareLTESIMSSID}</configured>
+					</ccbId>
+					<refFunctionID>
+						<configured>internet</configured>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultLTESIM</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeLTESIM</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetLTESIM</configured>
+					</providerTrackingNumber>
+					<hardwareConfiguration>
+						<hardwareServiceCode>
+							<configured>I1291</configured>
+						</hardwareServiceCode>
+						<orderReason>
+							<configured>Neuauftrag</configured>
+						</orderReason>
+						<subventionCode>
+							<configured>1</configured>
+						</subventionCode>
+						<shippingCosts>
+							<configured>RG</configured>
+						</shippingCosts>
+						<salutationDescription>
+							<configured>Herr</configured>
+						</salutationDescription>
+						<forename>
+							<configured>COM</configured>
+						</forename>
+						<name>
+							<configured>{scenarioName}</configured>
+						</name>
+						<hardwareMailingAddress>
+							<configured>
+								{file:templates/Address1.xml_part}
+							</configured>
+						</hardwareMailingAddress>
+						<articleNumber>
+							<configured>20080546</configured>
+						</articleNumber>
+						<articleName>
+							<configured>SIM-Karte</configured>
+						</articleName>
+						<serialNumber>
+							<configured>154947214842</configured>
+						</serialNumber>
+						<simSerialNumber>
+							<configured>{customerNumber}</configured>
+						</simSerialNumber>
+					</hardwareConfiguration>
+					<previousCompletionStatusNewCcbId>{hardwareLTESIMPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+					<completionStatusNewCcbId>{hardwareLTESIMCompletionStatusNew}</completionStatusNewCcbId>
+					<processingStatus>{hardwareLTESIMProcessingStatus}</processingStatus>
+				</hardware>

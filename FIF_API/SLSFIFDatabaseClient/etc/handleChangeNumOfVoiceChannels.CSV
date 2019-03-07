@@ -1,0 +1,2 @@
+migrationID;bundleID;desiredDate;salesOrganisationNumber;salesOrganisationNumberVF;allowOpenTermination;allowOtherOpenOrder;numberOfVoiceChannels;debugMode
+Test;hG002RN4OC0tvAG9;2018.06.10 00:00:00;97000015;;false;false;8;true

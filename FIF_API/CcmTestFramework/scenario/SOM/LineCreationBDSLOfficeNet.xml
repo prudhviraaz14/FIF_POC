@@ -1,0 +1,18 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<lineCreation orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/BDSLAccessNew.xml_part}
+			{file:templates/IPCentrexAccessNew.xml_part}
+		</accesses>
+		<functions>			
+			{file:templates/InternetNewBDSL.xml_part}
+			{file:templates/VoiceIPCentrexNew.xml_part}
+			{file:templates/SeatConvergedNew.xml_part}
+			{file:templates/SeatFixedNew.xml_part}
+			{file:templates/SeatMobileNew.xml_part}
+			{file:templates/HardwareV0114New.xml_part}
+		</functions>
+	</lineCreation>
+</order>

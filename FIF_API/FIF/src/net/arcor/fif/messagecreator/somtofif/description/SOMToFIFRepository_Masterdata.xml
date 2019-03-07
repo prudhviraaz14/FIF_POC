@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransformationRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns="http://www.arcor.de/transformer/SOMToFIFTransformationSchema" 
+  xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema" 
+  xsi:schemaLocation="http://www.arcor.de/transformer/SOMToFIFTransformationSchema SOMToFIFTransformationSchema.xsd" 
+  docTypeQualifiedName="request-list" docTypeSystemId="request-list.dtd">
+  <RootTemplate>
+    <RequestListTemplate orderIdPath="//order[@orderID]">
+      
+      <base:Include fileID="functionParameters" fileName="FunctionParameters.xml"/>
+      <base:Include fileID="masterdataChanges" fileName="MasterdataChanges.xml"/>
+      
+      <base:Include fileIDRef="functionParameters" partIDRef="masterdataParameters"/>
+      
+      <base:DataBufferWriter keyValue="orderIdPath" 
+        sourceAttrName="count(/*/barcode) > 0" 
+        decoding="'true', '/*/barcode', '/order/@orderID'" />            
+      
+      <!-- global request list parameters -->
+      <RLPMapping targetName="sourceSystem" sourceAttrName="/order/customerContactPoint" />
+      <RLPMapping targetName="userName" sourceAttrName="/order/entryUser" />
+      <RLPMapping targetName="rollenBezeichnung" sourceAttrName="/order/entryRole" />
+      <RLPMapping targetName="somDate" sourceAttrName="/order/entryDateTime" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="orderId" sourceAttrName="${#:orderIdPath}" />
+      <RLPMapping targetName="OMTSOrderID" sourceAttrName="${#:orderIdPath}" />
+      <RLPMapping targetName="salesOrganisationNumber" sourceAttrName="/order/salesOrganisation/salesOrganisationNumber[@type='A']" />
+      <RLPMapping targetName="salesOrganisationNumberVF" sourceAttrName="/order/salesOrganisation/salesOrganisationNumber[@type='V']" />
+      <RLPMapping targetName="desiredDate" sourceAttrName="/order[not(lineCreation|lineChange|contractPartnerChange)]/*/desiredDate" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="desiredDate" sourceAttrName="/order[(lineCreation|lineChange|contractPartnerChange)]/entryDateTime" formatter="SOMToCCBDateFormatter" />
+      <RLPMapping targetName="orderPositionNumber" sourceAttrName="/order/*/@orderPositionNumber" />
+      <RLPMapping targetName="sourceSystemId"
+                  sourceAttrName="concat(/order/entrySystem,/order/customerContactPoint)"
+                  decoding="'ePOS','FNEP.NC',
+                            'OSFShop','OSF.RNC',
+                            'eShop','FNES.NC',
+                            'OSFTelesales','OSF.TNC',
+                            'CCB.CCM'" />
+
+      <!-- createCustomer -->
+      <RequestTemplate fif-request-name="createCustomer" 
+        sourceWorkingPath="/order/customerData/customer" 
+        extends="entityCreation_template">
+        <RPMapping targetName="parentCustomerNumber" sourceAttrName="ownerCcbId/*" />
+        <RPMapping targetName="riskCategory" sourceAttrName="riskCategory/configured" />
+        <RPMapping targetName="userPassword" sourceAttrName="userPassword/configured" />
+        <RPMapping targetName="matchCodeId" sourceAttrName="matchCodeId/configured" />
+        <RPMapping targetName="customerGroup" sourceAttrName="customerGroup/configured" />
+        <RPMapping targetName="customerCategory" sourceAttrName="customerCategory/configured" />
+        <RPMapping targetName="customerClassification" sourceAttrName="classification/configured" />
+        <RPMapping targetName="customerInternalRefNumber" sourceAttrName="customerInternalRefNumber/configured" />
+        <RPMapping targetName="marketingPhoneIndicator" sourceAttrName="marketingPhoneIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingMailIndicator" sourceAttrName="marketingMailIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingFaxIndicator" sourceAttrName="marketingFaxIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="marketingUseDataIndicator" sourceAttrName="marketingUseDataIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="postIdentIndicator" sourceAttrName="postIdentIndicator/configured" decoding="'true','Y','N'" />
+        <RPMapping targetName="billingAccountNumber" sourceAttrName="kiasReference/billingAccountNumber/configured"/>
+        <RPMapping targetName="cdrEgnFormat" sourceAttrName="cdrEgnFormat/configured" />
+        <RPMapping targetName="championId" sourceAttrName="championID/configured" />    
+
+         <TransformationTemplate>    
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="marketingAuthorizationDate/configured"/>                        
+          </TemplateConditions> 
+          <RPMapping targetName="marketingAuthorizationDate" sourceAttrName="marketingAuthorizationDate/configured" formatter="SOMToCCBDateFormatter"/>
+        </TransformationTemplate> 
+        
+        <TransformationTemplate>    
+          <TemplateConditions>
+              <base:IsNotExisting sourceAttrName="marketingAuthorizationDate/configured"/>  
+              <base:IsMember value="true" sourceAttrName="count(/*/*/*/voice/*/primaryCustSignDate/configured)>0" />                                  
+          </TemplateConditions> 
+          <RPMapping targetName="marketingAuthorizationDate" sourceAttrName="/*/*/*/voice/*/primaryCustSignDate/configured" formatter="SOMToCCBDateFormatter"/>
+        </TransformationTemplate>
+        
+        <TransformationTemplate>    
+          <TemplateConditions>
+              <base:IsNotExisting sourceAttrName="marketingAuthorizationDate/configured"/>  
+              <base:IsMember value="false" sourceAttrName="count(/*/*/*/voice/*/primaryCustSignDate/configured)>0" />  
+              <base:IsMember value="true" sourceAttrName="count(/*/*/*/internet/*/primaryCustSignDate/configured)>0" />                                  
+          </TemplateConditions> 
+          <RPMapping targetName="marketingAuthorizationDate" sourceAttrName="/*/*/*/internet/*/primaryCustSignDate/configured" formatter="SOMToCCBDateFormatter"/>
+        </TransformationTemplate>
+        
+        <TransformationTemplate>    
+          <TemplateConditions>
+              <base:IsNotExisting sourceAttrName="marketingAuthorizationDate/configured"/>  
+              <base:IsMember value="false" sourceAttrName="count(/*/*/*/voice/*/primaryCustSignDate/configured)>0" />   
+              <base:IsMember value="false" sourceAttrName="count(/*/*/*/internet/*/primaryCustSignDate/configured)>0" />                               
+          </TemplateConditions> 
+          <RPMapping targetName="marketingAuthorizationDate" sourceAttrName="/order/entryDateTime" formatter="SOMToCCBDateFormatter" />
+        </TransformationTemplate>	
+       
+        <TransformationTemplate>    
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="allocatedCustomerNumber/configured"  />                        
+          </TemplateConditions> 
+          <RPMapping targetName="allocatedCustomerNumber" sourceAttrName="ccbId[@type='C']/configured" />
+        </TransformationTemplate>      
+
+        <TransformationTemplate>    
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="allocatedCustomerNumber/configured"  />                       
+          </TemplateConditions> 
+          <RPMapping targetName="allocatedCustomerNumber" sourceAttrName="allocatedCustomerNumber/configured" />
+        </TransformationTemplate>     
+
+
+        <TransformationTemplate>         
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="affinityGroupList" />            
+            <OrComposite>              
+              <base:IsMember value="VE" sourceAttrName="classification/configured" />
+              <base:IsMember value="VC" sourceAttrName="classification/configured" />
+            </OrComposite>
+          </TemplateConditions>            
+          <RPListTemplate listName="affinityGroupList">
+            <RPListItemTemplate>
+              <RPMapping staticValue="VODAFONE_RESALE" targetName="affinityGroup" />
+            </RPListItemTemplate>
+          </RPListTemplate>
+        </TransformationTemplate>
+        
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="affinityGroupList" />            
+          </TemplateConditions>
+          <RPListTemplate listName="affinityGroupList">
+            <RPListItemTemplate sourceWorkingPath="affinityGroupList/configured/affinityGroup">
+              <RPMapping sourceAttrName="." targetName="affinityGroup" />
+            </RPListItemTemplate>
+          </RPListTemplate>
+        </TransformationTemplate>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="createBillingAccount" 
+        sourceWorkingPath="/order/customerData/billingAccount" 
+        extends="entityCreation_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>
+
+        <!-- customer number either from ownerCcbId -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="ownerCcbId/configured" />
+        </TransformationTemplate>
+        <!-- or from ownerNodeRefID -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+        </TransformationTemplate>
+
+        <RPMapping targetName="bankAccountNumber" sourceAttrName="methodOfPayment/bankAccountNumber/configured" />
+        <RPMapping targetName="ownerFullName" sourceAttrName="methodOfPayment/owner/configured" />
+        <RPMapping targetName="bankClearingCode" sourceAttrName="methodOfPayment/bankCode/configured" />        
+        <RPMapping targetName="directDebitAuthorizDate" sourceAttrName="methodOfPayment/directDebitAuthorizationDate/configured" formatter="SOMToCCBDateFormatter" />
+        <RPMapping targetName="iban" sourceAttrName="methodOfPayment/sepaBankAccountData/iban/configured" />
+        <RPMapping targetName="bic" sourceAttrName="methodOfPayment/sepaBankAccountData/bic/configured" />
+        <RPMapping targetName="signatureDate" sourceAttrName="methodOfPayment/mandate/configured/signatureDate" formatter="SOMToCCBDateFormatter" />
+        <RPMapping targetName="paymentMethod" sourceAttrName="methodOfPayment/paymentMethod/configured" decoding ="'MANUAL_FEE','MANUAL'"/>
+        <RPMapping targetName="paymentTerm" sourceAttrName="methodOfPayment/paymentTerm/configured" />
+        <RPMapping targetName="cycleName" sourceAttrName="invoiceDelivery/cycleName/configured" />        
+        <RPMapping targetName="mailingPrinterDestination" sourceAttrName="mailing/mailingPrinterDestination/configured" />
+        <RPMapping targetName="mailingName" sourceAttrName="mailing/mailingName/configured" />
+        <RPMapping targetName="mailingDocumentType" sourceAttrName="mailing/mailingDocumentType/configured" />
+        <RPMapping targetName="docTemplateName" 
+          sourceAttrName="/order/customerData/customer/classification/configured" 
+          decoding="
+          'VE', 'Vodafone PK-Rechnung', 
+          'VC', 'VF Rechnung', 
+          'D', 'Privatkunden Rechnung', 
+          'E', 'Privatkunden Rechnung', 
+          'Rechnung'" />       
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="setInvoiceDeliveryType" 
+        sourceWorkingPath="/order/customerData/billingAccount" 
+        extends="masterdataCreation_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>
+        <RPMapping targetName="deliveryType" sourceAttrName="invoiceDelivery/invoiceDeliveryType/configured" />
+        <RPMapping targetName="maskingDigits" sourceAttrName="invoiceDelivery/maskingDigits/configured" />
+        <RPMapping targetName="enableEgn" sourceAttrName="invoiceDelivery/enableItemizedBill/configured" />
+        <RPMapping targetName="desiredDate" staticValue="tomorrow" />
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="createSkeletonContract" 
+        sourceWorkingPath="/order/customerData/skeletonContract" 
+        extends="masterdataCreation_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>
+
+        <RPMapping targetName="name" sourceAttrName="contractName/configured" />
+
+        <!-- customer number either from ownerCcbId -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="ownerCcbId/configured" />
+        </TransformationTemplate>
+        <!-- or from ownerNodeRefID -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+        </TransformationTemplate>
+
+        <RPListTemplate listName="productCodeList">
+          <RPListItemTemplate sourceWorkingPath="skeletonContractItem/tariffCodeList/configured/tariffCode">
+            <RPMapping sourceAttrName="." targetName="pricingStructureCode" />
+            <RPMapping sourceAttrName="concat(../../../accessName, ../../../functionName)" targetName="productCode" decoding="
+              'sipTrunkvoice', 'VI211', 
+              'businessDSLinternet', 'I1207', 
+              'safetyPackage', 'I1410',
+              'ipCentrexvoice', 'VI204',
+              'ipCentrexseat', 'VI205',
+              'ltevoice', 'VI208',
+              'lteinternet', 'I1208',
+              'ltetvCenter', 'I1305',
+              'ngnvoice', 'VI202',
+              'ngninternet', 'I1204',
+              'ngntvCenter', 'I1305',
+              'isdnvoice', 'V0002',
+              'isdninternet', 'I1100',
+              'isdntvCenter', 'I1305',
+              'ipBitstreamvoice', 'VI203',
+              'ipBitstreaminternet', 'I1203',
+              'ipBitstreamtvCenter', 'I1305'" />
+          </RPListItemTemplate>
+        </RPListTemplate>
+      </RequestTemplate>
+
+      <RequestTemplate fif-request-name="createServiceDeliveryContract" 
+        sourceWorkingPath="/order/customerData/serviceDeliveryContract" 
+        extends="masterdataCreation_template">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsExisting sourceAttrName="../customer[@ID='${@ownerNodeRefID}']" />
+            <base:IsExisting sourceAttrName="../customer/ccbId[@type='C'][existing='${ownerCcbId/configured}']" />
+          </OrComposite>
+        </TemplateConditions>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="/*/customerData/skeletonContract[@ID='${@skeletonContractNodeRefID}']" />
+            <base:IsNotExisting sourceAttrName="skeletonContractCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="useSkeletonContract" staticValue="Y" />
+          <RPMapping targetName="assocSkeletonContNum" sourceAttrName="../skeletonContract[@ID='${@skeletonContractNodeRefID}']/ccbId[@type='K']/existing" />
+        </TransformationTemplate>
+
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="skeletonContractCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="useSkeletonContract" staticValue="Y" />
+          <RPMapping targetName="assocSkeletonContNum" sourceAttrName="skeletonContractCcbId/configured" />
+        </TransformationTemplate>
+
+        <!-- customer number either from ownerCcbId -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="ownerCcbId/configured" />
+        </TransformationTemplate>
+        <!-- or from ownerNodeRefID -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="ownerCcbId/configured" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+        </TransformationTemplate>
+
+        <RPMapping targetName="parentSomElementID" sourceAttrName="@skeletonContractNodeRefID" />
+        <RPMapping targetName="name" sourceAttrName="contractName/*" />
+        <RPMapping targetName="languageRd" sourceAttrName="language/*" />
+        <RPMapping targetName="loiIndicator" sourceAttrName="letterOfIntentIndicator/*" decoding="'true', 'Y', 'N'" />
+        <RPMapping sourceAttrName="primaryCustSignDate/configured" targetName="primaryCustSignDate" formatter="SOMToCCBDateFormatter" />
+        <RPMapping sourceAttrName="primaryCustSignName/configured" targetName="primaryCustSignName" />
+        <RPMapping sourceAttrName="boardSignDate/configured" targetName="boardSignDate" formatter="SOMToCCBDateFormatter" />
+        <RPMapping sourceAttrName="boardSignName/configured" targetName="boardSignName" />
+      </RequestTemplate>
+      
+      <RequestTemplate fif-request-name="createOneGroup" 
+        sourceWorkingPath="/order/customerData/oneGroup">
+        <TemplateConditions>
+          <OrComposite>
+            <base:IsMember value="ADD" sourceAttrName="changeType" />
+            <base:IsMember value="CHANGE" sourceAttrName="changeType" />
+          </OrComposite>
+          <base:IsNotMember value="completedCCM" sourceAttrName="changeStatus"/>
+        </TemplateConditions>
+        
+        <RPMapping targetName="somElementID" sourceAttrName="@ID" />        
+        
+        <!-- IT-k-31903 Read the customerNumber from the new SOM elements before guessing it
+          1) ownerNodeRefID
+          2) ownerCcbId
+          3) guess
+        -->
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="@ownerNodeRefID" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" 
+            sourceAttrName="../customer[@ID = '${@ownerNodeRefID}']/ccbId[@type='C']" 
+            method="configuredExisting"/>
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="@ownerNodeRefID" />
+            <base:IsExisting sourceAttrName="ownerCcbId" />            
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" 
+            sourceAttrName="ownerCcbId" 
+            method="configuredExisting"/>
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="@ownerNodeRefID" />
+            <base:IsNotExisting sourceAttrName="ownerCcbId" />            
+          </TemplateConditions>
+          <TransformationTemplate>
+            <TemplateConditions>
+              <base:IsMember value="true" sourceAttrName="'${#:targetCustomerNumber}' = ''" />
+            </TemplateConditions>
+            <RPMapping targetName="customerNumber" sourceAttrName="../customer/ccbId[@type='C']/existing" />
+          </TransformationTemplate>
+          <TransformationTemplate>
+            <TemplateConditions>
+              <base:IsNotMember value="true" sourceAttrName="'${#:targetCustomerNumber}' = ''" />
+            </TemplateConditions>
+            <RPMapping targetName="customerNumber" sourceAttrName="#:targetCustomerNumber" />
+          </TransformationTemplate>       
+        </TransformationTemplate>
+        
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="@skeletonContractNodeRefID" />
+          </TemplateConditions>
+          <RPMapping targetName="skeletonContractNumber" 
+            sourceAttrName="../skeletonContract[@ID = '${@skeletonContractNodeRefID}']/ccbId[@type='K']" 
+            method="configuredExisting"/>
+          <RPMapping targetName="skeletonContractID" 
+            sourceAttrName="@skeletonContractNodeRefID" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="@skeletonContractNodeRefID" />
+            <base:IsExisting sourceAttrName="skeletonContractCcbId" />
+          </TemplateConditions>
+          <RPMapping targetName="skeletonContractNumber" 
+            sourceAttrName="skeletonContractCcbId" 
+            method="configuredExisting"/>
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotExisting sourceAttrName="@skeletonContractNodeRefID" />
+            <base:IsNotExisting sourceAttrName="skeletonContractCcbId" />
+          </TemplateConditions>
+          <RPMapping targetName="skeletonContractNumber" 
+            sourceAttrName="../skeletonContract/ccbId[@type = 'K']/existing" />
+          <RPMapping targetName="skeletonContractID" 
+            sourceAttrName="../skeletonContract/@ID" />
+        </TransformationTemplate>
+                    
+        <RPMapping targetName="oneGroupID" sourceAttrName="ccbId" method="configuredExisting"/>
+        <RPMapping targetName="type" staticValue="ONE_GROUP" />        
+        <RPMapping targetName="status" sourceAttrName="count(ccbId[@type='O']/existing) > 0" 
+          decoding="'true', 'ACTIVATED', 'ORDERED'" />        
+      </RequestTemplate>
+
+      <!-- createContactRole part 1, create contactRoleEntity only -->
+      <RequestTemplate fif-request-name="createContactRole" 
+        sourceWorkingPath="/order/customerData/contactRole" 
+        extends="entityCreation_template">
+        <TemplateConditions>
+          <base:IsNotMember value="PREV_TENANT" sourceAttrName="contactRoleTypeRd/configured"/>
+          <base:IsNotMember value="NOTIFICATION_OM" sourceAttrName="contactRoleTypeRd/configured"/>
+          <base:IsNotMember value="SHIPPING_CONTACT" sourceAttrName="contactRoleTypeRd/configured"/>
+          <!-- IT-k-31846 ignore INSTALLATION contactRoles which are order specific parameters only and
+            won't be created in CCM -->        
+          <OrComposite>
+            <!-- everything except INSTALLATION contacts -->
+            <base:IsNotMember value="INSTALLATION" sourceAttrName="contactRoleTypeRd/configured"/>                   
+            <!-- POS masterdata orders -->            
+            <base:IsMember value="true" sourceAttrName="count(/*/*/functions) = 0"/>
+            <!-- SOM-Editor orders -->
+            <base:IsMember value="CCM" sourceAttrName="/*/entrySystem"/>              
+          </OrComposite>
+          <!-- IT-k-31846 end -->        
+        </TemplateConditions>
+        
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsMember value="true" sourceAttrName="'${#:customerNumber}' = ''" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="../customer[@ID='${@ownerNodeRefID}']/ccbId[@type='C']/existing" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsNotMember value="true" sourceAttrName="'${#:customerNumber}' = ''" />
+          </TemplateConditions>
+          <RPMapping targetName="customerNumber" sourceAttrName="#:customerNumber" />
+        </TransformationTemplate>       
+        <RPMapping targetName="contactRoleEntityIdReference" sourceAttrName="@ID" />
+        <RPMapping targetName="contactRoleTypeRd" sourceAttrName="contactRoleTypeRd/configured" />
+        <RPMapping targetName="contactRolePositionName" sourceAttrName="contactRolePositionName/configured" />
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="*/address" />
+          </TemplateConditions>
+          <RPMapping staticValue="Y" targetName="createAddress" />
+        </TransformationTemplate>
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="*/accessInformation" />
+          </TemplateConditions>
+          <RPMapping staticValue="Y" targetName="createAccessInformation" />
+        </TransformationTemplate>
+      </RequestTemplate>
+            
+      <!-- createContactRole part 2, create link from contactRoleEntity to referenced object -->
+      <RequestTemplate fif-request-name="createContactRoleReference" 
+        sourceWorkingPath="/*/*/customer/*/contactRoleRef/configured"
+        extends="createContactRoleReference_template">
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="../../../ccbId[@type = 'C']/existing" />
+          </TemplateConditions>
+          <RPMapping targetName="supportedObjectId" sourceAttrName="../../../ccbId[@type = 'C']/existing"/>
+        </TransformationTemplate>                
+        <RPMapping targetName="supportedObjectTypeRd" staticValue="CUSTOMER" />
+      </RequestTemplate>
+      <RequestTemplate fif-request-name="createContactRoleReference" 
+        sourceWorkingPath="/*/*/billingAccount/*/contactRoleRef/configured"
+        extends="createContactRoleReference_template">
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="../../../ccbId[@type = 'A']/existing" />
+          </TemplateConditions>
+          <RPMapping targetName="supportedObjectId" sourceAttrName="../../../ccbId[@type = 'A']/existing"/>
+        </TransformationTemplate>                
+        <RPMapping targetName="supportedObjectTypeRd" staticValue="ACCOUNT" />
+      </RequestTemplate>
+      <RequestTemplate fif-request-name="createContactRoleReference" 
+        sourceWorkingPath="/*/*/skeletonContract/*/contactRoleRef/configured"
+        extends="createContactRoleReference_template">
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="../../../ccbId[@type = 'K']/existing" />
+          </TemplateConditions>
+          <RPMapping targetName="supportedObjectId" sourceAttrName="../../../ccbId[@type = 'K']/existing"/>
+        </TransformationTemplate>                
+        <RPMapping targetName="supportedObjectTypeRd" staticValue="SKELCNTR" />
+      </RequestTemplate>
+      <RequestTemplate fif-request-name="createContactRoleReference" 
+        sourceWorkingPath="/*/*/serviceDeliveryContract/*/contactRoleRef/configured"
+        extends="createContactRoleReference_template">
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="../../../ccbId[@type = 'D']/existing" />
+          </TemplateConditions>
+          <RPMapping targetName="supportedObjectId" sourceAttrName="../../../ccbId[@type = 'D']/existing"/>
+        </TransformationTemplate>                
+        <RPMapping targetName="supportedObjectTypeRd" staticValue="SERVDLVRY" />
+      </RequestTemplate>    
+      <RequestTemplate fif-request-name="createContactRoleReference" 
+        sourceWorkingPath="/*/*/oneGroup/*/contactRoleRef/configured"
+        extends="createContactRoleReference_template">
+        <TransformationTemplate>
+          <TemplateConditions>
+            <base:IsExisting sourceAttrName="../../../ccbId[@type = 'O']/existing" />
+          </TemplateConditions>
+          <RPMapping targetName="supportedObjectId" sourceAttrName="../../../ccbId[@type = 'O']/existing"/>
+        </TransformationTemplate>                
+        <RPMapping targetName="supportedObjectTypeRd" staticValue="ONE_GROUP" />
+      </RequestTemplate>    
+    
+      <base:Include fileIDRef="masterdataChanges" partIDRef="masterdataChanges"/>
+      
+    </RequestListTemplate>  
+  </RootTemplate>
+
+  <BaseTemplates>
+
+    <!-- template for entity creation START -->
+    <AbstractTransformationTemplate ID="entityCreation_template" extends="masterdataCreation_template">
+      <base:Include fileIDRef="functionParameters" partIDRef="entityParameters"/>      
+    </AbstractTransformationTemplate>
+    <!-- template for entity creation END -->
+    
+    <!-- template for entity creation for masterdata changes START -->
+    <AbstractTransformationTemplate ID="entityChange_template" extends="masterdataChange_template">
+      <base:Include fileIDRef="functionParameters" partIDRef="entityParameters"/>
+    </AbstractTransformationTemplate>
+    <!-- template for entity creation for masterdata changes END -->
+    
+    <AbstractTransformationTemplate ID="masterdataCreation_template">
+      <TemplateConditions>
+        <base:IsMember value="ADD" sourceAttrName="changeType" />
+        <base:IsNotMember value="completedCCM" sourceAttrName="changeStatus"/>
+      </TemplateConditions>
+      <RPMapping targetName="somElementID" sourceAttrName="@ID" />
+    </AbstractTransformationTemplate>
+    
+    <AbstractTransformationTemplate ID="masterdataChange_template">
+      <TemplateConditions>
+        <base:IsNotMember value="ADD" sourceAttrName="changeType" />
+      </TemplateConditions>
+      <RPMapping targetName="somElementID" sourceAttrName="@ID" />
+    </AbstractTransformationTemplate>
+    
+    <AbstractTransformationTemplate ID="createContactRoleReference_template">
+      <TemplateConditions>
+        <base:IsMember value="masterdata" sourceAttrName="/order/*/transactionType" />
+        <base:IsNotMember value="completedCCM" sourceAttrName="../changeStatus"/>
+        <base:IsNotMember value="PREV_TENANT"
+          sourceAttrName="/order/customerData/contactRole[@ID ='${.}']/contactRoleTypeRd/*"/>   
+        <base:IsNotMember value="NOTIFICATION_OM" 
+          sourceAttrName="/order/customerData/contactRole[@ID ='${.}']/contactRoleTypeRd/*"/>                
+        <base:IsNotMember value="INSTALLATION"
+          sourceAttrName="/order/customerData/contactRole[@ID ='${.}']/contactRoleTypeRd/*"/>  
+        <base:IsNotMember value="SHIPPING_CONTACT" 
+          sourceAttrName="/order/customerData/contactRole[@ID ='${.}']/contactRoleTypeRd/*"/>                 
+      </TemplateConditions>
+      <RPMapping targetName="parentSomElementID" sourceAttrName="../../../@ID" />
+      <RPMapping targetName="somElementID" sourceAttrName="." />
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsNotMember value="" sourceAttrName="/*/*/contactRole[@ID = '${.}']/ccbId[@type='R']/existing" />
+        </TemplateConditions>
+        <RPMapping targetName="contactRoleEntityId" sourceAttrName="/*/*/contactRole[@ID = '${.}']/ccbId[@type= 'R']/existing"/>
+      </TransformationTemplate>        
+      <TransformationTemplate>
+        <TemplateConditions>
+          <base:IsMember value="" sourceAttrName="/*/*/contactRole[@ID = '${.}']/ccbId[@type='R']/existing" />
+        </TemplateConditions>
+        <RPMapping targetName="contactRoleEntityIdReference" sourceAttrName="."/>
+      </TransformationTemplate>        
+    </AbstractTransformationTemplate>
+    
+  </BaseTemplates>
+</TransformationRepository>

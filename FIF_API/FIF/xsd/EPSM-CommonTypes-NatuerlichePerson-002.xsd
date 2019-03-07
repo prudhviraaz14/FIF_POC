@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001" xmlns:ape="http://www.arcor.net/EPSM-CommonTypes-APE-001" xmlns:kunde="http://www.arcor.net/EPSM-CommonTypes-Kunde-002" xmlns:natuerlicheperson="http://www.arcor.net/EPSM-CommonTypes-NatuerlichePerson-002" targetNamespace="http://www.arcor.net/EPSM-CommonTypes-NatuerlichePerson-002" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-Kunde-002" schemaLocation="EPSM-CommonTypes-Kunde-002.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-APE-001" schemaLocation="EPSM-CommonTypes-APE-001.xsd"/>
+	<xs:element name="EPSM_NatuerlichePerson_Dokument_Information ">
+		<xs:annotation>
+			<xs:documentation>Diese Schemata wurde aus dem Adonis-XML-Export generiert. Timestamp des Adonis-Exports: 07.08.2007  09:57</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="NatuerlichePerson">
+		<xs:annotation>
+			<xs:documentation>Die natürliche Person ist eine nicht-juristische Person. Die natürliche Person kann eine einzelner Mensch sein oder eine Gemeinschaft von Privatpersonen wie z.B. eine Studenten WG</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="kunde:Kunde">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

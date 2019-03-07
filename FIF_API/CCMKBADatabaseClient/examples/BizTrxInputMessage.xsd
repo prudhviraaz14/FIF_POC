@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:Kba="http://arcor.net/kba/BizTrxInputMessage"
+	targetNamespace="http://arcor.net/kba/BizTrxInputMessage">
+	
+	<xsd:simpleType name="CustomerNumber">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="12"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="Barcode">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="13"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="InputChannel">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="CCB"/>
+			<xsd:enumeration value="Kundenbindung"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="TrxType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="contact"/>
+			<xsd:enumeration value="process"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="ReceiverHint">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="GL"/>
+			<xsd:enumeration value="AL"/>
+			<xsd:enumeration value="BL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="User">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="15"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="LongString">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="GVFEntry">
+		<xsd:simpleContent>
+			<xsd:extension base="Kba:LongString">
+				<xsd:attribute name="category" type="xsd:string" use="required"/>
+				<xsd:attribute name="inputChannel" type="Kba:InputChannel"
+					use="required"/>
+				<xsd:attribute name="user" type="Kba:User" use="required"/>
+				<xsd:attribute name="workdate" type="xsd:date" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	
+	<xsd:element name="BizTransaction">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="Kba:GVFEntry">
+					<xsd:attribute name="customerNumber" type="Kba:CustomerNumber"
+						use="required"/>
+					<xsd:attribute name="trxType" type="Kba:TrxType"
+						use="required"/>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="DirectedBizTransaction">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="Kba:BizTransaction">
+					<xsd:attribute name="receiverHint" type="xsd:String"/>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="OrderContact">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="Kba:GVFEntry">
+					<xsd:attribute name="barcode" type="Kba:Barcode"
+						use="required"/>
+					<xsd:attribute name="trxType" type="Kba:TrxType" use="required"
+						fixed="contact"/>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+</xsd:schema>

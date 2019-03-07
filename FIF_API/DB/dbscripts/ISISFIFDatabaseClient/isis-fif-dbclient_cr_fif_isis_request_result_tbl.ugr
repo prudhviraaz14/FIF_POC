@@ -1,0 +1,7 @@
+--
+-- User Grants script for the FIF_ISIS_REQUEST_RESULT table.  Customized script for the ISIS-FIF Database Client.
+--
+-- @author Olivier Goethals
+-- @date 2004-05-17
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON FIF_ISIS_REQUEST_RESULT TO CCM_USER;

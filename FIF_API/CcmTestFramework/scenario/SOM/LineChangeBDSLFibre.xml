@@ -1,0 +1,13 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<lineChange orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/BDSLFibreAccessOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetBDSLFibreOld.xml_part}
+			{file:templates/HardwareRentedIADIgnore.xml_part}
+		</functions>
+	</lineChange>
+</order>

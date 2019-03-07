@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig [
+<!ELEMENT sqlMapConfig (properties?, settings?, resultObjectFactory?, typeAlias*, typeHandler*, transactionManager?, sqlMap+)+>
+<!ATTLIST sqlMapConfig
+xmlns:fo CDATA #IMPLIED
+>
+
+<!ELEMENT properties EMPTY>
+<!ATTLIST properties
+resource CDATA #IMPLIED
+url CDATA #IMPLIED
+>
+
+<!ELEMENT settings EMPTY>
+<!ATTLIST settings
+classInfoCacheEnabled (true | false) #IMPLIED
+lazyLoadingEnabled (true | false) #IMPLIED
+statementCachingEnabled (true | false) #IMPLIED
+cacheModelsEnabled (true | false) #IMPLIED
+enhancementEnabled (true | false) #IMPLIED
+errorTracingEnabled (true | false) #IMPLIED
+useStatementNamespaces (true | false) #IMPLIED
+useColumnLabel (true | false) #IMPLIED
+forceMultipleResultSetSupport (true | false) #IMPLIED
+maxSessions CDATA #IMPLIED
+maxTransactions CDATA #IMPLIED
+maxRequests CDATA #IMPLIED
+defaultStatementTimeout CDATA #IMPLIED
+>
+
+<!ELEMENT transactionManager (property*,dataSource)>
+<!ATTLIST transactionManager
+type CDATA #REQUIRED
+commitRequired (true | false) #IMPLIED
+>
+
+<!ELEMENT dataSource (property*)>
+<!ATTLIST dataSource
+type CDATA #REQUIRED
+>
+
+<!ELEMENT property EMPTY>
+<!ATTLIST property
+name CDATA #REQUIRED
+value CDATA #REQUIRED
+>
+
+<!ELEMENT sqlMap EMPTY>
+<!ATTLIST sqlMap
+resource CDATA #IMPLIED
+url CDATA #IMPLIED
+>
+
+<!ELEMENT typeAlias EMPTY>
+<!ATTLIST typeAlias
+alias CDATA #REQUIRED
+type CDATA #REQUIRED
+>
+
+<!ELEMENT typeHandler EMPTY>
+<!ATTLIST typeHandler
+javaType CDATA #REQUIRED
+jdbcType CDATA #IMPLIED
+callback CDATA #REQUIRED
+>
+
+<!ELEMENT resultObjectFactory (property*)>
+<!ATTLIST resultObjectFactory
+type CDATA #REQUIRED
+>
+]>
+
+<sqlMapConfig>
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/COM_SOM_MISC_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_ACCESS_NUMBER_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_ADDRESS_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_CCB_MASTER_DATA_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_CUSTOMER_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_BILLING_ACCOUNT_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_ONLINE_ACCOUNT_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_ORDER_LOG_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_ORDER_POS_CONTENT_PARAM_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_ORDER_POSITION_CONTENT_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_ORDER_POSITION_PARAM_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_ORDER_POSITION_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_ORDER_POSITION_STATE_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_ORDER_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_REFERENCE_DATA_GROUP_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/OM_REFERENCE_DATA_ITEM_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/RDS_LOCAL_AREA_CODE_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/RDS_SALES_ORG_NUMBER_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/SOM_BLOB_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/SOM_DEFINITION_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/SOM_SCHEMA_SqlMap.xml" />
+  <sqlMap resource="de/arcor/com/som/db/ibatis/xml/SOM_VALIDATION_RULE_SqlMap.xml" />
+</sqlMapConfig>

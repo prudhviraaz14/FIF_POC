@@ -1,0 +1,19 @@
+<conditionsList>
+    <configured>
+        <conditionService>
+            <conditionServiceType>MM</conditionServiceType>
+            <conditionServiceName>keine Aktionskennung monatlich</conditionServiceName>
+        </conditionService>
+        <conditionService>
+            <conditionServiceType>CM</conditionServiceType>
+            <conditionServiceName>keine Kondition monatlich</conditionServiceName>
+        </conditionService>
+    </configured>
+</conditionsList>
+<tariffOptionsList>
+    <configured>
+        <tariffOption>
+            <serviceCode>V1092</serviceCode>
+        </tariffOption>
+    </configured>
+</tariffOptionsList>

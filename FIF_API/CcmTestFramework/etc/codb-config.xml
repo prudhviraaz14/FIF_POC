@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+  
+  <!-- ========================= TRANSACTION MANAGEMENT  ========================================= -->
+  <bean id="codb" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+    <property name="transactionManager" ref="transactionManager" />
+    <property name="target" ref="codbTarget" />
+    <property name="transactionAttributes">
+      <props>
+        <prop key="create*">PROPAGATION_REQUIRED</prop>
+        <prop key="insert*">PROPAGATION_REQUIRED</prop>
+        <prop key="update*">PROPAGATION_REQUIRED</prop>
+        <prop key="lock*">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="unlock*">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+      </props>
+    </property>
+  </bean>
+  <!-- ========================= BUISINESS ======================================================= -->
+  <bean id="codbTarget" class="de.arcor.com.som.impl.CodbImpl">
+    <property name="defaultOrderPositionStateId" value="${com.som.defaultOrderPositionStateId}" />
+    <property name="versionLike" value="${com.som.versionLike}" />
+    <property name="updateSystem" value="${com.som.updateSystem}" />
+    <property name="comSomMiscDAO" ref="comSomMiscDAO" />
+    <property name="omAccessNumberDAO" ref="omAccessNumberDAO" />
+    <property name="omAddressDAO" ref="omAddressDAO" />
+    <property name="omCcbMasterDataDAO" ref="omCcbMasterDataDAO" />
+    <property name="omCustomerDAO" ref="omCustomerDAO" />
+    <property name="omBillingAccountDAO" ref="omBillingAccountDAO" />
+    <property name="omCrossReferenceItemDAO" ref="omCrossReferenceItemDAO" />
+    <property name="omOnlineAccountDAO" ref="omOnlineAccountDAO" />
+    <property name="omOrderDAO" ref="omOrderDAO" />
+    <property name="omOrderParamDAO" ref="omOrderParamDAO" />
+    <property name="omOrderLogDAO" ref="omOrderLogDAO" />
+    <property name="omOrderPosContentParamDAO" ref="omOrderPosContentParamDAO" />
+    <property name="omOrderPositionContentDAO" ref="omOrderPositionContentDAO" />
+    <property name="omOrderPositionDAO" ref="omOrderPositionDAO" />
+    <property name="omOrderPositionParamDAO" ref="omOrderPositionParamDAO" />
+    <property name="omOrderPositionStateDAO" ref="omOrderPositionStateDAO" />
+    <property name="omOrderStateDAO" ref="omOrderStateDAO" />
+    <property name="omReferenceDataGroupDAO" ref="omReferenceDataGroupDAO" />
+    <property name="omReferenceDataItemDAO" ref="omReferenceDataItemDAO" />
+    <property name="omObserverRegistryDAO" ref="omObserverRegistryDAO" />
+    <property name="rdsLocalAreaCodeDAO" ref="rdsLocalAreaCodeDAO" />
+    <property name="rdsSalesOrgNumberDAO" ref="rdsSalesOrgNumberDAO" />
+    <property name="somBlobDAO" ref="somBlobDAO" />
+    <property name="somDefinitionDAO" ref="somDefinitionDAO" />
+    <property name="somSchemaDAO" ref="somSchemaDAO" />
+    <property name="somValidationRuleDAO" ref="somValidationRuleDAO" />
+  </bean>
+  
+  <!-- codb -->
+  <bean id="comSomMiscDAO" class="de.arcor.com.som.db.ibatis.dao.ComSomMiscDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omAccessNumberDAO" class="de.arcor.com.som.db.ibatis.dao.OmAccessNumberDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omAddressDAO" class="de.arcor.com.som.db.ibatis.dao.OmAddressDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omCcbMasterDataDAO" class="de.arcor.com.som.db.ibatis.dao.OmCcbMasterDataDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omCustomerDAO" class="de.arcor.com.som.db.ibatis.dao.OmCustomerDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+    <property name="omOrganizationDAO" ref="omOrganizationDAO" />
+    <property name="omIndividualDAO" ref="omIndividualDAO" />
+  </bean>
+  <bean id="omBillingAccountDAO" class="de.arcor.com.som.db.ibatis.dao.OmBillingAccountDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omCrossReferenceItemDAO" class="de.arcor.com.som.db.ibatis.dao.OmCrossReferenceItemDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omOnlineAccountDAO" class="de.arcor.com.som.db.ibatis.dao.OmOnlineAccountDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omOrderDAO" class="de.arcor.com.som.db.ibatis.dao.OmOrderDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omOrderParamDAO" class="de.arcor.com.som.db.ibatis.dao.OmOrderParamDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omOrderLogDAO" class="de.arcor.com.som.db.ibatis.dao.OmOrderLogDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omOrderPosContentParamDAO" class="de.arcor.com.som.db.ibatis.dao.OmOrderPosContentParamDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omOrderPositionContentDAO" class="de.arcor.com.som.db.ibatis.dao.OmOrderPositionContentDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omOrderPositionDAO" class="de.arcor.com.som.db.ibatis.dao.OmOrderPositionDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omOrderPositionParamDAO" class="de.arcor.com.som.db.ibatis.dao.OmOrderPositionParamDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omOrderPositionStateDAO" class="de.arcor.com.som.db.ibatis.dao.OmOrderPositionStateDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omOrderStateDAO" class="de.arcor.com.som.db.ibatis.dao.OmOrderStateDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omReferenceDataGroupDAO" class="de.arcor.com.som.db.ibatis.dao.OmReferenceDataGroupDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omReferenceDataItemDAO" class="de.arcor.com.som.db.ibatis.dao.OmReferenceDataItemDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="omObserverRegistryDAO" class="de.arcor.com.som.db.ibatis.dao.OmObserverRegistryDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="rdsLocalAreaCodeDAO" class="de.arcor.com.som.db.ibatis.dao.RdsLocalAreaCodeDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="rdsSalesOrgNumberDAO" class="de.arcor.com.som.db.ibatis.dao.RdsSalesOrgNumberDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="somBlobDAO" class="de.arcor.com.som.db.ibatis.dao.SomBlobDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+  <bean id="somDefinitionDAO" class="de.arcor.com.som.db.ibatis.dao.SomDefinitionDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="somSchemaDAO" class="de.arcor.com.som.db.ibatis.dao.SomSchemaDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean id="somValidationRuleDAO" class="de.arcor.com.som.db.ibatis.dao.SomValidationRuleDAOImpl">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  
+  <bean class="de.arcor.com.som.impl.CustomerDataImpl" id="customerData">
+    <constructor-arg ref="codb" />
+    <property name="omOrganizationDAO" ref="omOrganizationDAO" />
+    <property name="omIndividualDAO" ref="omIndividualDAO" />
+    <property name="omCustomerDAO" ref="omCustomerDAO" />
+    <property name="omBillingAccountDAO" ref="omBillingAccountDAO" />
+    <property name="omContactRoleDAO" ref="omContactRoleDAO" />
+    <property name="omAccessInformationDAO" ref="omAccessInformationDAO" />
+    <property name="omSkeletonContractDAO" ref="omSkeletonContractDAO" />
+    <property name="omSkeletonContractItemDAO" ref="omSkeletonContractItemDAO" />
+    <property name="omPsmCodeListDAO" ref="omPsmCodeListDAO" />
+  </bean>
+  
+  <bean class="de.arcor.com.som.db.ibatis.dao.OmOrganizationDAOImpl" id="omOrganizationDAO">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+    <property name="omAccessInformationDAO" ref="omAccessInformationDAO" />
+    <property name="omAddressDAO" ref="omAddressDAO" />
+  </bean>
+  <bean class="de.arcor.com.som.db.ibatis.dao.OmIndividualDAOImpl" id="omIndividualDAO" lazy-init="false">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+    <property name="omAccessInformationDAO" ref="omAccessInformationDAO" />
+    <property name="omAddressDAO" ref="omAddressDAO" />
+  </bean>
+  <bean class="de.arcor.com.som.db.ibatis.dao.OmContactRoleDAOImpl" id="omContactRoleDAO">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean class="de.arcor.com.som.db.ibatis.dao.OmAccessInformationDAOImpl" id="omAccessInformationDAO">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean class="de.arcor.com.som.db.ibatis.dao.OmSkeletonContractDAOImpl" id="omSkeletonContractDAO">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean class="de.arcor.com.som.db.ibatis.dao.OmSkeletonContractItemDAOImpl" id="omSkeletonContractItemDAO">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  <bean class="de.arcor.com.som.db.ibatis.dao.OmPsmCodeListDAOImpl" id="omPsmCodeListDAO">
+    <property name="sqlMapClient" ref="sqlMapClient" />
+  </bean>
+  
+</beans>

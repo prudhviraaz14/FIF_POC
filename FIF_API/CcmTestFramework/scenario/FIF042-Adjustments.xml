@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF042-Adjustments</request-list-name>
+   <request-list-id>FIF042-Adjustments-1</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+          
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-961:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationISDNPremium.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF042-Adjustments</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      {file:templates/LineCreationISDNPremium.xml}
+      
+      <request>
+         <action-name>createAdjustment</action-name>
+         <request-params>
+            {file:templates/AccessNumbersMasterdata.xml_part}
+            <request-param name="transactionID">adj1</request-param>
+            <request-param name="adjustmentAmount"><![CDATA[10]]></request-param>
+            <request-param name="sourceSystem"><![CDATA[KBA]]></request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="rollenBezeichnung"><![CDATA[ARV_KB_12]]></request-param>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderId"/>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="OMTSOrderID"/>
+            <request-param name="salesOrganisationNumber"><![CDATA[97000000]]></request-param>
+            <request-param name="orderPositionNumber"><![CDATA[1]]></request-param>
+            <request-param name="reasonCode"><![CDATA[140VANU]]></request-param>
+            <request-param name="resolutionUserId"><![CDATA[maarbe]]></request-param>
+            <request-param name="resolutionDate">datetime:0:hour</request-param>
+            <request-param name="descriptionText">small amount, onetime, no SS</request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="createDate">datetime:0:hour</request-param>
+            <request-param name="print"><![CDATA[N]]></request-param>
+            <request-param name="KBATransactionNr"><![CDATA[275241029]]></request-param>
+            <request-param name="paymentMode"><![CDATA[INVOICE]]></request-param>
+            <request-param name="taxCode"><![CDATA[A5]]></request-param>
+            <request-param name="desiredDate">datetime:0:hour</request-param>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>createAdjustment</action-name>
+         <request-params>
+            {file:templates/AccessNumbersMasterdata.xml_part}
+            <request-param name="transactionID">adj2</request-param>
+            <request-param name="adjustmentAmount"><![CDATA[1000]]></request-param>
+            <request-param name="sourceSystem"><![CDATA[KBA]]></request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="rollenBezeichnung"><![CDATA[ARV_KB_12]]></request-param>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderId"/>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="OMTSOrderID"/>
+            <request-param name="salesOrganisationNumber"><![CDATA[97000000]]></request-param>
+            <request-param name="orderPositionNumber"><![CDATA[1]]></request-param>
+            <request-param name="reasonCode"><![CDATA[140VANU]]></request-param>
+            <request-param name="resolutionUserId"><![CDATA[maarbe]]></request-param>
+            <request-param name="resolutionDate">datetime:0:hour</request-param>
+            <request-param name="descriptionText">big amount, onetime, no SS</request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="createDate">datetime:0:hour</request-param>
+            <request-param name="print"><![CDATA[N]]></request-param>
+            <request-param name="KBATransactionNr"><![CDATA[275241029]]></request-param>
+            <request-param name="paymentMode"><![CDATA[INVOICE]]></request-param>
+            <request-param name="taxCode"><![CDATA[A5]]></request-param>
+            <request-param name="desiredDate">datetime:0:hour</request-param>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>createAdjustment</action-name>
+         <request-params>
+            {file:templates/AccessNumbersMasterdata.xml_part}
+            <request-param name="transactionID">adj3</request-param>
+            <request-param name="adjustmentAmount"><![CDATA[10]]></request-param>
+            <request-param name="sourceSystem"><![CDATA[KBA]]></request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="rollenBezeichnung"><![CDATA[ARV_KB_12]]></request-param>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderId"/>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="OMTSOrderID"/>
+            <request-param name="salesOrganisationNumber"><![CDATA[97000000]]></request-param>
+            <request-param name="orderPositionNumber"><![CDATA[1]]></request-param>
+            <request-param-ref transactionID="ISDNLineCreation-allocate_0" param-name="ccbId" output-param-name="serviceSubscriptionId"/>            
+            <request-param name="reasonCode"><![CDATA[140VANU]]></request-param>
+            <request-param name="resolutionUserId"><![CDATA[maarbe]]></request-param>
+            <request-param name="resolutionDate">datetime:0:hour</request-param>
+            <request-param name="descriptionText">small amount, onetime, with SS</request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="createDate">datetime:0:hour</request-param>
+            <request-param name="print"><![CDATA[N]]></request-param>
+            <request-param name="KBATransactionNr"><![CDATA[275241029]]></request-param>
+            <request-param name="paymentMode"><![CDATA[INVOICE]]></request-param>
+            <request-param name="taxCode"><![CDATA[A5]]></request-param>
+            <request-param name="desiredDate">datetime:0:hour</request-param>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>createAdjustment</action-name>
+         <request-params>
+            {file:templates/AccessNumbersMasterdata.xml_part}
+            <request-param name="transactionID">adj4</request-param>
+            <request-param name="adjustmentAmount"><![CDATA[1000]]></request-param>
+            <request-param name="sourceSystem"><![CDATA[KBA]]></request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="rollenBezeichnung"><![CDATA[ARV_KB_12]]></request-param>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderId"/>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="OMTSOrderID"/>
+            <request-param name="salesOrganisationNumber"><![CDATA[97000000]]></request-param>
+            <request-param name="orderPositionNumber"><![CDATA[1]]></request-param>
+            <request-param-ref transactionID="ISDNLineCreation-allocate_0" param-name="ccbId" output-param-name="serviceSubscriptionId"/>            
+            <request-param name="reasonCode"><![CDATA[140VANU]]></request-param>
+            <request-param name="resolutionUserId"><![CDATA[maarbe]]></request-param>
+            <request-param name="resolutionDate">datetime:0:hour</request-param>
+            <request-param name="descriptionText">big amount, onetime, with SS</request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="createDate">datetime:0:hour</request-param>
+            <request-param name="print"><![CDATA[N]]></request-param>
+            <request-param name="KBATransactionNr"><![CDATA[275241029]]></request-param>
+            <request-param name="paymentMode"><![CDATA[INVOICE]]></request-param>
+            <request-param name="taxCode"><![CDATA[A5]]></request-param>
+            <request-param name="desiredDate">datetime:0:hour</request-param>
+         </request-params>
+      </request>
+      
+      <!--
+      <request>
+         <action-name>createAdjustment</action-name>
+         <request-params>
+            {file:templates/AccessNumbersMasterdata.xml_part}
+            <request-param name="transactionID">adj5</request-param>
+            <request-param name="adjustmentAmount"><![CDATA[10]]></request-param>
+            <request-param name="sourceSystem"><![CDATA[KBA]]></request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="rollenBezeichnung"><![CDATA[ARV_KB_12]]></request-param>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderId"/>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="OMTSOrderID"/>
+            <request-param name="salesOrganisationNumber"><![CDATA[97000000]]></request-param>
+            <request-param name="orderPositionNumber"><![CDATA[1]]></request-param>
+            <request-param name="recurringValue">12</request-param>            
+            <request-param name="reasonCode"><![CDATA[140VANU]]></request-param>
+            <request-param name="resolutionUserId"><![CDATA[maarbe]]></request-param>
+            <request-param name="resolutionDate">datetime:0:hour</request-param>
+            <request-param name="descriptionText">small amount, recurring, no SS</request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="createDate">datetime:0:hour</request-param>
+            <request-param name="print"><![CDATA[N]]></request-param>
+            <request-param name="KBATransactionNr"><![CDATA[275241029]]></request-param>
+            <request-param name="paymentMode"><![CDATA[INVOICE]]></request-param>
+            <request-param name="taxCode"><![CDATA[A5]]></request-param>
+            <request-param name="desiredDate">datetime:0:hour</request-param>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>createAdjustment</action-name>
+         <request-params>
+            {file:templates/AccessNumbersMasterdata.xml_part}
+            <request-param name="transactionID">adj6</request-param>
+            <request-param name="adjustmentAmount"><![CDATA[1000]]></request-param>
+            <request-param name="sourceSystem"><![CDATA[KBA]]></request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="rollenBezeichnung"><![CDATA[ARV_KB_12]]></request-param>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderId"/>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="OMTSOrderID"/>
+            <request-param name="salesOrganisationNumber"><![CDATA[97000000]]></request-param>
+            <request-param name="orderPositionNumber"><![CDATA[1]]></request-param>
+            <request-param name="recurringValue">12</request-param>            
+            <request-param name="reasonCode"><![CDATA[140VANU]]></request-param>
+            <request-param name="resolutionUserId"><![CDATA[maarbe]]></request-param>
+            <request-param name="resolutionDate">datetime:0:hour</request-param>
+            <request-param name="descriptionText">big amount, recurring, no SS</request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="createDate">datetime:0:hour</request-param>
+            <request-param name="print"><![CDATA[N]]></request-param>
+            <request-param name="KBATransactionNr"><![CDATA[275241029]]></request-param>
+            <request-param name="paymentMode"><![CDATA[INVOICE]]></request-param>
+            <request-param name="taxCode"><![CDATA[A5]]></request-param>
+            <request-param name="desiredDate">datetime:0:hour</request-param>
+         </request-params>
+      </request>
+      -->
+      
+      <request>
+         <action-name>createAdjustment</action-name>
+         <request-params>
+            {file:templates/AccessNumbersMasterdata.xml_part}
+            <request-param name="transactionID">adj7</request-param>
+            <request-param name="adjustmentAmount"><![CDATA[10]]></request-param>
+            <request-param name="sourceSystem"><![CDATA[KBA]]></request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="rollenBezeichnung"><![CDATA[ARV_KB_12]]></request-param>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderId"/>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="OMTSOrderID"/>
+            <request-param name="salesOrganisationNumber"><![CDATA[97000000]]></request-param>
+            <request-param name="orderPositionNumber"><![CDATA[1]]></request-param>
+            <request-param name="recurringValue">12</request-param>            
+            <request-param-ref transactionID="ISDNLineCreation-allocate_0" param-name="ccbId" output-param-name="serviceSubscriptionId"/>            
+            <request-param name="reasonCode"><![CDATA[140VANU]]></request-param>
+            <request-param name="resolutionUserId"><![CDATA[maarbe]]></request-param>
+            <request-param name="resolutionDate">datetime:0:hour</request-param>
+            <request-param name="descriptionText">small amount, recurring, with SS</request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="createDate">datetime:0:hour</request-param>
+            <request-param name="print"><![CDATA[N]]></request-param>
+            <request-param name="KBATransactionNr"><![CDATA[275241029]]></request-param>
+            <request-param name="paymentMode"><![CDATA[INVOICE]]></request-param>
+            <request-param name="taxCode"><![CDATA[A5]]></request-param>
+            <request-param name="desiredDate">datetime:0:hour</request-param>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>createAdjustment</action-name>
+         <request-params>
+            {file:templates/AccessNumbersMasterdata.xml_part}
+            <request-param name="transactionID">adj8</request-param>
+            <request-param name="adjustmentAmount"><![CDATA[1000]]></request-param>
+            <request-param name="sourceSystem"><![CDATA[KBA]]></request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="rollenBezeichnung"><![CDATA[ARV_KB_12]]></request-param>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderId"/>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="OMTSOrderID"/>
+            <request-param name="salesOrganisationNumber"><![CDATA[97000000]]></request-param>
+            <request-param name="orderPositionNumber"><![CDATA[1]]></request-param>
+            <request-param name="recurringValue">12</request-param>            
+            <request-param-ref transactionID="ISDNLineCreation-allocate_0" param-name="ccbId" output-param-name="serviceSubscriptionId"/>            
+            <request-param name="reasonCode"><![CDATA[140VANU]]></request-param>
+            <request-param name="resolutionUserId"><![CDATA[maarbe]]></request-param>
+            <request-param name="resolutionDate">datetime:0:hour</request-param>
+            <request-param name="descriptionText">big amount, recurring, with SS</request-param>
+            <request-param name="userName"><![CDATA[maarbe]]></request-param>
+            <request-param name="createDate">datetime:0:hour</request-param>
+            <request-param name="print"><![CDATA[N]]></request-param>
+            <request-param name="KBATransactionNr"><![CDATA[275241029]]></request-param>
+            <request-param name="paymentMode"><![CDATA[INVOICE]]></request-param>
+            <request-param name="taxCode"><![CDATA[A5]]></request-param>
+            <request-param name="desiredDate">datetime:0:hour</request-param>
+         </request-params>
+      </request>
+      
+      
+   </requests>
+</request-list>

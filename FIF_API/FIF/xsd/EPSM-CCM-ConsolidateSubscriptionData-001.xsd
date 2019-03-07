@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2010 (http://www.altova.com) von Michael Hahn (Vodafone D2 GmbH) bearbeitet -->
+<!-- 20.12.2011 Thomas Schneider IT 30257 added new FKP (FirmenKundenPortal) Service  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arcor.net/ccm/EPSM-CCM-ConsolidateSubscriptionData-001" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" targetNamespace="http://www.arcor.net/ccm/EPSM-CCM-ConsolidateSubscriptionData-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="EPSM_CCM_ConsolidateSubscriptionData_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>
+				Aenderungshistorie:
+				• Version 0.1 - 10.11.2012 - Rusbe Makuie	- initiale Version
+				• Version 0.2 - 13.11.2012 - Wojciech Wlazlo - serviceCharDescription added, not needed imports removed
+				• Version 0.3 - 14.11.2012 - Wojciech Wlazlo - After suggestion of El-Mahdi EL-Hilali the end point is defined according to EPSM_CCM style
+				• Version 0.3 - 09.01.2013 - Wojciech Wlazlo - After suggestion of El-Mahdi EL-Hilali the end point is defined according to EPSM_CCM style
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>
+							Dieses Dokument basiert auf und referenziert folgende Dokumente:
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ================================endpoint specific simple types================= -->
+	<!-- ================================endpoint specific complex types================= -->
+	<xs:complexType name="ActionItem">
+		<xs:sequence>
+			<xs:element name="scenarioType" type="xs:string" minOccurs="0"/>
+			<xs:element name="actionType" default="Ignore" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Ignore"/>
+						<xs:enumeration value="Change"/>
+						<xs:enumeration value="Report"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="validatingSystem" type="xs:string"/>
+			<xs:element name="errorCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="errorMessage" type="xs:string" minOccurs="0"/>
+			<xs:element name="serviceSubscriptionId" type="xs:string" minOccurs="0"/>
+			<xs:element name="serviceCharCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="serviceCharDescription" type="xs:string"/>
+			<xs:element name="ccmValue" type="xs:string" minOccurs="0"/>
+			<xs:element name="zarValue" type="xs:string" minOccurs="0"/>
+			<xs:element name="aidaValue" type="xs:string" minOccurs="0"/>
+			<xs:element name="cramerValue" type="xs:string" minOccurs="0"/>
+			<xs:element name="infportValue" type="xs:string" minOccurs="0"/>
+			<xs:element name="leadingSystem" default="AIDA" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="AIDA"/>
+						<xs:enumeration value="Cramer"/>
+						<xs:enumeration value="InfPort"/>
+						<xs:enumeration value="ZAR"/>
+						<xs:enumeration value="CCM"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="targetValue" type="xs:string" minOccurs="0"/>
+			<xs:element name="dataType" type="xs:string"/>
+			<xs:element name="relatedObjectId" type="xs:string" minOccurs="0"/>
+			<xs:element name="relatedObjectType" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ActionList">
+		<xs:annotation>
+			<xs:documentation>Consolidation result: List of action items</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="actionItem" type="ActionItem" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ConsolidateSubscriptionDataService">
+		<xs:annotation>
+			<xs:documentation>Definition of ConsolidateSubscriptionDataService</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="ConsolidateSubscriptionDataInput" type="ConsolidateSubscriptionDataInput"/>
+					<xs:element name="ConsolidateSubscriptionDataOutput" type="ConsolidateSubscriptionDataOutput">
+						<xs:annotation>
+							<xs:documentation>
+								The output will contain a list of data discrepencies beween CCB and 
+								External systems (ZAR, AIDA and Cramer). This is used to generate reports
+								and correct CCB data.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ConsolidateSubscriptionDataInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:choice>
+						<xs:sequence>
+							<xs:element name="bundleId" type="xs:string"/>
+							<xs:element name="orderId" type="xs:string" minOccurs="0"/>
+							<xs:element name="orderPositionNumber" type="xs:int" minOccurs="0"/>
+						</xs:sequence>
+						<xs:element name="serviceSubscriptionId" type="xs:string"/>
+					</xs:choice>
+					<xs:element name="skipZar" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="skipAida" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="skipCramer" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="skipInfPort" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="skipOpenOrderValidation" type="xs:boolean" default="false" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ConsolidateSubscriptionDataOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element name="zarValidated" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="aidaValidated" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="cramerValidated" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="infPortValidated" type="xs:boolean" minOccurs="0"/>
+                    <xs:element name="openOrderValidationSkipped" type="xs:boolean"  minOccurs="0"/>
+					<xs:element name="actionList" type="ActionList" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ================================= Services and Events ============================== -->
+	<xs:element name="consolidateSubscriptionDataService" type="ConsolidateSubscriptionDataService">
+		<xs:annotation>
+			<xs:documentation>
+				consolidate data service
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- ================================endpoint specific services=====================-->
+	<xs:element name="_Endpunkt_Diensterbringer_BKS_ConsolidateSubscription">
+		<xs:annotation>
+			<xs:documentation>
+				BKS Service to consolidate customer subscriptions
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="consolidateSubscriptionDataService"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

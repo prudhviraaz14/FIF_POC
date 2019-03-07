@@ -1,0 +1,91 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerDataOld.xml_part}
+{file:templates/CustomerDataNew.xml_part}
+	<contractPartnerChange orderPositionNumber="1">
+		<parentBarcode>{parentBarcode}</parentBarcode>
+		<customerIntention>partnerChange</customerIntention>
+		<desiredDate>{desiredDate}</desiredDate>
+		<orderReceivedDate>{today}</orderReceivedDate>
+		<providerCode>
+			<configured>VFAI</configured>
+		</providerCode>
+		<salesPacketName>
+			<configured>All Inclusive Paket</configured>
+		</salesPacketName>
+		<beneficiary ID="beneficiary">
+			<customerNodeRefID>customer</customerNodeRefID>
+			<targetCustomerNodeRefID>customer-new</targetCustomerNodeRefID>
+		</beneficiary>
+		<payerAllCharges ID="payer-001">
+			<billingAccountNodeRefID>account</billingAccountNodeRefID>
+			<targetBillingAccountNodeRefID>account-new</targetBillingAccountNodeRefID>
+		</payerAllCharges>
+		<accesses>
+			<oneNetBusiness ID="access-old">
+				<ccbId type="S">
+					<existing>{voiceSSID}</existing>
+					<configured>{voiceSSIDNew}</configured>
+				</ccbId>
+				<oneNetBusinessConfiguration>
+					<locationAddress>
+						<existing>
+							{file:templates/Address1.xml_part}
+						</existing>
+					</locationAddress>
+					<localAreaCode>
+						<existing>0211</existing>
+					</localAreaCode>
+			        <gatewayPin>
+			            <existing>{customerNumber}</existing>
+			        </gatewayPin>
+			        <isPbxSipReadyIndicator>
+			            <existing>true</existing>
+			        </isPbxSipReadyIndicator>
+			        <oneNetId>
+			        	<existing>{oneNetID}</existing>
+			        	<configured>{oneNetIDNew}</configured>
+			        </oneNetId>
+			        <carrier>
+			            <existing>Arcor</existing>
+			        </carrier>
+			        <oldLocalExchangeCarrier>
+			            <existing>DTAG</existing>
+			        </oldLocalExchangeCarrier>
+			        <siteType>
+			            <existing>Standard</existing>
+			        </siteType>
+			        <numberOfVoiceChannels>
+			            <existing>4</existing>
+			        </numberOfVoiceChannels>
+			        <siteID>
+			            <existing>{siteID}</existing>
+			            <configured>{siteIDNew}</configured>
+			        </siteID>
+			        <technicalServiceId>
+			            <existing>{customerNumber}</existing>
+			        </technicalServiceId>
+			        <accessType>
+			            <existing>Fremdaccess</existing>
+			        </accessType>
+			 	</oneNetBusinessConfiguration>
+				<processingStatus>{voiceProcessingStatus}</processingStatus>
+			  	<contactRoleRefList>
+			    	<contactRoleRef>
+			      		<existing>contactRole</existing>
+			    	</contactRoleRef>
+			  	</contactRoleRefList>
+			</oneNetBusiness>
+		</accesses>
+		<functions>
+			{file:templates/VoiceRangesOldNew.xml_part}
+			{file:templates/DirectoryEntryIgnore.xml_part}
+			{file:templates/HardwareONBIgnore.xml_part}
+			{file:templates/ExtraNumbersNumberRangeTakeover.xml_part}
+			{file:templates/ExtraNumbersSingleNumberTakeover.xml_part}
+		</functions>
+		<ccbId type="B">
+			<existing>{bundleId}</existing>
+			<configured>{bundleIdNew}</configured>
+		</ccbId>
+	</contractPartnerChange>
+</order>

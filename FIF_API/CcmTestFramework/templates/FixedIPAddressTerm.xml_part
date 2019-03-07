@@ -1,0 +1,9 @@
+            <fixedIPAddressChangeType>
+              <configured>Remove</configured>
+            </fixedIPAddressChangeType>
+            <dialInAccountNameStatic>
+              <existing>ar{accountNumber}-static</existing>
+            </dialInAccountNameStatic>
+            <fixedIPAddress>
+              <existing>;255.255.255.0;213.23.71.186</existing>
+            </fixedIPAddress>

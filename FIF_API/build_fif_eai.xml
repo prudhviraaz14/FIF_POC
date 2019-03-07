@@ -1,0 +1,131 @@
+<!--
+    ANT Build file for the FIF-EAI project
+
+    Author: Rusbe Makuie
+    Date: 2015-05-04
+-->
+<project name="FIF-EAI" default="compile" basedir=".">
+	<description>ANT build file for the FIF project</description>
+
+	<!-- Global properties for this script -->
+	<property name="generatedsrc" location="FIF/generated"/>
+	<property name="lib" location="FIF/lib"/>
+	<property name="src" location="FIF/src"/>
+	<property name="package" location="package"/>
+	<property name="bin" location="${package}/WEB-INF/classes"/>
+	<property name="xsd" location="FIF/xsd"/>
+	<property name="webapps" location="/Work/apache-tomcat-6.0.44/webapps"/>
+	
+	<!-- Creates a time stamp and the directory structure -->
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${bin}"/>
+		<mkdir dir="${generatedsrc}"/>
+		<mkdir dir="${package}"/>
+	</target>
+
+	<!-- generate and compile the code for the service bus -->
+
+	<path id="classpath">
+		<!--for use with bundled ant-->
+		<fileset dir="${lib}" includes="*.jar" />		
+	</path>
+
+
+	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+		<classpath refid="classpath" />
+	</taskdef>
+	
+	<!--compile Java source files -->
+	<target name="compile_epsm_ccm" description="Compile all Java source files">
+		<xjc extension="true" schema="${xsd}/CustomerInteraction-002.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/BaseTypes-ESB-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/EmailUtility-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/FIF-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/EPSM-COM-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/EPSM-SBUS-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/EPSM-FIF-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/EPSM-AIP-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/EPSM-CFM-WHSEUE-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/EPSM-CUSTWG-WHSVF-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/EPSM-CCM-ConsolidateSubscriptionData-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc extension="true" schema="${xsd}/CCM-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	<!-- Compile the java code from ${src} into ${bin} -->
+	<target name="compile" depends="init" description="Compiles all source files" >
+		<javac srcdir="${src}" destdir="${bin}" debug="true" encoding="iso-8859-1">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- Deletes the ${build} and ${doc} directory trees -->
+	<target name="clean" description="Deletes classes and archive directories" >
+		<delete dir="${generatedsrc}"/>
+		<delete dir="${package}"/>
+	</target>
+	
+	<target name="clean_war" description="Deletes classes and archive directories" >
+		<delete file="${package}/FIF-EAI.war"/>
+	</target>
+	
+	<!--***********************
+    *** MOVE WORKAROUND ***
+    ***********************-->
+	<target name="copyFilesToWEBINF">
+		<copy  todir="${package}/WEB-INF/lib">
+			<fileset dir="${lib}">
+				<exclude name="servlet-api.jar"/>	
+			</fileset>
+		</copy>
+		
+ 		<copy  todir="${package}/WEB-INF/classes/etc">
+			<fileset dir="KBAFIFQueueClient" />
+			<fileset dir="CF/dtd" /> 			
+			<fileset dir="SynchronousFIFEAIClient/xslt" />
+			<fileset dir="SynchronousFIFEAIClient/etc" >
+				<exclude name="SynchronousFIFEAIClient.properties*"/>
+				<exclude name="web.xml"/>
+				<exclude name="context.xml"/>
+			</fileset>
+		</copy>
+		
+ 		<copy  todir="${package}/WEB-INF/classes/config">
+			<fileset dir="SynchronousFIFEAIClient/etc" >
+				<include name="SynchronousFIFEAIClient.properties*"/>	
+			</fileset>
+		</copy>
+		
+ 		<copy  todir="${package}/META-INF">
+			<fileset dir="SynchronousFIFEAIClient/etc" >
+				<include name="context.xml"/>	
+			</fileset>
+		</copy>
+
+		<!-- move xsd to classes/schema -->
+		<copy todir="${package}/WEB-INF/classes/schema">
+			<fileset dir="${xsd}" />
+		</copy>
+	</target>
+
+<!-- Creates a full clean build and generates javadoc -->
+	<target name="full" depends="clean,clean_war,init,compile_epsm_ccm,compile,package" 
+	description="Performs a full build from scratch and generates javadoc"/>
+
+	<target name="package"  depends="clean_war,copyFilesToWEBINF" description="Assemble the tested application code and resources into a distributable archive.">		
+		<war warfile="${package}/FIF-EAI.war" basedir="${package}" webxml="SynchronousFIFEAIClient/etc/web.xml"/>
+	</target>
+
+	<target name="deploy" >		
+		<delete dir="${webapps}/FIF-EAI"/>
+		<delete file="${webapps}/FIF-EAI.war"/>
+ 		<copy todir="${webapps}" file="${package}/FIF-EAI.war"/>
+	</target>
+</project>

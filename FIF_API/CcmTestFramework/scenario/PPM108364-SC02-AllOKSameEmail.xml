@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>PPM108364-SC02-AllOKSameEmail</request-list-name>
+   <request-list-id>PPM108364-SC02-AllOKSameEmail</request-list-id>
+  
+  <!-- Scenario 2, everything ok, same email address:
+  	1) create customer with same email addresses for
+  		- customer <= validation created
+  		- account <= validation reused
+  		- contactRole <= no validation information
+  	2) process response for validations, shortly after
+  	3) process status update, one day later
+   -->
+  
+   <requests>
+  
+     {file:templates/GenerateStep.xml}
+
+      <trx-builder-request>
+         <transaction-id>PPM108364-SC02-AllOKSameEmail-create</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-24:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/PPM108364-Create.xml">            
+              <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">PPM108364-SC02-AllOKSameEmail</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-24:hour</request-param>
+                  <request-param name="desiredDate">datetime:-24:hour</request-param>
+                  <request-param name="todayTruncated">date:-24:hour</request-param>
+                  <request-param name="customerEmailAddress">oneemail@vodafone.com</request-param>                  
+                  <request-param name="accountEmailAddress">oneemail@vodafone.com</request-param>                  
+                  <request-param name="contactRoleEmailAddress">oneemail@vodafone.com</request-param>                  
+              </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <!-- get validationIDs -->
+      <sql-request>
+         <transaction-id>validationID1</transaction-id>
+         <statement>
+            select EMAIL_VALIDATION_ID, EMAIL_ADDRESS from EMAIL_VALIDATION ev 
+            where customer_number = 'customerNumber'
+            and email_address = 'oneemail@vodafone.com'            
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="PPM108364-SC02-AllOKSameEmail-create_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="EMAIL_VALIDATION_ID"/>
+            <request-param name="EMAIL_ADDRESS"/>
+         </sql-request-output-params>
+      </sql-request>
+      
+      <request>
+         <action-name>ValidateEmail</action-name>
+         <request-params>
+            <request-param name="transactionID">PPM108364-SC02-AllOKSameEmail-response1</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">datetime:-23:hour</request-param>
+            <request-param name="originalRequestResult">true</request-param>
+            <request-param-ref transactionID="validationID1" param-name="EMAIL_VALIDATION_ID" output-param-name="ValidationId"/>
+            <request-param-ref transactionID="validationID1" param-name="EMAIL_ADDRESS" output-param-name="Email"/>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>UpdateEmailStatus</action-name>
+         <request-params>
+            <request-param name="transactionID">PPM108364-SC02-AllOKSameEmail-update1</request-param>
+            <request-param name="Status">validate</request-param>
+            <request-param-ref transactionID="validationID1" param-name="EMAIL_VALIDATION_ID" output-param-name="ValidationId"/>
+            <request-param-ref transactionID="validationID1" param-name="EMAIL_ADDRESS" output-param-name="Email"/>
+         </request-params>
+      </request>
+      
+      
+   </requests>
+</request-list>

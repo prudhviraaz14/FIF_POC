@@ -1,0 +1,7 @@
+--
+-- Synonym script for the FIF_REQUEST_PARAM_LIST table.
+--
+-- @author Olivier Goethals
+-- @date 2003-09-09
+
+CREATE PUBLIC SYNONYM FIF_REQUEST_PARAM_LIST FOR FIF_REQUEST_PARAM_LIST;

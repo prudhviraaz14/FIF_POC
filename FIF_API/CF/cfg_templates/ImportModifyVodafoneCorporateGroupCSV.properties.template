@@ -1,0 +1,152 @@
+# START HEADER
+#  File:                $Workfile:   ImportModifyVodafoneCorporateGroupCSV.properties.template  $
+#  Author:              $Author:   makuier  $
+#  Revision:            $Revision:   1.4  $
+#  Purpose:             Configuration file for importing ModifyVodafoneGroup requests from a CSV file to the FIF_REQUEST table.
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Aug 11 2011 16:29:10  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportModifyVodafoneCorporateGroupCSV.properties.template-arc  $
+#
+#   Rev 1.4   Aug 11 2011 16:29:10   makuier
+#revoked the last change
+#
+#   Rev 1.2   Nov 23 2010 17:11:00   banania
+#SPN-CCB-000105323: New keys added:
+#insertExternalSystemIdName
+#UpdatexternalSystemIdStatement
+#
+#   Rev 1.1   Oct 01 2010 16:08:10   banania
+#IT-k-000029084: Updating the FIF Request row with the external system id.
+#
+#   Rev 1.0   Sep 26 2007 15:49:54   banania
+#Initial revision.
+#
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+# The names of columns that are mandatory in the CSV
+ImportCSVToDB.ColumnNames.Mandatory=TRANSACTION_CODE,GROUP_ID,BEGIN_NUMBER
+
+# The names of columns that are optional in the CSV
+ImportCSVToDB.ColumnNames.Optional=RECORD_TYPE,GROUP_KZ
+
+# The names of desired columns 
+ImportCSVToDB.DesiredColumnNames=RECORD_TYPE;TRANSACTION_CODE;GROUP_ID;BEGIN_NUMBER;GROUP_KZ
+
+# The names of desired separator
+ImportCSVToDB.DesiredSeparator=;
+
+# indicates if the first line of the input file is ignored
+ImportCSVToDB.IgnoreFirstLine=true
+
+# indicates if the last line of the input file is ignored
+ImportCSVToDB.IgnoreLastLine=true
+
+
+##################
+# SQL STATEMENTS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importModifyVodafoneCorporateGroupcsv.targetClient
+#ValidFrom:         FIF-API-07.01.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Name of database target client
+#DefaultValue:      -
+#ExampleValue:      SLS
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     13.10.04
+#Last_Modified_By   goethalo
+#Description:       The name of the target client to insert requests for (e.g. SLS, WRF)
+#END PARAMETER
+# The SQL statement for inserting requests in the database
+ImportCSVToDB.InsertRequestStmt=INSERT INTO FIF_REQUEST (TRANSACTION_ID, TARGET_CLIENT, STATUS, ACTION_NAME, ERROR_TEXT, DUE_DATE, PRIORITY, CREATION_DATE, START_DATE, END_DATE) VALUES (?, '${slsfif.importmodifyvodafonecustomercsv.targetClient}', 'NOT_STARTED', 'maintainGroupId', '', SYSDATE, 5, SYSDATE, NULL, NULL)
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The SQL statement for inserting request parameters in the database
+ImportCSVToDB.InsertParamStmt=INSERT INTO FIF_REQUEST_PARAM (TRANSACTION_ID, PARAM, VALUE) VALUES (?, ?, ?)
+
+# The name of the database field representing the transaction ID for a request
+ImportCSVToDB.InsertParamStmt.TransactionIDFieldIndex=1
+
+# The name of the database field representing the parameter name for a request
+ImportCSVToDB.InsertParamStmt.ParamNameFieldIndex=2
+
+# The name of the database field representing the parameter value for a request
+ImportCSVToDB.InsertParamStmt.ParamValueFieldIndex=3
+
+# The name of the external system id
+ImportCSVToDB.insertExternalSystemIdName=GROUP_ID
+
+# The SQL statement for updating the request external system id
+ImportCSVToDB.UpdatexternalSystemIdStatement=UPDATE FIF_REQUEST SET EXTERNAL_SYSTEM_ID = ? WHERE TRANSACTION_ID=?
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importModifyVodafoneCorporateGroupcsv.log4j.appender.File.File
+#ValidFrom:         FIF-API-04.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/ImportModifyVodafoneCorporateGroupCSV.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     04.02.04
+#Last_Modified_By   goethalo
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.importModifyVodafoneCorporateGroupcsv.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n

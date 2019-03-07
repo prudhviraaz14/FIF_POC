@@ -1,0 +1,1005 @@
+# START HEADER
+#  File:                $Workfile:   KBAFIFQueueClient.properties.template  $
+#  Author:              $Author:   wlazlow  $
+#  Revision:            $Revision:   1.27  $
+#  Purpose:             Configuration file for the KBA-FIF Queue Client application
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Nov 23 2010 14:37:58  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/KBAFIFQueueClient.properties.template-arc  $
+#
+#   Rev 1.27   Nov 23 2010 14:37:58   wlazlow
+#IT-k-29265
+#
+#   Rev 1.26   Nov 17 2010 16:22:12   schwarje
+#SPN-FIF-000104048: parametrized RequestHandler.SelectInterval and SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion
+#
+#   Rev 1.25   Sep 14 2010 16:30:54   schwarje
+#fixed statement for failed request notification
+#
+#   Rev 1.24   Jul 30 2010 19:31:02   schwarje
+#SPN-FIF-000102600: fixed log directories, added parameter for writing invalid requests
+#
+#   Rev 1.23   Jul 23 2010 11:24:36   makuier
+#Set priority for AddInstantAccess
+#
+#   Rev 1.22   Jul 20 2010 18:31:58   banania
+#Added following:
+#messagecreator.changeDSLBandwidthAndTariff=2
+#messagecreator.relocateContractTVCenter=2
+#
+#   Rev 1.21   Jun 30 2010 18:21:24   schwarje
+#changed parameters for logging request files
+#
+#   Rev 1.20   Jun 30 2010 10:48:04   schwarje
+#SPN-FIF-000101164: fixed configuration
+#
+#   Rev 1.19   Jun 25 2010 16:42:04   schwarje
+#SPN-FIF-000101037: fixed configuration templates
+#
+#   Rev 1.18   Jun 09 2010 18:03:00   schwarje
+#IT-26029: changed selectInterval
+#
+#   Rev 1.17   Jun 08 2010 17:52:18   schwarje
+#IT-26029: updated selectInterval
+#
+#   Rev 1.16   Jun 08 2010 16:50:58   schwarje
+#IT-26029: new configuration for queue clients
+#
+#   Rev 1.15   Mar 04 2010 18:22:58   banania
+#messagecreator.createTVCenterContract=1 added.
+#
+#   Rev 1.14   Dec 17 2008 16:47:44   schwarje
+#SPN-FIF-000076760: removed priorities for obsolete trx
+#
+#   Rev 1.13   May 14 2008 08:52:46   lejam
+#Added upgradeToACS to sorted transactions IT-20661
+#
+#   Rev 1.12   Feb 07 2008 11:26:20   schwarje
+#SPN-FIF-000065717: removed Console logging
+#
+#   Rev 1.11   Jan 03 2008 17:18:36   banania
+#messagecreator.relocateContractVoIP=2 added
+#
+#   Rev 1.10   Sep 05 2007 18:39:26   banania
+#SPN-CCB-000060474
+#messagecreator.modifyMethodOfPayment=3
+#messagecreator.modifyDocumentPattern=2
+#messagecreator.stopDocumentPattern=1
+#added
+#
+#   Rev 1.9   Aug 16 2007 18:36:18   banania
+#messagecreator.changeMultimediaProduct=1
+#messagecreator.createMultimediaContract=1
+#
+#   Rev 1.8   Aug 14 2007 14:07:24   banania
+#IT-17690 IPTV
+#
+#   Rev 1.7   Aug 09 2007 17:26:26   banania
+#IT-17690 IPTV
+#
+#   Rev 1.6   Jun 26 2007 16:23:58   banania
+#IT-17532 BasisISDN: New keys added:  messagecreator.upgradeToPremium=3
+#messagecreator.downgradeToBasis=3
+#
+#   Rev 1.5   Jun 12 2007 17:34:16   banania
+#IT-k-000019862:
+#UpgradeToDSL added for the sorting.
+#
+#   Rev 1.4   May 15 2007 18:01:46   banania
+#Sorting for  IT-19306 added.
+#
+#   Rev 1.3   Apr 05 2007 10:57:48   banania
+#IT-16444
+#Added definition of the priority of the action names used by the sorting algorithm.
+#
+#   Rev 1.2   Nov 22 2006 17:37:10   banania
+#SPN-FIF-000038270
+#
+#   Rev 1.1   Dec 07 2005 14:29:52   schwarje
+#IT-15085: enabled reference data support
+#
+#   Rev 1.0   Jan 27 2004 17:02:52   goethalo
+#Initial revision.
+#
+# END HEADER
+
+
+####################
+# GENERAL SETTINGS #
+####################
+
+
+#START PARAMETER
+#Parameter:         bpmfif.SynchronousFifClient.NumberOfRequestReceivers
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      1
+#RecomnendedVal.:   1
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       number of request receivers (threads waiting for requests from the front end)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         bpmfif.SynchronousFifClient.NumberOfRequestHandlers
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      8
+#RecomnendedVal.:   8
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       number of regular request handlers (threads processing FifTransactions in the back end)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         bpmfif.SynchronousFifClient.NumberOfRecycleHandlers
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   2
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       number of recycling request handlers (threads processing FifTransactions in recycling)
+#END PARAMETER
+
+#START PARAMETER
+#Parameter:         bpmfif.SynchronousFifClient.ClientId
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      KBA1
+#RecomnendedVal.:   KBA1
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       client ID (unique identifier (for each instance) of a client of a certain type)
+#Description:       different client IDs are needed, if e.g. two KBA-FIF clients are run in seperate packages
+#Description:       Then one client would have KBA1, the other one KBA2
+#END PARAMETER
+
+SynchronousFifClient.NumberOfRequestReceivers=${bpmfif.SynchronousFifClient.NumberOfRequestReceivers}
+SynchronousFifClient.NumberOfRequestHandlers=${bpmfif.SynchronousFifClient.NumberOfRequestHandlers}
+SynchronousFifClient.NumberOfRecycleHandlers=${bpmfif.SynchronousFifClient.NumberOfRecycleHandlers}
+SynchronousFifClient.ClientId=${bpmfif.SynchronousFifClient.ClientId}
+SynchronousFifClient.ClientType=KBA
+
+
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         bpmfif.SynchronousFifClient.FilePath
+#ValidFrom:         FIF-API-36.10.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./WORK
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The path to the directory where all FIF related messages are stored.
+#Description:       The messages are actually stored in child directories like fif-request.
+#END PARAMETER
+
+SynchronousFifClient.SentOutputDir=${bpmfif.SynchronousFifClient.FilePath}/KBAFIFQueueClient/fif-request
+SynchronousFifClient.ReplyOutputDir=${bpmfif.SynchronousFifClient.FilePath}/KBAFIFQueueClient/fif-reply
+SynchronousFifClient.InvalidReplyOutputDir=${bpmfif.SynchronousFifClient.FilePath}/KBAFIFQueueClient/fif-invalid-reply
+SynchronousFifClient.RequestOutputDir=${bpmfif.SynchronousFifClient.FilePath}/KBAFIFQueueClient/kba-request
+SynchronousFifClient.InvalidRequestDir=${bpmfif.SynchronousFifClient.FilePath}/KBAFIFQueueClient/kba-invalid-request
+SynchronousFifClient.ResponseOutputDir=${bpmfif.SynchronousFifClient.FilePath}/KBAFIFQueueClient/kba-response
+
+
+#START PARAMETER
+#Parameter:         bpmfif.SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion
+#ValidFrom:         FIF-API-37.01.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client)
+#ParameterType:     boolean
+#ValidValues:       true/false
+#DefaultValue:      -
+#ExampleValue:      true
+#RecomnendedVal.:   true
+#Optional:          N
+#Last_Modified:     17.11.10
+#Last_Modified_By   schwarje
+#Description:       indicates, if FifTransactions, for which no customer number could be found, are deleted
+#Description:       (only used, if SynchronousFifClient.DeleteAfterCompletion is set to 'false')
+#END PARAMETER
+SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion=${bpmfif.SynchronousFifClient.DeleteUnidentifiedRequestsAfterCompletion}
+
+#START PARAMETER
+#Parameter:         bpmfif.RequestHandler.SelectInterval
+#ValidFrom:         FIF-API-37.01.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client)
+#ParameterType:     INTEGER
+#ValidValues:       -
+#DefaultValue:      -
+#ExampleValue:      ./WORK
+#RecomnendedVal.:   300000
+#Optional:          N
+#Last_Modified:     17.11.10
+#Last_Modified_By   schwarje
+#Description:       waiting time (in milliseconds) after retrieving FifTransactions without success
+#END PARAMETER
+RequestHandler.SelectInterval=${bpmfif.RequestHandler.SelectInterval}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# Indicates whether messages sent to FIF should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteSentMessages=true
+
+# Indicates whether the request messages from KBA should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteRequestMessages=true
+
+# Indicates whether the reply messages from FIF should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteReplyMessages=true
+
+# Indicates whether the response messages to KBA should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteResponseMessages=true
+
+# Indicates whether the invalid request messages from the front end should be written to an output file
+# (true/false)
+SynchronousFifClient.WriteInvalidRequestMessages=true
+
+# indicates, if notifications are created (CCM-FIF handleFailedFifRequest) after a request failed in the back end
+SynchronousFifClient.FailedRequestNotification=false
+# list of action names (comma seperated), for which notifications are created
+SynchronousFifClient.FailedRequestNotification.ActionNames=
+# database alias for notifications for failed requests
+SynchronousFifClient.FailedRequestNotification.DBAlias=fifdb
+
+# indicates, if all FifTransactions are deleted from the database after processing
+SynchronousFifClient.DeleteAfterCompletion=false
+# list of action names (comma seperated), for which FifTransactions are deleted from the database after processing
+# (only used, if SynchronousFifClient.DeleteAfterCompletion is set to 'false')
+SynchronousFifClient.DeleteAfterCompletion.ActionNames=
+
+# indicates, if certain actions are blocked (and postponed) by this client
+SynchronousFifClient.BlockActionNames=false
+# list of blocked action names (comma seperated)
+SynchronousFifClient.BlockActionNames.ActionNames=modifyContract
+# postponement delay (in minutes) for blocked actions
+SynchronousFifClient.BlockActionNames.Delay=360
+
+# indicates, if failed responses (transactions completed in the backend, but errors while sending the 
+# responses back to the front end) are taken care of
+SynchronousFifClient.FailedResponseHandling=true
+# maxmimum number of retries for resending responses
+SynchronousFifClient.FailedResponseHandling.MaxRetries=10
+# batch size for retrieving failed responses
+SynchronousFifClient.FailedResponseHandling.BatchSize=100
+# waiting time (in minutes) between two batches
+SynchronousFifClient.FailedResponseHandling.SleepTime=60
+# delay time (in minutes) after which a retry is done
+SynchronousFifClient.FailedResponseHandling.ResendDelay=720
+
+# indicates, if hanging requests (requests which still seem to be in progress in FIF after a certain time) 
+# are reset on startup of the FIF client
+SynchronousFifClient.HangingRequestHandling=true
+# batch size for retrieving hanging requests
+SynchronousFifClient.HangingRequestHandling.BatchSize=100
+# minimum age (in minutes) for hanging requests to be reset
+SynchronousFifClient.HangingRequestHandling.RequestAge=60
+
+###########################
+# Backend Server Settings #
+###########################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         bpmfif.ServerHandler.ServerProcessName
+#ValidFrom:         FIF-API-26
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       process names
+#DefaultValue:      -
+#ExampleValue:      CcmFifInterface_std
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the CcmFifInterface process
+#END PARAMETER
+ServerHandler.ServerProcessName=${bpmfif.ServerHandler.ServerProcessName}
+
+#START PARAMETER
+#Parameter:         bpmfif.ServerHandler.ServerInstanceBase
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       instance name base
+#DefaultValue:      -
+#ExampleValue:      fifie_CFD_
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The base for name of the instance of the CcmFifInterface
+#Description:       The actual name of the instance is craeted by concatinating 
+#Description:       the thread number to the instance base
+#END PARAMETER
+ServerHandler.ServerInstanceBase=${bpmfif.ServerHandler.ServerInstanceBase}
+
+#START PARAMETER
+#Parameter:         bpmfif.ServerHandler.ServerArguments
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#DefaultValue:      -
+#ExampleValue:      
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       arguments the CcmFifInterface is called with
+#END PARAMETER
+ServerHandler.ServerArguments=${bpmfif.ServerHandler.ServerArguments}
+
+
+
+###########################
+# RequestHandler Settings #
+###########################
+
+# batch size for retrieving FifTransactions
+RequestHandler.BatchSize=100
+
+######################
+# Recycling Settings #
+######################
+
+#START PARAMETER
+#Parameter:         bpmfif.RequestHandler.EnableRecycling
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       true/false
+#DefaultValue:      -
+#ExampleValue:      true
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       enables/disables recycling.
+#END PARAMETER
+RequestHandler.EnableRecycling=${bpmfif.RequestHandler.EnableRecycling}
+
+#START PARAMETER
+#Parameter:         bpmfif.RequestHandler.MaxRecycleStage
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      4
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The maximum number of recycling stages.
+#Description:       You have to declare RequestHandler.RecycleDelay.StageX variables 
+#Description:       up to the value of MaxRecycleStage
+#END PARAMETER
+RequestHandler.MaxRecycleStage=${bpmfif.RequestHandler.MaxRecycleStage}
+
+#START PARAMETER
+#Parameter:         bpmfif.RequestHandler.RecycleDelay.Stage1
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for first stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage1=${bpmfif.RequestHandler.RecycleDelay.Stage1}
+#START PARAMETER
+#Parameter:         bpmfif.RequestHandler.RecycleDelay.Stage2
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for second stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage2=${bpmfif.RequestHandler.RecycleDelay.Stage2}
+#START PARAMETER
+#Parameter:         bpmfif.RequestHandler.RecycleDelay.Stage3
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for third stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage3=${bpmfif.RequestHandler.RecycleDelay.Stage3}
+#START PARAMETER
+#Parameter:         bpmfif.RequestHandler.RecycleDelay.Stage4
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API
+#ParameterType:     STRING
+#ValidValues:       a positive number
+#DefaultValue:      -
+#ExampleValue:      2
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The delay time (in minutes) for fourth stage of recycling.
+#END PARAMETER
+RequestHandler.RecycleDelay.Stage4=${bpmfif.RequestHandler.RecycleDelay.Stage4}
+
+# db alias for retrieving recycled errors
+RequestHandler.RecycledErrorsDBAlias=fifdb
+# database statement for retrieving recycled errors
+RequestHandler.RetrieveRecycledErrorStmt=select value from general_code_item where group_code = 'ERR_REF'
+
+
+
+
+
+
+#############################
+# MESSAGE CREATION SETTINGS #
+#############################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         bpmfif.messagecreator.MetaDataDir
+#ValidFrom:         FIF-API-02.01.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./etc
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the metadata file is located.
+#END PARAMETER
+messagecreator.MetaDataDir=${bpmfif.messagecreator.MetaDataDir}
+
+#START PARAMETER
+#Parameter:         bpmfif.messagecreator.OutputDir
+#ValidFrom:         FIF-API-02.01.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./output
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The directory to store the output XML files in.
+#Description:       (Not used if messagecreator.WriteOutputFiles is set to false).
+#END PARAMETER
+messagecreator.OutputDir=${bpmfif.messagecreator.OutputDir}
+
+#START PARAMETER
+#Parameter:         bpmfif.messagecreator.XSQL.Directory
+#ValidFrom:         FIF-API-02.01.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./xsql
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the XSQL files are located.
+#END PARAMETER
+messagecreator.XSQL.Directory=${bpmfif.messagecreator.XSQL.Directory}
+
+#START PARAMETER
+#Parameter:         bpmfif.messagecreator.XSLT.Directory
+#ValidFrom:         FIF-API-02.01.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./xslt
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the XSLT files are located.
+#END PARAMETER
+messagecreator.XSLT.Directory=${bpmfif.messagecreator.XSLT.Directory}
+
+#START PARAMETER
+#Parameter:         bpmfif.messagecreator.XSLT.IntermediateDir
+#ValidFrom:         FIF-API-02.01.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./intermediate
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the intermediate XML files should be written to.
+#Description:       (Not used if messagecreator.XSLT.WriteIntermediateFiles is set to false).
+#END PARAMETER
+messagecreator.XSLT.IntermediateDir=${bpmfif.messagecreator.XSLT.IntermediateDir}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The name of the XML metadata file
+messagecreator.MetaDataFile=kba-fif-queueclient-metadata.xml
+
+# Indicates whether the produced XML messages should also be written
+# as a file in the output directory
+messagecreator.WriteOutputFiles=false
+
+# Indicates whether the XML representation of a request should be
+# written as a file.
+messagecreator.XSLT.WriteIntermediateFiles=false
+
+# Indicates whether the use of reference data should be supported by the client.
+messagecreator.EnableReferenceDataSupport=true
+
+# The name of the database alias to use for retrieving reference data
+messagecreator.ReferenceDataDBAlias=fifdb
+
+# Definition of the priority of the action names used by the sorting algorithm.
+messagecreator.changeTechnology=3
+messagecreator.relocateContract=3
+messagecreator.upgradeToPremium=3
+messagecreator.downgradeToBasis=3
+messagecreator.changeDSLBandwidth=2
+messagecreator.createVoIPContract=2
+messagecreator.createMultimediaContract=1
+messagecreator.changeMultimediaProduct=1
+messagecreator.relocateContractMultimedia=2
+messagecreator.relocateContractVoIP=2
+messagecreator.upgradeToDSL=2
+messagecreator.resetIadPin=2
+messagecreator.modifyContract=1
+messagecreator.modifyMethodOfPayment=3
+messagecreator.changePacket=-1
+messagecreator.upgradeToACS=-1
+messagecreator.addInstantAccessService=-2
+messagecreator.createTVCenterContract=1
+messagecreator.changeDSLBandwidthAndTariff=2
+messagecreator.relocateContractTVCenter=2
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         bpmfif.log4j.appender.File.File
+#ValidFrom:         FIF-API-02.01.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/KBAFIFQueueClient.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     27.01.04
+#Last_Modified_By   goethalo
+#Description:       The name (including relative of absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${bpmfif.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=10MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+
+##################
+# QUEUE SETTINGS #
+##################
+
+#START PARAMETER
+#Parameter:         bpmfif.transport.RequestQueueName
+#ValidFrom:         FIF-API-36
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue name
+#DefaultValue:      -
+#ExampleValue:      BPM.REQUEST
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the queue to connect to for requests coming from KBA.
+#END PARAMETER
+transport.RequestQueueName=${bpmfif.transport.RequestQueueName}
+
+#START PARAMETER
+#Parameter:         bpmfif.transport.ResponseQueueName
+#ValidFrom:         FIF-API-36
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      A valid queue name
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the queue to connect to for replies to KBA.
+#END PARAMETER
+transport.ResponseQueueName=${bpmfif.transport.ResponseQueueName}
+
+#START PARAMETER
+#Parameter:         bpmfif.transport.QueueManagerName
+#ValidFrom:         FIF-API-36
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager name
+#DefaultValue:      -
+#ExampleValue:      CCBSVR2E
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The name of the queue manager to connect to for requests coming from KBA.
+#END PARAMETER
+transport.QueueManagerName=${bpmfif.transport.QueueManagerName}
+
+#START PARAMETER
+#Parameter:         bpmfif.transport.QueueManagerHostName
+#ValidFrom:         FIF-API-36
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager host name
+#DefaultValue:      -
+#ExampleValue:      hp64d01
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The host name of the queue manager to connect to for requests coming from KBA.
+#END PARAMETER
+transport.QueueManagerHostName=${bpmfif.transport.QueueManagerHostName}
+
+#START PARAMETER
+#Parameter:         bpmfif.transport.QueueManagerPortNumber
+#ValidFrom:         FIF-API-36
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager port number
+#DefaultValue:      -
+#ExampleValue:      5012
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     08.06.10
+#Last_Modified_By   schwarje
+#Description:       The port number of the queue manager to connect to for requests coming from KBA.
+#END PARAMETER
+transport.QueueManagerPortNumber=${bpmfif.transport.QueueManagerPortNumber}
+
+# The channel name of the queue manager
+transport.QueueManagerChannelName=CLIENT.${bpmfif.transport.QueueManagerName}
+
+# The message acknowledge mode to use for the queue session
+transport.AcknowledgeMode=CLIENT_ACKNOWLEDGE
+
+# The transport type of the queue manager
+transport.QueueManagerTransportType=TCPIP
+
+# The character encoding to use for encoding and decoding the messages that are
+# sent and received over the queue
+transport.Encoding=ISO-8859-1
+
+transport.TransactionedSession=true
+
+# The JMS reply to functionality turn on if the value is set to Y, in all other cases is turned off
+transport.jmsReplyTo=N
+
+#####################
+# DATABASE SETTINGS #
+#####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         bpmfif.db.fifdb.Driver
+#ValidFrom:         FIF-API-18.00.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       Class name
+#DefaultValue:      -
+#ExampleValue:      oracle.jdbc.driver.OracleDriver
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.12.05
+#Last_Modified_By   schwarje
+#Description:       The name of the JDBC database driver to use.
+#END PARAMETER
+db.fifdb.Driver=${bpmfif.db.fifdb.Driver}
+
+#START PARAMETER
+#Parameter:         bpmfif.db.fifdb.ConnectString
+#ValidFrom:         FIF-API-18.00.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       Fully qualified URL for JDBC
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:ccmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.12.05
+#Last_Modified_By   schwarje
+#Description:       The connection string to use to connect to the database containing the FIF tables.
+#Description:       (Format: jdbc:oracle:thin:@hostname:port:dbname)
+#END PARAMETER
+db.fifdb.ConnectString=${bpmfif.db.fifdb.ConnectString}
+
+#START PARAMETER
+#Parameter:         bpmfif.db.fifdb.User
+#ValidFrom:         FIF-API-18.00.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       All users of database.
+#DefaultValue:      -
+#ExampleValue:      ccm_user
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.12.05
+#Last_Modified_By   schwarje
+#Description:       The user name to use to connect to the database containing the FIF tables.
+#END PARAMETER
+db.fifdb.User=${bpmfif.db.fifdb.User}
+
+#START PARAMETER
+#Parameter:         bpmfif.db.fifdb.Password
+#ValidFrom:         FIF-API-18.00.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       Valid password.
+#DefaultValue:      -
+#ExampleValue:      ernirnlihlrieppg
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.12.05
+#Last_Modified_By   schwarje
+#Description:       The ecnrypted password to use to connect to the database (encrypted in CCB format).
+#END PARAMETER
+db.fifdb.Password=${bpmfif.db.fifdb.Password}
+
+#START PARAMETER
+#Parameter:         bpmfif.db.fifdb.EncryptionKey
+#ValidFrom:         FIF-API-18.00.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF queue client / BPM)
+#ParameterType:     STRING
+#ValidValues:       Encryption key used to encrypt the password.
+#DefaultValue:      -
+#ExampleValue:      pshsodoehseffjlhsohedqfpnpfssmpleggfqpprnlhjhess
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     07.12.05
+#Last_Modified_By   schwarje
+#Description:       The encryption key that was used to encrypt the database password.
+#END PARAMETER
+db.fifdb.EncryptionKey=${bpmfif.db.fifdb.EncryptionKey}
+
+#START PARAMETER
+#Parameter:         bpmfif.db.fifdb.MaximumConnectionCount
+#ValidFrom:         FIF-API-36.00.00
+#ValidTo:           open
+#Components:        FIF-API (KBA-FIF database client)
+#ParameterType:     INTEGER
+#ValidValues:       -
+#DefaultValue:      -
+#ExampleValue:      30
+#RecomnendedVal.:   30
+#Optional:          N
+#Last_Modified:     07.06.10
+#Last_Modified_By   schwarje
+#Description:       The maximum number of open connections in the pool
+#Description:       The number has to be high enough for all request handler, recycle handlers, 
+#Description:       for failed response handling and for failed request handling
+#END PARAMETER
+db.fifdb.MaximumConnectionCount=${bpmfif.db.fifdb.MaximumConnectionCount}
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of database aliases that are being used by the application
+# An alias maps to a specific set of database configuration settings
+# The QueueClient only needs one database alias and this alias should
+# be called errormappingdb.
+# If errormapping.EnableErrorMapping is set to false these settings are
+# ingnored
+db.aliases=fifdb
+
+# The maximum number of minutes that a connection can remain active (in minutes)
+db.fifdb.MaximumConnectionLifeTime=240
+
+# The minimum number of open connections in the pool
+db.fifdb.MinimumConnectionCount=0
+
+# The number of minutes to wait between connection cleanup runs
+db.fifdb.HouseKeepingSleepTime=1
+
+
+#######################
+# Database statements #
+#######################
+
+#### Database statements for FifTransaction logging ####
+SynchronousFifClient.FifTransaction.DBAlias=fifdb
+
+# The select statement recycle transaction by ID 
+SynchronousFifClient.FifTransaction.RetrieveFifTransactionsById= \
+select * from fif_transaction where transaction_id = ? and client_type = ?
+
+# The select statement to retrieve pending transactions
+SynchronousFifClient.FifTransaction.RetrievePendingFifTransactions= \
+select * from fif_transaction \
+where status = ? and client_id = ? \
+and due_date <= sysdate \
+and rownum <= ?
+
+# The select statement to retrieve completed requests with failed responses
+SynchronousFifClient.FifTransaction.RetrieveFailedResponses= \
+select * from fif_transaction \
+where status = ? \
+and client_id = ? \
+and audit_update_date_time <= ? \
+and response_retry_count < ? \
+and rownum <= ?
+
+# The delete statement recycle transaction
+SynchronousFifClient.FifTransaction.DeleteFifTransaction= \
+delete from fif_transaction where transaction_id = ? and client_type = ?
+
+
+
+
+# The update statement recycle transaction
+SynchronousFifClient.FifTransaction.UpdateFifTransaction= \
+update fif_transaction set \
+due_date = ?, end_date = ?, status = ?, recycle_stage = ?, client_response = ?, \
+customer_number = ?, audit_update_user_id = ?, audit_update_date_time = sysdate, response_retry_count = ?, jms_correlation_id = ?, jms_reply_to = ? \
+where transaction_id = ? and client_type = ?
+
+# The insert statement recycle transaction
+SynchronousFifClient.FifTransaction.InsertFifTransaction= \
+insert into fif_transaction \
+(transaction_id, client_type, client_id, client_request, client_response, due_date, entry_date, \
+status, recycle_stage, customer_number, audit_update_user_id, response_retry_count, jms_correlation_id, jms_reply_to, audit_update_date_time) \
+values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate)
+
+
+
+#### Database statements for creation of notifications for failed requests ####
+
+# parameters for creating notifications for failed fif requests   
+SynchronousFifClient.FailedRequestNotification.GetTransactionID.Statement=\
+select 'FR-'||lpad(fif_transaction_id_seq.nextval, 15, '0') from dual
+
+SynchronousFifClient.FailedRequestNotification.InsertRequest.Statement=\
+insert into ccm_fif_request (transaction_id, target_client, status, action_name, \
+   due_date, priority, creation_date, audit_update_user_id, external_system_id) \
+values (?, 'CCM', 'NOT_STARTED', 'handleFailedFifRequest', sysdate, 0, sysdate, 'KBA-FIF', ?)
+
+SynchronousFifClient.FailedRequestNotification.InsertRequestParam.Statement=\
+insert into ccm_fif_request_param (transaction_id, param, value) \
+values (?, ?, ?)   
+
+SynchronousFifClient.FailedRequestNotification.InsertRequestParamList.Statement=\
+insert into ccm_fif_request_param_list (transaction_id, param_list, list_item_number, param, value) \
+values (?, ?, ?, ?, ?)   
+

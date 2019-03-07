@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- 
+    Test XSQL file
+    
+    @author Olivier Goethals
+    @date 2002-02-13
+-->    
+<?xml-stylesheet type="text/xsl" href="TestSimpleAction.xsl"?>
+<xsql:query connection="oprccmtd" xmlns:xsql="urn:oracle-xsql">
+
+	SELECT 'Hello' AS HELLO, 'World' AS WORLD FROM DUAL
+
+</xsql:query>    

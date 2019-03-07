@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ape="http://www.arcor.net/EPSM-CommonTypes-APE-001" 
+xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:simkarte="http://www.arcor.net/EPSM-CommonTypes-SIMKarte-001" 
+xmlns:leistungsmerkmal="http://www.arcor.net/EPSM-CommonTypes-Leistungsmerkmal-001" 
+targetNamespace="http://www.arcor.net/EPSM-CommonTypes-SIMKarte-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-APE-001" schemaLocation="EPSM-CommonTypes-APE-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-Leistungsmerkmal-001" schemaLocation="EPSM-CommonTypes-Leistungsmerkmal-001.xsd"/>
+	<xs:element name="EPSM_SIMKarte_Dokument_Information ">
+		<xs:annotation>
+			<xs:documentation>Dieses Schemata wurde generiert.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="SimSerienNr">
+		<xs:annotation>
+			<xs:documentation>V0108; SIM_ID; eindeutige Seriennummer der SIM-Karte</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="14"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SimPuk">
+		<xs:annotation>
+			<xs:documentation>PUK einer Simkarte</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SimKarte">
+		<xs:annotation>
+			<xs:documentation>Angaben zur SIM-Karte</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="leistungsmerkmal:Leistungsmerkmal">
+				<xs:sequence>
+					<xs:element name="simSerienNr" minOccurs="0" type="simkarte:SimSerienNr"/>
+					<xs:element name="simPuk" minOccurs="0" type="simkarte:SimPuk"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

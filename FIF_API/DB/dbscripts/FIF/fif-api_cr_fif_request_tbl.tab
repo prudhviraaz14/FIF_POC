@@ -1,0 +1,45 @@
+--
+-- Create script for the FIF_REQUEST table.
+--
+-- @author Olivier Goethals
+-- @date 2003-06-27
+
+CREATE TABLE FIF_REQUEST (
+    TRANSACTION_ID       VARCHAR2(30) NOT NULL,
+    TARGET_CLIENT        VARCHAR2(20) NOT NULL,
+    STATUS               VARCHAR2(20) DEFAULT 'NOT_STARTED' NOT NULL,
+    ACTION_NAME          VARCHAR2(80) NOT NULL,
+    ERROR_TEXT           VARCHAR2(4000) NULL,
+    DUE_DATE             DATE DEFAULT SYSDATE NOT NULL,
+    PRIORITY             NUMBER(22) DEFAULT 0 NOT NULL,
+    CREATION_DATE        DATE DEFAULT SYSDATE NOT NULL,
+    START_DATE           DATE NULL,
+    END_DATE             DATE NULL,
+    EXTERNAL_SYSTEM_ID   VARCHAR2(30) NULL,
+    AUDIT_UPDATE_USER_ID VARCHAR2(30) DEFAULT user NOT NULL
+);
+
+COMMENT ON COLUMN FIF_REQUEST.TRANSACTION_ID IS
+    'The transaction ID of the FIF request.';
+COMMENT ON COLUMN FIF_REQUEST.TARGET_CLIENT IS
+    'The FIF database client that should process this request. This allows multiple database client to use the same request table.';
+COMMENT ON COLUMN FIF_REQUEST.STATUS IS
+    'The status of the request.  Allowed values are "NOT_STARTED", "IN_PROGRESS", "COMPLETED", AND "FAILED". Default is "NOT_STARTED"';
+COMMENT ON COLUMN FIF_REQUEST.ACTION_NAME IS
+    'The name of the action the request is for.';
+COMMENT ON COLUMN FIF_REQUEST.ERROR_TEXT IS
+    'The error text if the status is "FAILED".';
+COMMENT ON COLUMN FIF_REQUEST.DUE_DATE IS
+    'The date the request should be sent to FIF. Default is SYSDATE';
+COMMENT ON COLUMN FIF_REQUEST.PRIORITY IS
+    'The priority of the request The higher the number, the higher the priority.  Default is 0.';
+COMMENT ON COLUMN FIF_REQUEST.CREATION_DATE IS
+    'The creation date of the request. Default is SYSDATE';
+COMMENT ON COLUMN FIF_REQUEST.START_DATE IS
+    'The date the request was sent to FIF.';
+COMMENT ON COLUMN FIF_REQUEST.END_DATE IS
+    'The date the request was processed by FIF.';
+COMMENT ON COLUMN FIF_REQUEST.EXTERNAL_SYSTEM_ID IS
+    'ID that can be used by the external systems that inserted the request.';    
+COMMENT ON COLUMN FIF_REQUEST.AUDIT_UPDATE_USER_ID IS
+    'The database user that inserted the FIF_REQUEST row.';    

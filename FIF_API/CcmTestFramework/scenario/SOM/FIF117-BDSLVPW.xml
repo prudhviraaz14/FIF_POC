@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order orderID="{orderID}_B" xmlns="http://www.arcor.net/orderSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.arcor.net/orderSchema som-order.xsd ">
+    <barcode>{orderID}</barcode>
+    <entryUser>FIFTF</entryUser>
+    <entryRole>FIFTF</entryRole>
+    <entrySystem>{entrySystem}</entrySystem>
+    <entryDateTime>{today}</entryDateTime>
+    <orderAcceptedDate>{today}</orderAcceptedDate>
+    <customerContactPoint>KBA</customerContactPoint>
+    <salesOrganisation>
+        <salesOrganisationNumber type="A">97000000</salesOrganisationNumber>
+        <salesOrganisationNumber type="V">97000000</salesOrganisationNumber>
+    </salesOrganisation>
+    <superCustomerTrackingId>{orderID}_Envelope</superCustomerTrackingId>
+    <scanDate>{todayTruncated}</scanDate>
+    {file:templates/CustomerDataOld.xml_part}
+    {file:templates/CustomerDataNew.xml_part}    
+    <contractPartnerChange orderPositionNumber="1">
+        <parentBarcode>{parentBarcode}</parentBarcode>
+        <customerIntention>ContractPartnerChange</customerIntention>
+        <desiredDate>{desiredDate}</desiredDate>
+        <orderReceivedDate>{today}</orderReceivedDate>
+        <providerCode>
+            <configured>VFAI</configured>
+        </providerCode>
+        <salesPacketName>
+            <configured>All Inclusive Paket</configured>
+        </salesPacketName>
+        <beneficiary ID="beneficiary">
+            <customerNodeRefID>customer</customerNodeRefID>
+            <targetCustomerNodeRefID>customer-new</targetCustomerNodeRefID>
+        </beneficiary>
+        <payerAllCharges ID="payer-001">
+            <billingAccountNodeRefID>account</billingAccountNodeRefID>
+            <targetBillingAccountNodeRefID>account-new</targetBillingAccountNodeRefID>
+        </payerAllCharges>
+        <aoMastered>
+            <configured>true</configured>
+        </aoMastered>
+        <accesses>
+            <businessDSL ID="bdsl-new">
+                <ccbId type="S">
+                   <existing>{internetSSID}</existing> 
+                   <configured>{internetSSIDNew}</configured> 
+                </ccbId>
+                <businessDSLConfiguration>
+                    <accessTechnology>
+                      <configured>ADSL-AnnexJ</configured> 
+                    </accessTechnology>
+                </businessDSLConfiguration>
+                <processingStatus>{internetProcessingStatus}</processingStatus>
+            </businessDSL>
+        </accesses>
+        <functions>
+            <internet ID="func-internet_1" refAccessID="bdsl-new">
+                <processingType>CHANGE</processingType> 
+                <ccbId type="S">
+                   <existing>{internetSSID}</existing> 
+                   <configured>{internetSSIDNew}</configured> 
+                </ccbId>
+	             <providerTrackingNumber type="default">
+		             <configured>ptnDefaultInternet</configured>
+	             </providerTrackingNumber>
+	             <providerTrackingNumber type="change">
+		             <configured>ptnChangeInternet</configured>
+	             </providerTrackingNumber>
+	             <providerTrackingNumber type="target">
+		             <configured>ptnTargetInternet</configured>
+	             </providerTrackingNumber>
+<!--
+                <contractNumber>
+                   <existing>{contractNumber}</existing> 
+                </contractNumber>
+                <productCommitmentNumber>
+                   <existing>{productCommitmentNumber}</existing> 
+                </productCommitmentNumber>
+-->
+                <adslInternetConfiguration>
+		             <productCode>
+			             <existing>{productCodeInternet}</existing>
+		             </productCode>
+                   <pricingStructureCode>
+                      <existing>{pricingStructureCodeInternet}</existing> 
+                   </pricingStructureCode>
+                   <contractExpirationDate>
+                      <existing>{todayTruncated}</existing> 
+                   </contractExpirationDate>
+                   <DSLBandwidth>
+                      <existing>{DSLBandwidth}</existing> 
+                      <configured>{DSLBandwidth}</configured> 
+                   </DSLBandwidth>
+                   <allowBandwidthDowngrade>
+                     <existing>true</existing> 
+                   </allowBandwidthDowngrade>
+                   <desiredBandwidth>
+                      <existing>{DSLBandwidth}</existing> 
+                      <configured>{DSLBandwidth}</configured> 
+                   </desiredBandwidth>
+                   <disableInternetUsageIndicator>
+                      <existing>false</existing> 
+                   </disableInternetUsageIndicator>
+                   <ipV6Variant>
+                      <configured>IpV4Private</configured> 
+                   </ipV6Variant>
+                   {file:(productCodeInternet=I1203)templates/ConditionsConfigured.xml_part}
+                   {file:(productCodeInternet=I1204)templates/ConditionsConfigured.xml_part}
+                   {file:(productCodeInternet=I1208)templates/ConditionsConfigured.xml_part}		
+                </adslInternetConfiguration>
+ 	             <processingStatus>{internetProcessingStatus}</processingStatus>
+	             <completionStatusNewCcbId>{internetCompletionStatusNew}</completionStatusNewCcbId>
+	             <previousCompletionStatusNewCcbId>{internetPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+	             <completionStatusOldCcbId>{internetCompletionStatusOld}</completionStatusOldCcbId>
+	             <previousCompletionStatusOldCcbId>{internetPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+           </internet>            
+        </functions>
+		  <ccbId type="B">
+			  <existing>{bundleId}</existing>
+			  <configured>{bundleIdNew}</configured>
+		  </ccbId>
+    </contractPartnerChange>
+</order>

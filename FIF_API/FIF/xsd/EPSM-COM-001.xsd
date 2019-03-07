@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2010 (http://www.altova.com) von R (Vodafone AG & Co. KG) bearbeitet -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arcor.net/com/EPSM-COM-001" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001" targetNamespace="http://www.arcor.net/com/EPSM-COM-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Aenderungshistorie ================== -->
+	<xs:element name="EPSM_COM_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>Aenderungshistorie:
+        0.1 04.11.2008 Reto Renner - Initiale Version
+        0.2 07.11.2008 Reto Renner - Anpassungen
+        0.3 14.05.2009 Woijciech Wlazlo - new enums in NeuerStatus
+        0.4 27.08.2009 Stefan Walter - StartPreclearedFixedLineOrderService hinzugefuegt
+        0.5 09.09.2009 Stefan Walter - ExtendPreclearedFixedLineOrderService hinzugefuegt
+        - startPreclearedFixedLineEvent umbenannt in
+        preclearedFixedLineOrderEvent
+        - sourceSystem umbenannt in sendingSystem
+        0.6 07.10.2009 Woijciech Wlazlo - added AuftragPositionNummer to EmpfangeNotificationInput
+        0.7 01.12.2009 Rusbe Makuie - added CCM to SendingSystem
+                                    - added somString to InputData
+        0.8 27.01.2010 Mandeep Singh - added documentation comment for seatChangeService
+        0.9 29.04.2010 Andreas Burghardt - added CheckOrderCancellationStateService
+        0.10 04.05.2010 Reto Renner - Rückumbenenung Dateiname (wurde mit V0.9 umbenant), CheckOrderCancellationStateOutput erweitert um Element "cancellable"
+        0.11 18.05.2010 Reto Renner - Element "cancellable" ooptional
+        0.12 07.07.2010 Reto Renner - Fehlerkorrektur
+        0.13 16.06.2010 Axel Sammet - Fehlerkorrektur SUCESS => SUCCESS
+        0.14 29.07.2010 Ruth Gibson - new enums in NeuerStatus SUCCESS, FAILURE for COM phase 2 1.36 EmpfangeNotification Service
+      </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>Dieses Dokument basiert auf und referenziert folgende Dokumente:
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>Diese Schnittstelle wird durch den Endpunkt COM realisiert</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ================================endpoint specific simple types================= -->
+	<xs:simpleType name="NeuerStatus">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="TERMINATED"/>
+			<xs:enumeration value="SUBSCRIBED"/>
+			<xs:enumeration value="CANCELED"/>
+		    <xs:enumeration value="SUCCESS"/>
+		    <xs:enumeration value="FAILURE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BetroffenesObjekt">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SERVICE_SUBSCRIPTION"/>
+			<xs:enumeration value="CUSTOMER"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BetroffeneID">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="16"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AuftragPositionNummer">
+		<xs:annotation>
+			<xs:documentation>Order position number</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[1-9][0-9]{0,3}"/>
+			<!-- <xs:maxLength value="4"/> -->
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SendingSystem">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="POS"/>
+			<xs:enumeration value="EPOS"/>
+			<xs:enumeration value="AIDA"/>
+			<xs:enumeration value="CCM"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OrderId">
+		<xs:annotation>
+			<xs:documentation>ID of the order</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="16"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProcessingResult">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SUCCESS"/>
+			<xs:enumeration value="CANCELLED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ================================endpoint specific complex types================= -->
+	<xs:complexType name="Som">
+		<xs:annotation>
+			<xs:documentation>The complete SOM XML document</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:any namespace="##any" processContents="lax" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StartPreclearedFixedLineOrderInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="barcode" type="common:Barcode"/>
+					<xs:element name="sendingSystem" type="SendingSystem"/>
+					<xs:choice>
+						<xs:element name="som" type="Som"/>
+						<xs:element name="somString" type="xs:string"/>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="StartPreclearedFixedLineOrderOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ExtendPreclearedFixedLineOrderInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="barcode" type="common:Barcode"/>
+					<xs:element name="sendingSystem" type="SendingSystem"/>
+					<xs:element name="som" type="Som"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ExtendPreclearedFixedLineOrderOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PreclearedFixedLineOrderEventOutput">
+		<xs:annotation>
+			<xs:documentation>Output data for the PreclearedFixedLineOrderEvent.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element name="barcode" type="common:Barcode"/>
+					<xs:element name="keyValuePair" type="KeyValuePair" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SeatChangeEventOutput">
+		<xs:annotation>
+			<xs:documentation>Output data for the PreclearedFixedLineOrderEvent.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element name="orderId" type="OrderId"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="KeyValuePair">
+		<xs:sequence>
+			<xs:element name="key" type="xs:string"/>
+			<xs:element name="value" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SeatChangeInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="orderId" type="OrderId"/>
+					<xs:element name="sendingSystem" type="SendingSystem"/>
+					<xs:element name="som" type="Som"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SeatChangeOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CheckOrderCancellationStateInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="orderId" type="common:Barcode"/>
+					<xs:element name="orderPosition" type="common:OrderPositionNumber" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CheckOrderCancellationStateOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData">
+				<xs:sequence>
+					<xs:element name="cancellable" type="xs:boolean" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ReportFNPOrderPosInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="orderId" type="common:Barcode"/>
+					<xs:element name="result" type="ProcessingResult"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ReportFNPOrderPosOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ================================endpoint specific services=====================-->
+	<xs:complexType name="EmpfangeNotificationService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="empfangeNotificationInput" type="EmpfangeNotificationInput"/>
+					<xs:element name="empfangeNotificationOutput" type="EmpfangeNotificationOutput">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="EmpfangeNotificationInput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:InputData">
+				<xs:sequence>
+					<xs:element name="barcode" type="common:Barcode"/>
+					<xs:element name="neuerStatus" type="NeuerStatus"/>
+					<xs:element name="betroffenesObjekt" type="BetroffenesObjekt"/>
+					<xs:element name="betroffeneID" type="BetroffeneID"/>
+					<xs:element name="auftragPositionNummer" type="AuftragPositionNummer" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="EmpfangeNotificationOutput">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OutputData"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="StartPreclearedFixedLineOrderService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="startPreclearedFixedLineOrderInput" type="StartPreclearedFixedLineOrderInput"/>
+					<xs:element name="startPreclearedFixedLineOrderOutput" type="StartPreclearedFixedLineOrderOutput">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ExtendPreclearedFixedLineOrderService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="extendPreclearedFixedLineOrderInput" type="ExtendPreclearedFixedLineOrderInput"/>
+					<xs:element name="extendPreclearedFixedLineOrderOutput" type="ExtendPreclearedFixedLineOrderOutput">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PreclearedFixedLineOrderEvent">
+		<xs:annotation>
+			<xs:documentation>This event feeds back results, like newly created customer numbers.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderEvent">
+				<xs:sequence>
+					<xs:element name="preclearedFixedLineOrderEventOutput" type="PreclearedFixedLineOrderEventOutput">
+						<xs:annotation>
+							<xs:documentation>Barcode plus generic key/value pairs.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SeatChangeService">
+		<xs:annotation>
+			<xs:documentation>This service is used to send orders to COM for lineChanges</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="seatChangeInput" type="SeatChangeInput"/>
+					<xs:element name="seatChangeOutput" type="SeatChangeOutput">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SeatChangeEvent">
+		<xs:annotation>
+			<xs:documentation>This event feeds back results, like newly created customer numbers.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderEvent">
+				<xs:sequence>
+					<xs:element name="seatChangeEventOutput" type="SeatChangeEventOutput">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CheckOrderCancellationStateService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="checkOrderCancellationStateInput" type="CheckOrderCancellationStateInput"/>
+					<xs:element name="checkOrderCancellationStateOutput" type="CheckOrderCancellationStateOutput">
+						<xs:annotation>
+							<xs:documentation>
+result = true:	ist cancellable
+result = false:	ist nicht cancellable
+								</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ReportFNPOrderPosService">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:ProviderService">
+				<xs:choice>
+					<xs:element name="reportFNPOrderPosInput" type="ReportFNPOrderPosInput"/>
+					<xs:element name="reportFNPOrderPosOutput" type="ReportFNPOrderPosOutput">
+						<xs:annotation>
+							<xs:documentation> The service to send an order processing result from POS to COM.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ================================= Services and Events ============================== -->
+	<xs:element name="empfangeNotificationService" type="EmpfangeNotificationService">
+		<xs:annotation>
+			<xs:documentation>
+        This service processes asynchronous (repsonse) messages from CCM. This can be e.g. the notification of a successfully processed termination or a manually triggered cancellation.
+      </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="startPreclearedFixedLineOrderService" type="StartPreclearedFixedLineOrderService">
+		<xs:annotation>
+			<xs:documentation>
+        This service processes orders (to date from POS) for creation of new customers and the according products. An order in SOM V3 format is expected.
+      </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="extendPreclearedFixedLineOrderService" type="ExtendPreclearedFixedLineOrderService">
+		<xs:annotation>
+			<xs:documentation>
+        This service processes orders (to date from POS) for the expansion of order, adding new order positions. An order in SOM V3 format is expected.
+      </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="preclearedFixedLineOrderEvent" type="PreclearedFixedLineOrderEvent">
+		<xs:annotation>
+			<xs:documentation>
+        This event feeds back data to caller of startPreclearedFixedLineOrderService, like a newly created customer number from FIF/CCM. The format is key/value pairs.
+      </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="seatChangeService" type="SeatChangeService">
+		<xs:annotation>
+			<xs:documentation>
+        This service processes change orders (to date from AIDA), reconfiguring IPCentrex seats. 
+      </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="seatChangeEvent" type="SeatChangeEvent">
+		<xs:annotation>
+			<xs:documentation>
+        This event feeds back data to caller of startPreclearedFixedLineOrderService, like a newly created customer number from FIF/CCM. The format is key/value pairs.
+      </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="checkOrderCancellationStateService" type="CheckOrderCancellationStateService">
+		<xs:annotation>
+			<xs:documentation>
+        This service checks if an order could be cancelled in COM.
+      </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="reportFNPOrderPosService" type="ReportFNPOrderPosService">
+		<xs:annotation>
+			<xs:documentation>
+        		This service sends a result for the order processing from POS to COM.
+    		</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- =================================root Element============================ -->
+	<xs:element name="_Endpunkt_Diensterbringer_COM">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="empfangeNotificationService"/>
+				<xs:element ref="startPreclearedFixedLineOrderService"/>
+				<xs:element ref="extendPreclearedFixedLineOrderService"/>
+				<xs:element ref="preclearedFixedLineOrderEvent"/>
+				<xs:element ref="seatChangeService"/>
+				<xs:element ref="seatChangeEvent"/>
+				<xs:element ref="checkOrderCancellationStateService"/>
+				<xs:element ref="reportFNPOrderPosService"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

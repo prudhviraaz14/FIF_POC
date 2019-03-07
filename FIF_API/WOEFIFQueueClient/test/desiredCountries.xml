@@ -1,0 +1,32 @@
+<!DOCTYPE request SYSTEM "request.dtd">
+<request>
+	<action-name>setDesiredCountries</action-name>
+	<request-params>
+		<request-param name="transactionID"><![CDATA[WOE_DESIRED_COUNTRY]]></request-param>
+		<request-param name="customerNumber">000123456789</request-param>
+		<request-param name="contractNumber">9871221231214</request-param>
+		<request-param name="accessNumber">49;173;52525</request-param>
+		<request-param name="desiredDate">2005.08.01 00:00:00</request-param>
+		<request-param name="userName">goethalo</request-param>
+		<request-param name="rollenBezeichnung">UNIT_TEST</request-param>
+		<request-param-list name="newCountriesServiceCodeList">
+			<request-param-list-item>
+				<request-param name="serviceCode">V0999</request-param>
+			</request-param-list-item>
+			<request-param-list-item>
+				<request-param name="serviceCode">V0991</request-param>
+			</request-param-list-item>
+		</request-param-list>
+		<request-param-list name="oldCountriesServiceCodeList">
+			<request-param-list-item>
+				<request-param name="serviceCode">V0888</request-param>
+			</request-param-list-item>
+			<request-param-list-item>
+				<request-param name="serviceCode">V0891</request-param>
+			</request-param-list-item>
+			<request-param-list-item>
+				<request-param name="serviceCode">V0899</request-param>
+			</request-param-list-item>
+		</request-param-list>
+	</request-params>
+</request>

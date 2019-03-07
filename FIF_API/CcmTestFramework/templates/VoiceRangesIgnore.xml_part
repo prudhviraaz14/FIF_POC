@@ -1,0 +1,92 @@
+<voice ID="voice" refAccessID="access-old">
+	<processingType>IGNORE</processingType>
+	<ccbId type="S">
+	    <existing>{voiceSSID}</existing>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultVoice</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeVoice</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetVoice</configured>
+	</providerTrackingNumber>
+	<voicePBXConfiguration>
+		<productCode>
+			<existing>{productCodeVoice}</existing>
+		</productCode>
+		<pricingStructureCode>
+			<existing>{pricingStructureCodeVoice}</existing>
+		</pricingStructureCode>
+		<primaryCustSignName>
+			<existing>COM {scenarioName}</existing>
+		</primaryCustSignName>
+		<primaryCustSignDate>
+			<existing>{todayTruncated}</existing>
+		</primaryCustSignDate>
+		<minimumDurationPeriod>
+			<value>
+				<existing>24</existing>
+			</value>
+			<unit>
+				<existing>MONTH</existing>
+			</unit>
+		</minimumDurationPeriod>
+        <autoExtension>
+			<value>
+				<existing>12</existing>
+			</value>
+			<unit>
+				<existing>MONTH</existing>
+			</unit>
+			<autoExtensionIndicator>
+				<existing>Y</existing>
+			</autoExtensionIndicator>
+		</autoExtension>
+		<automaticMailingIndicator>
+			<existing>true</existing>
+		</automaticMailingIndicator>
+		<projectOrderIndicator>
+			<existing>false</existing>
+		</projectOrderIndicator>
+		<activationType>
+			<existing>Neuanschluss</existing>
+		</activationType>
+		<portingAccessNumberRanges>
+	        <oldLocalExchangeCarrier>
+	          <existing>D001</existing>
+	        </oldLocalExchangeCarrier>
+		    <accessNumberRange1>
+		      <existing>
+		        <countryCode>49</countryCode>
+		        <localAreaCode>211</localAreaCode>
+		        <pilotNumber>{accessNumber3}</pilotNumber>
+		        <startNumber>0</startNumber>
+		        <endNumber>9</endNumber>
+		      </existing>
+		    </accessNumberRange1>
+		    <ownerAccessNumberRange1>
+		      <existing>HeinoEigner</existing>
+		    </ownerAccessNumberRange1>
+		    <lineOwner1>
+		      <existing>
+		        <name>{scenarioName}</name>
+		        <firstName>COM</firstName>
+		      </existing>
+		    </lineOwner1>
+		    <lineOwnerAddress>
+		      <existing>
+		        {file:templates/Address1.xml_part}
+		      </existing>
+		    </lineOwnerAddress>
+		</portingAccessNumberRanges>
+		<remarks>
+			<existing>GK-Vertrieb B3, IMP, Betreute Schaltung nein, Privatkunde / Telefonbucheintrag / </existing>
+		</remarks>
+	    {file:(productCodeVoice=VI211)templates/VoiceFeaturesSIPExisting.xml_part}
+	</voicePBXConfiguration>
+	<processingStatus>{voiceProcessingStatus}</processingStatus>
+	<completionStatusOldCcbId>{voiceCompletionStatusOld}</completionStatusOldCcbId>
+	<previousCompletionStatusOldCcbId>{voicePreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+</voice>

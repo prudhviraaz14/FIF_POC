@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: EmailUtility-001.xsd,v 1.0 2014/02/11 06:53:09 dulcysyr Exp $ -->
+<xs:schema xmlns="http://www.vodafone.de/ESB/Service/EAI/Customer/EmailUtility-001" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:primitivebasetypes="http://www.vodafone.de/ESB/Schema/Common/PrimitiveBaseTypes-ESB-001" targetNamespace="http://www.vodafone.de/ESB/Service/EAI/Customer/EmailUtility-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>
+			History of Changes:
+			Vers.	Date		    Author			   Comment
+			====	==========	    ===========		   ===================================================
+			1.0    2014-02-11  Dulcy Sylvia      Initial version    
+        </xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://www.vodafone.de/ESB/Schema/Common/PrimitiveBaseTypes-ESB-001" schemaLocation="PrimitiveBaseTypes-ESB-001.xsd"/>
+	<xs:element name="ValidateEmailRequest">
+		<xs:annotation>
+			<xs:documentation>Request element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="callingSystem" type="primitivebasetypes:StringMax20">
+					<xs:annotation>
+						<xs:documentation>Name of the calling system for the back routing</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="validationId" type="primitivebasetypes:StringMax100">
+					<xs:annotation>
+						<xs:documentation>validation identifier for the target system</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="email" type="primitivebasetypes:StringMax150">
+					<xs:annotation>
+						<xs:documentation>Email address of validation process</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="fromEmail" type="primitivebasetypes:StringMax150" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Email address shown as sender</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="customerNumber" type="primitivebasetypes:StringMax20">
+				  <xs:annotation>
+						<xs:documentation>KIAS - BAN CCB - Kundennummer</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="cancelInd" type="primitivebasetypes:String1" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Signals if this validation request should be canceled</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="placeholders" type="PlaceholdersListType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Structure for all placeholders</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ValidateEmailResponse">
+		<xs:annotation>
+			<xs:documentation>Response element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="callingSystem" type="primitivebasetypes:StringMax100">
+					<xs:annotation>
+						<xs:documentation>Name of the calling system for the back routing</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="validationId" type="primitivebasetypes:StringMax100">
+					<xs:annotation>
+						<xs:documentation>validation identifier for the target system</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="email" type="primitivebasetypes:StringMax150">
+					<xs:annotation>
+						<xs:documentation>Email address of validation process</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="status" type="primitivebasetypes:String1">
+				  <xs:annotation>
+						<xs:documentation>Return code of call</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="errorCode" type="primitivebasetypes:StringMax10" minOccurs="0">
+				  <xs:annotation>
+						<xs:documentation>errorCode in case of failure</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="errorMessage" type="primitivebasetypes:StringMax260" minOccurs="0">
+				  <xs:annotation>
+						<xs:documentation>errorMessage in case of failure</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UpdateEmailStatusRequest">
+		<xs:annotation>
+			<xs:documentation>Request element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="callingSystem" type="primitivebasetypes:StringMax20">
+					<xs:annotation>
+						<xs:documentation>Name of the calling system for the back routing</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="validationId" type="primitivebasetypes:StringMax100">
+					<xs:annotation>
+						<xs:documentation>validation identifier for the target system</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="email" type="primitivebasetypes:StringMax150">
+					<xs:annotation>
+						<xs:documentation>Email address of validation process</xs:documentation>
+					</xs:annotation>
+				</xs:element>				
+				<xs:element name="customerNumber" type="primitivebasetypes:StringMax20">
+				  <xs:annotation>
+						<xs:documentation>KIAS - BAN CCB - Kundennummer</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="status" type="primitivebasetypes:StringMax10">
+					<xs:annotation>
+						<xs:documentation>Status of the validation process</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="statusDate" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>Timestamp of the status</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="bounceReasonCode" type="primitivebasetypes:StringMax20" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reason code</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="bounceReason" type="primitivebasetypes:StringMax200" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reason of the bounce as clear text</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UpdateEmailStatusResponse">
+		<xs:annotation>
+			<xs:documentation>Response element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="callingSystem" type="primitivebasetypes:StringMax100" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Name of the calling system for the back routing</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="validationId" type="primitivebasetypes:StringMax100" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>validation identifier for the target system</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="email" type="primitivebasetypes:StringMax150">
+					<xs:annotation>
+						<xs:documentation>The email</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="status" type="primitivebasetypes:String1">
+				  <xs:annotation>
+						<xs:documentation>status code of the service</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="errorCode" type="primitivebasetypes:StringMax10" minOccurs="0">
+				  <xs:annotation>
+						<xs:documentation>error code mandatory if status is 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="errorMessage" type="primitivebasetypes:StringMax260" minOccurs="0">
+				  <xs:annotation>
+						<xs:documentation>error message</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="PlaceholdersListType">
+	  <xs:sequence>
+			<xs:element name="placeholder" type="PlaceholderType"  maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	 <xs:complexType name="PlaceholderType">
+			<xs:sequence>
+				<xs:element name="key" type="primitivebasetypes:StringMax100">
+					<xs:annotation>
+						<xs:documentation>Key of the placeholder</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="value" type="primitivebasetypes:StringMax100">
+					<xs:annotation>
+						<xs:documentation>Value of the placeholder</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+    </xs:schema>

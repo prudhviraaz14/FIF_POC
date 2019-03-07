@@ -1,0 +1,18 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+<termination orderPositionNumber="1">
+	<terminationReasonCode>UMZ</terminationReasonCode>
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/BDSLAccessOld.xml_part}
+			{file:templates/IPCentrexAccessOld.xml_part}
+		</accesses>
+		<functions>			
+			{file:templates/InternetTermBDSL.xml_part}
+			{file:templates/VoiceIPCentrexTerm.xml_part}
+			{file:templates/SeatConvergedTerm.xml_part}
+			{file:templates/SeatFixedTerm.xml_part}
+			{file:templates/SeatMobileTerm.xml_part}
+		</functions>
+</termination>
+</order>

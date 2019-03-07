@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE messagecreator-metadata SYSTEM "messagecreator-metadata.dtd"[
+<!ENTITY opm_addServiceSubscriptionLocalPreselection SYSTEM "opm_addServiceSubscriptionLocalPreselection.xml">
+<!ENTITY opm_createBccCustomer SYSTEM "opm_createBccCustomer.xml">
+<!ENTITY opm_addWebbillAndPIA SYSTEM "opm_addWebbillAndPIA.xml">
+<!ENTITY opm_terminateBccCustomer SYSTEM "opm_terminateBccCustomer.xml">
+<!ENTITY opm_changeTDSLProvider SYSTEM "opm_changeTDSLProvider.xml">
+<!ENTITY opm_addTDSLFeatureServices SYSTEM "opm_addTDSLFeatureServices.xml">
+<!ENTITY opm_createAdjustment SYSTEM "opm_createAdjustment.xml">
+<!ENTITY opm_createKBANotification SYSTEM "opm_createKBANotification.xml">
+<!ENTITY opm_downgradeFromDSL SYSTEM "opm_downgradeFromDSL.xml">
+<!ENTITY opm_changeDSLBandwidth SYSTEM "opm_changeDSLBandwidth.xml">
+<!ENTITY opm_terminateService SYSTEM "opm_terminateService.xml">
+<!ENTITY opm_createDLCNotification SYSTEM "opm_createDLCNotification.xml">
+<!ENTITY opm_addWholesaleProductSubscription SYSTEM "opm_addWholesaleProductSubscription.xml">
+<!ENTITY opm_terminateWholesaleProductSubscription SYSTEM "opm_terminateWholesaleProductSubscription.xml">
+<!ENTITY opm_createWhsCustomer SYSTEM "opm_createWhsCustomer.xml">
+<!ENTITY opm_createWhsTalContract SYSTEM "opm_createWhsTalContract.xml">
+<!ENTITY opm_createWhsVoiceContract SYSTEM "opm_createWhsVoiceContract.xml">
+<!ENTITY opm_createWhsIPTVContract SYSTEM "opm_createWhsIPTVContract.xml">
+<!ENTITY opm_modifyWhsVoiceContract SYSTEM "opm_modifyWhsVoiceContract.xml">
+<!ENTITY opm_modifyWhsAccessContract SYSTEM "opm_modifyWhsAccessContract.xml">
+<!ENTITY opm_terminateServiceByCustomer SYSTEM "opm_terminateServiceByCustomer.xml">
+<!ENTITY opm_setTComCompletionDate SYSTEM "opm_setTComCompletionDate.xml">
+<!ENTITY opm_setTComCompletionDate SYSTEM "opm_setTComCompletionDate.xml">
+<!ENTITY opm_rejectAndCancelOrder SYSTEM "opm_rejectAndCancelOrder.xml">
+<!ENTITY opm_modifyWhsAccessNumberBlocking SYSTEM "opm_modifyWhsAccessNumberBlocking.xml">
+<!ENTITY opm_reconfigureOnlineService SYSTEM "opm_reconfigureOnlineService.xml">
+<!ENTITY opm_cancelHardwareService SYSTEM "opm_cancelHardwareService.xml">
+<!ENTITY opm_cancelHDService SYSTEM "opm_cancelHDService.xml">
+]>
+
+<!--
+    This document contains the message metadata for the OPM DatabaseClient.
+    It contains information about the supported request, message, and message
+    creator types.  It also contains the action mappings that specify which
+    actions are supported.
+-->
+<messagecreator-metadata>
+    <!-- Request definitions -->
+    <request-definitions>
+        <request-definition>
+            <request-type>FIF</request-type>
+            <request-class>net.arcor.fif.messagecreator.FIFRequest</request-class>
+        </request-definition>
+    </request-definitions>
+    <!-- Message definitions -->
+    <message-definitions>
+        <message-definition>
+            <message-type>FIF</message-type>
+            <message-class>net.arcor.fif.messagecreator.FIFMessage</message-class>
+        </message-definition>
+    </message-definitions>
+    <!-- Message Creator definitions -->
+    <message-creator-definitions>
+        <message-creator-definition>
+            <creator-type>xsql</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSQLMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+        <message-creator-definition>
+            <creator-type>xslt</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSLTMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+    </message-creator-definitions>
+    <!-- Action Mappings-->
+    <action-mappings>
+        <!-- Add Service Subscription for Local Preselection Action -->
+	    &opm_addServiceSubscriptionLocalPreselection;
+        <!-- Create By Call Combi Customer -->
+	    &opm_createBccCustomer;
+        <!-- Add Webbill and PIA to customer -->
+	    &opm_addWebbillAndPIA;
+        <!-- Terminate Bcc Customer  -->
+	    &opm_terminateBccCustomer;
+        <!-- Change TDSL Provider  -->
+	    &opm_changeTDSLProvider;
+        <!-- Add TDSL Feature Services  -->
+	    &opm_addTDSLFeatureServices;
+        <!-- Create Adjustment -->
+	    &opm_createAdjustment;
+        <!-- Create KBA notification -->
+	    &opm_createKBANotification;
+        <!-- Downgrade from DSL -->
+	    &opm_downgradeFromDSL;
+        <!-- Change Bandwidth of the DSL service -->
+	    &opm_changeDSLBandwidth;
+        <!-- Terminate Service -->
+	    &opm_terminateService;
+        <!-- Create DLC notification -->
+	    &opm_createDLCNotification;
+        <!-- Add Wholesale PS -->
+        &opm_addWholesaleProductSubscription;
+        <!-- Terminate Wholesale P -->
+        &opm_terminateWholesaleProductSubscription;        	    
+        &opm_createWhsCustomer;
+        &opm_createWhsTalContract;
+        &opm_createWhsVoiceContract;
+        &opm_createWhsIPTVContract;
+        &opm_modifyWhsVoiceContract;
+        &opm_modifyWhsAccessContract;
+        &opm_terminateServiceByCustomer;
+        &opm_setTComCompletionDate;
+        &opm_rejectAndCancelOrder;
+        &opm_modifyWhsAccessNumberBlocking;
+        &opm_reconfigureOnlineService;
+        &opm_cancelHardwareService;
+        &opm_cancelHDService;
+    </action-mappings>
+</messagecreator-metadata>

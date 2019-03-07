@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+
+<request-list>
+   <request-list-name>FIF115-COMAccessNumChangeOP</request-list-name>
+   <request-list-id>FIF115-COMAccessNumChangeOP-1</request-list-id>
+   <requests>
+     {file:templates/GenerateStep.xml}
+      
+  
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-961:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/LineCreationOneNetBusiness.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  {file:templates/ArcorGK.xml_part}
+                  {file:templates/AccessNumbersMasterdataScenarioName.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="productCodeVoice">VI207</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG007</request-param>                  
+                  <request-param name="serviceLevel">S0106</request-param>
+                  <request-param name="installationPackage">Telefonfunktion</request-param>
+                  <request-param name="scenarioName">FIF115-COMAccessNumChangeOP</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+      <request>
+         <action-name>createContract</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF115-COMAccessNumChangeOP-createIPALA</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">datetime:-720:hour</request-param>
+            <request-param-ref transactionID="masterdata_0" param-name="customerNumber" output-param-name="customerNumber"/>
+            <request-param name="createContract">Y</request-param>
+            <request-param name="createProductCommitment">Y</request-param>
+            <request-param name="contractType">O</request-param>
+            <request-param name="name">IP-ALA</request-param>
+            <request-param name="salesOrganisationNumber">97000000</request-param>
+            <request-param name="productCode">VI210</request-param>
+            <request-param name="pricingStructureCode">VG006</request-param>
+            <request-param name="scenarioName">FIF115-COMAccessNumChangeOP</request-param>
+         </request-params>
+      </request>
+
+      <sql-request>
+         <transaction-id>getPCNumber</transaction-id>
+         <statement>
+            select distinct product_commitment_number productCommitmentNumber from order_form_product_commit
+			where contract_number = 'contractNumber'           
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="FIF115-COMAccessNumChangeOP-createIPALA" param-name="contractNumber" output-param-name="contractNumber"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="productCommitmentNumber"/>
+         </sql-request-output-params>
+      </sql-request>
+
+      <request>
+         <action-name>addProductSubscription</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF115-COMAccessNumChangeOP-addPS</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">datetime:-696:hour</request-param>
+            <request-param-ref transactionID="getPCNumber" param-name="productCommitmentNumber" output-param-name="PRODUCT_COMMITMENT_NUMBER"/>
+            <request-param-ref transactionID="masterdata_0" param-name="customerNumber" output-param-name="CUSTOMER_NUMBER"/>
+            <request-param name="DESIRED_DATE">datetime:-600:hour</request-param>
+            <request-param name="DESIRED_SCHEDULE_TYPE">START_AFTER</request-param>
+            <request-param name="REASON_RD">AEND</request-param>
+            <request-param name="SERVICE_CODE_01">VI004</request-param>
+	        <request-param-list name="CONF_SERVICE_CHAR_LIST_01">
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[V0014]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[ADDRESS]]></request-param>
+	            <request-param name="ADDRESS_TYPE"><![CDATA[LOKA]]></request-param>
+	            <request-param name="STREET_NAME"><![CDATA[Rellinghauser Str.]]></request-param>
+	            <request-param name="STREET_NUMBER"><![CDATA[27]]></request-param>
+	            <request-param name="POSTAL_CODE"><![CDATA[45128]]></request-param>
+	            <request-param name="CITY_NAME"><![CDATA[Essen]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[V0126]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[ADDRESS]]></request-param>
+	            <request-param name="ADDRESS_TYPE"><![CDATA[KUND]]></request-param>
+	            <request-param name="STREET_NAME"><![CDATA[Rellinghauser Str.]]></request-param>
+	            <request-param name="STREET_NUMBER"><![CDATA[27]]></request-param>
+	            <request-param name="POSTAL_CODE"><![CDATA[45128]]></request-param>
+	            <request-param name="CITY_NAME"><![CDATA[Essen]]></request-param>
+	          </request-param-list-item>
+	          <request-param-list-item>
+	            <request-param name="SERVICE_CHAR_CODE"><![CDATA[V0015]]></request-param>
+	            <request-param name="DATA_TYPE"><![CDATA[SERVICE_LOCATION]]></request-param>
+	            <request-param name="SERVICE_LOCATION"><![CDATA[Serverraum]]></request-param>
+	          </request-param-list-item>
+                  <request-param-list-item>
+                     <request-param name="SERVICE_CHAR_CODE">V0060</request-param>
+                     <request-param name="DATA_TYPE">STRING</request-param>
+                     <request-param name="CONFIGURED_VALUE">DTAG</request-param>
+                  </request-param-list-item>
+                  <request-param-list-item>
+                     <request-param name="SERVICE_CHAR_CODE">VI056</request-param>
+                     <request-param name="DATA_TYPE">INTEGER</request-param>
+                     <request-param name="CONFIGURED_VALUE">2</request-param>
+                  </request-param-list-item>
+                  <request-param-list-item>
+                     <request-param name="SERVICE_CHAR_CODE">V0094</request-param>
+                     <request-param name="DATA_TYPE">STRING</request-param>
+                     <request-param name="CONFIGURED_VALUE">analog</request-param>
+                  </request-param-list-item>
+                  <request-param-list-item>
+                     <request-param name="SERVICE_CHAR_CODE">V0124</request-param>
+                     <request-param name="DATA_TYPE">STRING</request-param>
+                     <request-param name="CONFIGURED_VALUE">0201</request-param>
+                  </request-param-list-item>
+                  <request-param-list-item>
+                     <request-param name="SERVICE_CHAR_CODE">V0127</request-param>
+                     <request-param name="DATA_TYPE">STRING</request-param>
+                     <request-param name="CONFIGURED_VALUE">Inhabername</request-param>
+                  </request-param-list-item>
+                  <request-param-list-item>
+                     <request-param name="SERVICE_CHAR_CODE">VI325</request-param>
+                     <request-param name="DATA_TYPE">STRING</request-param>
+                     <request-param name="CONFIGURED_VALUE">nein</request-param>
+                  </request-param-list-item>
+                  <request-param-list-item>
+                     <request-param name="SERVICE_CHAR_CODE">V0940</request-param>
+                     <request-param name="DATA_TYPE">STRING</request-param>
+                     <request-param name="CONFIGURED_VALUE">fsdlkfnsd</request-param>
+                  </request-param-list-item>
+                  <request-param-list-item>
+                     <request-param name="SERVICE_CHAR_CODE">V0133</request-param>
+                     <request-param name="DATA_TYPE">STRING</request-param>
+                     <request-param name="CONFIGURED_VALUE">Neuanschluss</request-param>
+                  </request-param-list-item>
+                  <request-param-list-item>
+                     <request-param name="SERVICE_CHAR_CODE">V0935</request-param>
+                     <request-param name="DATA_TYPE">STRING</request-param>
+                     <request-param name="CONFIGURED_VALUE">sekunde</request-param>
+                  </request-param-list-item>
+                  <request-param-list-item>
+                     <request-param name="SERVICE_CHAR_CODE">V0936</request-param>
+                     <request-param name="DATA_TYPE">INTEGER</request-param>
+                     <request-param name="CONFIGURED_VALUE">0</request-param>
+                  </request-param-list-item>
+                  <request-param-list-item>
+                     <request-param name="SERVICE_CHAR_CODE">V0002</request-param>
+                     <request-param name="DATA_TYPE">ACC_NUM_RANGE</request-param>
+                     <request-param name="COUNTRY_CODE">49</request-param>
+                     <request-param name="CITY_CODE">201</request-param>
+                     <request-param-ref transactionID="generateNumbers" param-name="NUMBER1" output-param-name="LOCAL_NUMBER"/>
+                     <request-param name="FROM_EXT_NUM">100</request-param>
+                     <request-param name="TO_EXT_NUM">999</request-param>
+                  </request-param-list-item>
+	        </request-param-list>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>simulateActivationByOp</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF115-COMAccessNumChangeOP-activate</request-param>
+            <request-param name="DESIRED_DATE">datetime:-600:hour</request-param>
+            <request-param-ref transactionID="FIF115-COMAccessNumChangeOP-addPS"
+               param-name="CUSTOMER_ORDER_ID"/>
+         </request-params>
+      </request>
+      
+      <trx-builder-request>
+         <transaction-id>FIF115-COMAccessNumChangeOP-change</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF115-COMAccessNumChangeOP.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="today">datetime:0:hour</request-param>
+                  <request-param name="todayTruncated">date:0:hour</request-param>
+                  <request-param name="desiredDate">datetime:0:hour</request-param>
+                  <request-param name="productCodeVoice">VI210</request-param>
+                  <request-param name="pricingStructureCodeVoice">VG006</request-param>
+                  <request-param name="mainAccessServiceCodeVoice">VI004</request-param>
+                  <request-param-ref transactionID="FIF115-COMAccessNumChangeOP-addPS"
+               		param-name="SERVICE_SUBSCRIPTION_ID" output-param-name="voiceSSID"/>                
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param-ref transactionID="FIF115-COMAccessNumChangeOP-createIPALA" param-name="contractNumber" output-param-name="voiceContractNumber"/>
+               </som-part-params>                           
+            </som-part-template>            
+         </som-parts>
+      </trx-builder-request>
+      
+   </requests>
+</request-list>

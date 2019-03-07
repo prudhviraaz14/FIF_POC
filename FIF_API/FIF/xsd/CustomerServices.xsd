@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.vodafone.de/eai/CustomerServices.xsd" xmlns:commontypes="http://www.vodafone.de/eai/BaseTypes.xsd" xmlns:address="http://www.vodafone.de/eai/Address.xsd" targetNamespace="http://www.vodafone.de/eai/CustomerServices.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<import namespace="http://www.vodafone.de/eai/BaseTypes.xsd" schemaLocation="BaseTypes.xsd"/>
+	<import namespace="http://www.vodafone.de/eai/Address.xsd" schemaLocation="Address.xsd"/>
+	<!-- ======================================= Definition of KIAS Types =================================== -->
+	<complexType name="CommercialRegister">
+		<annotation>
+			<documentation/>
+		</annotation>
+		<sequence>
+		    <element name="companyName" type="commontypes:StringMax90" minOccurs="0"/>
+			<element name="registionCity" type="commontypes:StringMax40" minOccurs="0"/>
+			<element name="registrationPrefix" type="commontypes:StringMax4" minOccurs="0"/>
+			<element name="registrationNumber" type="commontypes:StringMax15" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="Person">
+		<annotation>
+			<documentation/>
+		</annotation>
+		<sequence>
+			<element name="firstName" type="commontypes:StringMax30" minOccurs="0"/>
+			<element name="lastName" type="commontypes:StringMax90" minOccurs="0"/>
+			<element name="dateOfBirth" type="date" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="CustomerDataType">
+		<annotation>
+			<documentation/>
+		</annotation>
+		<sequence>
+			<element name="ban" type="commontypes:BANType"/>
+			<element name="address" type="address:AddressType" minOccurs="0"/>
+			<choice>
+				<element name="companyRegistration" type="tns:CommercialRegister" minOccurs="0"/>
+				<element name="person" type="tns:Person" minOccurs="0"/>
+			</choice>
+		</sequence>
+	</complexType>
+	<!-- ======================================= Definition of KIAS Types =================================== -->
+	<complexType name="CustomerDataKIASRequest">
+		<annotation>
+			<documentation>
+			input data for GetCustomerData from KIAS 
+			</documentation>
+		</annotation>
+		<choice>
+			<element name="ban" type="commontypes:BANType"/>
+			<element name="MSISDN" type="commontypes:SimplePhoneNumber"/>
+		</choice>
+	</complexType>
+	<complexType name="CustomerDataKIASResponse">
+		<annotation>
+			<documentation>
+			output data for GetCustomerData from KIAS, if no result found the list customers is empty.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="commontypes:ResultDetailsObject">
+				<sequence>
+					<element name="customer" type="tns:CustomerDataType" nillable="false" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- ====================================== Service Elements ============================================== -->
+	<element name="customerDataKIASRequest" type="tns:CustomerDataKIASRequest"/>
+	<element name="customerDataKIASResponse" type="tns:CustomerDataKIASResponse"/>
+</schema>

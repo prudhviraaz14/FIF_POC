@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by Reto Renner (Arcor AG & Co. KG) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arcor.net/FIF/EPSM-FIF-001" xmlns:base="http://www.arcor.net/EPSM-BaseTypes-001" xmlns:eue="http://www.arcor.net/FIF/EPSM-FIF-ModifyEueCustomerDataService-001" xmlns:aep="http://www.arcor.net/FIF/EPSM-FIF-AktiviereEingehendePortierung-001" xmlns:sep="http://www.arcor.net/FIF/EPSM-FIF-StorniereEingehendePortierung-001" xmlns:emv="http://www.arcor.net/FIF/EPSM-FIF-ErstelleMobilfunkVertrag-001" xmlns:amv="http://www.arcor.net/FIF/EPSM-FIF-AktiviereMobilfunkVertrag-001" xmlns:mme="http://www.arcor.net/FIF/EPSM-FIF-ModifiziereMarketingeinwilligung-001" targetNamespace="http://www.arcor.net/FIF/EPSM-FIF-001" xmlns:rkn="http://www.arcor.net/FIF/EPSM-FIF-ReserviereKundenNummer-001" xmlns:stp="http://www.arcor.net/FIF/EPSM-FIF-SpeichereVTP-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-BaseTypes-001" schemaLocation="EPSM-BaseTypes-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-AktiviereEingehendePortierung-001" schemaLocation="EPSM-FIF-AktiviereEingehendePortierung-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-StorniereEingehendePortierung-001" schemaLocation="EPSM-FIF-StorniereEingehendePortierung-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-ErstelleMobilfunkVertrag-001" schemaLocation="EPSM-FIF-ErstelleMobilfunkVertrag-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-ModifiziereMarketingeinwilligung-001" schemaLocation="EPSM-FIF-ModifiziereMarketingeinwilligung-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-AktiviereMobilfunkVertrag-001" schemaLocation="EPSM-FIF-AktiviereMobilfunkVertrag-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-ModifyEueCustomerDataService-001" schemaLocation="EPSM-FIF-ModifyEueCustomerDataService-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-ReserviereKundenNummer-001" schemaLocation="EPSM-FIF-ReserviereKundenNummer-001.xsd"/>
+	<xs:import namespace="http://www.arcor.net/FIF/EPSM-FIF-SpeichereVTP-001" schemaLocation="EPSM-FIF-SpeichereVTP-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="EPSM_FIF_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>XML schema definition for FIF ASBO and services
+				Version: 0.11
+				
+				Status des Dokument: FReigegeben
+				
+				Aenderungshistorie:
+				Version 0.11 18.07.08  Aziz Banani					neuer Dienst reservierKundenNummer + SpeichereVTP zugefügt
+				Version 0.11 18.07.08  Aziz Banani					neuer Dienst modifiziereMarketingeinwilligungService zugefügt
+				Version 0.10 19.05.08  Reto Renner				     neuer Dienst modifyEueCustomerDataService + FMCGroup-Services entfernt
+				Version 0.9  30.01.08   Jens Schwarzwälder     neuer Dienst erstelleMobilfunkVertrag, aktiviereMobilfunkVertrag
+				Version 0.8  30.01.08   Jens Schwarzwälder     neuer Dienst erstelleMobilfunkVertrag, Aktiviere/StorniereTarifwechsel entfernt
+				Version 0.7  30.01.08   Jens Schwarzwälder     neue Dienste KiasActivateService, KiasChangeService, KiasTerminateService
+				Version 0.6  11.01.08   Jens Schwarzwälder     neue Dienste aktiviereTarifwechsel, storniere Tarifwechsel
+				Version 0.5  16.07.07   Jens Schwarzwälder     Events als asynchrone Antwort auf Serviceaufrufe hinzugefügt 
+				kuendigeSimKarte entfernt
+				Version 0.4  06.07.07	Reto Renner	CommonType-RufnummernportierungMobil zugefügt, Schemata aufgeteilt
+				Version 0.3  05.07.07	Reto Renner	Output zugefügt
+				Version 0.2  04.07.07	Reto Renner	Import von BaseTypes 
+				Version 0.1  03.07.07	Jens Schwarzwälder     erstellt
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>Dieses Dokument basiert auf und referenziert folgende Dokumente:</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation>Diese Schnittstelle wird durch den CCM-FIF realisiert</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ================================= Services and Events ============================== -->
+	<xs:element name="aktiviereEingehendePortierungService" type="aep:AktiviereEingehendePortierungService">
+		<xs:annotation>
+			<xs:documentation>aktiviert den Mobilfunkdienst für die portierte Rufnummer im CCM</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="meldeAktiviereEingehendePortierungEvent" type="aep:MeldeAktiviereEingehendePortierungEvent">
+		<xs:annotation>
+			<xs:documentation>Event für die CCM-FIF Rückmeldung für die Akivierung des Mobilfunkdienst für die portierte Rufnummer im CCM</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="storniereEingehendePortierungService" type="sep:StorniereEingehendePortierungService">
+		<xs:annotation>
+			<xs:documentation>storniert den Mobilfunkdienst für die portierte Rufnummer im CCM</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="meldeStorniereEingehendePortierungEvent" type="sep:MeldeStorniereEingehendePortierungEvent">
+		<xs:annotation>
+			<xs:documentation>Event für die CCM-FIF Rückmeldung für die Akivierung des Mobilfunkdienst für die portierte Rufnummer im CCM</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="erstelleMobilfunkVertragService" type="emv:ErstelleMobilfunkVertragService">
+		<xs:annotation>
+			<xs:documentation>storniert den Tarifwechsel für die angegebene Rufnummer im CCM</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="modifiziereMarketingeinwilligungService" type="mme:ModifiziereMarketingeinwilligungService">
+		<xs:annotation>
+			<xs:documentation>modifiziert die Marketingeinwilligungsdaten des Kunden</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="aktiviereMobilfunkVertragService" type="amv:AktiviereMobilfunkVertragService">
+		<xs:annotation>
+			<xs:documentation>storniert den Tarifwechsel für die angegebene Rufnummer im CCM</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="modifyEueCustomerDataService" type="eue:ModifyEueCustomerDataService">
+		<xs:annotation>
+			<xs:documentation>kuendigt einen MobileGroup-Dient im CCM</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="reserviereKundenNummerService" type="rkn:ReserviereKundenNummerService">
+		<xs:annotation>
+			<xs:documentation>reserviert eine Kundennummer in CCB</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="speichereVTPService" type="stp:SpeichereVTPService">
+		<xs:annotation>
+			<xs:documentation>speichert die VIS Tracking Position in CCB</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- =================================root Element============================ -->
+	<xs:element name="_Endpunkt_Diensterbringer_FIF">
+		<xs:annotation>
+			<xs:documentation>Services des Endpunktes FIF
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="aktiviereEingehendePortierungService"/>
+				<xs:element ref="meldeAktiviereEingehendePortierungEvent"/>
+				<xs:element ref="storniereEingehendePortierungService"/>
+				<xs:element ref="meldeStorniereEingehendePortierungEvent"/>
+				<xs:element ref="erstelleMobilfunkVertragService"/>
+				<xs:element ref="modifiziereMarketingeinwilligungService"/>
+				<xs:element ref="aktiviereMobilfunkVertragService"/>
+				<xs:element ref="modifyEueCustomerDataService"/>
+				<xs:element ref="reserviereKundenNummerService"/>
+				<xs:element ref="speichereVTPService"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

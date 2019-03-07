@@ -1,0 +1,13 @@
+<ngn ID="{ID}">
+    <ccbId type="S">
+        <existing>{serviceSubscriptionId}</existing>
+    </ccbId>
+    <ngnConfiguration>
+        <connectionType>
+            <configured>{connectionType}</configured>
+        </connectionType>
+        <ACSIndicator>
+            <configured>{ACSIndicator}</configured>
+        </ACSIndicator>
+    </ngnConfiguration>
+</ngn>

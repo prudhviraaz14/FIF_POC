@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:test="http://www.arcor.net/EPSM-CommonTypes-001" targetNamespace="http://www.arcor.net/EPSM-CommonTypes-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="EPSM_CommonTypes-Formate_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>
+			
+				Status des Dokument: Final
+				
+				Änderungshistorie
+				1.7	20.05.2009	Reto Renner		- Leitungsschluesselzahl und Tasi zugefügt
+				1.6	07.04.2009	Reto Renner		- OrderPositionNumber zugefügt
+				1.5	29.10.2008	Reto Renner		- führende Null bei Rufnummer möglich (SPN-VPP-000078717)
+				1.4	27.08.2008	Reto Renner		- max.Länge der EMail auf 100 beschränkt (vorher keine Angabe)
+				1.3	07.08.2008	Reto Renner		- Reihenfolge zugefügt (gem. K.Bode)
+				1.2	24.04.2008	Reto Renner		- ZeitraumTypen zugefügt (gem. K.Bode)
+				1.1	16.01.2008	Reto Renner		- Korrektur Pattern Postleitzahl (SPN-ASB-000066032-O) in Absprache mit Hr.Liesegang/Hr.Himstedt
+				1.0	21.12.2007	Reto Renner		- Erweiterung Länge NationaleVorwahl auf 6stellig
+				0.16 16.08.2007	Reto Renner		- Korrektur Pattern Postleitzahl
+				0.15	15.08.2007	Reto Renner		- Korrektur Pattern Vertriebspaketnr, Rufnummer, Postleitzahl
+				0.14 27.07.2007  Reto Renner		- Anpassung nach Anmerkungen von der Business Analyse (Hr. Stein)
+				0.13 24.07.2007  Reto Renner		- Anpassung gem.Excel-Vorlage Business Analyse vom 24.07.2007 und Überarbeitung durch TK (Renner/Jäger)
+				0.12 09.03.2007	Reto Renner		- Anpassungen nach Review
+				0.11 02.03.2007	Reto Renner		- Aufsplittung der Datei in CommonTypes
+				0.10 20.02.2007  Reto Renner		- alle Elemente und einfachen Typen von  "Adresse" und" Kunden" angepasst und die komplexen Typen "Juristischen Person", "Person", "Ansprechpartner", Rechnungskonto und Kontaktdaten mit allen zugehörigen Elementen und einfachen Typen zugefügt (gem. ASK LF 07-02-14 / deutsch)  / Datentypen und Elemente "Rufnummern" auf deutsch übersetzt / alle Elemente und einfachen Typen von SOC und MISC entfernt / 
+				0.9	16.02.2007	Reto Renner		- CBOadressType und Province: Typen entfernt (ersetzt durch AddressSuffix) / AddressSuffix, PreferredAddressContact, AccountOwner, ValidFrom, ValidUnti,  ResultAddressCheck: als SimpleType zugefügt / BankAccount: als ComplexType zufgefügt / BankAccountNumber: Schreibfehler korrigiert
+				0.8   20.07.2005  Martin Romisch	- common:Address um Packstation erweitert
+				0.7   31.05.2005  Klaus Wigge		- Änderungen aus Review 0.9 Finaler Stand Workprodukt AAW-APP030 ASB
+				0.6	20.05.2005  Michael Hahn		- Dokumentation Lastname, Kann auch den Firmennamen enthalten!
+				0.5	17.05.2005	Peter Herwig		- Definition OrderItemElementIdentifier etc.
+				0.4	17.01.2005	Martin Romisch	- draft
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="Bankleitzahl">
+		<xs:annotation>
+			<xs:documentation>Zahl, 8-Stellige. Die Stelle 1 bis 3 wird von einer Zahl zwischen 100 und 899 belegt. Die Stelle 4 ist eine Zahl zwischen 0 und 9. Die Stellen 5 bis 8 sind reserviert für eine Zahl zwischen 0001 und 9999</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[1-8][0-9]{7}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Barcode">
+		<xs:annotation>
+			<xs:documentation>Identifikator, 3 Buchstaben gefolgt von 10 Ziffern</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-z,A-Z]{3}[0-9]{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Datum">
+		<xs:annotation>
+			<xs:documentation>XML-Datentyp date</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="Email">
+		<xs:annotation>
+			<xs:documentation>Zeichenkette ohne Format</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+			<xs:pattern value="[^@]+@[^@]+\.[^@]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Euro">
+		<xs:annotation>
+			<xs:documentation>Zahl mit beliebig vielen Vorkommastellen und 4 Nachkommastellen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EuroCent">
+		<xs:annotation>
+			<xs:documentation>Zahl mit 2 Vorkomma- und 2 Nachkommastellen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="4"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="InternationaleVorwahl">
+		<xs:annotation>
+			<xs:documentation>Identifikator, zwei führende Nullen gefolgt von einer Ziffer ungleich Null (z.B. USA 001), optional drei weitere Ziffern (z.B. Trinidad 001868)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="00[1-9][0-9]{0,3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Kundennummer">
+		<xs:annotation>
+			<xs:documentation>Identifikator, 12 stellige Zahl</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NationaleVorwahl">
+		<xs:annotation>
+			<xs:documentation>Identifikator, eine führende Null gefolgt von einer Ziffer ungleich Null und mindestens einer weiteren bzw. maximal vier weiteren Ziffern von Null bis 9</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="0[1-9]{1}[0-9]{1,4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Postleitzahl">
+		<xs:annotation>
+			<xs:documentation>Identifikator, 5-stellige Zahl, definiert als minimal 1 bzw. maximal 5 Ziffern von Null bis 9, da auch Teile von Postleitzahlen verwendet werden müssen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,5}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Rechnungskontonummer">
+		<xs:annotation>
+			<xs:documentation>Identifikator, 10 stellige Zahl</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Rufnummer">
+		<xs:annotation>
+			<xs:documentation>Identifikator, min. 3 stellig max. 20 stellig, beginnend mit einer Ziffer ungleich Null, gefolgt von mindestens 2 Ziffern zwischen Null und 9</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{3,20}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RufnummerZentrale">
+		<xs:annotation>
+			<xs:documentation>Identifikator, genau eine Ziffer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Uhrzeit">
+		<xs:annotation>
+			<xs:documentation>XML-Datentyp time</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:time"/>
+	</xs:simpleType>
+	<xs:simpleType name="Vertragsnummer">
+		<xs:annotation>
+			<xs:documentation>Identifikator, 12 stellige Zahl</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Zeitstempel">
+		<xs:annotation>
+			<xs:documentation>XML-Datentyp dateTime</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<xs:simpleType name="Auftragspositionsnummer">
+		<xs:annotation>
+			<xs:documentation>Identifikator, 6 stellige Zahl</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{6}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Vertriebspaketnummer">
+		<xs:annotation>
+			<xs:documentation>Identifikator, beginnend mit dem Buchstaben R, gefolgt von 8 Ziffern, gefolgt von einem Punkt und gefolgt von 10 Ziffern</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="R[0-9]{0,8}\.[0-9]{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OrderPositionNumber">
+		<xs:annotation>
+			<xs:documentation>Identifikator, 30 stellige Zahl</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Tasi">
+		<xs:annotation>
+			<xs:documentation>Technical Access Service Identifier</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="14"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Leitungsschluesselzahl">
+		<xs:annotation>
+			<xs:documentation>Identifikator, Format: LSZ/OnkaZ/OnkzB/OrdnungsNr
+			LSZ: 						99A	
+			OnkzA und OnkzB:	99999
+			OrdnungsNr:			999
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{2}[a-z,A-Z]{1}/[0-9]{5}/[0-9]{5}/[0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- =============================== Definition von Serviceparametern für AAW ============================ -->
+	<xs:simpleType name="ZeitraumTypen">
+		<xs:annotation>
+			<xs:documentation>Typ fuer die verschiedenen Auspraegungen von Zeitraeumen.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="erfassungszeitraum"/>
+			<xs:enumeration value="verkaufszeitraum"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Reihenfolge">
+		<xs:annotation>
+			<xs:documentation>Zähler für die Erfassungsreihenfolge.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

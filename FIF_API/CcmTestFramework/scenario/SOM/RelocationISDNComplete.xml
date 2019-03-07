@@ -1,0 +1,19 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<relocation orderPositionNumber="1">
+		<relocationVariant>kombinierte Schaltung</relocationVariant>
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/ISDNAccessNewOld.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetOldNew.xml_part}
+			{file:templates/VoicePremiumPremium.xml_part}
+			{file:(addTV=true)templates/TVCenterOldNew.xml_part}
+			{file:templates/HardwareRentedIADIgnore.xml_part}
+			{file:(addTV=true)templates/HardwareRentedSTBIgnore.xml_part}
+			{file:templates/DirectoryEntryIgnore.xml_part}
+			{file:templates/SafetyPackageIgnore.xml_part}
+		</functions>
+	</relocation>
+</order>

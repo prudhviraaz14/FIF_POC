@@ -1,0 +1,7 @@
+					<selectedAccessNumber>			
+						<configured> 		
+							<countryCode>{countryCode}</countryCode>	
+							<localAreaCode>{localAreaCode}</localAreaCode>	
+							<pilotNumber>{pilotNumber}</pilotNumber>	
+						</configured>		
+					</selectedAccessNumber>			

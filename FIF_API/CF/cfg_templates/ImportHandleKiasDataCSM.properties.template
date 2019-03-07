@@ -1,0 +1,118 @@
+###############################################################################
+#
+# Configuration file for the ImportHandleKiasDataCSM application
+#
+# $Author:   lalit.kumar-nayak  $
+# $Revision:   1.1  $
+#
+# HISTORY: $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ImportHandleKiasDataCSM.properties.template-arc  $
+#
+#   Rev 1.1   Jul 26 2016 10:44:34   lalit.kumar-nayak
+#transaction name changed to handleKiasData
+#
+#   Rev 1.0   Jun 29 2016 16:43:44   lalit.kumar-nayak
+#Initial revision.
+#
+#   Rev 1.0   May 27 2014 09:42:40   makuier
+#Initial revision.
+#
+#
+###############################################################################
+
+####################
+# GENERAL SETTINGS #
+####################
+
+##################
+# SQL STATEMENTS #
+##################
+
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importhandlekiasdatacsm.targetClient
+#ValidFrom:         FIF-API-08.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Name of database target client
+#DefaultValue:      -
+#ExampleValue:      SLS
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     13.03.13
+#Last_Modified_By   makuier
+#Description:       The name of the target client to insert requests for (e.g. SLS, WRF)
+#END PARAMETER
+# The SQL statement for inserting requests in the database
+ImportCSMToDB.InsertRequestStmt=INSERT INTO FIF_REQUEST (TRANSACTION_ID, TARGET_CLIENT, STATUS, ACTION_NAME, ERROR_TEXT, DUE_DATE, PRIORITY, CREATION_DATE, START_DATE, END_DATE) VALUES (?, '${slsfif.importhandlekiasdatacsm.targetClient}', 'NOT_STARTED', 'handleKiasData', '', SYSDATE, 5, SYSDATE, NULL, NULL)
+
+# The SQL statement for inserting request parameters in the database
+ImportCSMToDB.InsertParamStmt=INSERT INTO FIF_REQUEST_PARAM (TRANSACTION_ID, PARAM, VALUE) VALUES (?, ?, ?)
+
+# The name of the database field representing the transaction ID for a request
+ImportCSMToDB.InsertParamStmt.TransactionIDFieldIndex=1
+
+# The name of the database field representing the parameter name for a request
+ImportCSMToDB.InsertParamStmt.ParamNameFieldIndex=2
+
+# The name of the database field representing the parameter value for a request
+ImportCSMToDB.InsertParamStmt.ParamValueFieldIndex=3
+
+
+ImportCSMToDB.UpdatexternalSystemIdStatement=UPDATE FIF_REQUEST SET EXTERNAL_SYSTEM_ID = SUBSTR(?,1,16) WHERE TRANSACTION_ID = ?	
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.importhandlekiasdatacsm.log4j.appender.File.File
+#ValidFrom:         FIF-API-08.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/ImportHandleKiasDataCSM.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     13.03.13
+#Last_Modified_By   makuier
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.ImportHandleKiasDataCSM.log4j.appender.File.File}
+
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=DEBUG, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.File=/pkginf01/home/lnayak1/DEV/bin/log/importhandlekiasdatacsm.log
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n

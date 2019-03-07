@@ -1,0 +1,111 @@
+###############################################################################
+#
+# Configuration file for the AllocateNTAServices application
+#
+# $Author:   lejam  $
+# $Revision:   1.0  $
+#
+# HISTORY: $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/AllocateNTAServices.properties.template-arc  $
+#
+#   Rev 1.0   Dec 05 2011 10:46:42   lejam
+#Initial revision.
+#
+#   Rev 1.3   Jun 03 2004 11:46:28   IARIZOVA
+#changed initial status of transaction to 'READY_TO_START'
+#
+#   Rev 1.2   May 26 2004 11:07:20   iarizova
+#SPN-FIF-000022558
+#
+#   Rev 1.1   May 21 2004 17:03:22   iarizova
+#added parameter desired date
+#
+#   Rev 1.0   May 18 2004 16:23:24   iarizova
+#Initial revision.
+#
+#
+###############################################################################
+
+####################
+# GENERAL SETTINGS #
+####################
+
+# The desire date of services' reconfiguration
+AllocateNTAServices.DesireDate=2004.05.24 00:00:00
+
+# The names of columns that are mandatory in the CSV
+AllocateNTAServices.ColumnNames.Mandatory=CUSTOMER_NUMBER, CONTRACT_NUMBER, ACCOUNT_NUMBER, STREET_NAME, POSTAL_CODE, CITY_CODE, LOCAL_NUMBER, CITY_NAME, IP_ADDRESS, EG-ID
+
+# The names of columns that are optional in the CSV
+AllocateNTAServices.ColumnNames.Optional=REMARK
+
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         slsfif.allocatentaservices.log4j.appender.File.File
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (SLS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/AllocateNTAServices.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     18.05.04
+#Last_Modified_By   iarizova
+#Description:       The name (including relative or absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${slsfif.allocatentaservices.log4j.appender.File.File}
+
+
+##################
+# SQL STATEMENTS #
+##################
+
+# The SQL statement for inserting requests in the database
+AllocateNTAServices.InsertRequestStmt=INSERT INTO FIF_REQUEST (TRANSACTION_ID, TARGET_CLIENT, STATUS, ACTION_NAME, ERROR_TEXT, DUE_DATE, PRIORITY, CREATION_DATE, START_DATE, END_DATE) VALUES (?, 'SLS', 'READY_TO_START', 'createNTAProductSubscription', '', SYSDATE, 5, SYSDATE, NULL, NULL)
+
+# The SQL statement for inserting request parameters in the database
+AllocateNTAServices.InsertParamStmt=INSERT INTO FIF_REQUEST_PARAM (TRANSACTION_ID, PARAM, VALUE) VALUES (?, ?, ?)
+
+# The name of the database field representing the transaction ID for a request
+AllocateNTAServices.InsertParamStmt.TransactionIDFieldIndex=1
+
+# The name of the database field representing the parameter name for a request
+AllocateNTAServices.InsertParamStmt.ParamNameFieldIndex=2
+
+# The name of the database field representing the parameter value for a request
+AllocateNTAServices.InsertParamStmt.ParamValueFieldIndex=3
+
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n

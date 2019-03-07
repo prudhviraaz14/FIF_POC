@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  allowLinking: If the value of this flag is true, symlinks will be allowed inside the
+                web application, pointing to resources outside the web application base
+                path. If not specified, the default value of the flag is false.
+-->
+<Context allowLinking="true"/>

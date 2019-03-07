@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arcor.net/billwg/EPSM-BillWG-WHSEUETypes-001" targetNamespace="http://www.arcor.net/billwg/EPSM-BillWG-WHSEUETypes-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ======================== -->
+	<xs:element name="_Endpunkt_Dokumentation_BillWG_WHSEUE">
+		<xs:annotation>
+			<xs:documentation>XML schema definition for Wholesale EUE Stamdatenabfrage/PDFSignatur Interface 
+				Änderungshistorie: 
+				Version 0.1 - 16.05.2008 Reto Renner Initiale Version
+				Version 0.2 - 21.05.2008 Reto Renner Datei umbenannt 
+				Version 0.3 - 12.08.2013 Aziz Banani - PPM ID 69296_108868 SEPA - Following parameter added: 
+				mandateReferenceID, mandateSignatureDate, bankAccountName, BIC and IBAN 
+				Version 0.4 - 04.09.2013 Jens Schwarzwaelder - added mandateStatus, corrected type of BIC and IBAN
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Bezugsdokumente">
+					<xs:annotation>
+						<xs:documentation>Dieses Dokument basiert auf und referenziert folgende Dokumente: 
+							[1] Dieses EPSM basiert auf der Spezifikation "Second Bill - Schnittstelle zur Arcor" V0.1 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Realisierendes_System">
+					<xs:annotation>
+						<xs:documentation> 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ================================endpoint specific types ================================ -->
+	<xs:complexType name="GetExternalIDByPhonenumber">
+		<xs:sequence>
+			<xs:element name="phonenumber" type="NexNetPhoneNumberServiceRequest" nillable="true"/>
+			<xs:element name="validAt" type="xs:int"/>
+			<xs:element name="tnb" type="Tnb" nillable="true"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NexNetPhoneNumberServiceRequest">
+		<xs:sequence>
+			<xs:element name="internationalAreaCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="number" type="xs:int" minOccurs="0"/>
+			<xs:element name="prefix" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContractIDImpl">
+		<xs:sequence>
+			<xs:element name="contractID" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="MandateStatus">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ACTIVE" />
+			<xs:enumeration value="FINISHED" />
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:complexType name="CustomerDataImpl">
+		<xs:sequence>
+			<xs:element name="TSDV" type="xs:int" minOccurs="0"/>
+			<xs:element name="bankAccount" type="NexNetBankAccountServiceResponse" nillable="true"
+				minOccurs="0"/>
+			<xs:element name="billingAddressData" type="NexNetCustomerAddressResponse"
+				nillable="true" minOccurs="0"/>
+			<xs:element name="customerAddressData" type="NexNetCustomerAddressResponse"
+				nillable="true" minOccurs="0"/>
+			<xs:element name="customerID" type="xs:int" minOccurs="0"/>
+			<xs:element name="digitalSignated" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="emailAddress" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="mandantID" type="NexNetMandant" nillable="true" minOccurs="0"/>
+			<xs:element name="mandateReferenceID" type="xs:string" minOccurs="0"/>
+			<xs:element name="mandateSignatureDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="mandateStatus" type="MandateStatus" minOccurs="0"/>
+			<xs:element name="methodOfPayment" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="paymentDays" type="xs:int" minOccurs="0"/>
+			<xs:element name="taxExempted" type="xs:int" minOccurs="0"/>
+			<xs:element name="tnb" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="typeOfDispatch" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NexNetCustomerAddressResponse">
+		<xs:sequence>
+			<xs:element name="addressTyp" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="city" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="country_id" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="hausnumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="hausnumber_add" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="name" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="name_co" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="postbox" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="salutation" type="xs:int" minOccurs="0"/>
+			<xs:element name="street" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="surname1" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="surname_co" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="title" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="validFrom" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="zip_code" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="zip_code_postbox" type="xs:string" nillable="true" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NexNetMandant">
+		<xs:sequence>
+			<xs:element name="mandantID" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NexNetBankAccountServiceResponse">
+		<xs:sequence>
+			<xs:element name="BIC" nillable="true" type="xs:string" minOccurs="0"/>
+			<xs:element name="IBAN" nillable="true" type="xs:string" minOccurs="0" />
+			<xs:element name="accountNumber" type="xs:long" minOccurs="0"/>
+			<xs:element name="accountOwner" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="bankCodeNumber" type="xs:long" minOccurs="0"/>
+			<xs:element name="bankName" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContractDataImpl">
+		<xs:sequence>
+			<xs:element name="activationDate" type="xs:int" minOccurs="0"/>
+			<xs:element name="contractID" type="ContractIDImpl" nillable="true" minOccurs="0"/>
+			<xs:element name="tnb" type="Tnb" nillable="true" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CustomerData">
+		<xs:sequence>
+			<xs:element name="customerDataImpl" type="CustomerDataImpl"/>
+			<xs:element name="contractID" type="ContractIDImpl" nillable="true"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Tnb">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+</xs:schema>

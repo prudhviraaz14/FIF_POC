@@ -1,0 +1,1994 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE messagecreator-metadata SYSTEM "messagecreator-metadata.dtd"[
+
+<!ENTITY tf_ErstelleMobilfunkVertrag SYSTEM "tf_ErstelleMobilfunkVertrag.xml">
+<!ENTITY tf_createFullCustomer SYSTEM "tf_createFullCustomer.xml">
+<!ENTITY tf_createSimpleContract SYSTEM "tf_createSimpleContract.xml">
+<!ENTITY tf_createISDNContract SYSTEM "tf_createISDNContract.xml">
+<!ENTITY tf_createNgnDslContract SYSTEM "tf_createNgnDslContract.xml">
+<!ENTITY tf_createNgnVoIPContract SYSTEM "tf_createNgnVoIPContract.xml">
+<!ENTITY tf_createMultimediaContract SYSTEM "tf_createMultimediaContract.xml">
+<!ENTITY tf_createBitDslContract SYSTEM "tf_createBitDslContract.xml">
+<!ENTITY tf_createBitVoIPContract SYSTEM "tf_createBitVoIPContract.xml">
+<!ENTITY tf_createVoIPContract SYSTEM "tf_createVoIPContract.xml">
+<!ENTITY tf_createOnlineContract SYSTEM "tf_createOnlineContract.xml">
+<!ENTITY tf_createPreselectContract SYSTEM "tf_createPreselectContract.xml">
+
+
+<!ENTITY codb_terminateService SYSTEM "codb_terminateService.xml">
+<!ENTITY codb_terminateServiceCancellation SYSTEM "codb_terminateServiceCancellation.xml">
+<!ENTITY codb_createExternalOrder SYSTEM "codb_createExternalOrder.xml">
+<!ENTITY codb_closeExternalOrder SYSTEM "codb_closeExternalOrder.xml">
+<!ENTITY codb_cloneCustomer SYSTEM "codb_cloneCustomer.xml">
+<!ENTITY codb_changeProvider SYSTEM "codb_changeProvider.xml">
+<!ENTITY codb_createOnlineContract SYSTEM "codb_createOnlineContract.xml">
+<!ENTITY codb_createSafetyPackage SYSTEM "codb_createSafetyPackage.xml">
+<!ENTITY codb_createDirectoryEntry SYSTEM "codb_createDirectoryEntry.xml">
+<!ENTITY codb_addHardwareService SYSTEM "codb_addHardwareService.xml">
+<!ENTITY codb_setInvoiceDeliveryType SYSTEM "codb_setInvoiceDeliveryType.xml">
+<!ENTITY codb_allocateCustomerNumber SYSTEM "codb_allocateCustomerNumber.xml">
+<!ENTITY codb_modifyMethodOfPayment SYSTEM "codb_modifyMethodOfPayment.xml">
+<!ENTITY codb_createCustomer SYSTEM "codb_createCustomer.xml">
+<!ENTITY codb_createBillingAccount SYSTEM "codb_createBillingAccount.xml">
+<!ENTITY codb_createContactRole SYSTEM "codb_createContactRole.xml">
+<!ENTITY codb_allocateCcbId SYSTEM "codb_allocateCcbId.xml">
+<!ENTITY codb_createSkeletonContract SYSTEM "codb_createSkeletonContract.xml">
+<!ENTITY codb_addInstallationService SYSTEM "codb_addInstallationService.xml">
+<!ENTITY codb_addExtraNumberService SYSTEM "codb_addExtraNumberService.xml">
+<!ENTITY codb_createServiceDeliveryContract SYSTEM "codb_createServiceDeliveryContract.xml">
+<!ENTITY codb_activateCustomerOrder SYSTEM "codb_activateCustomerOrder.xml">
+<!ENTITY codb_modifyContract SYSTEM "codb_modifyContract.xml">
+<!ENTITY codb_modifyContractApply SYSTEM "codb_modifyContractApply.xml">
+<!ENTITY codb_terminateFunction SYSTEM "codb_terminateFunction.xml">
+<!ENTITY codb_modifyFeatureServices SYSTEM "codb_modifyFeatureServices.xml">
+<!ENTITY codb_reconfigureFunction SYSTEM "codb_reconfigureFunction.xml">
+<!ENTITY codb_allocateProviderTrackingNumber SYSTEM "codb_allocateProviderTrackingNumber.xml">
+<!ENTITY codb_readExternalNotification SYSTEM "codb_readExternalNotification.xml">
+<!ENTITY codb_findBundle SYSTEM "codb_findBundle.xml">
+<!ENTITY codb_addChildService SYSTEM "codb_addChildService.xml">
+<!ENTITY codb_changeContractPartner SYSTEM "codb_changeContractPartner.xml">
+<!ENTITY codb_createTVCenterContract SYSTEM "codb_createTVCenterContract.xml">
+<!ENTITY codb_changeDSLBandwidth SYSTEM "codb_changeDSLBandwidth.xml">
+<!ENTITY codb_changeDSLBandwidthAndTariff SYSTEM "codb_changeDSLBandwidthAndTariff.xml">
+<!ENTITY codb_upgradeToPremium SYSTEM "codb_upgradeToPremium.xml">
+<!ENTITY codb_modifyContractOpProduct SYSTEM "codb_modifyContractOpProduct.xml">
+<!ENTITY codb_changeProductType SYSTEM "codb_changeProductType.xml">
+<!ENTITY codb_changeTechnology SYSTEM "codb_changeTechnology.xml">
+<!ENTITY codb_modifyCustomer SYSTEM "codb_modifyCustomer.xml">
+<!ENTITY codb_modifyEntity SYSTEM "codb_modifyEntity.xml">
+<!ENTITY codb_createKBANotification SYSTEM "codb_createKBANotification.xml">
+<!ENTITY codb_cancelCustOrderWithBarCode SYSTEM "codb_cancelCustOrderWithBarCode.xml">
+<!ENTITY codb_deactivateCustomer SYSTEM "codb_deactivateCustomer.xml">
+<!ENTITY codb_storeCampaignInformation SYSTEM "codb_storeCampaignInformation.xml">
+<!ENTITY codb_relocateContract SYSTEM "codb_relocateContract.xml">
+<!ENTITY codb_relocateAdditionalContract SYSTEM "codb_relocateAdditionalContract.xml">
+<!ENTITY codb_createVoIP2ndLineContract SYSTEM "codb_createVoIP2ndLineContract.xml">
+<!ENTITY codb_createMobilePhoneContract SYSTEM "codb_createMobilePhoneContract.xml">
+<!ENTITY codb_setSalesPacketOnBundle SYSTEM "codb_setSalesPacketOnBundle.xml">
+<!ENTITY codb_createAdjustment SYSTEM "codb_createAdjustment.xml">
+<!ENTITY codb_cancelAdjustment SYSTEM "codb_cancelAdjustment.xml">
+<!ENTITY codb_updateSelectedDestination SYSTEM "codb_updateSelectedDestination.xml">
+<!ENTITY codb_createFunctions SYSTEM "codb_createFunctions.xml">
+<!ENTITY codb_createContact SYSTEM "codb_createContact.xml">
+<!ENTITY codb_createContactRoleReference SYSTEM "codb_createContactRoleReference.xml">
+<!ENTITY codb_createOneGroup SYSTEM "codb_createOneGroup.xml">
+<!ENTITY codb_terminateContactRole SYSTEM "codb_terminateContactRole.xml">
+<!ENTITY codb_changeTechnologyAdditionalContract SYSTEM "codb_changeTechnologyAdditionalContract.xml">
+<!ENTITY codb_modifyBundle SYSTEM "codb_modifyBundle.xml">
+<!ENTITY codb_incompleteOfficeNetOrder SYSTEM "codb_incompleteOfficeNetOrder.xml">
+<!ENTITY codb_modifyOneGroup SYSTEM "codb_modifyOneGroup.xml">
+<!ENTITY codb_createProviderChangeLog SYSTEM "codb_createProviderChangeLog.xml">
+<!ENTITY codb_fifOrderComplete SYSTEM "codb_fifOrderComplete.xml">
+<!ENTITY codb_raiseError SYSTEM "codb_raiseError.xml">
+<!ENTITY codb_getContractDates SYSTEM "codb_getContractDates.xml">
+<!ENTITY codb_createContributingItems SYSTEM "codb_createContributingItems.xml">
+<!ENTITY codb_validatePricingStructure SYSTEM "codb_validatePricingStructure.xml">
+<!ENTITY codb_validateAccountActive SYSTEM "codb_validateAccountActive.xml">
+<!ENTITY codb_validateTariffOptions SYSTEM "codb_validateTariffOptions.xml">
+<!ENTITY codb_validateReferenceData SYSTEM "codb_validateReferenceData.xml">
+<!ENTITY codb_finalizeCustomerOrder SYSTEM "codb_finalizeCustomerOrder.xml">
+<!ENTITY codb_validateBlockingOrder SYSTEM "codb_validateBlockingOrder.xml">
+<!ENTITY codb_validateAccessNumbers SYSTEM "codb_validateAccessNumbers.xml">
+<!ENTITY codb_bundleCleanup SYSTEM "codb_bundleCleanup.xml">
+<!ENTITY codb_consolidateSubscriptionData SYSTEM "codb_consolidateSubscriptionData.xml">
+<!ENTITY codb_rollbackTariffChange SYSTEM "codb_rollbackTariffChange.xml">
+<!ENTITY codb_modifyOneNetBusinessServices SYSTEM "codb_modifyOneNetBusinessServices.xml">
+<!ENTITY codb_reconfigureComplexFunction SYSTEM "codb_reconfigureComplexFunction.xml">
+<!ENTITY codb_createOneNetSite SYSTEM "codb_createOneNetSite.xml">
+<!ENTITY codb_validateMainAccess SYSTEM "codb_validateMainAccess.xml">
+<!ENTITY codb_reactivateFunction SYSTEM "codb_reactivateFunction.xml">
+<!ENTITY codb_suspendFunction SYSTEM "codb_suspendFunction.xml">
+<!ENTITY codb_activateBilling SYSTEM "codb_activateBilling.xml">
+<!ENTITY codb_validateBillingActivated SYSTEM "codb_validateBillingActivated.xml">
+<!ENTITY codb_CompleteCustomerOrder SYSTEM "codb_CompleteCustomerOrder.xml">
+<!ENTITY codb_handleBusVoipAccessBundle SYSTEM "codb_handleBusVoipAccessBundle.xml">
+
+<!ENTITY ccm_createExtNotificationCheckContractChangeCompleted SYSTEM "ccm_createExtNotificationCheckContractChangeCompleted.xml">
+<!ENTITY ccm_createOMTSNotificationCheckTariffChangeCompleted SYSTEM "ccm_createOMTSNotificationCheckTariffChangeCompleted.xml">
+<!ENTITY ccm_notifySBusTariffChange SYSTEM "ccm_notifySBusTariffChange.xml">
+<!ENTITY ccm_notifySBusTariffRollback SYSTEM "ccm_notifySBusTariffRollback.xml">	
+<!ENTITY ccm_notifySBusSubscriptionTermination SYSTEM "ccm_notifySBusSubscriptionTermination.xml">	
+<!ENTITY ccm_notifySBusSubscriptionActivation SYSTEM "ccm_notifySBusSubscriptionActivation.xml">
+<!ENTITY ccm_reconfigureServiceCharacteristic SYSTEM "ccm_reconfigureServiceCharacteristic.xml">
+<!ENTITY ccm_checkAndDeactInactiveCustomer SYSTEM "ccm_checkAndDeactInactiveCustomer.xml">
+<!ENTITY ccm_terminateTariffOption SYSTEM "ccm_terminateTariffOption.xml">
+
+<!ENTITY opm_createWhsCustomer SYSTEM "opm_createWhsCustomer.xml">
+<!ENTITY opm_createWhsTalContract SYSTEM "opm_createWhsTalContract.xml">
+<!ENTITY opm_createWhsVoiceContract SYSTEM "opm_createWhsVoiceContract.xml">
+<!ENTITY opm_modifyWhsVoiceContract SYSTEM "opm_modifyWhsVoiceContract.xml">
+<!ENTITY opm_modifyWhsAccessContract SYSTEM "opm_modifyWhsAccessContract.xml">
+<!ENTITY opm_terminateServiceByCustomer SYSTEM "opm_terminateServiceByCustomer.xml">
+
+<!ENTITY bus_ErstelleMobilfunkVertrag SYSTEM "bus_ErstelleMobilfunkVertrag.xml">
+<!ENTITY bus_ValidateEmailAddress SYSTEM "bus_ValidateEmailAddress.xml">
+<!ENTITY bus_UpdateEmailStatus SYSTEM "bus_UpdateEmailStatus.xml">
+
+<!ENTITY sls_addProductSubscription SYSTEM "sls_addProductSubscription.xml">
+<!ENTITY sls_reconfigureServiceCharacteristic SYSTEM "sls_reconfigureServiceCharacteristic.xml">
+<!ENTITY sls_terminateServiceSubscription SYSTEM "sls_terminateServiceSubscription.xml">
+<!ENTITY sls_createContract SYSTEM "sls_createContract.xml">
+<!ENTITY sls_modifySkeletonContractAssociation SYSTEM "sls_modifySkeletonContractAssociation.xml">
+<!ENTITY sls_updateEmailAddress SYSTEM "sls_updateEmailAddress.xml">
+<!ENTITY sls_modifyAccessInformation SYSTEM "sls_modifyAccessInformation.xml">
+
+<!ENTITY eai_SetMarketingPermissions SYSTEM "eai_SetMarketingPermissions.xml">
+
+]>
+<!--
+    This document contains the message metadata for the TestFramework
+    It contains information about the supported request, message, and message
+    creator types.  It also contains the action mappings that specify which
+    actions are supported.
+
+    File name : $Workfile: $
+    Header    : $Header: $
+    Revision  : $Revision: $
+
+    History:
+    $Log: $
+
+
+-->
+<messagecreator-metadata>
+	<!-- Request definitions -->
+	<request-definitions>
+		<request-definition>
+			<request-type>FIF</request-type>
+			<request-class>net.arcor.fif.messagecreator.FIFRequest</request-class>
+		</request-definition>
+	</request-definitions>
+	<!-- Message definitions -->
+	<message-definitions>
+		<message-definition>
+			<message-type>FIF</message-type>
+			<message-class>net.arcor.fif.messagecreator.FIFMessage</message-class>
+		</message-definition>
+	</message-definitions>
+	<!-- Message Creator definitions -->
+	<message-creator-definitions>
+		<message-creator-definition>
+			<creator-type>xsql</creator-type>
+			<creator-class>net.arcor.fif.messagecreator.XSQLMessageCreator</creator-class>
+			<creator-params>
+				<creator-param>
+					<param-name>filename</param-name>
+				</creator-param>
+			</creator-params>
+			<creator-input-request-type>FIF</creator-input-request-type>
+			<creator-output-message-type>FIF</creator-output-message-type>
+		</message-creator-definition>
+		<message-creator-definition>
+			<creator-type>xslt</creator-type>
+			<creator-class>net.arcor.fif.messagecreator.XSLTMessageCreator</creator-class>
+			<creator-params>
+				<creator-param>
+					<param-name>filename</param-name>
+				</creator-param>
+			</creator-params>
+			<creator-input-request-type>FIF</creator-input-request-type>
+			<creator-output-message-type>FIF</creator-output-message-type>
+		</message-creator-definition>
+	</message-creator-definitions>
+	<!-- Action Mappings-->
+	<action-mappings>
+		<!--Create Entity Mappings-->
+		<action-mapping>
+			<action-name>createEntity</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFCreateEntity.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ENTITY_TYPE</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SALUTATION_DESCRIPTION</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>TITLE_DESCRIPTION</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>NOBILITY_PREFIX_DESCRIPTION</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>FORENAME</param-name>
+					<param-mandatory>false</param-mandatory>
+					<param-default-value>TestCase_0001</param-default-value>
+				</message-param>
+				<message-param>
+					<param-name>NAME</param-name>
+					<param-mandatory>false</param-mandatory>
+					<param-default-value>FifCcmCreateEntity</param-default-value>
+				</message-param>
+				<message-param>
+					<param-name>BIRTH_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+					<param-default-value>1970.11.11 00:00:00</param-default-value>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>create_entity_1</response-command-id>
+						<response-param-name>entity_id</response-param-name>
+						<output-param-name>ENTITY_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--CcmCreateAddress Mapping for attaching an address to an existing entity-->
+		<action-mapping>
+			<action-name>createAddress</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFCreateAddress.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ENTITY_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ADDRESS_TYPE</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>STREET_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>STREET_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>POSTAL_CODE</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CITY_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>COUNTRY_CODE</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>create_address_1</response-command-id>
+						<response-param-name>address_id</response-param-name>
+						<output-param-name>ADDRESS_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!-- Create Access Information Mapping for attaching an access information to an existing entity-->
+		<action-mapping>
+			<action-name>createAccessInformation</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFCreateAccessInformation.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ENTITY_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ACCESS_INFORMATION_TYPE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CONTACT_NAME</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PHONE_NUMBER</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MOBILE_NUMBER</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>FAX_NUMBER</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>EMAIL_ADDRESS</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ELECTRONIC_CONTACT_INDICATOR</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>create_access_information_1</response-command-id>
+						<response-param-name>access_information_id</response-param-name>
+						<output-param-name>ACCESS_INFORMATION_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--CcmCreateMailing Mapping requires an customer number and an address id-->
+		<action-mapping>
+			<action-name>createMailing</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFCreateMailing.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ADDRESS_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MAILING_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>create_mailing_1</response-command-id>
+						<response-param-name>mailing_id</response-param-name>
+						<output-param-name>MAILING_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--Create Bank Account Mapping requires an customer number, bank account number, owner name and bank clearing code-->
+		<action-mapping>
+			<action-name>createBankAccount</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFCreateBankAccount.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>BANK_ACCOUNT_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OWNER_FULL_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>BANK_CLEARING_CODE</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>create_bank_account_1</response-command-id>
+						<response-param-name>bank_account_id</response-param-name>
+						<output-param-name>BANK_ACCOUNT_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--CcmCreateAccount Mapping requires a customer number, a mailing id and a bank account or credit card -->
+		<action-mapping>
+			<action-name>createAccount</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFCreateAccount.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>BANK_ACCOUNT_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CREDIT_CARD_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MAILING_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>EFFECTIVE_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>DOC_TEMPLATE_NAME</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>METHOD_OF_PAYMENT</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MANUAL_SUSPEND_IND</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>LANGUAGE_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CURRENCY_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CYCLE_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PAYMENT_TERM_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ZERO_CHARGE_IND</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>USAGE_LIMIT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_ACCOUNT_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OUTPUT_DEVICE_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>DIRECT_DEBIT_AUTHORIZ_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>create_account_1</response-command-id>
+						<response-param-name>account_number</response-param-name>
+						<output-param-name>ACCOUNT_NUMBER</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--CcmModifyAccount Mapping requires a customer number, a mailing id and a bank account or credit card -->
+		<action-mapping>
+			<action-name>modifyAccount</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFModifyAccount.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ACCOUNT_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>BANK_ACCOUNT_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CREDIT_CARD_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MAILING_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>EFFECTIVE_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>DOC_TEMPLATE_NAME</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>METHOD_OF_PAYMENT</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MANUAL_SUSPEND_IND</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>LANGUAGE_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CURRENCY_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CYCLE_NAME</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PAYMENT_TERM_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ZERO_CHARGE_IND</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>USAGE_LIMIT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_ACCOUNT_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OUTPUT_DEVICE_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>DIRECT_DEBIT_AUTHORIZ_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters/>
+			</response-handling>
+		</action-mapping>
+		<!--CcmAddProductSubscription Mapping requires a customer number, a product commitment number and product subscription group id-->
+		<action-mapping>
+			<action-name>addProductSubscriptionTF</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFAddProductSubscription.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRODUCT_COMMITMENT_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE-SYSTEM-DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>add_product_subscription_1</response-command-id>
+						<response-param-name>product_subscription_id</response-param-name>
+						<output-param-name>PRODUCT_SUBSCRIPTION_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--CcmCreateOrderForm Mapping requires a customer number, sales_org_num_value and doc_template_name -->
+		<action-mapping>
+			<action-name>createOrderForm</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFCreateOrderForm.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SALES_ORG_NUM_VALUE</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>DOC_TEMPLATE_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CURRENCY_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>LANGUAGE_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>LOI_INDICATOR</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ON_HOLD_INDICATOR</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>GRACE_PER_DUR_VALUE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>GRACE_PER_DUR_UNIT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>NOTICE_PER_DUR_VALUE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>NOTICE_PER_DUR_UNIT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>NOTICE_PER_START_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>TERM_DUR_VALUE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>TERM_DUR_UNIT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>TERM_START_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>TERMINATION_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MIN_PER_DUR_VALUE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MIN_PER_DUR_UNIT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SALES_ORG_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MONTHLY_ORDER_ENTRY_AMOUNT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>TERMINATION_RESTRICTION</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ASSOC_SKELETON_CONT_NUM</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_RESTRICTION</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>AUTO_EXTENT_PERIOD_VALUE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>AUTO_EXTENT_PERIOD_UNIT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>AUTO_EXTENSION_IND</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<!--addProductCommitment Mapping  -->
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRODUCT_CODE</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRICING_STRUCTURE_CODE</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>create_order_form_1</response-command-id>
+						<response-param-name>contract_number</response-param-name>
+						<output-param-name>CONTRACT_NUMBER</output-param-name>
+					</output-param>
+					<output-param>
+						<response-command-id>add_product_commitment_1</response-command-id>
+						<response-param-name>product_commitment_number</response-param-name>
+						<output-param-name>PRODUCT_COMMITMENT_NUMBER</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--CcmSignOrderForm Mapping  -->
+		<action-mapping>
+			<action-name>signOrderForm</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFSignOrderForm.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CONTRACT_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>BOARD_SIGN_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>BOARD_SIGN_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRIMARY_CUST_SIGN_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRIMARY_CUST_SIGN_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SECONDARY_CUST_SIGN_NAME</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SECONDARY_CUST_SIGN_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters/>
+			</response-handling>
+		</action-mapping>
+		<!--TerminateProductSubs Mapping  -->
+		<action-mapping>
+			<action-name>terminateProductSubs</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFTerminateProductSubsAndReleaseCO.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRODUCT_SUBSCRIPTION_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>DESIRED_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>DESIRED_SCHEDULE_TYPE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>REASON_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>AUTO_CUSTOMER_ORDER</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<!--create customer order Mapping  -->
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_TRACKING_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<!--release customer order Mapping  -->
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>create_co_1</response-command-id>
+						<response-param-name>customer_order_id</response-param-name>
+						<output-param-name>CUSTOMER_ORDER_ID</output-param-name>
+					</output-param>
+					<output-param>
+						<response-command-id>terminate_product_subs_1</response-command-id>
+						<response-param-name>service_ticket_pos_id</response-param-name>
+						<output-param-name>SERVICE_TICKET_POS_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--Apply new pricing structure Mappings-->
+		<action-mapping>
+			<action-name>applyNewPricingStruct</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFApplyNewPricingStruct.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SUPPORTED_OBJECT_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SUPPORTED_OBJECT_TYPE_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>APPLY_SWAP_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters/>
+			</response-handling>
+		</action-mapping>
+		<!--Sign and apply new pricing structure Mappings-->
+		<action-mapping>
+			<action-name>signAndApplyNewPricingStruct</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFSignAndApplyNewPricingStruct.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SUPPORTED_OBJECT_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SUPPORTED_OBJECT_TYPE_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>APPLY_SWAP_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>BOARD_SIGN_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>BOARD_SIGN_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRIMARY_CUST_SIGN_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRIMARY_CUST_SIGN_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SECONDARY_CUST_SIGN_NAME</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SECONDARY_CUST_SIGN_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters/>
+			</response-handling>
+		</action-mapping>
+		<!--Roll back the New PriceStruct Mappings-->
+		<action-mapping>
+			<action-name>rollbackApplyNewPriceStruct</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFRollbackApplyNewPriceStruct.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SUPPORTED_OBJECT_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SUPPORTED_OBJECT_TYPE_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters/>
+			</response-handling>
+		</action-mapping>
+		<!--CcmCreateCustomerOrder Mapping  -->
+		<action-mapping>
+			<action-name>createCustomerOrder</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFCreateCustomerOrder.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PARENT_CUSTOMER_ORDER_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CREATED_BY_NAME</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CREATED_BY_PHONE_NO</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CREATED_BY_DEPARTMENT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>BILL_ACTIVATION_INDICATOR</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRIORITY_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>RESERV_ORDER_INDICATOR</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUST_ORDER_DESCRIPTION</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MAILING_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>REGION_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_TRACKING_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SALES_ORGANIZATION_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CONFIRM_OUTPUT_DEVICE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CONFIRMATION_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CONFIRMATION_SUBJECT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>DOC_TEMPLATE_NAME</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>LAN_PATH_FILE_STRING</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>LANGUAGE_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SALES_REP_NAME</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SALES_REP_DEPT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SALES_REP_PHONE_NO</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CONSULTANT_NAME</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CONSULTANT_DEPARTMENT</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CONSULTANT_PHONE_NO</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PROVIDER_TRACKING_NO</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param-list>
+					<param-list-name>SERVICE_TICKET_POS_LIST</param-list-name>
+					<param-list-mandatory>true</param-list-mandatory>
+					<message-param>
+						<param-name>SERVICE_TICKET_POS_ID</param-name>
+						<param-mandatory>true</param-mandatory>
+					</message-param>
+				</message-param-list>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>create_customer_order_1</response-command-id>
+						<response-param-name>customer_order_id</response-param-name>
+						<output-param-name>CUSTOMER_ORDER_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--CcmReleaseCustomerOrder Mapping  -->
+		<action-mapping>
+			<action-name>releaseCustomerOrder</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFReleaseCustomerOrder.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_ORDER_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>RELEASE_DELAY_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PARENT_CUSTOMER_ORDER_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>release_customer_order_1</response-command-id>
+						<response-param-name>customer_order_id</response-param-name>
+						<output-param-name>CUSTOMER_ORDER_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--CcmSimulateActivationByOp Mapping  -->
+		<action-mapping>
+			<action-name>simulateActivationByOp</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFSimulateActivationByOp.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_ORDER_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters/>
+			</response-handling>
+		</action-mapping>
+		<!--CcmCancelNonCompleteStpForProduct Mapping  -->
+		<action-mapping>
+			<action-name>cancelNonCompleteStpForProduct</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFCancelNonCompleteStpForProduct.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRODUCT_SUBSCRIPTION_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>REASON_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>term_susp_react_1</response-command-id>
+						<response-param-name>service_ticket_pos_id</response-param-name>
+						<output-param-name>SERVICE_TICKET_POS_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--CcmCreateProductSubscriptionGroup Mapping requires an customer number and an address id-->
+		<action-mapping>
+			<action-name>createProductSubscriptionGroup</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFCreateProductSubscriptionGroup.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRODUCT_SUB_GROUP_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRODUCT_SUB_GROUP_DESCRIPTION</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>EFFECTIVE_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>create_product_subscription_group_1</response-command-id>
+						<response-param-name>product_subs_group_id</response-param-name>
+						<output-param-name>PRODUCT_SUBS_GROUP_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!--CcmAddServiceSubscription Mapping requires an product_subscription_id and an account_number-->
+		<action-mapping>
+			<action-name>addServiceSubscription</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFAddServiceSubscription.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PRODUCT_SUBSCRIPTION_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ACCOUNT_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>SERVICE_CODE</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PARENT_SERVICE_SUBS_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>DESIRED_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ADDRESS_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param-list>
+					<param-list-name>CSCs</param-list-name>
+					<param-list-mandatory>false</param-list-mandatory>
+					<message-param-list>
+						<param-list-name>ACCESS_NUMBERS</param-list-name>
+						<param-list-mandatory>false</param-list-mandatory>
+						<message-param>
+							<param-name>SERVICE_CHAR_CODE</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>DATA_TYPE</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>COUNTRY_CODE</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>CITY_CODE</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>LOCAL_NUMBER</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>FROM_EXT_NUM</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>TO_EXT_NUM</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>MASKING_DIGITS_RD</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>NETWORK_ACCOUNT</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+					</message-param-list>
+					<message-param-list>
+						<param-list-name>CONFIGURED_VALUES</param-list-name>
+						<param-list-mandatory>false</param-list-mandatory>
+						<message-param>
+							<param-name>SERVICE_CHAR_CODE</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>DATA_TYPE</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>CONFIGURED_VALUE</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+					</message-param-list>
+					<message-param-list>
+						<param-list-name>ADDRESS</param-list-name>
+						<param-list-mandatory>false</param-list-mandatory>
+						<message-param>
+							<param-name>SERVICE_CHAR_CODE</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>DATA_TYPE</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+						<message-param>
+							<param-name>ADDRESS_ID</param-name>
+							<param-mandatory>false</param-mandatory>
+						</message-param>
+					</message-param-list>
+				</message-param-list>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>add_service_subscription_1</response-command-id>
+						<response-param-name>service_ticket_pos_id</response-param-name>
+						<output-param-name>SERVICE_TICKET_POS_ID</output-param-name>
+					</output-param>
+					<output-param>
+						<response-command-id>add_service_subscription_1</response-command-id>
+						<response-param-name>service_subscription_id</response-param-name>
+						<output-param-name>SERVICE_SUBSCRIPTION_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!-- modify selected destinations -->
+		<action-mapping>
+			<action-name>modifyBundleTF</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>SLSModifyBundle.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>BUNDLE_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>EFFECTIVE_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>BUNDLE_TYPE_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>STATE_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param-list>
+					<param-list-name>BUNDLE_ITEM_LIST</param-list-name>
+					<param-list-mandatory>false</param-list-mandatory>
+					<message-param>
+						<param-name>BUNDLE_ITEM_ID</param-name>
+						<param-mandatory>false</param-mandatory>
+					</message-param>
+					<message-param>
+						<param-name>BUNDLE_ITEM_TYPE_RD</param-name>
+						<param-mandatory>false</param-mandatory>
+					</message-param>
+					<message-param>
+						<param-name>SUPPORTED_OBJECT_ID</param-name>
+						<param-mandatory>false</param-mandatory>
+					</message-param>
+					<message-param>
+						<param-name>SUPPORTED_OBJECT_TYPE_RD</param-name>
+						<param-mandatory>false</param-mandatory>
+					</message-param>
+					<message-param>
+						<param-name>ACTION_NAME</param-name>
+						<param-mandatory>false</param-mandatory>
+					</message-param>
+				</message-param-list>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>modify_bundle_1</response-command-id>
+						<response-param-name>service_subscription_id</response-param-name>
+						<output-param-name>BUNDLE_ID</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+		<!-- Add customer to hierarchy -->
+		<action-mapping>
+			<action-name>addCustomerToHierarchy</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFAddCustomerToHierarchy.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PARENT_CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>EFFECTIVE_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters/>
+			</response-handling>
+		</action-mapping>
+		<!-- Remove customer from hierarchy -->
+		<action-mapping>
+			<action-name>removeCustomerFromHierarchy</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFRemoveCustomerFromHierarchy.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_NUMBER</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>EFFECTIVE_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters/>
+			</response-handling>
+		</action-mapping>
+		<!-- Cancel Service Ticket Position -->
+		<action-mapping>
+			<action-name>cancelServiceTicketPosition</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>SLSCancelServiceTicketPosition.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+            <message-param>
+               <param-name>SERVICE_TICKET_POSITION_ID</param-name>
+               <param-mandatory>false</param-mandatory>
+            </message-param>
+				<message-param>
+					<param-name>PRODUCT_SUBSCRIPTION_ID</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CANCEL_REASON_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters/>
+			</response-handling>
+		</action-mapping>
+		<action-mapping>
+			<action-name>createCustomerTF</action-name>
+			<message-creation>
+				<creator-type>xslt</creator-type>
+				<creator-params>
+					<creator-param>
+						<param-name>filename</param-name>
+						<param-value>TFCreateCustomer.xsl</param-value>
+					</creator-param>
+				</creator-params>
+			</message-creation>
+			<message-parameters>
+				<message-param>
+					<param-name>transactionID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>OVERRIDE_SYSTEM_DATE</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ENTITY_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>ADDRESS_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>USER_PASSWORD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MATCH_CODE_ID</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CUSTOMER_GROUP_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CATEGORY_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CLASSIFICATION_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>MASKING_DIGITS_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>RETENTION_PERIOD_RD</param-name>
+					<param-mandatory>false</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PAYMENT_METHOD_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>PAYMENT_TERM_RD</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+				<message-param>
+					<param-name>CYCLE_NAME</param-name>
+					<param-mandatory>true</param-mandatory>
+				</message-param>
+			</message-parameters>
+			<response-handling>
+				<return-warnings>true</return-warnings>
+				<output-parameters>
+					<output-param>
+						<response-command-id>create_customer_1</response-command-id>
+						<response-param-name>customer_number</response-param-name>
+						<output-param-name>CUSTOMER_NUMBER</output-param-name>
+					</output-param>
+				</output-parameters>
+			</response-handling>
+		</action-mapping>
+
+&tf_ErstelleMobilfunkVertrag;
+&tf_createFullCustomer;
+&tf_createSimpleContract;
+&tf_createISDNContract;
+&tf_createNgnDslContract;
+&tf_createNgnVoIPContract;
+&tf_createMultimediaContract;
+&tf_createBitDslContract;
+&tf_createBitVoIPContract;
+&tf_createVoIPContract;
+&tf_createOnlineContract;
+&tf_createPreselectContract;
+
+&codb_terminateService;
+&codb_terminateServiceCancellation;
+&codb_createExternalOrder;
+&codb_closeExternalOrder;
+&codb_cloneCustomer;
+&codb_changeProvider;
+&codb_createOnlineContract;
+&codb_createSafetyPackage;
+&codb_createDirectoryEntry;
+&codb_addHardwareService;
+&codb_setInvoiceDeliveryType;
+&codb_allocateCustomerNumber;
+&codb_modifyMethodOfPayment;
+&codb_createCustomer;
+&codb_createBillingAccount;
+&codb_createContactRole;
+&codb_allocateCcbId;
+&codb_createSkeletonContract;
+&codb_addInstallationService;
+&codb_addExtraNumberService;
+&codb_createServiceDeliveryContract;
+&codb_activateCustomerOrder;
+&codb_modifyContract;
+&codb_modifyContractApply;
+&codb_terminateFunction;
+&codb_modifyFeatureServices;
+&codb_reconfigureFunction;
+&codb_allocateProviderTrackingNumber;
+&codb_readExternalNotification;
+&codb_findBundle;
+&codb_addChildService;
+&codb_changeContractPartner;
+&codb_createTVCenterContract;
+&codb_changeDSLBandwidth;
+&codb_changeDSLBandwidthAndTariff;
+&codb_upgradeToPremium;
+&codb_modifyContractOpProduct;
+&codb_changeProductType;
+&codb_changeTechnology;
+&codb_modifyCustomer;
+&codb_modifyEntity;
+&codb_createKBANotification;
+&codb_cancelCustOrderWithBarCode;
+&codb_deactivateCustomer;
+&codb_storeCampaignInformation;
+&codb_relocateContract;
+&codb_relocateAdditionalContract;
+&codb_createVoIP2ndLineContract;
+&codb_createMobilePhoneContract;
+&codb_setSalesPacketOnBundle;
+&codb_createAdjustment;
+&codb_cancelAdjustment;
+&codb_updateSelectedDestination;
+&codb_createFunctions;
+&codb_createContactRoleReference;
+&codb_createOneGroup;
+&codb_terminateContactRole;
+&codb_changeTechnologyAdditionalContract;
+&codb_modifyBundle;
+&codb_incompleteOfficeNetOrder;
+&codb_modifyOneGroup;
+&codb_createProviderChangeLog;
+&codb_fifOrderComplete;
+&codb_raiseError;
+&codb_validatePricingStructure;
+&codb_validateAccountActive;
+&codb_validateTariffOptions;
+&codb_validateReferenceData;
+&codb_finalizeCustomerOrder;
+&codb_consolidateSubscriptionData;
+&codb_validateBlockingOrder;
+&codb_validateAccessNumbers;
+&codb_bundleCleanup;
+&codb_getContractDates;
+&codb_createContributingItems;
+&codb_rollbackTariffChange;
+&codb_modifyOneNetBusinessServices;
+&codb_reconfigureComplexFunction;
+&codb_createOneNetSite;
+&codb_validateMainAccess;
+&codb_reactivateFunction;
+&codb_suspendFunction;
+&codb_activateBilling;
+&codb_validateBillingActivated;
+&codb_CompleteCustomerOrder;
+&codb_handleBusVoipAccessBundle;
+
+&opm_createWhsCustomer;
+&opm_createWhsTalContract;
+&opm_createWhsVoiceContract;
+&opm_modifyWhsVoiceContract;
+&opm_modifyWhsAccessContract;
+&opm_terminateServiceByCustomer;
+
+&ccm_createExtNotificationCheckContractChangeCompleted;
+&ccm_createOMTSNotificationCheckTariffChangeCompleted;
+&ccm_notifySBusTariffRollback;
+&ccm_notifySBusTariffChange;
+&ccm_notifySBusSubscriptionTermination;	
+&ccm_notifySBusSubscriptionActivation;
+&ccm_reconfigureServiceCharacteristic;
+&ccm_checkAndDeactInactiveCustomer;
+&ccm_terminateTariffOption;
+
+&bus_UpdateEmailStatus;
+&bus_ValidateEmailAddress;
+
+&sls_addProductSubscription;
+&sls_reconfigureServiceCharacteristic;
+&sls_terminateServiceSubscription;
+&sls_createContract;
+&sls_modifySkeletonContractAssociation;
+&sls_updateEmailAddress;
+&sls_modifyAccessInformation;
+
+&eai_SetMarketingPermissions;
+
+	</action-mappings>
+</messagecreator-metadata>

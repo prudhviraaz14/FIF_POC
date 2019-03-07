@@ -1,0 +1,651 @@
+# START HEADER
+#  File:                $Workfile:   ISISFIFDatabaseClient.properties.template  $
+#  Author:              $Author:   lejam  $
+#  Revision:            $Revision:   1.0  $
+#  Purpose:             Configuration file for the ISIS-FIF DatabaseClient application
+#  Operating System:    UNIX
+#  Last Change:         $Date:   Dec 05 2011 10:46:50  $
+#  Change history:
+#  $Log:   //PVCS_FIF/archives/FIF_API/CF/cfg_templates/ISISFIFDatabaseClient.properties.template-arc  $
+#
+#   Rev 1.0   Dec 05 2011 10:46:50   lejam
+#Initial revision.
+#
+#   Rev 1.0   May 28 2004 12:16:02   goethalo
+#Initial revision.
+#
+#
+# END HEADER
+
+####################
+# GENERAL SETTINGS #
+####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         isisfif.databaseclient.SentOutputDir
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./fif-request
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The directory to store messages sent to FIF in
+#Description:       (only used if WriteSentMessages is set to true)
+#END PARAMETER
+databaseclient.SentOutputDir=${isisfif.databaseclient.SentOutputDir}
+
+#START PARAMETER
+#Parameter:         isisfif.databaseclient.ReplyOutputDir
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./fif-reply
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The directory to store the reply messages from FIF in.
+#Description:       (only used if WriteReplyMessages is set to true).
+#END PARAMETER
+databaseclient.ReplyOutputDir=${isisfif.databaseclient.ReplyOutputDir}
+
+#START PARAMETER
+#Parameter:         isisfif.databaseclient.InvalidReplyOutputDir
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./fif-invalid-reply
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The directory to store the invalid reply messages from FIF in.
+#Description:       A reply is invalid if it cannot be interpreted by the message receiver.
+#Description:       This usually means that FIF is sending incorrect data as a reply.
+#END PARAMETER
+databaseclient.InvalidReplyOutputDir=${isisfif.databaseclient.InvalidReplyOutputDir}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# Indicates whether the sender should be started (true/false)
+databaseclient.StartSender=true
+
+# The number of requests to retrieve from the database and process in one run
+databaseclient.RequestBatchSize=500
+
+# The time (in milliseconds) to sleep between each request retrieval run
+databaseclient.RequestSleepTime=100
+
+# Indicates whether the sent messages should be written to an output file
+# (true/false)
+databaseclient.WriteSentMessages=true
+
+# Indicates whether the receiver should be started (true/false)
+databaseclient.StartReceiver=true
+
+# Indicates whether the reply messages should be written to an output file
+# (true/false)
+databaseclient.WriteReplyMessages=true
+
+
+
+
+##################
+# SQL STATEMENTS #
+##################
+
+# The SQL statement for retrieving the requests from the database
+databaseclient.RetrieveRequestsStatement=SELECT TRANSACTION_ID, ACTION_NAME FROM FIF_ISIS_REQUEST WHERE TARGET_CLIENT='ISIS' AND STATUS='NOT_STARTED' AND SYSDATE >= DUE_DATE ORDER BY PRIORITY DESC
+
+# The name of the table field representing the transaction Id of the request
+databaseclient.RetrieveRequestsStatement.TransactionIDFieldName=TRANSACTION_ID
+
+# The name of the table field representing the action the request is for
+databaseclient.RetrieveRequestsStatement.ActionFieldName=ACTION_NAME
+
+
+# The SQL statement for retrieving the request parameters from the database
+databaseclient.RetrieveParamsStatement=SELECT * FROM FIF_ISIS_REQUEST_PARAM WHERE TRANSACTION_ID=?
+
+# The name of the database field representing the parameter name for a request
+databaseclient.RetrieveParamsStatement.ParamNameFieldName=PARAM
+
+# The name of the database field representing the parameter value for a request
+databaseclient.RetrieveParamsStatement.ParamValueFieldName=VALUE
+
+
+# The SQL statement for updating the request state to 'Complete' (Success)
+databaseclient.UpdateStateCompleteStatement=UPDATE FIF_ISIS_REQUEST SET STATUS='COMPLETED', ERROR_TEXT=?, END_DATE=SYSDATE WHERE TRANSACTION_ID=?
+
+# The index of the database field for storing the error message
+databaseclient.UpdateStateCompleteStatement.ErrorMessageIndex=1
+
+# The index of the table field representing the transaction Id of the request
+databaseclient.UpdateStateCompleteStatement.TransactionIDIndex=2
+
+
+# The SQL statement for updating the request state to 'In Progress'
+databaseclient.UpdateStateInProgressStatement=UPDATE FIF_ISIS_REQUEST SET STATUS='IN_PROGRESS', ERROR_TEXT='', START_DATE=SYSDATE WHERE TRANSACTION_ID=?
+
+
+# The SQL statement for updating the request state to 'Failure'
+databaseclient.UpdateStateFailureStatement=UPDATE FIF_ISIS_REQUEST SET STATUS='FAILED', END_DATE=SYSDATE, ERROR_TEXT=? WHERE TRANSACTION_ID=?
+
+# The name of the database field for storing the error message
+databaseclient.UpdateStateFailureStatement.ErrorMessageIndex=1
+
+# The maximum size (in characters) of the error message field
+databaseclient.UpdateStateFailureStatement.MaxErrorMessageSize=4000
+
+# The name of the table field representing the transaction Id of the request
+databaseclient.UpdateStateFailureStatement.TransactionIDIndex=2
+
+
+
+#############################
+# MESSAGE CREATION SETTINGS #
+#############################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         isisfif.messagecreator.MetaDataDir
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./etc
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the metadata file is located.
+#END PARAMETER
+messagecreator.MetaDataDir=${isisfif.messagecreator.MetaDataDir}
+
+#START PARAMETER
+#Parameter:         isisfif.messagecreator.OutputDir
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./output
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The directory to store the output XML files in.
+#Description:       (Not used if messagecreator.WriteOutputFiles is set to false).
+#END PARAMETER
+messagecreator.OutputDir=${isisfif.messagecreator.OutputDir}
+
+#START PARAMETER
+#Parameter:         isisfif.messagecreator.XSQL.Directory
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./xsql
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the XSQL files are located.
+#END PARAMETER
+messagecreator.XSQL.Directory=${isisfif.messagecreator.XSQL.Directory}
+
+#START PARAMETER
+#Parameter:         isisfif.messagecreator.XSLT.Directory
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./xslt
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the XSLT files are located.
+#END PARAMETER
+messagecreator.XSLT.Directory=${isisfif.messagecreator.XSLT.Directory}
+
+#START PARAMETER
+#Parameter:         isisfif.messagecreator.XSLT.IntermediateDir
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       path name
+#DefaultValue:      -
+#ExampleValue:      ./intermediate
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The directory where the intermediate XML files should be written to.
+#Description:       (Not used if messagecreator.XSLT.WriteIntermediateFiles is set to false).
+#END PARAMETER
+messagecreator.XSLT.IntermediateDir=${isisfif.messagecreator.XSLT.IntermediateDir}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#--- GENERAL MESSAGECREATOR SETTINGS --#
+
+# The name of the XML metadata file
+messagecreator.MetaDataFile=isis-fif-databaseclient-metadata.xml
+
+# Indicates whether the produced XML messages should also be written
+# as a file in the output directory
+messagecreator.WriteOutputFiles=false
+
+#--- XSLT SETTINGS ---#
+
+# Indicates whether the XML representation of a request should be
+# written as a file.
+messagecreator.XSLT.WriteIntermediateFiles=false
+
+
+
+###################
+# LOGGER SETTINGS #
+###################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         isisfif.log4j.appender.File.File
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Path + Filename
+#DefaultValue:      -
+#ExampleValue:      ./log/ISISFIFDatabaseClient.log
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The name (including relative of absolute path) of the log file to write to.
+#END PARAMETER
+log4j.appender.File.File=${isisfif.log4j.appender.File.File}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+#
+# The FIF Message Creator uses the Apache log4j framework for logging.
+# The following entries configure log4j.
+# Please refer to http://jakarta.apache.org/log4j/docs/index.html for
+# detailed instructions.
+#
+# The log file name is specified in the log4j.appender.File.File key.
+#
+
+# Definition of the logging level and the appenders
+log4j.rootLogger=INFO, Console, File
+
+# Console Appender configuration
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+# File Appender configuration
+log4j.appender.File=net.arcor.fif.common.DatedRollingFileAppender
+log4j.appender.File.Append=true
+log4j.appender.File.MaxFileSize=1MB
+log4j.appender.File.DateFormat=.yyyy.MM.dd.HH.mm.ss
+log4j.appender.File.layout=org.apache.log4j.PatternLayout
+log4j.appender.File.layout.ConversionPattern=%d | %-5p | [%t] | %m%n
+
+
+
+#####################
+# DATABASE SETTINGS #
+#####################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#START PARAMETER
+#Parameter:         isisfif.db.requestdb.Driver
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Class name
+#DefaultValue:      -
+#ExampleValue:      oracle.jdbc.driver.OracleDriver
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The name of the JDBC database driver to use.
+#END PARAMETER
+db.requestdb.Driver=${isisfif.db.requestdb.Driver}
+
+#START PARAMETER
+#Parameter:         isisfif.db.requestdb.ConnectString
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Fully qualified URL for JDBC
+#DefaultValue:      -
+#ExampleValue:      jdbc:oracle:thin:@hpdbvb01:1535:ccmdev
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The connection string to use to connect to the database containing the ISIS FIF_ISIS_REQUEST table.
+#Description:       (Format: jdbc:oracle:thin:@hostname:port:dbname)
+#Description:       Note that this should point to the special-purpose database that is accessible from ISIS.
+#END PARAMETER
+db.requestdb.ConnectString=${isisfif.db.requestdb.ConnectString}
+
+#START PARAMETER
+#Parameter:         isisfif.db.requestdb.User
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       All users of database.
+#DefaultValue:      -
+#ExampleValue:      isis_user
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The user name to use to connect to the database containing the ISIS FIF_ISIS_REQUEST table.
+#Description:       This should be an ISIS-specific database user.
+#END PARAMETER
+db.requestdb.User=${isisfif.db.requestdb.User}
+
+#START PARAMETER
+#Parameter:         isisfif.db.requestdb.Password
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Valid password.
+#DefaultValue:      -
+#ExampleValue:      ernirnlihlrieppg
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The ecnrypted password to use to connect to the database (encrypted in CCB format).
+#END PARAMETER
+db.requestdb.Password=${isisfif.db.requestdb.Password}
+
+#START PARAMETER
+#Parameter:         isisfif.db.requestdb.EncryptionKey
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       Encryption key used to encrypt the password.
+#DefaultValue:      -
+#ExampleValue:      pshsodoehseffjlhsohedqfpnpfssmpleggfqpprnlhjhess
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The encryption key that was used to encrypt the database password.
+#END PARAMETER
+db.requestdb.EncryptionKey=${isisfif.db.requestdb.EncryptionKey}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of database aliases that are being used by the application
+# An alias maps to a specific set of database configuration settings
+# The DatabaseClient only needs one database alias and this alias should
+# be called requestdb
+db.aliases=requestdb
+
+# The maximum number of minutes that a connection can remain active (in minutes)
+db.requestdb.MaximumConnectionLifeTime=240
+
+# The minimum number of open connections in the pool
+db.requestdb.MinimumConnectionCount=0
+
+# The maximum number of open connections in the pool
+db.requestdb.MaximumConnectionCount=15
+
+# The number of minutes to wait between connection cleanup runs
+db.requestdb.HouseKeepingSleepTime=1
+
+
+
+##################
+# QUEUE SETTINGS #
+##################
+
+#----------------------#
+# Templated parameters #
+#----------------------#
+
+#--- SENDQUEUE SETTINGS ---#
+
+#START PARAMETER
+#Parameter:         isisfif.transport.sendqueue.QueueName
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue name
+#DefaultValue:      -
+#ExampleValue:      ISIS.FIF.REQUEST
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The name of the queue to connect to for requests to FIF.
+#END PARAMETER
+transport.sendqueue.QueueName=${isisfif.transport.sendqueue.QueueName}
+
+#START PARAMETER
+#Parameter:         isisfif.transport.sendqueue.QueueManagerName
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager name
+#DefaultValue:      -
+#ExampleValue:      CCBSVR2E
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The name of the queue manager to connect to for requests to FIF.
+#END PARAMETER
+transport.sendqueue.QueueManagerName=${isisfif.transport.sendqueue.QueueManagerName}
+
+#START PARAMETER
+#Parameter:         isisfif.transport.sendqueue.QueueManagerHostName
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager host name
+#DefaultValue:      -
+#ExampleValue:      hp64d01
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The host name of the queue manager to connect to for requests to FIF.
+#END PARAMETER
+transport.sendqueue.QueueManagerHostName=${isisfif.transport.sendqueue.QueueManagerHostName}
+
+#START PARAMETER
+#Parameter:         isisfif.transport.sendqueue.QueueManagerPortNumber
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager port number
+#DefaultValue:      -
+#ExampleValue:      5012
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The port number of the queue manager to connect to for requests to FIF.
+#END PARAMETER
+transport.sendqueue.QueueManagerPortNumber=${isisfif.transport.sendqueue.QueueManagerPortNumber}
+
+#--- RECEIVEQUEUE SETTINGS ---#
+
+#START PARAMETER
+#Parameter:         isisfif.transport.receivequeue.QueueName
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue name
+#DefaultValue:      -
+#ExampleValue:      ISIS.FIF.REPLY
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The name of the queue to connect to for replies coming from FIF.
+#END PARAMETER
+transport.receivequeue.QueueName=${isisfif.transport.receivequeue.QueueName}
+
+#START PARAMETER
+#Parameter:         isisfif.transport.receivequeue.QueueManagerName
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager name
+#DefaultValue:      -
+#ExampleValue:      CCBSVR2E
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The name of the queue manager to connect to for replies coming from FIF.
+#END PARAMETER
+transport.receivequeue.QueueManagerName=${isisfif.transport.receivequeue.QueueManagerName}
+
+#START PARAMETER
+#Parameter:         isisfif.transport.receivequeue.QueueManagerHostName
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager host name
+#DefaultValue:      -
+#ExampleValue:      hp64d01
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The host name of the queue manager to connect to for replies coming from FIF.
+#END PARAMETER
+transport.receivequeue.QueueManagerHostName=${isisfif.transport.receivequeue.QueueManagerHostName}
+
+#START PARAMETER
+#Parameter:         isisfif.transport.receivequeue.QueueManagerPortNumber
+#ValidFrom:         FIF-API-05.00.00
+#ValidTo:           open
+#Components:        FIF-API (ISIS-FIF database client)
+#ParameterType:     STRING
+#ValidValues:       A valid queue manager port number
+#DefaultValue:      -
+#ExampleValue:      5012
+#RecomnendedVal.:   -
+#Optional:          N
+#Last_Modified:     28.05.04
+#Last_Modified_By   goethalo
+#Description:       The port number of the queue manager to connect to for replies coming from FIF.
+#END PARAMETER
+transport.receivequeue.QueueManagerPortNumber=${isisfif.transport.receivequeue.QueueManagerPortNumber}
+
+
+#---------------------#
+# Constant parameters #
+#---------------------#
+
+# The list of queue aliases that are being used by the application
+# An alias maps to a specific set of queue configuration settings
+transport.aliases=sendqueue, receivequeue
+
+
+#--- SENDQUEUE SETTINGS ---#
+
+# The type of queue to use (JMS: Java Messaging Service; MQ: MQSeries)
+transport.sendqueue.QueueType=MQ
+
+# The message acknowledge mode to use for the queue session
+transport.sendqueue.AcknowledgeMode=AUTO_ACKNOWLEDGE
+
+# The channel name of the queue manager
+transport.sendqueue.QueueManagerChannelName=CLIENT.${isisfif.transport.sendqueue.QueueManagerName}
+
+# The transport type of the queue manager
+transport.sendqueue.QueueManagerTransportType=TCPIP
+
+# The character encoding to use for encoding and decoding the messages that are
+# sent and received over the queue
+transport.sendqueue.Encoding=ISO-8859-1
+
+
+#--- RECEIVEQUEUE SETTINGS ---#
+
+# The type of queue to use (JMS: Java Messaging Service; MQ: MQSeries)
+transport.receivequeue.QueueType=MQ
+
+# The message acknowledge mode to use for the queue session
+transport.receivequeue.AcknowledgeMode=CLIENT_ACKNOWLEDGE
+
+# The channel name of the queue manager
+transport.receivequeue.QueueManagerChannelName=CLIENT.${isisfif.transport.receivequeue.QueueManagerName}
+
+# The transport type of the queue manager
+transport.receivequeue.QueueManagerTransportType=TCPIP
+
+# The character encoding to use for encoding and decoding the messages that are
+# sent and received over the queue
+transport.receivequeue.Encoding=ISO-8859-1

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE messagecreator-metadata SYSTEM "messagecreator-metadata.dtd"[
+<!ENTITY codb_terminateService SYSTEM "codb_terminateService.xml">
+<!ENTITY codb_terminateServiceCancellation SYSTEM "codb_terminateServiceCancellation.xml">
+<!ENTITY codb_createExternalOrder SYSTEM "codb_createExternalOrder.xml">
+<!ENTITY codb_closeExternalOrder SYSTEM "codb_closeExternalOrder.xml">
+<!ENTITY codb_cloneCustomer SYSTEM "codb_cloneCustomer.xml">
+<!ENTITY codb_changeProvider SYSTEM "codb_changeProvider.xml">
+<!ENTITY codb_createOnlineContract SYSTEM "codb_createOnlineContract.xml">
+<!ENTITY codb_createSafetyPackage SYSTEM "codb_createSafetyPackage.xml">
+<!ENTITY codb_createDirectoryEntry SYSTEM "codb_createDirectoryEntry.xml">
+<!ENTITY codb_addHardwareService SYSTEM "codb_addHardwareService.xml">
+<!ENTITY codb_setInvoiceDeliveryType SYSTEM "codb_setInvoiceDeliveryType.xml">
+<!ENTITY codb_allocateCustomerNumber SYSTEM "codb_allocateCustomerNumber.xml">
+<!ENTITY codb_modifyMethodOfPayment SYSTEM "codb_modifyMethodOfPayment.xml">
+<!ENTITY codb_createCustomer SYSTEM "codb_createCustomer.xml">	
+<!ENTITY codb_createBillingAccount SYSTEM "codb_createBillingAccount.xml">
+<!ENTITY codb_createContactRole SYSTEM "codb_createContactRole.xml">
+<!ENTITY codb_allocateCcbId SYSTEM "codb_allocateCcbId.xml">
+<!ENTITY codb_createSkeletonContract SYSTEM "codb_createSkeletonContract.xml">
+<!ENTITY codb_addInstallationService SYSTEM "codb_addInstallationService.xml">
+<!ENTITY codb_addExtraNumberService SYSTEM "codb_addExtraNumberService.xml">
+<!ENTITY codb_createServiceDeliveryContract SYSTEM "codb_createServiceDeliveryContract.xml">
+<!ENTITY codb_activateCustomerOrder SYSTEM "codb_activateCustomerOrder.xml">
+<!ENTITY codb_modifyContract SYSTEM "codb_modifyContract.xml">
+<!ENTITY codb_modifyContractApply SYSTEM "codb_modifyContractApply.xml">
+<!ENTITY codb_terminateFunction SYSTEM "codb_terminateFunction.xml">
+<!ENTITY codb_modifyFeatureServices SYSTEM "codb_modifyFeatureServices.xml">
+<!ENTITY codb_reconfigureFunction SYSTEM "codb_reconfigureFunction.xml">
+<!ENTITY codb_allocateProviderTrackingNumber SYSTEM "codb_allocateProviderTrackingNumber.xml">
+<!ENTITY codb_readExternalNotification SYSTEM "codb_readExternalNotification.xml">
+<!ENTITY codb_findBundle SYSTEM "codb_findBundle.xml">
+<!ENTITY codb_addChildService SYSTEM "codb_addChildService.xml">
+<!ENTITY codb_changeContractPartner SYSTEM "codb_changeContractPartner.xml">
+<!ENTITY codb_createTVCenterContract SYSTEM "codb_createTVCenterContract.xml">
+<!ENTITY codb_changeDSLBandwidth SYSTEM "codb_changeDSLBandwidth.xml">
+<!ENTITY codb_changeDSLBandwidthAndTariff SYSTEM "codb_changeDSLBandwidthAndTariff.xml">
+<!ENTITY codb_upgradeToPremium SYSTEM "codb_upgradeToPremium.xml">
+<!ENTITY codb_modifyContractOpProduct SYSTEM "codb_modifyContractOpProduct.xml">
+<!ENTITY codb_changeProductType SYSTEM "codb_changeProductType.xml">
+<!ENTITY codb_changeTechnology SYSTEM "codb_changeTechnology.xml">
+<!ENTITY codb_modifyCustomer SYSTEM "codb_modifyCustomer.xml">
+<!ENTITY codb_modifyEntity SYSTEM "codb_modifyEntity.xml">
+<!ENTITY codb_createKBANotification SYSTEM "codb_createKBANotification.xml">
+<!ENTITY codb_cancelCustOrderWithBarCode SYSTEM "codb_cancelCustOrderWithBarCode.xml">
+<!ENTITY codb_deactivateCustomer SYSTEM "codb_deactivateCustomer.xml">
+<!ENTITY codb_storeCampaignInformation SYSTEM "codb_storeCampaignInformation.xml">
+<!ENTITY codb_relocateContract SYSTEM "codb_relocateContract.xml">
+<!ENTITY codb_relocateAdditionalContract SYSTEM "codb_relocateAdditionalContract.xml">
+<!ENTITY codb_createVoIP2ndLineContract SYSTEM "codb_createVoIP2ndLineContract.xml">
+<!ENTITY codb_createMobilePhoneContract SYSTEM "codb_createMobilePhoneContract.xml">
+<!ENTITY codb_setSalesPacketOnBundle SYSTEM "codb_setSalesPacketOnBundle.xml">
+<!ENTITY codb_createAdjustment SYSTEM "codb_createAdjustment.xml">
+<!ENTITY codb_cancelAdjustment SYSTEM "codb_cancelAdjustment.xml">
+<!ENTITY codb_updateSelectedDestination SYSTEM "codb_updateSelectedDestination.xml">
+<!ENTITY codb_createFunctions SYSTEM "codb_createFunctions.xml">
+<!ENTITY codb_createContact SYSTEM "codb_createContact.xml">
+<!ENTITY codb_createContactRoleReference SYSTEM "codb_createContactRoleReference.xml">
+<!ENTITY codb_terminateContactRole SYSTEM "codb_terminateContactRole.xml">
+<!ENTITY codb_changeTechnologyAdditionalContract SYSTEM "codb_changeTechnologyAdditionalContract.xml">
+<!ENTITY codb_createOneGroup SYSTEM "codb_createOneGroup.xml">
+<!ENTITY codb_modifyBundle SYSTEM "codb_modifyBundle.xml">
+<!ENTITY codb_incompleteOfficeNetOrder SYSTEM "codb_incompleteOfficeNetOrder.xml">
+<!ENTITY codb_modifyOneGroup SYSTEM "codb_modifyOneGroup.xml">
+<!ENTITY codb_createProviderChangeLog SYSTEM "codb_createProviderChangeLog.xml">
+<!ENTITY codb_fifOrderComplete SYSTEM "codb_fifOrderComplete.xml">
+<!ENTITY codb_raiseError SYSTEM "codb_raiseError.xml">
+<!ENTITY codb_validatePricingStructure SYSTEM "codb_validatePricingStructure.xml">
+<!ENTITY codb_validateAccountActive SYSTEM "codb_validateAccountActive.xml">
+<!ENTITY codb_validateTariffOptions SYSTEM "codb_validateTariffOptions.xml">
+<!ENTITY codb_validateReferenceData SYSTEM "codb_validateReferenceData.xml">
+<!ENTITY codb_validateBlockingOrder SYSTEM "codb_validateBlockingOrder.xml">
+<!ENTITY codb_finalizeCustomerOrder SYSTEM "codb_finalizeCustomerOrder.xml">
+<!ENTITY codb_validateAccessNumbers SYSTEM "codb_validateAccessNumbers.xml">
+<!ENTITY codb_bundleCleanup SYSTEM "codb_bundleCleanup.xml">
+<!ENTITY codb_consolidateSubscriptionData SYSTEM "codb_consolidateSubscriptionData.xml">
+<!ENTITY codb_getContractDates SYSTEM "codb_getContractDates.xml">
+<!ENTITY codb_createContributingItems SYSTEM "codb_createContributingItems.xml">
+<!ENTITY codb_rollbackTariffChange SYSTEM "codb_rollbackTariffChange.xml">
+<!ENTITY codb_modifyOneNetBusinessServices SYSTEM "codb_modifyOneNetBusinessServices.xml">
+<!ENTITY codb_reconfigureComplexFunction SYSTEM "codb_reconfigureComplexFunction.xml">
+<!ENTITY codb_createOneNetSite SYSTEM "codb_createOneNetSite.xml">
+<!ENTITY codb_validateMainAccess SYSTEM "codb_validateMainAccess.xml">
+<!ENTITY codb_reactivateFunction SYSTEM "codb_reactivateFunction.xml">
+<!ENTITY codb_suspendFunction SYSTEM "codb_suspendFunction.xml">
+<!ENTITY codb_activateBilling SYSTEM "codb_activateBilling.xml">
+<!ENTITY codb_validateBillingActivated SYSTEM "codb_validateBillingActivated.xml">
+<!ENTITY codb_CompleteCustomerOrder SYSTEM "codb_CompleteCustomerOrder.xml">
+<!ENTITY codb_handleBusVoipAccessBundle SYSTEM "codb_handleBusVoipAccessBundle.xml">
+]>
+
+<!--
+    This document contains the message metadata for the KBA-FIF QueueClient.
+    It contains information about the supported request, message, and message
+    creator types.  It also contains the action mappings that specify which
+    actions are supported.
+-->
+<messagecreator-metadata>
+    <!-- Request definitions -->
+    <request-definitions>
+        <request-definition>
+            <request-type>FIF</request-type>
+            <request-class>net.arcor.fif.messagecreator.FIFRequest</request-class>
+        </request-definition>
+    </request-definitions>
+    <!-- Message definitions -->
+    <message-definitions>
+        <message-definition>
+            <message-type>FIF</message-type>
+            <message-class>net.arcor.fif.messagecreator.FIFMessage</message-class>
+        </message-definition>
+    </message-definitions>
+    <!-- Message Creator definitions -->
+    <message-creator-definitions>
+        <message-creator-definition>
+            <creator-type>xsql</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSQLMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+        <message-creator-definition>
+            <creator-type>xslt</creator-type>
+            <creator-class>net.arcor.fif.messagecreator.XSLTMessageCreator</creator-class>
+            <creator-params>
+                <creator-param>
+                    <param-name>filename</param-name>
+                </creator-param>
+            </creator-params>
+            <creator-input-request-type>FIF</creator-input-request-type>
+            <creator-output-message-type>FIF</creator-output-message-type>
+        </message-creator-definition>
+    </message-creator-definitions>
+    <!-- Action Mappings-->
+    <action-mappings>
+	    &codb_terminateService;
+	    &codb_terminateServiceCancellation;
+        &codb_createExternalOrder;
+        &codb_closeExternalOrder;
+        &codb_cloneCustomer;
+        &codb_changeProvider;
+        &codb_createOnlineContract;
+        &codb_createSafetyPackage;
+        &codb_createDirectoryEntry;
+        &codb_addHardwareService;
+        &codb_setInvoiceDeliveryType;
+        &codb_allocateCustomerNumber;
+        &codb_modifyMethodOfPayment;
+		&codb_createCustomer;
+        &codb_createBillingAccount;
+	    &codb_createContactRole;		
+        &codb_allocateCcbId;
+	    &codb_createSkeletonContract;		
+	    &codb_addInstallationService;
+	    &codb_addExtraNumberService;
+	    &codb_createServiceDeliveryContract;
+	    &codb_activateCustomerOrder;
+	    &codb_modifyContract;
+	    &codb_modifyContractApply;
+	    &codb_terminateFunction;
+	    &codb_modifyFeatureServices;
+	    &codb_reconfigureFunction;
+	    &codb_allocateProviderTrackingNumber;
+	    &codb_readExternalNotification;
+	    &codb_findBundle;
+	    &codb_addChildService;
+	    &codb_changeContractPartner;
+	    &codb_createTVCenterContract;
+	    &codb_changeDSLBandwidth;
+	    &codb_changeDSLBandwidthAndTariff;
+	    &codb_upgradeToPremium;
+	    &codb_modifyContractOpProduct;
+	    &codb_changeProductType;
+	    &codb_changeTechnology;
+	    &codb_modifyCustomer;
+	    &codb_modifyEntity;
+	    &codb_createKBANotification;
+	    &codb_cancelCustOrderWithBarCode;
+	    &codb_deactivateCustomer;
+	    &codb_storeCampaignInformation;
+	    &codb_relocateContract;
+	    &codb_relocateAdditionalContract;
+	    &codb_createVoIP2ndLineContract;
+	    &codb_createMobilePhoneContract;
+	    &codb_setSalesPacketOnBundle;
+	    &codb_createAdjustment;
+	    &codb_cancelAdjustment;
+	    &codb_updateSelectedDestination;
+	    &codb_createFunctions;
+	    &codb_createContact;
+	    &codb_createContactRoleReference;
+	    &codb_terminateContactRole;
+	    &codb_changeTechnologyAdditionalContract;
+	    &codb_createOneGroup;
+	    &codb_modifyBundle;
+	    &codb_incompleteOfficeNetOrder;
+        &codb_modifyOneGroup;
+	    &codb_createProviderChangeLog;
+	    &codb_fifOrderComplete;
+	    &codb_raiseError;	    
+	    &codb_validatePricingStructure;
+	    &codb_validateAccountActive;
+	    &codb_validateTariffOptions;
+	    &codb_validateReferenceData;
+	    &codb_validateBlockingOrder;
+	    &codb_finalizeCustomerOrder;
+	    &codb_validateAccessNumbers;
+	    &codb_bundleCleanup;
+	    &codb_consolidateSubscriptionData;
+	    &codb_getContractDates;
+	    &codb_createContributingItems;
+        &codb_rollbackTariffChange;
+		&codb_modifyOneNetBusinessServices;	
+        &codb_reconfigureComplexFunction;
+	    &codb_createOneNetSite;
+	    &codb_validateMainAccess;
+		&codb_reactivateFunction;
+		&codb_suspendFunction;
+      &codb_activateBilling;
+      &codb_validateBillingActivated;
+      &codb_CompleteCustomerOrder;
+      &codb_handleBusVoipAccessBundle;
+    </action-mappings>
+</messagecreator-metadata>

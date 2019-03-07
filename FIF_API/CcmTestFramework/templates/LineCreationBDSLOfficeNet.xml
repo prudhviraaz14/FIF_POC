@@ -1,0 +1,81 @@
+
+<trx-builder-request>
+   <transaction-id>LineCreation-allocate</transaction-id>
+   <transaction-type>allocate</transaction-type>
+   <override-system-date>datetime:-960:hour</override-system-date>
+   <som-parts>
+      <som-part-template filename="scenario/SOM/LineCreationBDSLOfficeNet.xml">
+         <som-part-params>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+            <request-param name="entrySystem">POS</request-param>
+            <request-param name="sendingSystem">POS</request-param>
+            <request-param name="today">datetime:-960:hour</request-param>
+            <request-param name="desiredDate">datetime:-720:hour</request-param>
+            <request-param name="todayTruncated">date:-960:hour</request-param>
+            {file:templates/AccessNumbersMasterdata.xml_part}
+            {file:templates/VodafonePK.xml_part}
+            <request-param name="scenarioName">OfficeNetLineCreation</request-param>
+            <request-param name="productCodeVoice">VI204</request-param>
+            <request-param name="productCodeInternet">I1207</request-param>
+            <request-param name="pricingStructureCodeVoice">YV009</request-param>                  
+            <request-param name="pricingStructureCodeInternet">I1105</request-param> 
+            <request-param name="pricingStructureCodeSeatFixedNew">YV001</request-param>       
+            <request-param name="pricingStructureCodeSeatMobileNew">YV001</request-param>       
+            <request-param name="pricingStructureCodeSeatConvergedNew">YV001</request-param>       
+            <request-param name="DSLBandwidth">I1217</request-param>                 
+         </som-part-params>
+      </som-part-template>
+   </som-parts>
+</trx-builder-request>
+
+<trx-builder-request>
+   <transaction-id>LineCreation-execute</transaction-id>
+   <transaction-type>execute</transaction-type>
+   <override-system-date>datetime:-721:hour</override-system-date>
+   <som-parts>
+      <som-part-template filename="scenario/SOM/LineCreationBDSLOfficeNet.xml">
+         <som-part-params>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+            <request-param name="entrySystem">POS</request-param>
+            <request-param name="sendingSystem">POS</request-param>
+            <request-param name="today">datetime:-960:hour</request-param>
+            <request-param name="desiredDate">datetime:-720:hour</request-param>
+            <request-param name="todayTruncated">date:-960:hour</request-param>
+            <request-param name="voiceProcessingStatus">completedOPM</request-param>
+            <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+            <request-param name="voicePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+            <request-param name="internetProcessingStatus">completedOPM</request-param>
+            <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+            <request-param name="internetPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+            <request-param name="seatFixedProcessingStatus">completedOPM</request-param>
+            <request-param name="seatFixedCompletionStatusNew">completedOPM</request-param>
+            <request-param name="seatFixedPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+            <request-param name="seatMobileProcessingStatus">completedOPM</request-param>
+            <request-param name="seatMobileCompletionStatusNew">completedOPM</request-param>
+            <request-param name="seatMobilePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+            <request-param name="seatConvergedProcessingStatus">completedOPM</request-param>
+            <request-param name="seatConvergedCompletionStatusNew">completedOPM</request-param>
+            <request-param name="seatConvergedPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+            <request-param name="hardwareProcessingStatus">completedOPM</request-param>
+            <request-param-ref transactionID="LineCreation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+            <request-param-ref transactionID="LineCreation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+            <request-param-ref transactionID="LineCreation-allocate_2" param-name="ccbId" output-param-name="seatMobileSSID"/>
+            <request-param-ref transactionID="LineCreation-allocate_3" param-name="ccbId" output-param-name="seatFixedSSID"/>
+            <request-param-ref transactionID="LineCreation-allocate_4" param-name="ccbId" output-param-name="seatConvergedSSID"/>
+            <request-param-ref transactionID="LineCreation-allocate_5" param-name="ccbId" output-param-name="hardwareSSID"/>
+            {file:templates/AccessNumbersMasterdata.xml_part}
+            {file:templates/VodafonePK.xml_part}
+            <request-param name="scenarioName">OfficeNetLineCreation</request-param>
+            <request-param name="productCodeVoice">VI204</request-param>
+            <request-param name="productCodeInternet">I1207</request-param>
+            <request-param name="pricingStructureCodeVoice">YV009</request-param>                  
+            <request-param name="pricingStructureCodeInternet">I1105</request-param> 
+            <request-param name="pricingStructureCodeSeatFixedNew">YV001</request-param>       
+            <request-param name="pricingStructureCodeSeatMobileNew">YV001</request-param>       
+            <request-param name="pricingStructureCodeSeatConvergedNew">YV001</request-param>       
+            <request-param name="DSLBandwidth">I1217</request-param>                 
+         </som-part-params>
+      </som-part-template>
+   </som-parts>
+</trx-builder-request>
+

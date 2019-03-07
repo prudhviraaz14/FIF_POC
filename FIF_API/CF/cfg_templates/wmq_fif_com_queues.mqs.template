@@ -1,0 +1,57 @@
+* START HEADER
+*
+*        Project: FIF
+*      Component: scripts
+*	   Autor: FIF
+*        $Author:   schwarje  $
+*          $Date:   Oct 17 2011 13:23:00  $
+*
+*       Function: FIF WMQ Queues definieren
+*
+*       Copyright (C) 2011 Vodafone
+*
+*=======================================================
+* END HEADER
+
+* START PARAMETER
+* Parameter:            FIF.CLUSTER.NAME
+* ValidFrom:            COB-FEA 1-40
+* ValidTo:              open
+* Components:           FIF
+* ParameterType:        STRING
+* ValidValues:          -
+* DefaultValue:         -
+* ExampleValue:         FIFCLUSTER
+* RecomnendedVal.:      FMCGRP
+* Optional:             N
+* Last_Modified:        12-10-2011
+* Last_Modified_By      M.El Hilali
+* Description:          The name of the cluster the queues are defined in.
+* END PARAMETER
+
+
+***   Einloggen als user mqm oder als user mit mqm Gruppenzugehoerigkeit
+*** $ pwd
+*** /home/mqm
+*** $ runmqsc ${FIF.QUEUEMANAGER.NAME} < wmq_fif_com_queues.mqs
+
+
+
+*** Queues im Cluster definieren
+
+*** COM send queue and FIF listen queue
+
+define qlocal(COM.FIF.REQUEST) REPLACE +
+MAXMSGL(104857600) MAXDEPTH(640000) DEFBIND(NOTFIXED) +
+cluster ('${FIF.CLUSTER.NAME}')
+
+
+*** COM reply queue
+
+define qlocal(CODB.FIF.REPLY) REPLACE +
+MAXMSGL(104857600) MAXDEPTH(640000) DEFBIND(NOTFIXED) +
+cluster ('${FIF.CLUSTER.NAME}')
+
+
+end
+

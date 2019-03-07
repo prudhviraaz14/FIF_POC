@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ape="http://www.arcor.net/EPSM-CommonTypes-APE-001" 
+xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:leistungsmerkmal="http://www.arcor.net/EPSM-CommonTypes-Leistungsmerkmal-001" 
+targetNamespace="http://www.arcor.net/EPSM-CommonTypes-Leistungsmerkmal-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-APE-001" schemaLocation="EPSM-CommonTypes-APE-001.xsd"/>
+	<xs:element name="EPSM_Leistungsmerkmal_Dokument_Information ">
+		<xs:annotation>
+			<xs:documentation>Dieses Schemata wurde generiert.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Leistungsmerkmal">
+		<xs:annotation>
+			<xs:documentation>APE Leistungsmerkmal zur Typisierung der Leistungsmerkmale</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ape:AuftragsPositionsElement"/>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

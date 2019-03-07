@@ -1,0 +1,40 @@
+<action-mapping>
+	<action-name>changeContractData</action-name>
+	<message-creation>
+		<creator-type>xslt</creator-type>
+		<creator-params>
+			<creator-param>
+				<param-name>filename</param-name>
+				<param-value>ChangeContractData.xsl</param-value>
+			</creator-param>
+		</creator-params>
+	</message-creation>
+	<message-parameters>
+		<message-param>
+			<param-name>transactionID</param-name>
+			<param-mandatory>true</param-mandatory>
+		</message-param>
+		<message-param>
+			<param-name>CONTRACT_TYPE</param-name>
+			<param-mandatory>true</param-mandatory>
+		</message-param>
+		<message-param>
+			<param-name>CONTRACT_NUMBER</param-name>
+			<param-mandatory>true</param-mandatory>
+		</message-param>
+		<message-param>
+			<param-name>CUSTOMER_NUMBER</param-name>
+			<param-mandatory>true</param-mandatory>
+		</message-param>
+		<message-param>
+			<param-name>FIRST_RUN_INDICATOR</param-name>
+			<param-mandatory>false</param-mandatory>
+			<param-default-value>Y</param-default-value>
+		</message-param>
+		
+	</message-parameters>
+	<response-handling>
+		<return-warnings>true</return-warnings>
+		<output-parameters/>
+	</response-handling>
+</action-mapping>

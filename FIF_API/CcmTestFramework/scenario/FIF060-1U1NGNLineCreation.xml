@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+
+<request-list>
+   <request-list-name>FIF060-1U1NGNLineCreation</request-list-name>
+   <request-list-id>FIF060-1U1NGNLineCreation-1</request-list-id>
+   <requests>
+      {file:templates/GenerateStep.xml}
+      
+      <request>
+         <action-name>createWhsCustomer</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF060-1U1NGNLineCreation_createCustomer</request-param>
+            <!--<request-param name="OVERRIDE_SYSTEM_DATE">datetime:-480:hour</request-param>-->
+            <request-param name="WHOLESALE_PARTNER">EINSUNDEINS</request-param>
+            <request-param name="PERSON.SalutationDescription">Herr</request-param>
+            <request-param name="PERSON.Forename">COM</request-param>
+            <request-param name="PERSON.Name">FIF060-1U1NGNLineCreation</request-param>
+            <request-param-ref transactionID="generateBarcodes"
+               param-name="BARCODE1" output-param-name="CUSTOMER.CustomerInternalRefNumber"/>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>createWhsTalContract</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF060-1U1NGNLineCreation_createData</request-param>
+            <!--<request-param name="OVERRIDE_SYSTEM_DATE">datetime:-360:hour</request-param>-->
+            <request-param name="WHOLESALE_PARTNER">EINSUNDEINS</request-param>
+            <request-param-ref transactionID="FIF060-1U1NGNLineCreation_createCustomer"
+               param-name="CUSTOMER_NUMBER" output-param-name="CUSTOMER_NUMBER"/>
+            <request-param-ref transactionID="generateBarcodes"
+               param-name="BARCODE1" output-param-name="TECH_SERVICE_ID"/>
+            <request-param-ref transactionID="generateBarcodes"
+               param-name="BARCODE1" output-param-name="SIMSERIAL_NUMBER"/>
+            <request-param name="BANDWIDTH">DSL 600</request-param>
+            <request-param name="DESIRED_BANDWIDTH">DSL 6000</request-param>
+            <request-param name="ASB">1</request-param>
+            <request-param name="ONKZ">0201</request-param>
+            <request-param name="CARRIER">ISIS</request-param>
+            <request-param name="LOK_ADDRESS.StreetName">Lokationstraße</request-param>
+            <request-param name="LOK_ADDRESS.StreetNumber">1</request-param>
+            <request-param name="LOK_ADDRESS.PostalCode">12345</request-param>
+            <request-param name="LOK_ADDRESS.City">Berlin</request-param>
+            <request-param-ref transactionID="generateBarcodes"
+               param-name="BARCODE1" output-param-name="OMTS_ORDER_ID"/>
+            <request-param name="TECHNOLOGY_FLAG">NGN</request-param>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>createWhsVoiceContract</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF060-1U1NGNLineCreation_createVoice</request-param>
+            <!--<request-param name="OVERRIDE_SYSTEM_DATE">datetime:-240:hour</request-param>-->
+            <request-param name="WHOLESALE_PARTNER">EINSUNDEINS</request-param>
+            <request-param-ref transactionID="FIF060-1U1NGNLineCreation_createCustomer"
+               param-name="CUSTOMER_NUMBER" output-param-name="CUSTOMER_NUMBER"/>
+            <request-param-ref transactionID="generateBarcodes"
+               param-name="BARCODE2" output-param-name="VOICE_SERVICE_ID"/>
+            <request-param-ref transactionID="generateBarcodes"
+               param-name="BARCODE1" output-param-name="TECH_SERVICE_ID"/>
+            <request-param name="ACCESS_NUMBER_1.CountryCode">49</request-param>
+            <request-param name="ACCESS_NUMBER_1.LocalAreaCode">201</request-param>
+            <request-param-ref transactionID="generateNumbers"
+               param-name="NUMBER1" output-param-name="ACCESS_NUMBER_1.LocalNumber"/>            
+            <request-param name="ASB">1</request-param>
+            <request-param name="ONKZ">0201</request-param>
+            <request-param name="LOK_ADDRESS.StreetName">Lokationstraße</request-param>
+            <request-param name="LOK_ADDRESS.StreetNumber">1</request-param>
+            <request-param name="LOK_ADDRESS.PostalCode">12345</request-param>
+            <request-param name="LOK_ADDRESS.City">Berlin</request-param>
+            <request-param-ref transactionID="generateBarcodes"
+               param-name="BARCODE1" output-param-name="OMTS_ORDER_ID"/>
+            <request-param name="TECHNOLOGY_FLAG">NGN</request-param>
+         </request-params>
+      </request>
+      
+      <sql-request>
+         <transaction-id>FIF060-1U1NGNLineCreation_getCOID</transaction-id>
+         <statement>
+            SELECT customer_order_id as NGN_CUSTOMER_ORDER_ID 
+            from service_ticket_position
+            where service_subscription_id = 'NGN_SERVICE_SUBSCRIPTION_ID'
+            and rownum = 1
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="FIF060-1U1NGNLineCreation_createData"
+               param-name="SERVICE_SUBSCRIPTION_ID" output-param-name="NGN_SERVICE_SUBSCRIPTION_ID"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="NGN_CUSTOMER_ORDER_ID"/>
+         </sql-request-output-params>         
+      </sql-request>
+      
+      <request>
+         <action-name>simulateActivationByOp</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF060-1U1NGNLineCreation_activate</request-param>
+            <!--<request-param name="OVERRIDE_SYSTEM_DATE">datetime:-121:hour</request-param>-->
+            <request-param-ref transactionID="FIF060-1U1NGNLineCreation_getCOID"
+               param-name="NGN_CUSTOMER_ORDER_ID" output-param-name="CUSTOMER_ORDER_ID"/>
+         </request-params>
+      </request>
+      
+      <sql-request>
+         <transaction-id>FIF060-1U1NGNLineCreation_getCOIDVoice</transaction-id>
+         <statement>
+            SELECT customer_order_id as VOICE_CUSTOMER_ORDER_ID 
+            from service_ticket_position
+            where service_subscription_id = 'VOICE_SERVICE_SUBSCRIPTION_ID'
+            and rownum = 1
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="FIF060-1U1NGNLineCreation_createVoice"
+               param-name="SERVICE_SUBSCRIPTION_ID" output-param-name="VOICE_SERVICE_SUBSCRIPTION_ID"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="VOICE_CUSTOMER_ORDER_ID"/>
+         </sql-request-output-params>         
+      </sql-request>
+      
+      <request>
+         <action-name>simulateActivationByOp</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF060-1U1NGNLineCreation_activateVoice</request-param>
+            <!--<request-param name="OVERRIDE_SYSTEM_DATE">datetime:-121:hour</request-param>--> 
+            <request-param-ref transactionID="FIF060-1U1NGNLineCreation_getCOIDVoice"
+               param-name="VOICE_CUSTOMER_ORDER_ID" output-param-name="CUSTOMER_ORDER_ID"/>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>modifyWhsVoiceContract</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF060-1U1NGNLineCreation_modifyVoice</request-param>
+            <!--<request-param name="OVERRIDE_SYSTEM_DATE">datetime:92:hour</request-param>-->
+            <request-param name="WHOLESALE_PARTNER">EINSUNDEINS</request-param>
+            <request-param-ref transactionID="FIF060-1U1NGNLineCreation_createCustomer"
+               param-name="CUSTOMER_NUMBER" output-param-name="CUSTOMER_NUMBER"/>
+            <request-param-ref transactionID="generateBarcodes"
+               param-name="BARCODE2" output-param-name="VOICE_SERVICE_ID"/>
+            <request-param-ref transactionID="generateBarcodes"
+               param-name="BARCODE2" output-param-name="OMTS_ORDER_ID"/>
+            <request-param name="ACCESS_NUMBER_2.CountryCode">49</request-param>
+            <request-param name="ACCESS_NUMBER_2.LocalAreaCode">201</request-param>
+            <request-param-ref transactionID="generateNumbers"
+               param-name="NUMBER2" output-param-name="ACCESS_NUMBER_2.LocalNumber"/>            
+            <request-param name="ACCESS_NUMBER_3.CountryCode">49</request-param>
+            <request-param name="ACCESS_NUMBER_3.LocalAreaCode">201</request-param>
+            <request-param-ref transactionID="generateNumbers"
+               param-name="NUMBER3" output-param-name="ACCESS_NUMBER_3.LocalNumber"/>            
+         </request-params>
+      </request>
+      
+   </requests>
+</request-list>
+
+

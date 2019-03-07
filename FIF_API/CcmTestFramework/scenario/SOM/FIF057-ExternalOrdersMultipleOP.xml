@@ -1,0 +1,52 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<lineCreation orderPositionNumber="1">
+		<customerIntention>LineCreation</customerIntention>
+		<desiredDate>{desiredDate}</desiredDate>
+		<orderReceivedDate>{today}</orderReceivedDate>
+		<providerCode>
+			<configured>VFAI</configured>
+		</providerCode>
+		<salesPacketName>
+			<configured>All Inclusive Paket</configured>
+		</salesPacketName>
+		<beneficiary ID="beneficiary">
+			<customerNodeRefID>customer</customerNodeRefID>
+		</beneficiary>
+		<payerAllCharges ID="payer-001">
+			<billingAccountNodeRefID>account</billingAccountNodeRefID>
+		</payerAllCharges>
+		<accesses>
+			{file:templates/ISDNAccessNew.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetNew.xml_part}
+			{file:templates/VoiceBasisNew.xml_part}
+		</functions>
+	</lineCreation>
+	<lineChange orderPositionNumber="2">
+		<previousOrderRef>ref</previousOrderRef>
+		<customerIntention>LineChange</customerIntention>
+		<desiredDate>{desiredDate}</desiredDate>
+		<orderReceivedDate>{today}</orderReceivedDate>
+		<providerCode>
+			<configured>VFAI</configured>
+		</providerCode>
+		<salesPacketName>
+			<configured>All Inclusive Paket</configured>
+		</salesPacketName>
+		<beneficiary ID="beneficiary">
+			<customerNodeRefID>customer</customerNodeRefID>
+		</beneficiary>
+		<payerAllCharges ID="payer-001">
+			<billingAccountNodeRefID>account</billingAccountNodeRefID>
+		</payerAllCharges>
+		<accesses>
+			{file:templates/ISDNAccessNew.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetNew.xml_part}
+			{file:templates/VoiceBasisNew.xml_part}
+		</functions>
+	</lineChange>	
+</order>

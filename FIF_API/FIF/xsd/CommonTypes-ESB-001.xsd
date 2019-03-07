@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Andre (Vodafone D2 GmbH) -->
+<xs:schema xmlns="http://www.vodafone.de/ESB/Schema/Common/CommonTypes-ESB-001"
+	 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 targetNamespace="http://www.vodafone.de/ESB/Schema/Common/CommonTypes-ESB-001"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>XML schema definition forcommon types
+History of Changes:
+Vers. 	Date        			Author         			Comment
+====  	==========  	===========    	===================================================
+0.1   	2009-11-27  	Heiko Barthel			Initial version
+0.2   	2010-01-28  	Reto Renner    			Includes parts of definitions of file  EPSM-WHSVF-CommonTypes-001.xsd, version 0.10
+0.3   	2010-03-17  	Reto Renner    			Added possible values of ServiceProvider according to agreement with Ralf Taubert
+Heiko Barthel
+0.4   	2010-03-23  	Heiko Barthel  			Corrected ServiceProvider and renamed type to ServiceProviderCode
+0.5   	2010-03-24 	Thomas Schneider 	Corrected the documentation on the ResultDetailsObject
+0.6		2010-07-16 	Reto Renner				Structure CallbackService added	
+0.7		2010-08-13	Andre Genser			Ban Type change to maxLength 9
+0.8		2010-11-09	Benedikt Panzer			Added RequestId and TransactionSubsystem types
+0.8.1   2010-12-07  Hans Becker             Allowed an optional letter at the end of the OrderId
+0.9.2	  2011-01-04	Andre Genser			Addes SMSType
+			</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="OrderId">
+
+		<!-- ================ General Simple Types ============================================================ -->
+		<xs:annotation>
+			<xs:documentation>Type for representation of a so called Barcode, e.g. ARC9001818424</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-z,A-Z]{3}[0-9]{10}[a-z,A-Z]{0,1}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ServiceProviderCode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ARCO"/>
+			<xs:enumeration value="VFAI">
+				<xs:annotation>
+					<xs:documentation>The service provider code.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RequestId">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,9}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TransactionSubsystem">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CountryCode">
+
+		<!-- =============================== Definition of Phonenumber Structure ================================== -->
+		<xs:annotation>
+			<xs:documentation>Country code associated to the access number. Format: 4 digits without leading “0” Example for the range associated for Arcor in Essen: 49 201 379  - 49 201 379 6 e.g.: 49 </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{0,4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LocalAreaCode">
+		<xs:annotation>
+			<xs:documentation>Local area code associated the access number. Format 2-5 digits, without leading “0” e.g.: 201</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{2,5}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SinglePhoneNumber">
+		<xs:annotation>
+			<xs:documentation>Local number. Format: min. 3 digits, max. 20 digits</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{3,20}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PilotNumber">
+		<xs:annotation>
+			<xs:documentation>Local number e.g.: 379</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="StartRange">
+		<xs:annotation>
+			<xs:documentation>First number of an access number range e.g: 2</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="EndRange">
+		<xs:annotation>
+			<xs:documentation>Last number of an access number range. Has to be provided, if startRange has been provided. e.g: 6</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CentralExtention">
+		<xs:annotation>
+			<xs:documentation>Extension which can be used to reach the reception e.g.:2601</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="PhoneNumberRange">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="startRange" type="StartRange"/>
+			<xs:element name="endRange" type="EndRange"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PhoneNumbers">
+		<xs:annotation>
+			<xs:documentation>PhoneNumbers</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="phoneNumber" type="SinglePhoneNumber" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PhoneNumberRanges">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="pilotNumber" type="PilotNumber" minOccurs="0"/>
+			<xs:element name="phoneNumberRange" type="PhoneNumberRange" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="centralExtention" type="CentralExtention" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ComplexPhoneNumber">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="countryCode" type="CountryCode" minOccurs="0"/>
+			<xs:element name="localAreaCode" type="LocalAreaCode" minOccurs="0"/>
+			<xs:choice>
+				<xs:element name="phoneNumbers" type="PhoneNumbers" minOccurs="0"/>
+				<xs:element name="phoneNumberRanges" type="PhoneNumberRanges" minOccurs="0"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="FixedNetNumber">
+		<xs:annotation>
+			<xs:documentation>The fixed net number of the customer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- ======================================= Definition of KIAS Types =================================== -->
+	<xs:simpleType name="MarketCode">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="MMC"/>
+			<xs:enumeration value="PUC"/>
+			<xs:enumeration value="MMO"/>
+			<xs:enumeration value="PUA"/>
+		</xs:restriction>
+		<!-- Credit Markt -->
+		<!-- Partner Unternehmen -->
+		<!-- Debit Markt -->
+		<!-- Partner Unternehmen Debit -->
+	</xs:simpleType>
+	<xs:simpleType name="Ban">
+		<xs:annotation>
+			<xs:documentation>Customernumber</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ResultDetailsObject">
+		<xs:annotation>
+			<xs:documentation>result details to be evaluated for requestType = 'ICS'</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="status" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The result status of the service.				SUCCESS = The service executed successfully means customer found.		FAILED = either a warning or error occured. Please note that only errorCode "BKS0000" means no customer found. All other error codes need seperate error handling</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="warningText" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The warning text. Only provided if the service result status is "Warning". Otherwise this field is empty.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="errorDetails" type="errorType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>All object attributes are provided only if the service result status is "Error". Otherwise all attributes are empty.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorType">
+		<xs:annotation>
+			<xs:documentation>
+			    ErrorCode	            The error code.
+   				ErrorType	            The type of the error.
+			    ErrorSystem	        The name of the machine the application runs on. Determined usally by getHostName().
+			    ErrorSeverity	        The severity of the error. E = Error I = Information D = Debug
+			    ErrorMessage	    	A short message text describing the error.
+			    ErrorDescription		A longer description text describing the error, the reason for the error and (optionally) ways to resolve the error.
+			    ErrorInformation	    Optional information on the error. May for example contain Tuxedo error codes and messages.
+			    ErrorApplication	    The name of the application that generated the error. 
+				ErrorTimestamp	    The date and time in ISO format (YYYY-MM-DD HH:MM:SS) when the error occurred.
+				ErrorSubsystem		The name of the subsystem of the application that generated the error. 
+				ErrorClass				The type of the error. Validation =	A validation error occurred. The contents of one or several input data fields is wrong. Functional = 	A functional error occurred. During the execution of the process of the EAI service a non-recoverably error occurred. Infrastructure = 	An infrastructure error occurred.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="errorCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="errorType" type="xs:string" minOccurs="0"/>
+			<xs:element name="errorSystem" type="xs:string" minOccurs="0"/>
+			<xs:element name="errorSeverity" type="xs:string" minOccurs="0"/>
+			<xs:element name="errorMessage" type="xs:string" minOccurs="0"/>
+			<xs:element name="errorDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="errorInformation" type="xs:string" minOccurs="0"/>
+			<xs:element name="errorApplication" type="xs:string" minOccurs="0"/>
+			<xs:element name="errorTimestamp" type="xs:string" minOccurs="0"/>
+			<xs:element name="errorSubsystem" type="xs:string" minOccurs="0"/>
+			<xs:element name="errorClass" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CustomerId">
+
+		<!-- ======================================= Definition of LinkDB Types =================================== -->
+		<xs:annotation>
+			<xs:documentation>Unique id which links the Arcor customer with Vodafone customer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long"/>
+	</xs:simpleType>
+
+	<!-- ======================================= Definition of CallbackServiceName =================================== -->
+	<xs:complexType name="CallbackService">
+		<xs:annotation>
+			<xs:documentation>Name of the specific callback service of the provider of this service</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="callbackServiceName" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SMSType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="Customernumber">
+		<xs:annotation>
+			<xs:documentation>ACN for BKS/CCB</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

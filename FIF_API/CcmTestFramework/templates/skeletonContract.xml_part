@@ -1,0 +1,16 @@
+		<skeletonContract ID="{ID}" ownerNodeRefID="{ownerNodeRefID}">
+            <changeType>{changeType}</changeType>
+			<contractName>
+				<configured>{contractName}</configured>
+			</contractName>
+			<skeletonContractItem>
+				<changeType>{changeType}</changeType>
+				<functionName>{functionName}</functionName>
+				<accessName>{accessName}</accessName>
+				<tariffCodeList>
+					<configured>
+						<tariffCode>{tariffCode1}</tariffCode>
+					</configured>
+				</tariffCodeList>
+			</skeletonContractItem>
+		</skeletonContract>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema 
+xmlns="http://www.w3.org/2001/XMLSchema" 
+targetNamespace="http://www.arcor.de/transformer/SOMToFIFTransformationSchema" 
+xmlns:som2fif="http://www.arcor.de/transformer/SOMToFIFTransformationSchema" 
+xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema" 
+elementFormDefault="qualified" attributeFormDefault="unqualified"
+  >
+
+  <!-- USE 8 steps down for de.arcor.com.somtransformer.test -->
+  <import
+    namespace="http://www.arcor.de/transformer/BaseTransformationSchema" 
+    schemaLocation="platform:/resource/de.arcor.com.somtransformer.test/src/de/arcor/com/somtransformer/somtofif/BaseTransformationSchema.xsd"/>
+  
+  <element name="TransformationRepository">
+    <complexType>
+      <all>
+        <element name="RootTemplate" type="som2fif:RootTemplateType" minOccurs="1" maxOccurs="1" />
+        <element name="BaseTemplates" type="som2fif:BaseTemplatesType" minOccurs="0" maxOccurs="1" />
+        <element name="Constants" type="base:ConstantType" minOccurs="0" maxOccurs="1" />
+      </all>
+      <attributeGroup ref="base:DocTypeAttributes" />
+    </complexType>
+  </element>
+
+  <complexType name="RootTemplateType">
+    <sequence>
+      <element ref="som2fif:RequestListTemplate" />
+    </sequence>
+  </complexType>
+  
+  <complexType name="BaseTemplatesType">
+    <sequence>
+      <choice>
+        <element name="AbstractTransformationTemplate" type="som2fif:AbstractTransformationTemplateType" minOccurs="0" maxOccurs="unbounded" />
+      </choice>
+    </sequence>
+  </complexType>
+  
+  <!--
+  ===============================================================================
+  Definitions of SOM-FIF specific Types
+  ===============================================================================
+  -->
+  <element name="RequestListTemplate">
+    <complexType>
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element ref="som2fif:RLPMapping" minOccurs="0" maxOccurs="unbounded" />
+        <element ref="som2fif:RequestTemplate" minOccurs="0" maxOccurs="unbounded" />
+        <element ref="base:Include" />
+        <element ref="base:DataBufferWriter"/>
+      </choice>
+      <attribute name="orderIdPath" type="string" use="optional" />
+    </complexType>
+  </element>
+  
+  <element name="RequestTemplate">
+    <complexType>
+      <complexContent>
+        <extension base="som2fif:SOMToFIFTransformationTemplateType">
+          <attribute name="extends" type="string" use="optional" />
+          <attribute name="fif-request-name" type="string" use="required" />
+        </extension>
+      </complexContent>
+    </complexType>
+  </element>
+
+  <element name="RLPMapping" type="som2fif:FifParameterMappingType" />
+  <element name="RPMapping" type="som2fif:FifParameterMappingType" />
+  <complexType name="FifParameterMappingType">
+    <attributeGroup ref="base:AbstractMappingAttributes"/>
+    <attribute name="method" type="som2fif:RPMappingMethodType" use="optional" default="default"/>
+  </complexType>
+  
+   <simpleType name="RPMappingMethodType">
+     <restriction base="string">
+       <enumeration value="configuredExisting"/>
+       <enumeration value="default"/>
+     </restriction>
+   </simpleType>
+  
+  <element name="TemplateConditions" type="som2fif:TemplateConditionsType"/>
+  <element name="OrComposite" type="som2fif:TemplateConditionsType" />
+  <element name="AndComposite" type="som2fif:TemplateConditionsType" />
+  <element name="Not" type="som2fif:TemplateConditionsType" />
+  <complexType name="TemplateConditionsType">
+    <choice minOccurs="0" maxOccurs="unbounded">
+      <group ref="base:BaseConditions"></group>
+      <group ref="som2fif:SOM2FIFConditions"></group>
+    </choice>
+  </complexType>
+    
+  <group name="SOM2FIFConditions">
+    <choice>
+      <element ref="som2fif:OrComposite"/>
+      <element ref="som2fif:AndComposite"/>
+      <element ref="som2fif:Not"/>
+    </choice>
+  </group>
+  
+  <complexType name="SOMToFIFTransformationTemplateType">
+    <sequence>
+      <element ref="som2fif:TemplateConditions" minOccurs="0" maxOccurs="1" />
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element ref="som2fif:RPMapping" />
+        <element ref="som2fif:RPListTemplate" />
+        <element name="TransformationTemplate" type="som2fif:SOMToFIFTransformationTemplateType" />
+        <element ref="base:Include" />
+        <element ref="base:DataBufferWriter"/>
+      </choice>
+    </sequence>
+    <attribute name="sourceWorkingPath" type="string" use="optional" />
+    <attribute name="logId" type="string" use="optional"/>
+  </complexType>
+
+  <element name="RPListTemplate">
+    <complexType>
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element ref="som2fif:RPListItemTemplate" minOccurs="0" maxOccurs="unbounded"/>
+        <element ref="base:Include" />
+        <element ref="base:DataBufferWriter"/>
+      </choice>
+      <attribute name="listName" type="string" use="required" />
+      <attribute name="logId" type="string" use="optional"/>
+    </complexType>
+  </element>
+
+  <element name="RPListItemTemplate">
+    <complexType>
+      <sequence>
+        <element ref="som2fif:TemplateConditions" minOccurs="0" maxOccurs="1" />
+        <choice minOccurs="0" maxOccurs="unbounded">
+          <element ref="som2fif:RPMapping" />
+          <element ref="som2fif:RPListTemplate"/>
+          <element name="TransformationTemplate" type="som2fif:SOMToFIFTransformationTemplateType" />
+          <element ref="base:DataBufferWriter"/>
+        </choice>
+      </sequence>
+      <attribute name="sourceWorkingPath" type="string" use="optional" />
+      <attribute name="logId" type="string" use="optional"/>
+    </complexType>
+  </element>
+
+  <complexType name="AbstractTransformationTemplateType">
+    <complexContent>
+      <extension base="som2fif:SOMToFIFTransformationTemplateType">
+        <attribute name="extends" type="string" use="optional" />
+        <attribute name="ID" type="ID" use="required" />
+      </extension>
+    </complexContent>
+  </complexType>
+   
+</schema>

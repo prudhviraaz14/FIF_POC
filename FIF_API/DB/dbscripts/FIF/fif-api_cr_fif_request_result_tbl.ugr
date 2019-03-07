@@ -1,0 +1,7 @@
+--
+-- User Grants script for the FIF_REQUEST_RESULT table.
+--
+-- @author Olivier Goethals
+-- @date 2003-10-01
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON FIF_REQUEST_RESULT TO CCM_USER;

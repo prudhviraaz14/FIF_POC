@@ -1,0 +1,77 @@
+<tvCenter ID="tvCenter" refAccessID="access">
+	<processingType>IGNORE</processingType>
+	<ccbId type="S">
+	    <configured>{tvCenterSSID}</configured>
+	</ccbId>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultTVCenter</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeTVCenter</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetTVCenter</configured>
+	</providerTrackingNumber>
+	<contractNumber>
+		<existing>{targetContractNumberTVCenter}</existing>
+	</contractNumber>
+	<productCommitmentNumber>
+		<existing>{targetProductCommitmentNumberTVCenter}</existing>
+	</productCommitmentNumber>
+	<tvCenterBundledConfiguration>
+		<productCode>
+			<existing>I1305</existing>
+		</productCode>
+		<mainAccessServiceCode>
+			<existing>I1305</existing>
+		</mainAccessServiceCode>
+		<pricingStructureCode>
+			<existing>{pricingStructureCodeTVCenter}</existing>
+		</pricingStructureCode>
+		<minimumDurationPeriod>
+			<value>
+				<existing>24</existing>
+			</value>
+			<unit>
+				<existing>MONTH</existing>
+			</unit>
+		</minimumDurationPeriod>
+		<autoExtension>
+			<value>
+				<existing>12</existing>
+			</value>
+			<unit>
+				<existing>MONTH</existing>
+			</unit>
+			<autoExtensionIndicator>
+				<existing>true</existing>
+			</autoExtensionIndicator>
+		</autoExtension>
+		<specialTerminationRight>
+			<existing>NONE</existing>
+		</specialTerminationRight>
+		<fskLevel>
+			<existing>keine</existing>
+		</fskLevel>
+		<allowPartialCancel>
+			<existing>false</existing>
+		</allowPartialCancel>
+		<initialOrderType>
+			<existing>TVC im Paket</existing>
+		</initialOrderType>
+		<featuresList>
+			<existing>
+				<featureServiceCode>I1357</featureServiceCode>
+			</existing>
+		</featuresList>
+		<multimediaAccount>
+			<existing>{customerNumber}</existing>
+		</multimediaAccount>
+		<language>
+			<existing>german</existing>
+		</language>
+	</tvCenterBundledConfiguration>
+	<processingStatus>{tvCenterProcessingStatus}</processingStatus>
+	<completionStatusOldCcbId>{tvCenterCompletionStatusOld}</completionStatusOldCcbId>
+	<previousCompletionStatusOldCcbId>{tvCenterPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+</tvCenter>

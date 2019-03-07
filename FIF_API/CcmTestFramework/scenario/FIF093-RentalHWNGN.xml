@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF093-RentalHWNGN</request-list-name>
+   <request-list-id>FIF093-RentalHWNGN-1</request-list-id>
+
+   <requests>
+   
+   
+     {file:templates/GenerateStep.xml}
+   
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-960:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF093-RentalHWNGN.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF093-RentalHWNGN</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-936:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>FIF093-RentalHWNGN-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-959:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF093-RentalHWNGN.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-936:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">VI202</request-param>
+                  <request-param name="productCodeInternet">I1204</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP057</request-param>
+                  <request-param name="pricingStructureCodeVoice">VK005</request-param>
+                  <request-param name="DSLBandwidth">V018H</request-param>
+                  <request-param name="scenarioName">FIF093-RentalHWNGN</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>FIF093-RentalHWNGN-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-936:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF093-RentalHWNGN.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-936:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="hardwareRentedIADProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardwareRentedIADCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardwareRentedIADPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="hardwareRentedSTBProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardwareRentedSTBCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardwareRentedSTBPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="hardwareBundleIADProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardwareBundleIADCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="hardwareBundleIADPreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_2" param-name="ccbId" output-param-name="hardwareRentedIADSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_3" param-name="ccbId" output-param-name="hardwareRentedSTBSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_4" param-name="ccbId" output-param-name="hardwareBundleIADSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">VI202</request-param>
+                  <request-param name="productCodeInternet">I1204</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP057</request-param>
+                  <request-param name="pricingStructureCodeVoice">VK005</request-param>
+                  <request-param name="DSLBandwidth">V018H</request-param>
+                  <request-param name="scenarioName">FIF093-RentalHWNGN</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+ 
+      <trx-builder-request>
+         <transaction-id>FIF093-RentalHWNGN-changeHW-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-120:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF093-RentalHWNGN-changeHW.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-120:hour</request-param>
+                  <request-param name="desiredDate">datetime:-96:hour</request-param>
+                  <request-param name="todayTruncated">date:-120:hour</request-param>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_2" param-name="ccbId" output-param-name="hardwareRentedIADSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_3" param-name="ccbId" output-param-name="hardwareRentedSTBSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_4" param-name="ccbId" output-param-name="hardwareBundleIADSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">VI202</request-param>
+                  <request-param name="productCodeInternet">I1204</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP057</request-param>
+                  <request-param name="pricingStructureCodeVoice">VK005</request-param>
+                  <request-param name="DSLBandwidth">V018H</request-param>
+                  <request-param name="scenarioName">FIF093-RentalHWNGN</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>FIF093-RentalHWNGN-changeHW-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-96:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF093-RentalHWNGN-changeHW.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-120:hour</request-param>
+                  <request-param name="desiredDate">datetime:-96:hour</request-param>
+                  <request-param name="todayTruncated">date:-120:hour</request-param>
+                  <request-param name="internetProcessingStatus">noactionCOM</request-param>
+                  <request-param name="internetCompletionStatusOld">noactionCOM</request-param>
+                  <request-param name="voiceProcessingStatus">noactionCOM</request-param>
+                  <request-param name="voiceCStatusOldStatusOld">noactionCOM</request-param>
+                  <request-param name="hardwareRentedIADProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardwareRentedIADCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="hardwareRentedIADPreviousCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="hardwareRentedSTBProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardwareRentedSTBCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="hardwareRentedSTBPreviousCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="hardwareBundleIADProcessingStatus">noactionOPM</request-param>
+                  <request-param name="hardwareBundleIADCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="hardwareBundleIADPreviousCompletionStatusOld">noactionOPM</request-param>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_2" param-name="ccbId" output-param-name="hardwareRentedIADSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_3" param-name="ccbId" output-param-name="hardwareRentedSTBSSID"/>
+                  <request-param-ref transactionID="FIF093-RentalHWNGN-allocate_4" param-name="ccbId" output-param-name="hardwareBundleIADSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">VI202</request-param>
+                  <request-param name="productCodeInternet">I1204</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP057</request-param>
+                  <request-param name="pricingStructureCodeVoice">VK005</request-param>
+                  <request-param name="DSLBandwidth">V018H</request-param>
+                  <request-param name="scenarioName">FIF093-RentalHWNGN</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+   </requests>
+</request-list>

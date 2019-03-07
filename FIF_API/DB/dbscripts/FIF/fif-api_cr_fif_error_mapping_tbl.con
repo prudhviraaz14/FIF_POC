@@ -1,0 +1,8 @@
+--
+-- Constraints script for the FIF_ERROR_MAPPING table.
+--
+-- @author Olivier Goethals
+-- @date 2003-07-10
+
+ALTER TABLE FIF_ERROR_MAPPING
+ADD  (CONSTRAINT XPKFIF_ERROR_MAPPING PRIMARY KEY (ERROR_NUMBER));

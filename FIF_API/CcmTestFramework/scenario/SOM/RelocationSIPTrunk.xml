@@ -1,0 +1,17 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<relocation orderPositionNumber="1">
+		<relocationVariant>kombinierte Schaltung</relocationVariant>
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/BDSLAccessNewOld.xml_part}
+			{file:templates/SIPTrunkAccessOldNew.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/InternetOldNew.xml_part}
+			{file:templates/VoiceRangesOldNew.xml_part}
+			{file:templates/ExtraNumbersSingleNumberTerm.xml_part}
+			{file:templates/ExtraNumbersNumberRangeTerm.xml_part}
+		</functions>
+	</relocation>
+</order>

@@ -1,0 +1,35 @@
+	<lineCreation orderPositionNumber="{orderPositionNumber}">
+		<customerIntention>{customerIntention}</customerIntention>
+		<desiredDate>{desiredDate}</desiredDate>
+		<orderReceivedDate>{orderReceivedDate}</orderReceivedDate>
+		<kbaOrderItemType>{kbaOrderItemType}</kbaOrderItemType>
+		<providerCode>
+			<configured>{providerCode}</configured>
+		</providerCode>
+		<salesPackageName>
+			<configured>{salesPackageName}</configured>
+		</salesPackageName>
+		<targetLocationAddress>
+			<configured>
+				<city>{city}</city>
+				<citySuffixName>{citySuffixName}</citySuffixName>
+				<postalCode>{postalCode}</postalCode>
+				<street>{street}</street>
+				<streetNumber>{streetNumber}</streetNumber>
+				<streetNumberSuffix>{streetNumberSuffix}</streetNumberSuffix>
+				<postOfficeBox>{postOfficeBox}</postOfficeBox>
+				<additionalAddressDescription>{additionalAddressDescription}</additionalAddressDescription>
+				<secondAdditionalAddressDescription>{secondAdditionalAddressDescription}</secondAdditionalAddressDescription>
+			</configured>
+		</targetLocationAddress>
+		<serviceLocation>
+			<configured>{serviceLocation}</configured>
+		</serviceLocation>
+		<payerAllCharges>
+			<billingAccountNodeRefID>{payerAllCharges}</billingAccountNodeRefID>
+		</payerAllCharges>
+		<beneficiary ID="{beneficiaryID}" role="{role}" >
+			<customerNodeRefID>{customerNodeRefID}</customerNodeRefID>
+		</beneficiary>
+
+		

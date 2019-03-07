@@ -1,0 +1,223 @@
+<!--
+    ANT Build file for the FIF project
+
+    Author: Olivier Goethals
+    Date: 2003-04-08
+-->
+<project name="FIF" default="compile" basedir=".">
+	<description>ANT build file for the FIF project</description>
+
+	<!-- Global properties for this script -->
+	<property name="generatedsrc" location="FIF/generated"/>
+	<property name="src" location="FIF/src"/>
+	<property name="base" location="FIF"/>
+	<property name="bin" location="FIF/bin"/>
+	<property name="lib" location="FIF/lib"/>
+	<property name="doc" location="FIF/doc"/>
+	<property name="jar" location="FIF/jar"/>
+	<property name="xsd" location="FIF/xsd"/>
+
+	<!-- Creates a time stamp and the directory structure -->
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${bin}"/>
+		<mkdir dir="${doc}"/>
+		<mkdir dir="${jar}"/>
+		<mkdir dir="${generatedsrc}"/>
+	</target>
+
+	<!-- PVCS example task -->
+	<!-- see: http://ant.apache.org/manual/OptionalTasks/pvcstask.html for more info -->
+	<target name="pvcsget">
+	    <pvcs repository="F:\GRUPPEN\PROJEKTE\PVCS_FIF" pvcsproject="/FIF_API"/>
+	</target>
+
+	<!-- generate and compile the code for the service bus -->
+
+	<path id="classpath">
+		<!--for use with bundled ant-->
+		<fileset dir="${lib}" includes="*.jar" />		
+	</path>
+
+
+	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+		<classpath refid="classpath" />
+	</taskdef>
+
+	<!--compile Java source files-->
+	
+	
+	<target name="compile_emailutility_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EmailUtility-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<xjc schema="${xsd}/FIF-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	<target name="compile_epsm_com_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-COM-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+		
+	
+	<target name="compile_epsm_sbus_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-SBUS-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	<target name="compile_epsm_fif_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-FIF-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	<target name="compile_epsm_aip_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-AIP-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	<target name="compile_epsm_cfm_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-CFM-WHSEUE-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	<target name="compile_epsm_custwg_001" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-CUSTWG-WHSVF-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="compile_consolidateSubscriptionData" description="Compile all Java source files">
+		<xjc schema="${xsd}/EPSM-CCM-ConsolidateSubscriptionData-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	<target name="compile_ccm_001" description="Compile all Java source files">
+		<xjc extension="true" schema="${xsd}/CCM-001.xsd" destdir="${generatedsrc}" removeOldOutput="yes"/>
+		<javac srcdir="${generatedsrc}" destdir="${bin}" debug="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	
+	<!-- Compile the java code from ${src} into ${bin} -->
+	<target name="compile" depends="init, compile_emailutility_001, compile_epsm_sbus_001, compile_epsm_com_001,  compile_epsm_fif_001,
+			compile_epsm_aip_001, compile_epsm_cfm_001, compile_epsm_custwg_001, compile_consolidateSubscriptionData, 
+			compile_ccm_001" description="Compiles all source files" >
+		<javac srcdir="${src}" destdir="${bin}" debug="true" encoding="iso-8859-1">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- Deletes the ${build} and ${doc} directory trees -->
+	<target name="clean" description="Deletes classes and archive directories" >
+		<delete dir="${bin}"/>
+		<delete dir="${doc}"/>
+		<delete dir="${generatedsrc}"/>
+	</target>
+
+<!-- Generate javadoc -->
+	<target name="javadoc" depends="init" description="Generates the source code documentation">
+		<javadoc access="protected" author="true" destdir="${doc}" nodeprecated="false" doctitle="FIF API"
+			nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+			packagenames="net.arcor.fif.messagecreator,net.arcor.fif.examples,net.arcor.fif.transport,net.arcor.fif.apps,net.arcor.fif.common,net.arcor.fif.db,net.arcor.fif.client,net.arcor.fif.server"
+		    sourcepath="${src}" splitindex="true" use="true" version="true">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javadoc>
+	</target>
+
+<!-- Creates the jar file for FIF -->
+
+	<target name="jar_trxBuilder" depends="init" >
+		<jar jarfile="${jar}/SOMToFIFRepository.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/*.xsd" 
+			index="true" />		
+		<jar jarfile="${jar}/SOMToFIFRepository_AllScenariosWF1.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_AllScenariosWF1.xml" 
+			index="true" />		
+		<jar jarfile="${jar}/SOMToFIFRepository_Cancellation.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_Cancellation.xml" 
+			index="true" />		
+		<jar jarfile="${jar}/SOMToFIFRepository_DeactivateCustomer.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_DeactivateCustomer.xml" 
+			index="true" />		
+		<jar jarfile="${jar}/SOMToFIFRepository_ExternalOrders.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_ExternalOrders.xml" 
+			index="true" />		
+		<jar jarfile="${jar}/SOMToFIFRepository_IPCentrex.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_IPCentrex.xml" 
+			index="true" />		
+		<jar jarfile="${jar}/SOMToFIFRepository_LTE.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_LTE.xml" 
+			index="true" />		
+		<jar jarfile="${jar}/SOMToFIFRepository_Masterdata.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_Masterdata.xml" 
+			index="true" />		
+		<jar jarfile="${jar}/SOMToFIFRepository_OPLineChangesWF11.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_OPLineChangesWF11.xml" 
+			index="true" />		
+		<jar jarfile="${jar}/SOMToFIFRepository_OPLineChangesWF11CPCOM1b.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_OPLineChangesWF11CPCOM1b.xml" 
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_OPTakeoverScenariosWF5.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_OPTakeoverScenariosWF5.xml" 
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_OPTerminationsWF5.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_OPTerminationsWF5.xml" 
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_LineChangeHW.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_LineChangeHW.xml" 
+			index="true" />
+		<jar jarfile="${jar}/SOMToFIFRepository_Activation.jar" basedir="${src}" 
+			includes="net/arcor/fif/messagecreator/somtofif/description/SOMToFIFRepository_Activation.xml" 
+			index="true" />
+	</target>
+
+	<target name="jar_fif_api" depends="compile" description="generate the distribution">
+		<!--  Create the distribution jar file -->
+		<jar jarfile="${jar}/fif-api.jar" basedir="${bin}" 
+			includes="
+			net/arcor/fif/messagecreator/somtofif/description/*.xsd
+			net/arcor/fif/apps/**/*.class 
+			net/arcor/fif/ccmtestframework/**/*.class
+			net/arcor/fif/client/**/*.class
+			net/arcor/fif/common/**/*.class
+			net/arcor/fif/db/**/*.class
+			net/arcor/fif/examples/**/*.class
+			net/arcor/fif/messagecreator/**/*.class
+			net/arcor/fif/servicehandler/**/*.class
+			net/arcor/fif/transport/**/*.class" 
+			index="true"/>		
+	</target>
+	
+	<target name="jar" depends="compile" >
+		<jar destfile="${jar}/net.arcor.fif.jar" basedir="${bin}" 
+		includes="**/*.class" 
+		index="true"/>
+	</target>
+
+<!-- Creates a full clean build and generates javadoc -->
+<target name="full" depends="clean, init, compile, jar, jar_fif_api, jar_trxBuilder" 
+	description="Performs a full build from scratch and generates javadoc"/>
+
+</project>

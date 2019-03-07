@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransformationRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.arcor.de/transformer/SOMToFIFTransformationSchema" xmlns:base="http://www.arcor.de/transformer/BaseTransformationSchema" xsi:schemaLocation="http://www.arcor.de/transformer/SOMToFIFTransformationSchema SOMToFIFTransformationSchema.xsd" docTypeQualifiedName="request-list" docTypeSystemId="request-list.dtd">
+    <RootTemplate>
+        <RequestListTemplate orderIdPath="//order[@orderID]">                        
+            <RequestTemplate fif-request-name="deactivateCustomer" sourceWorkingPath="/order/customerDeactivation">
+                <RPMapping targetName="customerNumber" sourceAttrName="/*/*/customer[@ID='${/*/*/beneficiary/customerNodeRefID}']/ccbId[@type='C']/existing" />
+                <RPMapping targetName="maxAttempts" staticValue="3" />
+                <RPMapping targetName="termageinaDelay" staticValue="0" />
+                <RPMapping targetName="inputChannel" sourceAttrName="/*/sendingSystem" />
+            </RequestTemplate>            
+        </RequestListTemplate>
+    </RootTemplate>
+</TransformationRepository>

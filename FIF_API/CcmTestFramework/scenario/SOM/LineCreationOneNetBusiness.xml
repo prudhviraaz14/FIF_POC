@@ -1,0 +1,17 @@
+{file:templates/OrderHeader.xml_part}
+{file:templates/CustomerData.xml_part}
+	<lineCreation orderPositionNumber="1">
+		{file:templates/OrderPositionHeader.xml_part}
+		<accesses>
+			{file:templates/ONBAccessNew.xml_part}
+		</accesses>
+		<functions>
+			{file:templates/VoiceRangesNew.xml_part}
+			{file:templates/HardwareONBNew.xml_part}
+			{file:templates/DirectoryEntryNew.xml_part}
+			{file:templates/InstallationSvcNew.xml_part}
+			{file:templates/ExtraNumbersSingleNumberNew.xml_part}
+			{file:templates/ExtraNumbersNumberRangeNew.xml_part}
+		</functions>
+	</lineCreation>
+</order>

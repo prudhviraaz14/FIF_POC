@@ -1,0 +1,23 @@
+<vod ID="{ID}">					
+    <processingType>{processingType}</processingType>				
+    <ccbId type="S">				
+        <existing>{serviceSubscriptionId}</existing>			
+    </ccbId>				
+    <vodConfiguration>							
+        <pricingStructureCode>						
+            <configured>{pricingStructureCode}</configured>					
+        </pricingStructureCode>						
+        <pricingStructureName>						
+            <configured>{pricingStructureName}</configured>					
+        </pricingStructureName>						
+        <productCode>	
+            <configured>{productCode}</configured>
+        </productCode>	
+        <productName>	
+            <configured>{productName}</configured>
+        </productName>	
+        <productVersionCode>	
+            <configured>{productVersionCode}</configured>
+        </productVersionCode>	
+    </vodConfiguration>		
+</vod>	

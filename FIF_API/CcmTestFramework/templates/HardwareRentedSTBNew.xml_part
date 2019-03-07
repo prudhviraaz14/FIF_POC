@@ -1,0 +1,66 @@
+				<hardware ID="hardwareRentedSTB">
+					<processingType>ADD</processingType>
+					<ccbId type="S">
+					    <configured>{hardwareRentedSTBSSID}</configured>
+					</ccbId>
+					<refFunctionID>
+						<configured>internet</configured>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultRentedSTB</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeRentedSTB</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetRentedSTB</configured>
+					</providerTrackingNumber>
+					<rentedHardwareConfiguration>
+						<hardwareServiceCode>
+							<configured>I1359</configured>
+						</hardwareServiceCode>
+						<orderReason>
+							<configured>Neuauftrag</configured>
+						</orderReason>
+						<subventionCode>
+							<configured>1</configured>
+						</subventionCode>
+						<shippingCosts>
+							<configured>RG</configured>
+						</shippingCosts>
+						<salutationDescription>
+							<configured>Herr</configured>
+						</salutationDescription>
+						<forename>
+							<configured>COM</configured>
+						</forename>
+						<name>
+							<configured>{scenarioName}</configured>
+						</name>
+						<hardwareMailingAddress>
+							<configured>
+								{file:templates/Address1.xml_part}
+							</configured>
+						</hardwareMailingAddress>
+						<articleNumber>
+							<configured>20090138</configured>
+						</articleNumber>
+						<articleName>
+							<configured>VF TV Center 2000</configured>
+						</articleName>
+						<serialNumber>
+							<configured>154947214842</configured>
+						</serialNumber>
+						<conditionsList>
+							<configured>
+								<conditionService>
+									<conditionServiceType>HW</conditionServiceType>
+									<conditionServiceCode>V0855</conditionServiceCode>
+								</conditionService>
+							</configured>
+						</conditionsList>		
+					</rentedHardwareConfiguration>
+					<previousCompletionStatusNewCcbId>{hardwareRentedSTBPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+					<completionStatusNewCcbId>{hardwareRentedSTBCompletionStatusNew}</completionStatusNewCcbId>
+					<processingStatus>{hardwareRentedSTBProcessingStatus}</processingStatus>
+				</hardware>

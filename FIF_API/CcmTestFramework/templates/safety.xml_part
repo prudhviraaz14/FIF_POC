@@ -1,0 +1,23 @@
+<safetyPackage ID="{ID}">					
+    <processingType>{processingType}</processingType>				
+    <ccbId type="S">				
+        <existing>{serviceSubscriptionId}</existing>			
+    </ccbId>				
+    <safetyPackageConfiguration>							
+        <pricingStructureCode>						
+            <configured>{pricingStructureCode}</configured>					
+        </pricingStructureCode>						
+        <pricingStructureName>						
+            <configured>{pricingStructureName}</configured>					
+        </pricingStructureName>						
+        <productCode>	
+            <configured>{productCode}</configured>
+        </productCode>	
+        <productName>	
+            <configured>{productName}</configured>
+        </productName>	
+        <productVersionCode>	
+            <configured>{productVersionCode}</configured>
+        </productVersionCode>	
+    </safetyPackageConfiguration>		
+</safetyPackage>	

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE request-list SYSTEM "tf-request-list.dtd">
+<request-list>
+   <request-list-name>FIF113-TOMinDurClone</request-list-name>
+   <request-list-id>FIF113-TOMinDurClone-1</request-list-id>
+
+   <requests>
+     {file:templates/GenerateStep.xml}
+  
+      <trx-builder-request>
+         <transaction-id>masterdata</transaction-id>
+         <transaction-type>masterdata</transaction-type>
+         <override-system-date>datetime:-961:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF112-LineCreation.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="scenarioName">FIF113-TOMinDurClone</request-param>
+                  {file:templates/VodafonePK.xml_part}
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  <request-param name="entrySystem">POS</request-param>                  
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+
+      <trx-builder-request>
+         <transaction-id>FIF113-TOMinDurClone-creation-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-960:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF112-LineCreation.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">VI202</request-param>
+                  <request-param name="productCodeInternet">I1204</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP043</request-param>
+                  <request-param name="pricingStructureCodeVoice">VP043</request-param>
+                  <request-param name="pricingStructureCodeTVCenter">TVS01</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="scenarioName">FIF113-TOMinDurClone</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>FIF113-TOMinDurClone-creation-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-720:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF112-LineCreation.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE1" output-param-name="orderID"/>
+                  <request-param name="entrySystem">POS</request-param>
+                  <request-param name="sendingSystem">POS</request-param>
+                  <request-param name="today">datetime:-960:hour</request-param>
+                  <request-param name="desiredDate">datetime:-720:hour</request-param>
+                  <request-param name="todayTruncated">date:-960:hour</request-param>
+                  <request-param name="internetProcessingStatus">completedOPM</request-param>
+                  <request-param name="internetCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="internetPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="tvCenterProcessingStatus">completedOPM</request-param>
+                  <request-param name="tvCenterCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="tvCenterPreviousCompletionStatusNew">precompletedOPM</request-param>
+                  <request-param name="hardware1ProcessingStatus">completedOPM</request-param>
+                  <request-param name="hardware1CompletionStatusNew">completedOPM</request-param>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_2" param-name="ccbId" output-param-name="hardware1SSID"/>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_3" param-name="ccbId" output-param-name="tvCenterSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">VI202</request-param>
+                  <request-param name="productCodeInternet">I1204</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP043</request-param>
+                  <request-param name="pricingStructureCodeVoice">VP043</request-param>
+                  <request-param name="pricingStructureCodeTVCenter">TVS01</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="scenarioName">FIF113-TOMinDurClone</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>FIF113-TOMinDurClone-change-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-480:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF112-LineChange.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="orderID"/>
+                  <request-param name="entrySystem">KBA</request-param>
+                  <request-param name="sendingSystem">KBA</request-param>
+                  <request-param name="today">datetime:-480:hour</request-param>
+                  <request-param name="desiredDate">datetime:-360:hour</request-param>
+                  <request-param name="todayTruncated">date:-480:hour</request-param>
+                  <request-param name="startDateTO">date:-720:hour</request-param>
+                  <request-param name="terminationDateTO">date:0:hour</request-param>
+                  <request-param name="internetProcessingStatus">noactionOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="voiceProcessingStatus">noactionOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="tvCenterProcessingStatus">noactionOPM</request-param>
+                  <request-param name="tvCenterCompletionStatusOld">noactionOPM</request-param>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_3" param-name="ccbId" output-param-name="tvCenterSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">VI202</request-param>
+                  <request-param name="productCodeInternet">I1204</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP043</request-param>
+                  <request-param name="pricingStructureCodeVoice">VP043</request-param>
+                  <request-param name="pricingStructureCodeTVCenter">TVS01</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="scenarioName">FIF113-TOMinDurClone</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <!-- get COID -->
+      <sql-request>
+         <transaction-id>getTermCO</transaction-id>
+         <statement>
+			select CUSTOMER_ORDER_ID from service_ticket_position
+			where usage_mode_value_rd = '4'
+			and CUSTOMER_ORDER_ID in (
+				select CUSTOMER_ORDER_ID from customer_order
+				where customer_number = 'customerNumber'
+				and state_rd = 'RELEASED')
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="masterdata_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="CUSTOMER_ORDER_ID"/>
+         </sql-request-output-params>
+      </sql-request>
+      <sql-request>
+         <transaction-id>getActCO</transaction-id>
+         <statement>
+			select CUSTOMER_ORDER_ID from service_ticket_position
+			where usage_mode_value_rd = '1'
+			and CUSTOMER_ORDER_ID in (
+				select CUSTOMER_ORDER_ID from customer_order
+				where customer_number = 'customerNumber'
+				and state_rd = 'RELEASED')
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="masterdata_0" param-name="customerNumber" output-param-name="customerNumber"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="CUSTOMER_ORDER_ID"/>
+         </sql-request-output-params>
+      </sql-request>
+      
+      <request>
+         <action-name>simulateActivationByOp</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF113-TOMinDurClone-activateTermCO</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">datetime:-384:hour</request-param> 
+            <request-param-ref transactionID="getActCO"
+               param-name="CUSTOMER_ORDER_ID" output-param-name="CUSTOMER_ORDER_ID"/>
+         </request-params>
+      </request>
+      
+      <request>
+         <action-name>simulateActivationByOp</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF113-TOMinDurClone-activateActCO</request-param>
+            <request-param name="OVERRIDE_SYSTEM_DATE">datetime:-360:hour</request-param> 
+            <request-param-ref transactionID="getTermCO"
+               param-name="CUSTOMER_ORDER_ID" output-param-name="CUSTOMER_ORDER_ID"/>
+         </request-params>
+      </request>
+
+      <!-- get validationIDs -->
+      <sql-request>
+         <transaction-id>getTariffOptionToTerminate</transaction-id>
+         <statement>
+			select cfrp.VALUE from ccm_fif_request cfr, ccm_fif_request_param cfrp 
+			where cfr.external_system_id = 'voiceSSID'
+			and cfr.action_name = 'terminateTariffOption'
+			and cfr.status = 'NOT_STARTED'
+			and cfr.transaction_id = cfrp.transaction_id
+			and cfrp.param = 'serviceSubscriptionId'
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="VALUE"/>
+         </sql-request-output-params>
+      </sql-request>
+
+      <trx-builder-request>
+         <transaction-id>FIF113-TOMinDurClone-clone-allocate</transaction-id>
+         <transaction-type>allocate</transaction-type>
+         <override-system-date>datetime:-241:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF113-TOMinDurClone.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE3" output-param-name="orderID"/>
+                  <request-param name="entrySystem">KBA</request-param>
+                  <request-param name="sendingSystem">KBA</request-param>
+                  <request-param name="today">datetime:-240:hour</request-param>
+                  <request-param name="desiredDate">datetime:-120:hour</request-param>
+                  <request-param name="todayTruncated">date:-240:hour</request-param>
+                  <request-param name="startDateTO">date:-720:hour</request-param>
+                  <request-param name="terminationDateTO">date:0:hour</request-param>
+                  <request-param name="internetProcessingStatus">noactionOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="voiceProcessingStatus">noactionOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="tvCenterProcessingStatus">noactionOPM</request-param>
+                  <request-param name="tvCenterCompletionStatusOld">noactionOPM</request-param>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_3" param-name="ccbId" output-param-name="tvCenterSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">VI202</request-param>
+                  <request-param name="productCodeInternet">I1204</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP043</request-param>
+                  <request-param name="pricingStructureCodeVoice">VP043</request-param>
+                  <request-param name="pricingStructureCodeTVCenter">TVS01</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="mainAccessServiceCodeVoice">VI002</request-param>
+                  <request-param name="mainAccessServiceCodeVoiceNew">VI003</request-param>
+                  <request-param name="scenarioName">FIF113-TOMinDurClone</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+
+      <trx-builder-request>
+         <transaction-id>FIF113-TOMinDurClone-clone-execute</transaction-id>
+         <transaction-type>execute</transaction-type>
+         <override-system-date>datetime:-240:hour</override-system-date>
+         <som-parts>
+            <som-part-template filename="scenario/SOM/FIF113-TOMinDurClone.xml">
+               <som-part-params>
+                  <request-param-ref transactionID="generateBarcodes" param-name="BARCODE3" output-param-name="orderID"/>
+                  <request-param name="entrySystem">KBA</request-param>
+                  <request-param name="sendingSystem">KBA</request-param>
+                  <request-param name="today">datetime:-240:hour</request-param>
+                  <request-param name="desiredDate">datetime:-120:hour</request-param>
+                  <request-param name="todayTruncated">date:-240:hour</request-param>
+                  <request-param name="startDateTO">date:-720:hour</request-param>
+                  <request-param name="terminationDateTO">date:0:hour</request-param>
+                  <request-param name="internetProcessingStatus">noactionOPM</request-param>
+                  <request-param name="internetCompletionStatusOld">noactionOPM</request-param>
+                  <request-param name="voiceProcessingStatus">completedOPM</request-param>
+                  <request-param name="voiceCompletionStatusOld">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusOld">acknowledgedOPM</request-param>
+                  <request-param name="voiceCompletionStatusNew">completedOPM</request-param>
+                  <request-param name="voicePreviousCompletionStatusNew">acknowledgedOPM</request-param>
+                  <request-param name="tvCenterProcessingStatus">noactionOPM</request-param>
+                  <request-param name="tvCenterCompletionStatusOld">noactionOPM</request-param>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-clone-allocate_0" param-name="ccbId" output-param-name="voiceSSIDNew"/>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_1" param-name="ccbId" output-param-name="internetSSID"/>
+                  <request-param-ref transactionID="FIF113-TOMinDurClone-creation-allocate_3" param-name="ccbId" output-param-name="tvCenterSSID"/>
+                  {file:templates/AccessNumbersMasterdata.xml_part}
+                  {file:templates/VodafonePK.xml_part}
+                  <request-param name="productCodeVoice">VI202</request-param>
+                  <request-param name="productCodeInternet">I1204</request-param>
+                  <request-param name="pricingStructureCodeInternet">IP043</request-param>
+                  <request-param name="pricingStructureCodeVoice">VP043</request-param>
+                  <request-param name="pricingStructureCodeTVCenter">TVS01</request-param>
+                  <request-param name="DSLBandwidth">V018C</request-param>
+                  <request-param name="mainAccessServiceCodeVoice">VI002</request-param>
+                  <request-param name="mainAccessServiceCodeVoiceNew">VI003</request-param>
+                  <request-param name="scenarioName">FIF113-TOMinDurClone</request-param>
+               </som-part-params>
+            </som-part-template>
+         </som-parts>
+      </trx-builder-request>
+      
+       <request>
+         <action-name>terminateTariffOption</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF113-TOMinDurClone-TermTO</request-param>  
+            <request-param name="OVERRIDE_SYSTEM_DATE">datetime:0:hour</request-param>
+            <request-param-ref transactionID="getTariffOptionToTerminate" param-name="VALUE" output-param-name="serviceSubscriptionId"/>
+            <request-param-ref transactionID="masterdata_0" param-name="customerNumber" />          
+            <request-param name="terminationDate">datetime:0:hour</request-param>
+            <request-param name="serviceCode">V1200</request-param>
+            <request-param name="reason">CUST_REQUEST</request-param>
+            <request-param name="handleContributingItem">Y</request-param>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="OMTSOrderID"/>
+         </request-params>
+      </request>
+
+      <!-- get validationIDs -->
+      <sql-request>
+         <transaction-id>getClonedTariffOptionToTerminate</transaction-id>
+         <statement>
+			select cfrp.VALUE from ccm_fif_request cfr, ccm_fif_request_param cfrp 
+			where cfr.external_system_id = 'voiceSSID'
+			and cfr.action_name = 'terminateTariffOption'
+			and cfr.status = 'NOT_STARTED'
+			and cfr.transaction_id = cfrp.transaction_id
+			and cfrp.param = 'serviceSubscriptionId'
+         </statement>
+         <sql-request-input-params>
+            <request-param-ref transactionID="FIF113-TOMinDurClone-clone-allocate_0" param-name="ccbId" output-param-name="voiceSSID"/>
+         </sql-request-input-params>
+         <sql-request-output-params>
+            <request-param name="VALUE"/>
+         </sql-request-output-params>
+      </sql-request>
+      
+       <request>
+         <action-name>terminateTariffOption</action-name>
+         <request-params>
+            <request-param name="transactionID">FIF113-TOMinDurClone-TermTO</request-param>  
+            <request-param name="OVERRIDE_SYSTEM_DATE">2016.12.31 00:00:00</request-param>
+            <request-param-ref transactionID="getClonedTariffOptionToTerminate" param-name="VALUE" output-param-name="serviceSubscriptionId"/>
+            <request-param-ref transactionID="masterdata_0" param-name="customerNumber" />          
+            <request-param name="terminationDate">2016.12.31 00:00:00</request-param>
+            <request-param name="serviceCode">V1200</request-param>
+            <request-param name="reason">CUST_REQUEST</request-param>
+            <request-param name="handleContributingItem">Y</request-param>
+            <request-param-ref transactionID="generateBarcodes" param-name="BARCODE2" output-param-name="OMTSOrderID"/>
+         </request-params>
+      </request>
+		
+
+   </requests>
+</request-list>

@@ -1,0 +1,15 @@
+				<voiceBasisConfiguration>				
+					<pricingStructureCode>			
+						<configured>{pricingStructureCode}</configured>		
+					</pricingStructureCode>			
+					<keepOldAccessNumbers>			
+						<configured>{keepOldAccessNumbers}</configured>		
+					</keepOldAccessNumbers>			
+					<selectedAccessNumber>			
+						<configured> 		
+							<countryCode>{countryCode}</countryCode>	
+							<localAreaCode>{localAreaCode}</localAreaCode>	
+							<pilotNumber>{pilotNumber}</pilotNumber>	
+						</configured>		
+					</selectedAccessNumber>			
+					

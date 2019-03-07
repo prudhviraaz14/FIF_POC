@@ -1,0 +1,64 @@
+<extraNumbers ID="extraNumbersSingleNumber">
+	<processingType>CHANGE</processingType>
+	<ccbId type="S">
+		<existing>{extraNumbersSingleNumberSSID}</existing>
+	</ccbId>
+	<refFunctionID>
+		<existing>voice</existing>
+	</refFunctionID>
+	<providerTrackingNumber type="default">
+		<configured>ptnDefaultExSN</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="change">
+		<configured>ptnChangeExSN</configured>
+	</providerTrackingNumber>
+	<providerTrackingNumber type="target">
+		<configured>ptnTargetExSN</configured>
+	</providerTrackingNumber>
+	  <singleNumberConfiguration>
+        <oldLocalExchangeCarrier>
+          <existing>D001</existing>
+        </oldLocalExchangeCarrier>
+		<accessNumber1>
+			<existing>
+				<countryCode>49</countryCode>
+				<localAreaCode>211</localAreaCode>
+				<pilotNumber>{accessNumber1}</pilotNumber>
+			</existing>
+			<configured>
+				<countryCode>49</countryCode>
+				<localAreaCode>201</localAreaCode>
+				<pilotNumber>{accessNumber1}</pilotNumber>
+			</configured>
+		</accessNumber1>
+		<accessNumber2>
+			<existing>
+				<countryCode>49</countryCode>
+				<localAreaCode>211</localAreaCode>
+				<pilotNumber>{accessNumber2}</pilotNumber>
+			</existing>
+			<configured>
+				<countryCode>49</countryCode>
+				<localAreaCode>201</localAreaCode>
+				<pilotNumber>{accessNumber2}</pilotNumber>
+			</configured>
+		</accessNumber2>
+	    <lineOwner1>
+	      <existing>
+	        <name>{scenarioName}</name>
+	        <firstName>COM</firstName>
+	      </existing>
+	    </lineOwner1>
+	    <lineOwnerAddress>
+	      <existing>
+	        {file:templates/Address1.xml_part}
+	      </existing>
+	    </lineOwnerAddress>
+	    <splitNumberRangeIndicator>
+	      <existing>true</existing>
+	    </splitNumberRangeIndicator>
+	  </singleNumberConfiguration>
+	<processingStatus>{extraNumbersSingleNumberProcessingStatus}</processingStatus>
+	<completionStatusOldCcbId>{extraNumbersSingleNumberCompletionStatusOld}</completionStatusOldCcbId>
+	<previousCompletionStatusOldCcbId>{extraNumbersSingleNumberPreviousCompletionStatusOld}</previousCompletionStatusOldCcbId>
+</extraNumbers>

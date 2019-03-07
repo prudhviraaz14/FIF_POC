@@ -1,0 +1,66 @@
+				<directoryEntry ID="directoryEntry">
+					<processingType>ADD</processingType>
+					<ccbId type="S">
+						<configured>{directoryEntrySSID}</configured>
+					</ccbId>
+					<refFunctionID>
+						<configured>voice</configured>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultTBE</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeTBE</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetTBE</configured>
+					</providerTrackingNumber>
+					<directoryEntryConfiguration>									
+						<dtagId>
+							<configured>{dtagId}</configured>
+						</dtagId>
+						<directoryEntryText>{directoryEntryText}</directoryEntryText>
+						<directoryEntryType>
+							<configured>Einzeleintrag</configured>
+						</directoryEntryType>
+						<inverseSearchIndicator>
+							<configured>false</configured>
+						</inverseSearchIndicator>
+						<titleDescription>
+							<configured>Dr.</configured>
+						</titleDescription>
+						<forename>
+							<configured>COM</configured>
+						</forename>
+						<nobilityPrefixDescription>
+							<configured>Baron</configured>
+						</nobilityPrefixDescription>
+						<surnamePrefix>
+							<configured>de</configured>
+						</surnamePrefix>
+						<name>
+							<configured>{scenarioName}</configured>
+						</name>
+						<profession>
+							<configured>Künstler</configured>
+						</profession>
+						<industrialSectorRd>
+							<configured>121</configured>
+						</industrialSectorRd>
+						<listedAddress>
+							<configured>
+								{file:templates/Address1.xml_part}
+							</configured>
+						</listedAddress>
+						<listedPhoneNumber>
+							<configured>
+								<countryCode>49</countryCode>
+								<localAreaCode>211</localAreaCode>
+								<pilotNumber>{accessNumber1}</pilotNumber>
+							</configured>
+						</listedPhoneNumber>
+					</directoryEntryConfiguration>
+					<processingStatus>{directoryEntryProcessingStatus}</processingStatus>
+					<completionStatusNewCcbId>{directoryEntryCompletionStatusNew}</completionStatusNewCcbId>
+					<previousCompletionStatusNewCcbId>{directoryEntryPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+				</directoryEntry>

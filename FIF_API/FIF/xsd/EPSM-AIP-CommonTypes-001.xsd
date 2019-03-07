@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von Reto Renner (Arcor AG & Co. KG) bearbeitet -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://www.arcor.net/EPSM-CommonTypes-001" xmlns="http://datatypes.callisto.com/EPSM-AIP-CommonTypes-001" targetNamespace="http://datatypes.callisto.com/EPSM-AIP-CommonTypes-001" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.1">
+	<xs:import namespace="http://www.arcor.net/EPSM-CommonTypes-001" schemaLocation="EPSM-CommonTypes-001.xsd"/>
+	<!-- ================Dokumentation des Endpunktes Änderungshistorie ================== -->
+	<xs:element name="EPSM_AIP_Base_Endpunkt_Dokumentation">
+		<xs:annotation>
+			<xs:documentation>
+XML schema definition 
+
+Version: 0.2
+
+Status des Dokument: Final
+
+Aenderungshistorie: 
+
+Version 0.2	06.12.07	Reto Renner	Import common:EPSM-CommonTypes-001.xsd zugefügt
+															Element internationalCode hat nun Typ common:InternationaleVorwahl
+															Element areaCode hat nun Typ common:NationaleVorwahl
+															Element phoneNumber hat nun Typ common:Rufnummer
+															SimpleType Rechnungskontonummer entfernt (ist in EPSM-CommonTypes-001.xsd bereits definiert)
+Version 0.1 08.10.07 	Falk Nickenig	Initial 
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="VONummer">
+		<xs:annotation>
+			<xs:documentation>
+				Definition einer VONummer
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{8}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Artikelnummer">
+		<xs:annotation>
+			<xs:documentation>
+				Definition einer Artikelnummer
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{8}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SimKartenID">
+		<xs:annotation>
+			<xs:documentation>
+				SIM_ID; eindeutige Seriennummer der SIM-Karte
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{14}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SimPuk">
+		<xs:annotation>
+			<xs:documentation>PUK einer Simkarte</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{8}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VoipType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AKA_BASIS"/>
+			<xs:enumeration value="AKA_PREMIUM"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="VoIPTelephoneNumber">
+		<xs:sequence>
+			<xs:element name="internationalCode" type="common:InternationaleVorwahl" nillable="false"/>
+			<xs:element name="areaCode" type="common:NationaleVorwahl" nillable="false"/>
+			<xs:element name="phoneNumber" type="common:Rufnummer" nillable="false"/>
+			<xs:element name="sipDomain" type="xs:string" nillable="false"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VoIPTelephoneNumberArray">
+		<xs:sequence>
+			<xs:element name="voipNumbers" type="VoIPTelephoneNumber" maxOccurs="10"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ChangeAccessData">
+		<xs:sequence>
+			<xs:element name="tsgOld" type="xs:string" nillable="false"/>
+			<xs:element name="tsgNew" type="xs:string" nillable="false"/>
+			<xs:element name="productTokens" type="ProductTokens" nillable="false"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProductTokens">
+		<xs:sequence>
+			<xs:element name="tarifCode" type="xs:string" nillable="true"/>
+			<xs:element name="productCode" type="xs:string" nillable="true"/>
+			<xs:element name="versionCode" type="xs:string" nillable="true"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

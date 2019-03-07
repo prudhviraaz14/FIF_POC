@@ -1,0 +1,30 @@
+<!--
+    DTD for the XML representation of a FIF Request
+    
+    File name : $Workfile:   request.dtd  $
+    Header    : $Header:   F:/GRUPPEN/PROJEKTE/PVCS_FIF/archives/FIF/KBAFIFQueueClient/request.dtd-arc   1.1   Mar 03 2004 15:49:18   goethalo  $
+    Revision  : $Revision:   1.1  $
+    
+    History:
+    $Log:   F:/GRUPPEN/PROJEKTE/PVCS_FIF/archives/FIF/KBAFIFQueueClient/request.dtd-arc  $
+ 
+    Rev 1.1   Mar 03 2004 15:49:18   goethalo
+ SPN-FIF-000020483: Added PVCS header.
+    
+-->
+   
+<!ELEMENT action-name (#PCDATA)>
+<!ELEMENT request (action-name, request-params)>
+<!ELEMENT request-params (request-param-list|request-param)+>
+<!ELEMENT request-param-list (request-param-list-item*)>
+<!ATTLIST request-param-list
+    name CDATA #REQUIRED
+  >
+<!ELEMENT request-param-list-item (request-param-list|request-param)+>
+<!ELEMENT request-param (#PCDATA)>
+<!ATTLIST request-param
+    name CDATA #REQUIRED
+  >
+
+
+

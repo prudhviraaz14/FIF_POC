@@ -1,0 +1,58 @@
+				<hardware ID="hardwareSIP">
+					<processingType>ADD</processingType>
+					<ccbId type="S">
+					    <configured>{hardwareSIPSSID}</configured>
+					</ccbId>
+					<refFunctionID>
+						<configured>voice</configured>
+					</refFunctionID>
+					<providerTrackingNumber type="default">
+						<configured>ptnDefaultHWSIP</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="change">
+						<configured>ptnChangeHWSIP</configured>
+					</providerTrackingNumber>
+					<providerTrackingNumber type="target">
+						<configured>ptnTargetHWSIP</configured>
+					</providerTrackingNumber>
+					<hardwareConfiguration>
+						<hardwareServiceCode>
+							<configured>V0335</configured>
+						</hardwareServiceCode>
+						<orderReason>
+							<configured>Neuauftrag</configured>
+						</orderReason>
+						<subventionCode>
+							<configured>1</configured>
+						</subventionCode>
+						<shippingCosts>
+							<configured>RG</configured>
+						</shippingCosts>
+						<salutationDescription>
+							<configured>Herr</configured>
+						</salutationDescription>
+						<forename>
+							<configured>COM</configured>
+						</forename>
+						<name>
+							<configured>{scenarioName}</configured>
+						</name>
+						<hardwareMailingAddress>
+							<configured>
+								{file:templates/Address1.xml_part}
+							</configured>
+						</hardwareMailingAddress>
+						<articleNumber>
+							<configured>20080549</configured>
+						</articleNumber>
+						<articleName>
+							<configured>PlusBox</configured>
+						</articleName>
+						<serialNumber>
+							<configured>154947214842</configured>
+						</serialNumber>
+					</hardwareConfiguration>
+					<previousCompletionStatusNewCcbId>{hardwareSIPPreviousCompletionStatusNew}</previousCompletionStatusNewCcbId>
+					<completionStatusNewCcbId>{hardwareSIPProcessingStatus}</completionStatusNewCcbId>
+					<processingStatus>{hardwareSIPProcessingStatus}</processingStatus>
+				</hardware>

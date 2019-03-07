@@ -1,0 +1,3 @@
+<request-param name="classification">VE</request-param>
+<request-param name="customerCategory">RESIDENTIAL</request-param>
+<request-param name="customerGroup">81</request-param>

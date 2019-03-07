@@ -1,0 +1,42 @@
+<ipBitstream ID="access-new">
+	<ccbId type="S">
+		<configured>{internetSSID}</configured>
+	</ccbId>
+	<businessIpBitstreamConfiguration>
+		<locationAddress>
+			<configured>
+				{file:templates/Address1.xml_part}
+			</configured>
+		</locationAddress>
+		<salesSegment>
+			<configured>GK</configured>
+		</salesSegment>
+		<asb>
+			<configured>31</configured>
+		</asb>
+		<localAreaCode>
+			<configured>0211</configured>
+		</localAreaCode>
+		<carrier>
+			<configured>Arcor</configured>
+		</carrier>
+		<serviceProvider>
+			<configured>Arcor</configured>
+		</serviceProvider>
+		<oldAccess>
+			<configured>NEW</configured>
+		</oldAccess>
+        <accessTechnology>
+            <configured>{accessTechnology}</configured>
+        </accessTechnology>
+{file:(addDTAGParameters=true)templates/AccessDTAGParametersConfigured.xml_part}
+		<witaUsage>WITA4.0</witaUsage>
+		<newLocalExchangeCarrierWitaIndicator>true</newLocalExchangeCarrierWitaIndicator>
+	</businessIpBitstreamConfiguration>
+	<processingStatus>{internetProcessingStatus}</processingStatus>
+  	<contactRoleRefList>
+    	<contactRoleRef>
+      		<configured>contactRole</configured>
+    	</contactRoleRef>
+  	</contactRoleRefList>
+</ipBitstream>
