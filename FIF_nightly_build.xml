@@ -96,7 +96,7 @@ Initial revision.
   	<!-- Taskdef (pvcs and antcontrib)-->
   	<!-- <taskdef resource="net/sf/antcontrib/antcontrib.properties"/> -->
 	<!-- <taskdef resource="net/sf/antcontrib/antlib.xml"/> -->
-	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="/usr/share/ant/lib/ant-contrib.jar"/>
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="/usr/share/java/lib/ant-contrib.jar"/>
 
 	<!-- Global properties for this script -->
   	<property environment="env"/>
