@@ -370,11 +370,9 @@ Initial revision.
   	++ MAIN BUILD LOOP
   	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
   	<target name="buildLoop">
-		<foreach list="${env.FIF_API_COMPS_TO_BUILD}"
-       		delimiter=","
-        	param="component"
-        	target="doComp"
-        	inheritall="true"/>
+		<foreach
+			 list="${env.FIF_API_COMPS_TO_BUILD}" delimiter="," param="component" target="doComp" inheritall="true"/>
+		</foreach>
   	</target>
 
 	<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
